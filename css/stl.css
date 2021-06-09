@@ -1,9 +1,6 @@
 body {
   background-color: green;
 }
-h1 {
-  color: blue;
-}
-p {
-  color: red;
+.giv {
+  font-size: 50px;
 }
