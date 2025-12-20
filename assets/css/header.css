@@ -1,1 +1,47 @@
+.site-header {
+  background: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 18px 32px;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+}
+
+.header-logo img {
+  height: 36px;
+}
+
+.header-nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 36px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header-nav a {
+  text-decoration: none;
+  color: #111;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.header-nav a:hover {
+  opacity: 0.6;
+}
+
+.header-secondary a {
+  text-decoration: none;
+  color: #111;
+  font-size: 14px;
+}
 
