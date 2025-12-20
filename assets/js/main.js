@@ -1,9 +1,15 @@
-async function loadComponent(id, file) {
-    const response = await fetch(file);
-    const data = await response.text();
-    document.getElementById(id).innerHTML = data;
+function loadComponent(id, file) {
+  fetch(file)
+    .then(response => {
+      if (!response.ok) throw new Error("Failed to load component");
+      return response.text();
+    })
+    .then(data => {
+      document.getElementById(id).innerHTML = data;
+    })
+    .catch(error => console.error(error));
 }
 
-// Call them
-loadComponent("header", "components/header.html");
-loadComponent("footer", "components/footer.html");
+// Call the function using the folder path from your structure
+loadComponent("header-placeholder", "components/header.html");
+loadComponent("footer-placeholder", "components/footer.html");
