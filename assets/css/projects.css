@@ -1,14 +1,13 @@
 /* ==========================================
-   Full Page Layout - Light Theme
+   Full Page Layout
    ========================================== */
 .projects-page-wrapper {
     display: flex;
     align-items: center; 
     justify-content: center;
-    /* Subtracts header height to keep boxes within view */
     min-height: calc(100vh - 80px); 
     padding: 40px 5%;
-    background-color: #ffffff;
+    background-color: #000000; /* Dark background to match the theme */
 }
 
 /* ==========================================
@@ -25,7 +24,7 @@
 .category-box {
     position: relative;
     border-radius: 15px;
-    height: 40vh; /* 40% of viewport height */
+    height: 40vh; 
     min-height: 280px; 
     text-decoration: none !important;
     overflow: hidden;
@@ -34,12 +33,12 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .category-box:hover {
     transform: scale(1.02);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 /* --- Background Image Paths --- */
@@ -49,7 +48,7 @@
 .all-bg { background-image: url('../img/projects-bg.jpg'); }
 
 /* ==========================================
-   High-Transparency Light Overlay
+   Dark Transparent Overlay
    ========================================== */
 .category-overlay {
     position: absolute;
@@ -57,52 +56,52 @@
     left: 0;
     width: 100%;
     height: 100%;
-    /* Bottom is now 0.5 (50% transparent) and top is nearly invisible (0.05) */
+    /* Bottom: 0.7 (70% dark) to ensure text legibility 
+       Top: 0.2 (20% dark) to let the image shine through 
+    */
     background: linear-gradient(
         to top, 
-        rgba(255, 255, 255, 0.5) 5%, 
-        rgba(255, 255, 255, 0.05) 100%
+        rgba(0, 0, 0, 0.7) 0%, 
+        rgba(0, 0, 0, 0.2) 100%
     );
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     padding: 35px;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
 }
 
 .category-box:hover .category-overlay {
-    /* Slight yellow brand tint on hover */
+    /* Slightly more opaque on hover to focus on the title */
     background: linear-gradient(
         to top, 
-        rgba(255, 255, 255, 0.7) 15%, 
-        rgba(247, 219, 93, 0.15) 100%
+        rgba(0, 0, 0, 0.85) 0%, 
+        rgba(0, 0, 0, 0.4) 100%
     );
 }
 
 /* ==========================================
-   Typography (Dark Blue on Light Overlay)
+   Typography (White Text on Dark Overlay)
    ========================================== */
 .category-box h3 {
-    color: #2c3e50;
-    font-size: 1.7rem; 
+    color: #ffffff;
+    font-size: 1.8rem; 
     margin-bottom: 12px;
     line-height: 1.2;
     font-weight: 700;
-    /* Subtle white glow helps readability over transparent images */
-    text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.5px;
 }
 
 .view-btn {
-    color: #0c8495; /* Brand Blue */
-    font-weight: 700;
+    color: #f7db5d; /* Brand Yellow */
+    font-weight: 600;
     font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 2px solid #f7db5d; /* Yellow accent line */
-    align-self: flex-start;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
 }
 
 .category-box:hover .view-btn {
-    color: #2c3e50;
-    border-bottom-color: #0c8495;
+    letter-spacing: 2.5px; /* Subtle expansion effect on hover */
+    color: #ffffff;
 }
