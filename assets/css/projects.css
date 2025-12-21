@@ -1,81 +1,64 @@
-/* Projects Page Wrapper */
+/* Full page layout */
 .projects-page-wrapper {
-    padding: 60px 10%;
-    background-color: #f9f9f9;
-    min-height: 80vh;
+    display: flex;
+    align-items: center; /* Centers grid vertically */
+    justify-content: center;
+    min-height: calc(100vh - 80px); /* Subtracts header height */
+    padding: 40px 5%;
+    background-color: #fcfcfc;
 }
 
-.section-header {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.section-header h1 {
-    font-size: 2.5rem;
-    color: #2c3e50;
-    margin-bottom: 15px;
-}
-
-.header-line {
-    width: 80px;
-    height: 4px;
-    background-color: #f7db5d; /* Keeping the yellow as a subtle accent line */
-    margin: 0 auto;
-}
-
-/* Category Grid */
+/* Expanded Category Grid */
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2x2 grid on desktop */
-    gap: 30px;
-    max-width: 1100px;
-    margin: 0 auto;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    width: 100%;
+    max-width: 1400px; /* Increased max-width */
 }
 
 .category-box {
     background: #ffffff;
-    border-radius: 15px;
-    padding: 40px 30px;
+    border-radius: 20px;
+    padding: 60px 40px; /* Bigger internal padding */
     text-decoration: none !important;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    transition: all 0.3s ease;
-    border: 1px solid #eee;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid #f0f0f0;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-height: 300px; /* Ensures boxes are large on desktop */
 }
 
 .category-box:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    transform: scale(1.03);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
     border-color: #f7db5d;
 }
 
 .category-icon {
-    font-size: 3.5rem;
-    margin-bottom: 20px;
+    font-size: 4.5rem; /* Larger icons */
+    margin-bottom: 25px;
 }
 
 .category-box h3 {
     color: #2c3e50;
-    font-size: 1.4rem;
-    margin-bottom: 20px;
-    line-height: 1.4;
-    min-height: 3.5rem; /* Keeps boxes even */
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+    line-height: 1.3;
 }
 
 .view-btn {
     display: inline-block;
-    color: #f7db5d;
-    font-weight: bold;
-    text-transform: uppercase;
+    color: #888;
+    font-weight: 600;
     letter-spacing: 1px;
-    font-size: 0.9rem;
-    border-bottom: 2px solid transparent;
-    transition: border 0.3s;
+    font-size: 0.95rem;
+    transition: color 0.3s;
 }
 
 .category-box:hover .view-btn {
-    border-bottom: 2px solid #f7db5d;
+    color: #f7db5d;
 }
