@@ -8,24 +8,39 @@ function loadComponent(id, file) {
       const element = document.getElementById(id);
       element.innerHTML = data;
 
+      // Logic to highlight the active menu item based on current page
       if (id === "header-placeholder") {
-        let currentPath = window.location.pathname.split("/").pop() || "index.html";
+        // 1. Get the current filename (e.g., 'about.html')
+        let path = window.location.pathname;
+        let currentPath = path.split("/").pop();
+        
+        // 2. Default to 'index.html' if the path is empty (root level)
+        if (currentPath === "" || currentPath === "/") {
+          currentPath = "index.html";
+        }
+
+        // 3. Find all links in the newly loaded menu
         const links = element.querySelectorAll(".menu a");
 
         links.forEach(link => {
-          if (link.getAttribute("href") === currentPath) {
-            // We add a general 'active' class AND a specific page class
+          // Get the href attribute of the link (e.g., 'about.html')
+          const linkHref = link.getAttribute("href");
+
+          if (linkHref === currentPath) {
+            // Add a general 'active' class
             link.classList.add("active");
             
-            // This creates classes like 'active-index', 'active-about', etc.
+            // 4. Create a specific page class (e.g., 'active-about')
+            // This splits 'about.html' into ['about', 'html'] and takes 'about'
             const pageName = currentPath.split(".")[0];
             link.classList.add("active-" + pageName);
           }
         });
       }
     })
-    .catch(error => console.error("Error:", error));
+    .catch(error => console.error("Error loading component:", error));
 }
 
+// Initialize components
 loadComponent("header-placeholder", "components/header.html");
 loadComponent("footer-placeholder", "components/footer.html");
