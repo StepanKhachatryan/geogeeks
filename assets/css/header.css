@@ -1,43 +1,48 @@
 /* Navigation Bar Styling */
 .navbar {
   background-color: #ffffff;
-  padding: 1rem 5%;
+  padding: 0.5rem 0; /* Vertical padding */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
 }
 
+/* The container that handles the Left/Right split */
 .nav-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Pushes Logo to left, Menu to right */
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 5%; /* Horizontal padding inside the container */
 }
 
-/* Logo Styling */
+/* Logo Styling - Grouped on the Left */
 .logo {
   display: flex;
   align-items: center;
   text-decoration: none;
-  gap: 10px;
+  gap: 12px;
 }
 
 .logo img {
-  height: 50px; /* Adjust based on your logo design */
+  height: 50px; 
   width: auto;
+  display: block;
 }
 
 .logo-text {
   font-size: 1.5rem;
   font-weight: bold;
   color: #2c3e50;
+  font-family: sans-serif;
 }
 
-/* Menu Styling */
+/* Menu Styling - Grouped on the Right */
 .menu {
-  display: flex;
+  display: flex; /* Makes the list horizontal */
   list-style: none;
   gap: 2rem;
   margin: 0;
@@ -48,9 +53,10 @@
   text-decoration: none;
   color: #34495e;
   font-weight: 500;
+  font-size: 1rem;
   transition: color 0.3s ease;
 }
 
 .menu li a:hover {
-  color: #3498db; /* A professional blue for GIS/Hydrology theme */
+  color: #3498db; /* Professional Blue */
 }
