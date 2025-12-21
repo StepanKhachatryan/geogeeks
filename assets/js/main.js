@@ -8,15 +8,18 @@ function loadComponent(id, file) {
       const element = document.getElementById(id);
       element.innerHTML = data;
 
-      // Logic to highlight the active menu item
       if (id === "header-placeholder") {
-        // Get current filename (e.g., 'about.html'). Default to 'index.html' if empty.
         let currentPath = window.location.pathname.split("/").pop() || "index.html";
-        
         const links = element.querySelectorAll(".menu a");
+
         links.forEach(link => {
           if (link.getAttribute("href") === currentPath) {
+            // We add a general 'active' class AND a specific page class
             link.classList.add("active");
+            
+            // This creates classes like 'active-index', 'active-about', etc.
+            const pageName = currentPath.split(".")[0];
+            link.classList.add("active-" + pageName);
           }
         });
       }
