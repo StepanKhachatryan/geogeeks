@@ -1,8 +1,6 @@
-/* Services Page Specific Styling */
-
-/* Header Banner with the new Green Color */
+/* Services Hero Banner */
 .services-hero {
-    background-color: #00a97a;
+    background-color: #00a97a; /* Updated Green */
     color: white;
     padding: 80px 5%;
     text-align: center;
@@ -14,7 +12,7 @@
     text-transform: uppercase;
 }
 
-/* Services Grid */
+/* Service Cards */
 .services-container {
     padding: 60px 10%;
     max-width: 1200px;
@@ -37,33 +35,20 @@
     transition: all 0.3s ease;
 }
 
-/* Hover effect with the new Green Color */
-.service-card:hover {
-    transform: translateY(-10px);
-    border-bottom: 4px solid #00a97a;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
-
+/* Icon and Hover highlights */
 .service-icon {
     font-size: 3rem;
-    color: #00a97a;
+    color: #00a97a; /* Updated Green */
     margin-bottom: 20px;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    border-bottom: 4px solid #00a97a; /* Updated Green */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
 .service-card h3 {
     color: #2c3e50;
     margin-bottom: 15px;
-    font-size: 1.5rem;
-}
-
-.service-card p {
-    color: #555;
-    line-height: 1.6;
-}
-
-/* Responsive Grid for Phones */
-@media (max-width: 768px) {
-    .services-grid {
-        grid-template-columns: 1fr;
-    }
 }
