@@ -8,16 +8,15 @@
   z-index: 1000;
 }
 
-/* Container to push content to corners */
 .nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 10px 40px; /* Adjust 40px to move items closer to edges */
+  padding: 10px 40px;
 }
 
-/* Logo Styling - FIXED SIZE */
+/* Logo Styling - Fixed Height */
 .logo {
   display: flex;
   align-items: center;
@@ -26,8 +25,8 @@
 }
 
 .logo img {
-  height: 50px; /* This locks the logo height */
-  width: auto;  /* Maintains aspect ratio */
+  height: 50px; 
+  width: auto;
   display: block;
 }
 
@@ -35,7 +34,6 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: #2c3e50;
-  text-decoration: none !important;
 }
 
 /* Menu Styling */
@@ -43,8 +41,6 @@
   display: flex;
   list-style: none;
   gap: 0.5rem;
-  margin: 0;
-  padding: 0;
 }
 
 .menu li a {
@@ -56,15 +52,28 @@
   transition: all 0.3s ease;
 }
 
-/* THE ACTIVE STATE - Updated to Green #00a97a */
-.menu li a.active {
+/* --- SPECIFIC ACTIVE COLORS --- */
+
+/* 1. Գլխավոր (index.html) - No background, just blue text */
+.menu li a.active-index {
+  background-color: transparent !important;
+  color: #0c8495 !important;
+  font-weight: bold;
+}
+
+/* 2. Մեր մասին (about.html) - Blue background */
+.menu li a.active-about {
+  background-color: #0c8495 !important;
+  color: #ffffff !important;
+}
+
+/* 3. Ծառայություններ (services.html) - Green background */
+.menu li a.active-services {
   background-color: #00a97a !important;
   color: #ffffff !important;
 }
 
-/* Hover effect */
+/* General Hover effect */
 .menu li a:hover:not(.active) {
-  color: #00a97a;
-  background-color: rgba(0, 169, 122, 0.1);
-  text-decoration: none;
+  background-color: #f0f0f0;
 }
