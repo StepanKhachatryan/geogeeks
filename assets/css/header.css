@@ -1,50 +1,47 @@
-/* Navigation Bar Styling */
+/* Ensure the bar spans the full width */
 .navbar {
   background-color: #ffffff;
-  padding: 0.5rem 0; /* Vertical padding */
+  width: 100%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
-  width: 100%;
 }
 
-/* The container that handles the Left/Right split */
+/* The PARENT: This creates the left-right split */
 .nav-container {
-  display: flex;
-  justify-content: space-between; /* Pushes Logo to left, Menu to right */
+  display: flex !important;
+  justify-content: space-between; /* Pushes children to opposite ends */
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 5%; /* Horizontal padding inside the container */
+  padding: 10px 20px;
 }
 
-/* Logo Styling - Grouped on the Left */
+/* CHILD 1: Logo and Text together on the left */
 .logo {
   display: flex;
   align-items: center;
   text-decoration: none;
-  gap: 12px;
+  gap: 15px;
 }
 
 .logo img {
-  height: 50px; 
+  height: 50px;
   width: auto;
-  display: block;
 }
 
 .logo-text {
   font-size: 1.5rem;
   font-weight: bold;
   color: #2c3e50;
-  font-family: sans-serif;
 }
 
-/* Menu Styling - Grouped on the Right */
+/* CHILD 2: Navigation links together on the right */
 .menu {
-  display: flex; /* Makes the list horizontal */
+  display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 25px;
   margin: 0;
   padding: 0;
 }
@@ -53,10 +50,9 @@
   text-decoration: none;
   color: #34495e;
   font-weight: 500;
-  font-size: 1rem;
-  transition: color 0.3s ease;
+  transition: 0.3s;
 }
 
 .menu li a:hover {
-  color: #3498db; /* Professional Blue */
+  color: #3498db;
 }
