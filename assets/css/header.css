@@ -1,10 +1,4 @@
-/* Remove default browser styles for the whole page */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Header Container */
 .navbar {
   background-color: #ffffff;
   width: 100%;
@@ -16,12 +10,13 @@
 
 .nav-container {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
-  width: 100%; 
-  padding: 10px 40px; 
+  width: 100%;
+  padding: 10px 40px; /* Logo in left corner, Menu in right corner */
 }
 
+/* Logo Area */
 .logo {
   display: flex;
   align-items: center;
@@ -38,34 +33,31 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: #2c3e50;
-  text-decoration: none !important;
 }
 
+/* Menu Area */
 .menu {
   display: flex;
   list-style: none;
-  gap: 1rem; /* Reduced gap slightly to account for button padding */
+  gap: 0.5rem; /* Space between buttons */
 }
 
-/* Base style for menu links */
 .menu li a {
   text-decoration: none !important;
   color: #34495e;
   font-weight: 500;
-  padding: 8px 16px; /* Added padding so the background color has shape */
-  border-radius: 4px; /* Slightly rounded corners for the background */
+  padding: 8px 16px;
+  border-radius: 4px;
   transition: all 0.3s ease;
 }
 
-/* THE ACTIVE STATE: This highlights your current section */
+/* ACTIVE SECTION COLOR */
 .menu li a.active {
-  background-color: #0c8495 !important; /* Your requested color */
-  color: #ffffff !important;           /* White text for better contrast */
+  background-color: #0c8495 !important;
+  color: #ffffff !important;
 }
 
-/* Hover effect */
 .menu li a:hover:not(.active) {
   color: #0c8495;
-  background-color: rgba(12, 132, 149, 0.1); /* Light fade on hover */
-  text-decoration: none;
+  background-color: rgba(12, 132, 149, 0.1);
 }
