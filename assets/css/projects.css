@@ -1,54 +1,81 @@
-/* Projects Page Styling */
-.projects-hero {
-    background-color: #f7db5d;
-    color: #2c3e50;
-    padding: 80px 5%;
-    text-align: center;
-}
-
-.projects-container {
+/* Projects Page Wrapper */
+.projects-page-wrapper {
     padding: 60px 10%;
+    background-color: #f9f9f9;
+    min-height: 80vh;
 }
 
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 Columns on Desktop */
-    gap: 30px;
-    max-width: 1200px;
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-header h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.header-line {
+    width: 80px;
+    height: 4px;
+    background-color: #f7db5d; /* Keeping the yellow as a subtle accent line */
     margin: 0 auto;
 }
 
-.project-card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
+/* Category Grid */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2x2 grid on desktop */
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-.project-card:hover {
-    transform: translateY(-5px);
+.category-box {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 40px 30px;
+    text-decoration: none !important;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.project-image img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    display: block;
+.category-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    border-color: #f7db5d;
 }
 
-.project-info {
-    padding: 25px;
+.category-icon {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
 }
 
-.project-info h3 {
+.category-box h3 {
     color: #2c3e50;
-    margin-bottom: 10px;
-    border-left: 5px solid #f7db5d;
-    padding-left: 10px;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    min-height: 3.5rem; /* Keeps boxes even */
 }
 
-.project-info p {
-    color: #666;
-    line-height: 1.6;
+.view-btn {
+    display: inline-block;
+    color: #f7db5d;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    border-bottom: 2px solid transparent;
+    transition: border 0.3s;
+}
+
+.category-box:hover .view-btn {
+    border-bottom: 2px solid #f7db5d;
 }
