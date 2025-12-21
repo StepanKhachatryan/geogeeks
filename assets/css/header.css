@@ -1,58 +1,60 @@
-/* Ensure the bar spans the full width */
+/* Full-width wrapper */
 .navbar {
   background-color: #ffffff;
-  width: 100%;
+  width: 100%; /* Ensures it spans the whole screen */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-/* The PARENT: This creates the left-right split */
+/* Content container */
 .nav-container {
-  display: flex !important;
-  justify-content: space-between; /* Pushes children to opposite ends */
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  max-width: 1200px;
+  max-width: 1400px; /* Limits width on ultra-wide monitors */
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 10px 5%; /* Flexible padding based on screen size */
 }
 
-/* CHILD 1: Logo and Text together on the left */
 .logo {
   display: flex;
   align-items: center;
   text-decoration: none;
-  gap: 15px;
+  gap: 12px;
 }
 
 .logo img {
-  height: 50px;
+  height: clamp(30px, 5vw, 50px); /* Responsive height: shrinks on small screens */
   width: auto;
 }
 
 .logo-text {
-  font-size: 1.5rem;
+  font-size: clamp(1.1rem, 2vw, 1.5rem); /* Responsive text size */
   font-weight: bold;
   color: #2c3e50;
 }
 
-/* CHILD 2: Navigation links together on the right */
 .menu {
   display: flex;
   list-style: none;
-  gap: 25px;
+  gap: 2rem;
   margin: 0;
   padding: 0;
 }
 
-.menu li a {
-  text-decoration: none;
-  color: #34495e;
-  font-weight: 500;
-  transition: 0.3s;
-}
-
-.menu li a:hover {
-  color: #3498db;
+/* RESPONSIVE FIX: For mobile screens */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column; /* Stacks logo above menu on phones */
+    gap: 15px;
+  }
+  
+  .menu {
+    gap: 1rem;
+    font-size: 0.9rem;
+    flex-wrap: wrap; /* Allows menu items to wrap to a new line if needed */
+    justify-content: center;
+  }
 }
