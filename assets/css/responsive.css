@@ -1,47 +1,106 @@
-/* Tablet and Mobile Adjustments */
+/* ==========================================
+   TABLET & MOBILE STYLES (Max 768px)
+   ========================================== */
 @media screen and (max-width: 768px) {
-    
-    /* 1. Stack the About Section vertically */
+
+    /* 1. Header & Navigation */
+    .nav-container {
+        padding: 10px 5%;
+        flex-direction: column; /* Stack logo above menu */
+        gap: 15px;
+    }
+
+    .menu {
+        gap: 5px;
+        flex-wrap: wrap; /* Wrap menu items on very narrow screens */
+        justify-content: center;
+    }
+
+    .menu li a {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+    }
+
+    /* 2. Hero Video Section (Index.html) */
+    .video-container {
+        aspect-ratio: 16 / 9 !important; /* Make video taller on phones */
+    }
+
+    .hero-overlay-text {
+        width: 90%;
+        padding: 1.5rem;
+    }
+
+    .hero-overlay-text h1 {
+        font-size: 1.8rem;
+    }
+
+    /* 3. About Section (About.html) */
+    .about-hero {
+        padding: 50px 20px;
+    }
+
+    .about-hero h1 {
+        font-size: 2.2rem;
+    }
+
     .about-section {
-        flex-direction: column !important; /* Image will now go under the text */
+        flex-direction: column !important; /* Stack text and image */
         text-align: center;
         padding: 40px 5%;
     }
 
-    /* 2. Fix the Hero Banner height for mobile */
-    .about-hero {
-        padding: 60px 20px;
-    }
-
-    .about-hero h1 {
-        font-size: 2rem; /* Shrink title so it fits on one line */
-    }
-
-    /* 3. Make the About Image fill the width */
     .about-image {
         width: 100%;
-        margin-top: 20px;
+        order: -1; /* Move image above text on mobile */
+        margin-bottom: 20px;
     }
 
-    .about-image img {
-        max-width: 100%;
-        height: auto;
-    }
-
-    /* 4. Adjust the Values Grid to 1 column */
     .values-grid {
-        grid-template-columns: 1fr !important; /* Single column on phones */
+        grid-template-columns: 1fr !important; /* Single column cards */
         padding: 20px 5%;
+    }
+
+    /* 4. Services Section (Services.html) */
+    .services-hero {
+        padding: 50px 20px;
+    }
+
+    .services-hero h1 {
+        font-size: 2rem;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr !important; /* Single column cards */
+        padding: 0 5%;
+    }
+
+    .service-card {
+        padding: 30px 20px;
     }
 }
 
-/* Very small phones (iPhone SE, etc.) */
+/* ==========================================
+   SMALL PHONE STYLES (Max 480px)
+   ========================================== */
 @media screen and (max-width: 480px) {
-    .about-text h2 {
+    
+    .logo-text {
+        font-size: 1.2rem;
+    }
+
+    .hero-overlay-text h1 {
         font-size: 1.5rem;
     }
-    
-    .about-text p {
-        font-size: 1rem;
+
+    .about-hero h1, 
+    .services-hero h1 {
+        font-size: 1.8rem;
+    }
+
+    /* Adjust padding for smaller screens to save space */
+    .content-page, 
+    .services-container {
+        padding: 30px 5%;
     }
 }
