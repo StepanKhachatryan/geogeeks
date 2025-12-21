@@ -8,18 +8,43 @@
   z-index: 1000;
 }
 
+/* Container to push content to corners */
 .nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 10px 40px;
+  padding: 10px 40px; /* Adjust 40px to move items closer to edges */
 }
 
+/* Logo Styling - FIXED SIZE */
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none !important;
+  gap: 12px;
+}
+
+.logo img {
+  height: 50px; /* This locks the logo height */
+  width: auto;  /* Maintains aspect ratio */
+  display: block;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  text-decoration: none !important;
+}
+
+/* Menu Styling */
 .menu {
   display: flex;
   list-style: none;
   gap: 0.5rem;
+  margin: 0;
+  padding: 0;
 }
 
 .menu li a {
@@ -31,14 +56,15 @@
   transition: all 0.3s ease;
 }
 
-/* THE ACTIVE STATE - Updated to #00a97a */
+/* THE ACTIVE STATE - Updated to Green #00a97a */
 .menu li a.active {
-  background-color: #00a97a !important; /* New Green Color */
+  background-color: #00a97a !important;
   color: #ffffff !important;
 }
 
 /* Hover effect */
 .menu li a:hover:not(.active) {
   color: #00a97a;
-  background-color: rgba(0, 169, 122, 0.1); /* Light green tint */
+  background-color: rgba(0, 169, 122, 0.1);
+  text-decoration: none;
 }
