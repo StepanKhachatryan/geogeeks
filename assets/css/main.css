@@ -1,65 +1,80 @@
-/* 1. Global Resets */
+/* 1. Global Reset & Basic Styling */
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box; /* Ensures padding doesn't affect total width */
 }
 
 body {
   width: 100%;
-  overflow-x: hidden; /* Prevents unwanted horizontal scrolling */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden; /* Prevents horizontal scrollbars */
+  background-color: #f9f9f9;
 }
 
-/* 2. Hero Section - The Red Bordered Area */
+/* 2. Hero Section (The Red Bordered Area) */
 .hero {
-  width: 100vw; 
+  width: 100vw;               /* Spans full viewport width */
   display: flex;
-  justify-content: center; /* Centers container horizontally */
-  align-items: center;     /* Centers container vertically */
-  background-color: #000;  /* Acts as a fallback background */
+  justify-content: center;    /* Horizontal centering */
+  align-items: center;        /* Vertical centering */
+  background-color: #000;     /* Background color for loading state */
   overflow: hidden;
 }
 
 /* 3. The 2.2:1 Aspect Ratio Box */
 .video-container {
   width: 100%;
-  aspect-ratio: 2.2 / 1;   /* Sets the cinematic wide look */
+  aspect-ratio: 2.2 / 1;      /* Precise cinematic ratio */
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* 4. HD Video Rendering */
+/* 4. High-Definition Video Setup */
 #hero-video {
   width: 100%;
   height: 100%;
-  object-fit: cover;       /* Fills the 2.2 space without stretching pixels */
+  object-fit: cover;          /* Maintains ratio without stretching the 1080p pixels */
   display: block;
   
-  /* Browser-specific rendering for HD sharpness */
+  /* Browser optimizations for HD clarity */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
 }
 
-/* 5. Overlay Text over Video */
+/* 5. Centered Overlay Text */
 .hero-overlay-text {
   position: absolute;
   text-align: center;
   color: white;
   z-index: 2;
-  background: rgba(0, 0, 0, 0.3); /* Semi-transparent dark box for readability */
-  padding: 1.5rem 2.5rem;
-  border-radius: 8px;
-  pointer-events: none; /* Allows user to click "through" the text if needed */
+  /* Adds a subtle dark tint to make white text pop over bright videos */
+  background: rgba(0, 0, 0, 0.3); 
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  pointer-events: none;       /* Allows clicks to go through to the video */
 }
 
 .hero-overlay-text h1 {
-  font-size: clamp(2rem, 5vw, 4rem); /* Sizes text based on screen width */
+  font-size: clamp(2.5rem, 6vw, 4.5rem); /* Responsive font sizing */
   margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-/* 6. Global Link Clean-up */
+.hero-overlay-text p {
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
+  font-weight: 300;
+}
+
+/* 6. Remove Underlines from All Links */
 a {
-  text-decoration: none !important; /* Removes all underlines company-wide */
+  text-decoration: none !important; /* Removes blue/purple underlines globally */
+  color: inherit;                  /* Inherits color from parent elements */
+}
+
+a:hover {
+  text-decoration: none !important;
 }
