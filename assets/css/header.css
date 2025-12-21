@@ -16,16 +16,16 @@
 
 .nav-container {
   display: flex;
-  justify-content: space-between; /* Pushes Logo left and Menu right */
+  justify-content: space-between; 
   align-items: center;
-  width: 100%; /* Makes container fill the screen */
-  padding: 10px 40px; /* Adjust 40px to move logo closer/further from the corner */
+  width: 100%; 
+  padding: 10px 40px; 
 }
 
 .logo {
   display: flex;
   align-items: center;
-  text-decoration: none !important; /* Removes underline from logo area */
+  text-decoration: none !important;
   gap: 12px;
 }
 
@@ -38,23 +38,34 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: #2c3e50;
-  text-decoration: none !important; /* Extra insurance against underlines */
+  text-decoration: none !important;
 }
 
 .menu {
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 1rem; /* Reduced gap slightly to account for button padding */
 }
 
+/* Base style for menu links */
 .menu li a {
-  text-decoration: none !important; /* THIS REMOVES THE UNDERLINES */
+  text-decoration: none !important;
   color: #34495e;
   font-weight: 500;
-  transition: color 0.3s ease;
+  padding: 8px 16px; /* Added padding so the background color has shape */
+  border-radius: 4px; /* Slightly rounded corners for the background */
+  transition: all 0.3s ease;
 }
 
-.menu li a:hover {
-  color: #3498db;
-  text-decoration: none; /* Ensures no underline appears on hover */
+/* THE ACTIVE STATE: This highlights your current section */
+.menu li a.active {
+  background-color: #0c8495 !important; /* Your requested color */
+  color: #ffffff !important;           /* White text for better contrast */
+}
+
+/* Hover effect */
+.menu li a:hover:not(.active) {
+  color: #0c8495;
+  background-color: rgba(12, 132, 149, 0.1); /* Light fade on hover */
+  text-decoration: none;
 }
