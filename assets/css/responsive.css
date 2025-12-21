@@ -1,1 +1,46 @@
+/* Mobile and Tablet Styles */
+@media screen and (max-width: 768px) {
 
+    /* 1. Adjust the Hero Video Ratio */
+    .video-container {
+        aspect-ratio: 16 / 9 !important; /* Makes the video taller on phones */
+    }
+
+    /* 2. Adjust Header for small screens */
+    .nav-container {
+        padding: 10px 15px; /* Reduces side padding on mobile */
+        flex-direction: column; /* Stacks logo above menu if space is tight */
+        gap: 10px;
+    }
+
+    .menu {
+        gap: 15px; /* Brings menu items closer together */
+        font-size: 0.9rem;
+    }
+
+    /* 3. Adjust Overlay Text size */
+    .hero-overlay-text {
+        width: 90%; /* Ensures text doesn't touch the edges */
+        padding: 1rem;
+    }
+
+    .hero-overlay-text h1 {
+        font-size: 1.8rem; /* Smaller title for mobile */
+    }
+    
+    .hero-overlay-text p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Small Phone specific tweaks */
+@media screen and (max-width: 480px) {
+    .logo-text {
+        font-size: 1.2rem;
+    }
+    
+    .menu {
+        flex-wrap: wrap; /* Allows menu to wrap into two lines if needed */
+        justify-content: center;
+    }
+}
