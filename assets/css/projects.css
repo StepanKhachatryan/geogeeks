@@ -1,9 +1,3 @@
-* Background Image Classes - Replace with your actual paths */
-.gis-bg { background-image: url('../img/projects_img/GIS_projects.jpg'); }
-.water-bg { background-image: url('../img/projects_img/water_projects.jpg'); }
-.edu-bg { background-image: url('../img/projects_img/edu-bg.jpg'); }
-.all-bg { background-image: url('../img/projects_img/projects-bg.jpg'); }
-
 /* Full page layout - Back to Light Theme */
 .projects-page-wrapper {
     display: flex;
@@ -39,7 +33,7 @@
 
 /* Background Image Classes */
 .gis-bg { background-image: url('../img/projects_img/GIS_projects.jpg'); }
-.water-bg { background-image: url('../img/water-bg.jpg'); }
+.water-bg { background-image: url('../img/projects_img/water_projects.jpg'); }
 .edu-bg { background-image: url('../img/edu-bg.jpg'); }
 .all-bg { background-image: url('../img/projects-bg.jpg'); }
 
