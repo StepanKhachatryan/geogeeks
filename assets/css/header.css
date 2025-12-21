@@ -1,4 +1,4 @@
-/* Header Container */
+/* Navigation Bar Styling */
 .navbar {
   background-color: #ffffff;
   width: 100%;
@@ -13,33 +13,13 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 10px 40px; /* Logo in left corner, Menu in right corner */
+  padding: 10px 40px;
 }
 
-/* Logo Area */
-.logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none !important;
-  gap: 12px;
-}
-
-.logo img {
-  height: 50px;
-  width: auto;
-}
-
-.logo-text {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-/* Menu Area */
 .menu {
   display: flex;
   list-style: none;
-  gap: 0.5rem; /* Space between buttons */
+  gap: 0.5rem;
 }
 
 .menu li a {
@@ -51,13 +31,14 @@
   transition: all 0.3s ease;
 }
 
-/* ACTIVE SECTION COLOR */
+/* THE ACTIVE STATE - Updated to #00a97a */
 .menu li a.active {
-  background-color: #0c8495 !important;
+  background-color: #00a97a !important; /* New Green Color */
   color: #ffffff !important;
 }
 
+/* Hover effect */
 .menu li a:hover:not(.active) {
-  color: #0c8495;
-  background-color: rgba(12, 132, 149, 0.1);
+  color: #00a97a;
+  background-color: rgba(0, 169, 122, 0.1); /* Light green tint */
 }
