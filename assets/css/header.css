@@ -54,7 +54,7 @@
 
 /* --- SPECIFIC ACTIVE COLORS --- */
 
-/* 1. Գլխավոր (index.html) - No background, just blue text */
+/* 1. Գլխավոր (index.html) - No background, blue text */
 .menu li a.active-index {
   background-color: transparent !important;
   color: #0c8495 !important;
@@ -71,6 +71,12 @@
 .menu li a.active-services {
   background-color: #00a97a !important;
   color: #ffffff !important;
+}
+
+/* 4. Նախագծեր (projects.html) - Yellow background */
+.menu li a.active-projects {
+  background-color: #f7db5d !important;
+  color: #2c3e50 !important; /* Dark text for better contrast on yellow */
 }
 
 /* General Hover effect */
