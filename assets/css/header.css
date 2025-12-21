@@ -54,32 +54,38 @@
 
 /* --- SPECIFIC ACTIVE COLORS --- */
 
-/* 1. Գլխավոր (index.html) - No background, blue text */
+/* 1. Գլխավոր (index.html) */
 .menu li a.active-index {
   background-color: transparent !important;
   color: #0c8495 !important;
   font-weight: bold;
 }
 
-/* 2. Մեր մասին (about.html) - Blue background */
+/* 2. Մեր մասին (about.html) - Blue */
 .menu li a.active-about {
   background-color: #0c8495 !important;
   color: #ffffff !important;
 }
 
-/* 3. Ծառայություններ (services.html) - Green background */
+/* 3. Ծառայություններ (services.html) - Green */
 .menu li a.active-services {
   background-color: #00a97a !important;
   color: #ffffff !important;
 }
 
-/* 4. Նախագծեր (projects.html) - Yellow background */
+/* 4. Նախագծեր (projects.html) - Yellow */
 .menu li a.active-projects {
   background-color: #f7db5d !important;
-  color: #2c3e50 !important; /* Dark text for better contrast on yellow */
+  color: #2c3e50 !important;
 }
 
-/* General Hover effect */
+/* 5. Կապ (contact.html) - Grey */
+.menu li a.active-contact {
+  background-color: #605c5c !important;
+  color: #ffffff !important;
+}
+
+/* General Hover effect for non-active links */
 .menu li a:hover:not(.active) {
   background-color: #f0f0f0;
 }
