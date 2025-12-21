@@ -23,39 +23,48 @@
         font-size: 0.85rem;
     }
 
-    /* 2. Page Heroes (Background Banners) */
-    .about-hero, .services-hero, .projects-hero, .contact-hero {
+    /* 2. Page Heroes & Wrappers */
+    .about-hero, .services-hero, .contact-hero {
         padding: 40px 20px;
         text-align: center;
     }
 
-    .about-hero h1, .services-hero h1, .projects-hero h1, .contact-hero h1 {
+    /* New: Reset Project Wrapper for mobile to allow scrolling */
+    .projects-page-wrapper {
+        height: auto !important; 
+        padding: 30px 5%;
+        display: block; /* Removes flex centering to allow natural flow */
+    }
+
+    .about-hero h1, .services-hero h1, .contact-hero h1 {
         font-size: 1.8rem;
     }
 
-    /* 3. Projects Section Fix */
-    /* Assuming you have a .projects-grid in projects.html */
-    .projects-grid {
-        grid-template-columns: 1fr !important; /* Forces 1 column */
-        gap: 20px;
-        padding: 20px 5%;
+    /* 3. Projects Category Grid Fix */
+    .category-grid {
+        grid-template-columns: 1fr !important; /* Stack boxes vertically */
+        gap: 15px;
     }
 
-    .project-card {
-        width: 100%;
+    .category-box {
+        height: 250px !important; /* Fixed height for mobile usability */
+        border-radius: 12px;
+    }
+
+    .category-overlay {
+        padding: 20px;
+    }
+
+    .category-box h3 {
+        font-size: 1.4rem;
     }
 
     /* 4. Contact Section Fix */
     .contact-container {
         display: flex !important;
-        flex-direction: column !important; /* Stacks Form on top of Info */
+        flex-direction: column !important; 
         padding: 30px 5%;
         gap: 40px;
-    }
-
-    .contact-form-wrapper, .contact-info {
-        width: 100%;
-        padding: 0;
     }
 
     .contact-form-wrapper {
@@ -64,13 +73,10 @@
     }
 
     /* 5. About & Services Fix */
-    .about-section {
+    .about-section, .services-grid {
         flex-direction: column !important;
-        text-align: center;
-    }
-
-    .services-grid {
         grid-template-columns: 1fr !important;
+        text-align: center;
     }
 }
 
@@ -84,10 +90,14 @@
 
     .menu li a {
         padding: 5px 8px;
-        font-size: 0.8rem;
+        font-size: 0.75rem; /* Slightly smaller for small phones */
     }
     
-    .contact-hero h1, .projects-hero h1 {
+    .category-box h3 {
+        font-size: 1.2rem;
+    }
+
+    .contact-hero h1 {
         font-size: 1.5rem;
     }
 }
