@@ -1,60 +1,60 @@
-/* Full-width wrapper */
+/* Remove default browser styles for the whole page */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .navbar {
   background-color: #ffffff;
-  width: 100%; /* Ensures it spans the whole screen */
+  width: 100%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-/* Content container */
 .nav-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Pushes Logo left and Menu right */
   align-items: center;
-  max-width: 1400px; /* Limits width on ultra-wide monitors */
-  margin: 0 auto;
-  padding: 10px 5%; /* Flexible padding based on screen size */
+  width: 100%; /* Makes container fill the screen */
+  padding: 10px 40px; /* Adjust 40px to move logo closer/further from the corner */
 }
 
 .logo {
   display: flex;
   align-items: center;
-  text-decoration: none;
+  text-decoration: none !important; /* Removes underline from logo area */
   gap: 12px;
 }
 
 .logo img {
-  height: clamp(30px, 5vw, 50px); /* Responsive height: shrinks on small screens */
+  height: 50px;
   width: auto;
 }
 
 .logo-text {
-  font-size: clamp(1.1rem, 2vw, 1.5rem); /* Responsive text size */
+  font-size: 1.5rem;
   font-weight: bold;
   color: #2c3e50;
+  text-decoration: none !important; /* Extra insurance against underlines */
 }
 
 .menu {
   display: flex;
   list-style: none;
   gap: 2rem;
-  margin: 0;
-  padding: 0;
 }
 
-/* RESPONSIVE FIX: For mobile screens */
-@media (max-width: 768px) {
-  .nav-container {
-    flex-direction: column; /* Stacks logo above menu on phones */
-    gap: 15px;
-  }
-  
-  .menu {
-    gap: 1rem;
-    font-size: 0.9rem;
-    flex-wrap: wrap; /* Allows menu items to wrap to a new line if needed */
-    justify-content: center;
-  }
+.menu li a {
+  text-decoration: none !important; /* THIS REMOVES THE UNDERLINES */
+  color: #34495e;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.menu li a:hover {
+  color: #3498db;
+  text-decoration: none; /* Ensures no underline appears on hover */
 }
