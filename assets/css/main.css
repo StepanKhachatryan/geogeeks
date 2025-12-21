@@ -1,1 +1,49 @@
+/* Reset default margins to ensure full-width works */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+/* The Hero area: Creating the 2.2:1 space */
+.hero {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center;     /* Centers vertically */
+  background-color: #000;  /* Black bars if video doesn't fit perfectly */
+  overflow: hidden;
+}
+
+.video-container {
+  width: 100%;
+  aspect-ratio: 2.2 / 1;   /* Sets the 2.2 ratio */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* Fills the 2.2 space without distortion */
+  display: block;
+}
+
+/* Overlay Text (centered over the video) */
+.hero-overlay-text {
+  position: absolute;
+  text-align: center;
+  color: white;
+  z-index: 2;
+  /* Optional: adds a slight dark tint to help text readability */
+  background: rgba(0, 0, 0, 0.2); 
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Global Fix: Remove all underlines from links */
+a {
+  text-decoration: none !important;
+}
