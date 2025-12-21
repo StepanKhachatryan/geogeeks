@@ -1,76 +1,91 @@
-/* Full page layout - Back to Light Theme */
+/* Full page layout - Clean Light Theme */
 .projects-page-wrapper {
     display: flex;
-    align-items: center;
+    align-items: center; 
     justify-content: center;
-    height: calc(100vh - 80px); /* Fill the remaining screen height */
-    padding: 20px 5%;
-    background-color: #ffffff; /* Changed back from dark */
+    /* Subtracts the header height to prevent main page scrolling */
+    min-height: calc(100vh - 80px); 
+    padding: 40px 5%;
+    background-color: #ffffff;
 }
 
 /* Expanded Category Grid */
 .category-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px; /* Reduced gap to save space */
+    gap: 25px; 
     width: 100%;
     max-width: 1400px;
 }
 
+/* The Individual Group Boxes */
 .category-box {
     position: relative;
     border-radius: 15px;
-    height: 40vh; /* Flexible height based on screen size */
+    height: 40vh; /* Scalable height */
+    min-height: 280px; 
     text-decoration: none !important;
     overflow: hidden;
     display: flex;
-    transition: all 0.4s ease;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
-/* Background Image Classes */
+.category-box:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* --- Background Images --- */
 .gis-bg { background-image: url('../img/projects_img/GIS_projects.jpg'); }
 .water-bg { background-image: url('../img/projects_img/water_projects.jpg'); }
 .edu-bg { background-image: url('../img/edu-bg.jpg'); }
 .all-bg { background-image: url('../img/projects-bg.jpg'); }
 
-/* Overlay - Slightly lighter to match light theme */
+/* --- Light White Overlay Logic --- */
 .category-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.1));
+    /* Gradient: Solid white at bottom (90%) to transparent at top */
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.9) 15%, rgba(255, 255, 255, 0.2) 100%);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 30px;
+    padding: 35px;
     transition: all 0.3s ease;
 }
 
 .category-box:hover .category-overlay {
-    background: linear-gradient(to top, rgba(0,0,0,0.8) 30%, rgba(247, 219, 93, 0.1));
+    /* Slight yellow brand tint on hover */
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 25%, rgba(247, 219, 93, 0.2) 100%);
 }
 
+/* --- Text Styling (Dark for visibility on White) --- */
 .category-box h3 {
-    color: #ffffff;
-    font-size: 1.6rem; /* Slightly smaller to fit boxes */
-    margin-bottom: 10px;
+    color: #2c3e50; /* Professional Dark Blue/Grey */
+    font-size: 1.7rem; 
+    margin-bottom: 12px;
     line-height: 1.2;
     font-weight: 700;
 }
 
 .view-btn {
-    color: #f7db5d;
-    font-weight: 600;
-    font-size: 0.85rem;
+    color: #0c8495; /* GeoGeeks Brand Blue */
+    font-weight: 700;
+    font-size: 0.9rem;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #f7db5d; /* Yellow accent line */
+    align-self: flex-start;
 }
 
-.category-box:hover {
-    transform: scale(1.02);
+.category-box:hover .view-btn {
+    color: #2c3e50;
+    border-bottom-color: #0c8495; /* Color swap on hover */
 }
