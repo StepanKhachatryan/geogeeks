@@ -1,76 +1,82 @@
-.projects-page-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: calc(100vh - 80px);
-    padding: 40px 5%;
-    background-color: #1a1a1a; /* Darker background for image-heavy layout */
-}
-
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-    width: 100%;
-    max-width: 1500px; /* Wider for bigger boxes */
-}
-
-.category-box {
-    position: relative;
-    border-radius: 20px;
-    height: 450px; /* Increased height for bigger boxes */
-    text-decoration: none !important;
-    overflow: hidden;
-    display: flex;
-    transition: all 0.5s ease;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-/* Background Image Classes - Replace with your actual paths */
+* Background Image Classes - Replace with your actual paths */
 .gis-bg { background-image: url('../img/projects_img/GIS_projects.jpg'); }
 .water-bg { background-image: url('../img/projects_img/water-bg.jpg'); }
 .edu-bg { background-image: url('../img/projects_img/edu-bg.jpg'); }
 .all-bg { background-image: url('../img/projects_img/projects-bg.jpg'); }
 
-/* Dark overlay to make text readable */
+/* Full page layout - Back to Light Theme */
+.projects-page-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 80px); /* Fill the remaining screen height */
+    padding: 20px 5%;
+    background-color: #ffffff; /* Changed back from dark */
+}
+
+/* Expanded Category Grid */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; /* Reduced gap to save space */
+    width: 100%;
+    max-width: 1400px;
+}
+
+.category-box {
+    position: relative;
+    border-radius: 15px;
+    height: 40vh; /* Flexible height based on screen size */
+    text-decoration: none !important;
+    overflow: hidden;
+    display: flex;
+    transition: all 0.4s ease;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Background Image Classes */
+.gis-bg { background-image: url('../img/projects_img/GIS_projects.jpg'); }
+.water-bg { background-image: url('../img/water-bg.jpg'); }
+.edu-bg { background-image: url('../img/edu-bg.jpg'); }
+.all-bg { background-image: url('../img/projects-bg.jpg'); }
+
+/* Overlay - Slightly lighter to match light theme */
 .category-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.85) 10%, rgba(0,0,0,0.2));
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 20%, rgba(0,0,0,0.1));
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 50px;
-    transition: background 0.4s ease;
+    padding: 30px;
+    transition: all 0.3s ease;
 }
 
 .category-box:hover .category-overlay {
-    background: linear-gradient(to top, rgba(0,0,0,0.95) 20%, rgba(247, 219, 93, 0.2));
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 30%, rgba(247, 219, 93, 0.1));
 }
 
 .category-box h3 {
     color: #ffffff;
-    font-size: 2rem; /* Larger font */
-    margin-bottom: 15px;
+    font-size: 1.6rem; /* Slightly smaller to fit boxes */
+    margin-bottom: 10px;
     line-height: 1.2;
     font-weight: 700;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .view-btn {
     color: #f7db5d;
     font-weight: 600;
-    letter-spacing: 2px;
-    font-size: 1rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
-    opacity: 0.8;
 }
 
 .category-box:hover {
-    transform: translateY(-10px) scale(1.02);
+    transform: scale(1.02);
 }
