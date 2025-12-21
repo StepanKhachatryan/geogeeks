@@ -5,23 +5,23 @@ function loadComponent(id, file) {
       return response.text();
     })
     .then(data => {
-      const container = document.getElementById(id);
-      container.innerHTML = data;
+      const element = document.getElementById(id);
+      element.innerHTML = data;
 
-      // New Logic: Highlight the active link
+      // Logic to highlight the active menu item
       if (id === "header-placeholder") {
-        const currentPath = window.location.pathname.split("/").pop() || "index.html";
-        const links = container.querySelectorAll(".menu a");
-
+        // Get current filename (e.g., 'about.html'). Default to 'index.html' if empty.
+        let currentPath = window.location.pathname.split("/").pop() || "index.html";
+        
+        const links = element.querySelectorAll(".menu a");
         links.forEach(link => {
-          // If the link's href matches the current filename, add the 'active' class
           if (link.getAttribute("href") === currentPath) {
             link.classList.add("active");
           }
         });
       }
     })
-    .catch(error => console.error(error));
+    .catch(error => console.error("Error:", error));
 }
 
 loadComponent("header-placeholder", "components/header.html");
