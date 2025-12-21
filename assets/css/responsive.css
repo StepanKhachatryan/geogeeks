@@ -1,46 +1,47 @@
-/* Mobile and Tablet Styles */
+/* Tablet and Mobile Adjustments */
 @media screen and (max-width: 768px) {
-
-    /* 1. Adjust the Hero Video Ratio */
-    .video-container {
-        aspect-ratio: 16 / 9 !important; /* Makes the video taller on phones */
-    }
-
-    /* 2. Adjust Header for small screens */
-    .nav-container {
-        padding: 10px 15px; /* Reduces side padding on mobile */
-        flex-direction: column; /* Stacks logo above menu if space is tight */
-        gap: 10px;
-    }
-
-    .menu {
-        gap: 15px; /* Brings menu items closer together */
-        font-size: 0.9rem;
-    }
-
-    /* 3. Adjust Overlay Text size */
-    .hero-overlay-text {
-        width: 90%; /* Ensures text doesn't touch the edges */
-        padding: 1rem;
-    }
-
-    .hero-overlay-text h1 {
-        font-size: 1.8rem; /* Smaller title for mobile */
-    }
     
-    .hero-overlay-text p {
-        font-size: 0.9rem;
+    /* 1. Stack the About Section vertically */
+    .about-section {
+        flex-direction: column !important; /* Image will now go under the text */
+        text-align: center;
+        padding: 40px 5%;
+    }
+
+    /* 2. Fix the Hero Banner height for mobile */
+    .about-hero {
+        padding: 60px 20px;
+    }
+
+    .about-hero h1 {
+        font-size: 2rem; /* Shrink title so it fits on one line */
+    }
+
+    /* 3. Make the About Image fill the width */
+    .about-image {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .about-image img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* 4. Adjust the Values Grid to 1 column */
+    .values-grid {
+        grid-template-columns: 1fr !important; /* Single column on phones */
+        padding: 20px 5%;
     }
 }
 
-/* Small Phone specific tweaks */
+/* Very small phones (iPhone SE, etc.) */
 @media screen and (max-width: 480px) {
-    .logo-text {
-        font-size: 1.2rem;
+    .about-text h2 {
+        font-size: 1.5rem;
     }
     
-    .menu {
-        flex-wrap: wrap; /* Allows menu to wrap into two lines if needed */
-        justify-content: center;
+    .about-text p {
+        font-size: 1rem;
     }
 }
