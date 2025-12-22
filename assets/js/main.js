@@ -1,51 +1,75 @@
 function loadComponent(id, file) {
-  fetch(file)
-    .then(response => {
-      if (!response.ok) throw new Error("Failed to load component");
-      return response.text();
-    })
-    .then(data => {
-      const element = document.getElementById(id);
-      element.innerHTML = data;
+    // 1. Ստուգում ենք, թե արդյոք ընթացիկ էջը գտնվում է projects/ ենթաթղթապանակում
+    const isSubFolder = window.location.pathname.includes('/projects/');
+    
+    // Եթե ենթաթղթապանակում ենք, ֆայլի ուղին պետք է սկսվի ../-ով
+    const adjustedFile = isSubFolder ? '../' + file : file;
 
-      // Մենյուի ակտիվ էջի նշման տրամաբանությունը
-      if (id === "header-placeholder") {
-        // 1. Ստանում ենք ընթացիկ ֆայլի անունը (օրինակ՝ 'about.html')
-        let path = window.location.pathname;
-        let currentPath = path.split("/").pop();
-        
-        // 2. Եթե հասցեն դատարկ է կամ '/', համարում ենք 'index.html'
-        if (currentPath === "" || currentPath === "/") {
-          currentPath = "index.html";
-        }
+    fetch(adjustedFile)
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to load component");
+            return response.text();
+        })
+        .then(data => {
+            const element = document.getElementById(id);
+            element.innerHTML = data;
 
-        // 3. Քանի որ 'Գլխավոր'-ը (index.html) այլևս մենյուում չէ,
-        // եթե մենք գլխավոր էջում ենք, ոչինչ չենք նշում
-        if (currentPath === "index.html") {
-          return; 
-        }
+            if (id === "header-placeholder") {
+                highlightActiveMenu(element, isSubFolder);
+                
+                // Եթե ենթաթղթապանակում ենք, ուղղում ենք հղումները (Logo և այլն)
+                if (isSubFolder) {
+                    adjustLinksForSubfolder(element);
+                }
+            }
+        })
+        .catch(error => console.error("Error loading component:", error));
+}
 
-        // 4. Գտնում ենք բոլոր հղումները բեռնված մենյուի մեջ
-        const links = element.querySelectorAll(".menu a");
+function highlightActiveMenu(headerElement, isSubFolder) {
+    let path = window.location.pathname;
+    let currentPath = path.split("/").pop();
+    
+    if (currentPath === "" || currentPath === "/") {
+        currentPath = "index.html";
+    }
 
-        links.forEach(link => {
-          const linkHref = link.getAttribute("href");
+    // Եթե գլխավոր էջում ենք, active չենք դնում
+    if (currentPath === "index.html") return;
 
-          if (linkHref === currentPath) {
-            // Ավելացնում ենք ընդհանուր 'active' դասը
+    const links = headerElement.querySelectorAll(".menu a");
+
+    links.forEach(link => {
+        const linkHref = link.getAttribute("href");
+
+        // Տրամաբանություն Նախագծեր բաժնի համար (GIS, Water և այլ ենթաէջերի դեպքում)
+        const isProjectPage = path.includes('projects.html') || isSubFolder;
+
+        if (isProjectPage && linkHref.includes('projects.html')) {
             link.classList.add("active");
-            
-            // Ավելացնում ենք էջին հատուկ դասը (օրինակ՝ 'active-about')
+            link.classList.add("active-projects");
+        } 
+        // Մյուս բոլոր սովորական էջերի համար
+        else if (linkHref === currentPath) {
+            link.classList.add("active");
             const pageName = currentPath.split(".")[0];
             link.classList.add("active-" + pageName);
-          }
-        });
-      }
-    })
-    .catch(error => console.error("Error loading component:", error));
+        }
+    });
+}
+
+// Ֆունկցիա, որը ուղղում է հեդերի հղումները ենթաթղթապանակում գտնվելիս
+function adjustLinksForSubfolder(headerElement) {
+    const allLinks = headerElement.querySelectorAll('a');
+    allLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        // Եթե հղումը արտաքին չէ և չի սկսվում http-ով, ավելացնում ենք ../
+        if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
+            link.setAttribute('href', '../' + href);
+        }
+    });
 }
 
 // Բաղադրիչների բեռնում
-// Համոզվեք, որ ֆայլերի ուղիները (path) ճիշտ են ձեր պապկայի կառուցվածքի համեմատ
 loadComponent("header-placeholder", "components/header.html");
 loadComponent("footer-placeholder", "components/footer.html");
