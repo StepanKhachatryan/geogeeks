@@ -17,7 +17,7 @@ function loadComponent(id, file) {
             if (id === "header-placeholder") {
                 highlightActiveMenu(element, isSubFolder);
                 
-                // Եթե ենթաթղթապանակում ենք, ուղղում ենք հղումները (Logo և այլն)
+                // Եթե ենթաթղթապանակում ենք, ուղղում ենք հղումները և պատկերները
                 if (isSubFolder) {
                     adjustLinksForSubfolder(element);
                 }
@@ -58,14 +58,24 @@ function highlightActiveMenu(headerElement, isSubFolder) {
     });
 }
 
-// Ֆունկցիա, որը ուղղում է հեդերի հղումները ենթաթղթապանակում գտնվելիս
+// Ֆունկցիա, որը ուղղում է հեդերի հղումները և պատկերները ենթաթղթապանակում գտնվելիս
 function adjustLinksForSubfolder(headerElement) {
+    // 1. Ուղղում ենք բոլոր հղումները (<a>)
     const allLinks = headerElement.querySelectorAll('a');
     allLinks.forEach(link => {
         const href = link.getAttribute('href');
-        // Եթե հղումը արտաքին չէ և չի սկսվում http-ով, ավելացնում ենք ../
         if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../')) {
             link.setAttribute('href', '../' + href);
+        }
+    });
+
+    // 2. Ուղղում ենք բոլոր պատկերները (<img>), ներառյալ լոգոն
+    const allImages = headerElement.querySelectorAll('img');
+    allImages.forEach(img => {
+        const src = img.getAttribute('src');
+        // Եթե պատկերի հասցեն արդեն չի սկսվում ../ կամ http-ով, ավելացնում ենք ../
+        if (src && !src.startsWith('http') && !src.startsWith('../')) {
+            img.setAttribute('src', '../' + src);
         }
     });
 }
