@@ -42,6 +42,7 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .hero-overlay-text {
@@ -52,15 +53,21 @@ body {
   text-align: center;
   color: white;
   z-index: 2;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.4);
   padding: 2rem;
-  border-radius: 10px;
+  border-radius: 15px;
   width: 80%;
-  max-width: 800px;
+  max-width: 600px;
+}
+
+.hero-overlay-text h1 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
 }
 
 /* ==========================================
-   Weather Section (Two Windows Grid)
+   Weather Section
    ========================================== */
 .weather-section {
     padding: 80px 5%;
@@ -69,11 +76,11 @@ body {
 }
 
 .weather-container {
-    max-width: 1300px; /* Wider to fit two boxes */
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-.weather-section h2 {
+.section-title {
     font-size: 2.2rem;
     color: #2c3e50;
     margin-bottom: 40px;
@@ -82,7 +89,7 @@ body {
 
 .weather-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    grid-template-columns: repeat(2, 1fr); /* Two side-by-side */
     gap: 30px;
 }
 
@@ -90,13 +97,18 @@ body {
     background: #ffffff;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    padding: 15px;
+    padding: 20px;
     border: 1px solid #eee;
     overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.weather-box:hover {
+    transform: translateY(-5px); /* Subtle hover lift */
 }
 
 .weather-label {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: #34495e;
     margin-bottom: 15px;
     font-weight: 600;
@@ -115,14 +127,19 @@ body {
 }
 
 /* ==========================================
-   Responsive (Mobile Stacking)
+   Global Helpers
    ========================================== */
-@media screen and (max-width: 992px) {
-    .weather-grid {
-        grid-template-columns: 1fr; /* Stack windows on tablets/phones */
-    }
-}
-
 a {
   text-decoration: none !important;
+}
+
+/* Tablets and Mobile */
+@media screen and (max-width: 992px) {
+    .weather-grid {
+        grid-template-columns: 1fr; /* Stack vertically on small screens */
+    }
+    
+    .video-container {
+        aspect-ratio: 16 / 9;
+    }
 }
