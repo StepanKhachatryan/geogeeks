@@ -13,56 +13,49 @@
 
   <style>
     .weather-page-container {
-      padding: 60px 5%;
+      padding: 40px 5%;
       text-align: center;
-      background-color: #fcfcfc;
+      background-color: #f4f7f6;
       min-height: 80vh;
     }
 
     .weather-grid-layout {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr; /* Single column for better map view */
       gap: 30px;
-      max-width: 1200px;
+      max-width: 1000px;
       margin: 30px auto;
     }
 
     .weather-card {
       background: white;
-      padding: 15px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-      border: 1px solid #eee;
+      padding: 10px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
     }
 
     .weather-card h3 {
-      margin-bottom: 15px;
+      margin: 15px 0;
       color: #2c3e50;
-      font-size: 1.1rem;
     }
 
-    /* Standardized Gadget Size */
+    /* Professional Radar Frame */
     .radar-frame {
       width: 100%;
-      height: 450px;
-      border-radius: 12px;
+      height: 600px; /* Taller for better GIS view */
       border: none;
+      border-radius: 8px;
     }
 
     .back-link {
       display: inline-block;
-      margin-top: 30px;
-      padding: 10px 25px;
-      background: #eee;
-      border-radius: 50px;
-      color: #333;
-      transition: 0.3s;
-    }
-
-    .back-link:hover { background: #ddd; }
-
-    @media (max-width: 900px) {
-      .weather-grid-layout { grid-template-columns: 1fr; }
+      margin-top: 20px;
+      padding: 12px 25px;
+      background: #0c8495;
+      color: white !important;
+      border-radius: 5px;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -71,11 +64,23 @@
   <div id="header-placeholder"></div>
 
   <main class="weather-page-container">
-    <h2>Եղանակի մոնիթորինգ</h2>
+    <h2 class="section-title">Եղանակի Մոնիթորինգ (Հայաստան)</h2>
     
     <div class="weather-grid-layout">
       <div class="weather-card">
-        <h3>Տեղումների ռադար (Արբանյակ)</h3>
+        <h3>Իրական ժամանակի Ռադար և Տեղումներ</h3>
         <iframe 
-          class="radar-frame"
-          src="https://
+          class="radar-frame" 
+          src="https://embed.windy.com/embed2.html?lat=40.177&lon=44.513&detailLat=40.177&detailLon=44.513&width=650&height=450&zoom=7&level=surface&overlay=rain&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1" 
+          title="Windy Radar Armenia">
+        </iframe>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link">← Վերադառնալ Գլխավոր Էջ</a>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
