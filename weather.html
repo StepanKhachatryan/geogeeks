@@ -1,1 +1,84 @@
+<!doctype html>
+<html lang="hy">
+<head>
+  <meta charset="utf-8">
+  <title>GeoGeeks | Եղանակը Հայաստանում</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="icon" type="image/png" href="assets/img/GeoGeeks_logo.png">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/header.css">
+  <link rel="stylesheet" href="assets/css/footer.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
 
+  <style>
+    /* Specific styles for the Weather Page Layout */
+    .weather-page-container {
+      padding: 60px 5%;
+      text-align: center;
+      background-color: #fcfcfc;
+      min-height: 80vh;
+    }
+
+    .weather-card {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      border: 1px solid #eee;
+    }
+
+    .weather-card h2 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .radar-frame {
+      width: 100%;
+      height: 550px;
+      border-radius: 12px;
+      border: none;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 30px;
+      color: #0c8495;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .back-link:hover {
+      text-decoration: underline !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main class="weather-page-container">
+    <div class="weather-card">
+      <h2>Տեղումների կանխատեսում (Armenia Radar)</h2>
+      
+      <iframe 
+        class="radar-frame"
+        src="https://www.buienradar.nl/wereldwijd/europa/7daagse?lat=40.18&lon=44.51&zoom=6" 
+        title="Buienradar Precipitation Map">
+      </iframe>
+
+      <p style="margin-top: 15px; font-size: 0.9rem; color: #7f8c8d;">
+        Տվյալները տրամադրված են Buienradar-ի կողմից
+      </p>
+    </div>
+
+    <a href="index.html" class="back-link">← Վերադառնալ գլխավոր էջ</a>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
