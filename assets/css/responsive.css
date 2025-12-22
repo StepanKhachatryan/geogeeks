@@ -5,110 +5,20 @@
 
     /* 1. Header & Navigation Cleanup */
     .nav-container {
-        padding: 15px 5%;
-        flex-direction: column; 
-        gap: 15px;
-        text-align: center;
+        padding: 10px 3%;
+        flex-direction: row; /* Լոգոն և մենյուն նույն տողի վրա */
+        justify-content: space-between;
+        gap: 5px;
+        text-align: left;
+    }
+
+    /* Թաքցնում ենք "GeoGeeks" տեքստը մոբայլում */
+    .logo-text {
+        display: none;
     }
 
     .logo {
-        justify-content: center;
-    }
-
-    .logo img {
-        height: 40px;
-        width: 40px;
-    }
-
-    .logo-text {
-        font-size: 1.3rem;
-    }
-
-    /* Menu is now smaller (4 items), making it cleaner on one line */
-    .menu {
-        display: flex;
-        flex-wrap: wrap; 
-        justify-content: center;
-        gap: 6px;
-        padding: 0;
-    }
-
-    .menu li a {
-        padding: 6px 12px;
-        font-size: 0.85rem;
-    }
-
-    /* 2. Hero & Main Layout */
-    .video-container {
-        aspect-ratio: 16 / 9;
-    }
-
-    .hero-overlay-text {
-        width: 90%;
-        padding: 1.2rem;
-    }
-
-    .hero-overlay-text h1 {
-        font-size: 1.6rem;
-    }
-
-    /* 3. Weather Section (Dashboard) Fix */
-    .weather-grid {
-        grid-template-columns: 1fr !important; /* Stack iframes vertically */
-        gap: 20px;
-    }
-
-    .weather-box {
-        min-height: auto !important; /* Let content define height */
-        padding-bottom: 15px;
-    }
-
-    .weather-box iframe {
-        height: 450px; /* Slightly shorter for vertical scroll ease */
-    }
-
-    .section-title {
-        font-size: 1.6rem;
-    }
-
-    /* 4. Projects Page Fix */
-    .projects-page-wrapper {
-        height: auto !important; 
-        min-height: unset;
-        padding: 20px 5%;
-        display: block; 
-    }
-
-    .category-grid {
-        grid-template-columns: 1fr !important;
-        gap: 20px;
-    }
-
-    .category-box {
-        height: 250px !important;
-        border-radius: 12px;
-    }
-
-    /* 5. Contact, About, Services */
-    .contact-container, .about-section, .services-grid {
-        display: flex !important;
-        flex-direction: column !important; 
-        padding: 30px 5%;
-        gap: 25px;
-        text-align: center;
-    }
-
-    .contact-form-wrapper {
-        padding: 20px;
-    }
-}
-
-/* ==========================================
-   SMALL PHONE STYLES (Max 480px)
-   ========================================== */
-@media screen and (max-width: 480px) {
-    .logo-text {
-        font-size: 1.1rem;
+        justify-content: flex-start;
     }
 
     .logo img {
@@ -116,20 +26,85 @@
         width: 35px;
     }
 
+    /* Մենյուն դասավորում ենք լոգոյի կողքին */
+    .menu {
+        display: flex;
+        flex-wrap: nowrap; /* Արգելում ենք տողադարձը */
+        justify-content: flex-end;
+        gap: 2px;
+        padding: 0;
+    }
+
     .menu li a {
         padding: 5px 8px;
-        font-size: 0.75rem;
+        font-size: 0.7rem; /* Ավելի փոքր տառատեսակ մեկ տողում տեղավորվելու համար */
+        white-space: nowrap;
     }
-    
+
+    /* 2. Hero & Main Layout */
+    .hero {
+        height: 50vh; /* Մոբայլում բարձրությունը փոքրացնում ենք */
+    }
+
+    .video-container {
+        aspect-ratio: auto;
+        height: 100%;
+    }
+
+    /* 3. Weather Section (Dashboard) */
+    .weather-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    .weather-box {
+        min-height: auto !important;
+        padding-bottom: 15px;
+    }
+
     .weather-box iframe {
-        height: 350px; /* Smaller window for tiny screens */
+        height: 400px;
     }
 
-    .category-box {
-        height: 220px !important;
+    .section-title {
+        font-size: 1.5rem;
     }
 
-    .hero-overlay-text h1 {
-        font-size: 1.3rem;
+    /* 4. Projects Page Fix */
+    .projects-page-wrapper {
+        padding: 20px 3%;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* 5. Contact, About, Services */
+    .contact-container, .about-section, .services-grid {
+        padding: 20px 5%;
+        gap: 20px;
+    }
+}
+
+/* ==========================================
+   SMALL PHONE STYLES (Max 480px)
+   ========================================== */
+@media screen and (max-width: 480px) {
+    .nav-container {
+        padding: 8px 2%;
+    }
+
+    .logo img {
+        height: 30px;
+        width: 30px;
+    }
+
+    .menu li a {
+        padding: 4px 6px;
+        font-size: 0.65rem; /* Էլ ավելի փոքր տառատեսակ սմարթֆոնների համար */
+    }
+
+    .weather-box iframe {
+        height: 320px;
     }
 }
