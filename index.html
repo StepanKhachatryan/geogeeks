@@ -21,9 +21,34 @@
           <source src="assets/img/video/video.mp4" type="video/mp4">
         </video>
       </div>
-        <div class="hero-overlay-text">
-            <a href="weather.html" class="weather-btn">Տեսնել եղանակը</a>
+    </section>
+
+    <section class="weather-section">
+      <div class="weather-container">
+        <h2 class="section-title">Եղանակի մոնիթորինգ (Հայաստան)</h2>
+        
+        <div class="weather-grid">
+          <div class="weather-box">
+            <h3 class="weather-label">Տեղումների ռադար (ICON)</h3>
+            <iframe 
+              class="weather-iframe"
+              src="https://embed.windy.com/embed2.html?lat=40.177&lon=44.513&zoom=7&level=surface&overlay=rain&product=icon&menu=&message=false&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1" 
+              title="Precipitation Radar">
+            </iframe>
+          </div>
+
+          <div class="weather-box">
+            <h3 class="weather-label">Ջերմաստիճան (ICON)</h3>
+            <iframe 
+              class="weather-iframe"
+              src="https://embed.windy.com/embed2.html?lat=40.177&lon=44.513&zoom=7&level=surface&overlay=temp&product=icon&menu=&message=false&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1" 
+              title="Temperature Forecast">
+            </iframe>
+          </div>
         </div>
+        
+        <p class="weather-note">Տվյալները տրամադրվում են ICON (DWD) գիտական մոդելի հիման վրա</p>
+      </div>
     </section>
   </main>
 
