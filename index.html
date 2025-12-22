@@ -4,10 +4,7 @@
   <meta charset="utf-8">
   <title>GeoGeeks | Գլխավոր</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <link rel="icon" type="image/png" href="assets/img/GeoGeeks_logo.png">
-  <link rel="apple-touch-icon" href="assets/img/GeoGeeks_logo.png">  
-  
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/header.css">
   <link rel="stylesheet" href="assets/css/footer.css">
@@ -22,50 +19,52 @@
       <div class="video-container">
         <video autoplay muted loop playsinline id="hero-video">
           <source src="assets/img/video/video.mp4" type="video/mp4">
-          Your browser does not support the video tag.
         </video>
+        <div class="hero-overlay-text">
+            <h1>GeoGeeks Consulting</h1>
+            <p>Մասնագիտացված լուծումներ ԱՇՀ և ջրային ոլորտներում</p>
+        </div>
       </div>
     </section>
 
-<section class="weather-section">
-  <div class="weather-container">
-    <h2 class="section-title">Եղանակը Հայաստանում</h2>
-    
-    <div class="weather-grid">
-      <div class="weather-box">
-        <h3 class="weather-label">Տեղումների կանխատեսում (7 օր)</h3>
-        <iframe 
-          src="https://www.buienradar.nl/wereldwijd/europa/7daagse?lat=40.18&lon=44.51&zoom=6" 
-          width="100%"
-          height="550" 
-          frameborder="0" 
-          scrolling="no" 
-          style="border:none;"
-          title="Armenia Precipitation Map">
-        </iframe>
-      </div>
+    <section class="weather-section">
+      <div class="weather-container">
+        <h2 class="section-title">Եղանակը Հայաստանում</h2>
+        
+        <div class="weather-grid">
+          <div class="weather-box">
+            <h3 class="weather-label">Տեղումների կանխատեսում (7 օր)</h3>
+            <iframe 
+              src="https://www.buienradar.nl/wereldwijd/europa/7daagse?lat=40.18&lon=44.51&zoom=6" 
+              width="100%"
+              height="550" 
+              frameborder="0" 
+              scrolling="no" 
+              style="border:none;"
+              title="Armenia Rain Radar">
+            </iframe>
+          </div>
 
-      <div class="weather-box">
-        <h3 class="weather-label">Ջերմաստիճանի կանխատեսում</h3>
-        <iframe 
-          src="https://m.buienradar.nl/nederland/weerbericht/weergrafiek/yerevan/am/616052" 
-          width="100%"
-          height="550" 
-          frameborder="0" 
-          scrolling="no" 
-          style="border:none;"
-          title="Yerevan Temperature Chart">
-        </iframe>
+          <div class="weather-box">
+            <h3 class="weather-label">Ջերմաստիճանի կանխատեսում</h3>
+            <iframe 
+              src="https://m.buienradar.nl/nederland/weerbericht/weergrafiek/yerevan/am/616052" 
+              width="100%"
+              height="550" 
+              frameborder="0" 
+              scrolling="no" 
+              style="border:none;"
+              title="Yerevan Temperature Chart">
+            </iframe>
+          </div>
+        </div>
+        
+        <p class="weather-note">Տվյալները թարմացվում են իրական ժամանակում Buienradar-ի կողմից</p>
       </div>
-    </div>
-    
-    <p class="weather-note">Տվյալները թարմացվում են իրական ժամանակում Buienradar-ի կողմից</p>
-  </div>
-</section>
+    </section>
   </main>
 
   <div id="footer-placeholder"></div>
-
   <script src="assets/js/main.js"></script>
 </body>
 </html>
