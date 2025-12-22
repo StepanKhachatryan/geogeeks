@@ -18,9 +18,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
+  background-color: #ffffff;
 }
 
-/* Hero Video Section */
+/* ==========================================
+   Hero Video Section
+   ========================================== */
 .hero {
   width: 100vw;
   display: flex;
@@ -65,7 +68,53 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Remove Underlines Globally */
+/* ==========================================
+   Weather Section (New)
+   ========================================== */
+.weather-section {
+    padding: 80px 5%;
+    background-color: #ffffff; /* Matches your light theme */
+    text-align: center;
+}
+
+.weather-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.weather-section h2 {
+    font-size: 2.2rem;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.weather-box {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); /* Soft professional shadow */
+    padding: 10px;
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+
+/* Styling for the iframe to ensure it feels integrated */
+.weather-box iframe {
+    width: 100%;
+    border-radius: 15px;
+    display: block;
+}
+
+.weather-note {
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: #95a5a6;
+    letter-spacing: 0.5px;
+}
+
+/* ==========================================
+   Global Helpers
+   ========================================== */
 a {
   text-decoration: none !important;
 }
