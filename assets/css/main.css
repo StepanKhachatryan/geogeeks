@@ -1,7 +1,9 @@
 /* Import Noto Sans Armenian from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@100..900&display=swap');
 
-/* Global Reset */
+/* ==========================================
+   Global Reset & Base Styles
+   ========================================== */
 * {
   margin: 0;
   padding: 0;
@@ -19,6 +21,11 @@ body {
   background-color: #ffffff;
 }
 
+/* Remove Underlines Globally */
+a {
+  text-decoration: none !important;
+}
+
 /* ==========================================
    Hero Video Section
    ========================================== */
@@ -33,7 +40,7 @@ body {
 
 .video-container {
   width: 100%;
-  aspect-ratio: 2.2 / 1;
+  aspect-ratio: 2.2 / 1; /* Cinematic Ratio */
   position: relative;
 }
 
@@ -61,86 +68,110 @@ body {
 }
 
 .hero-overlay-text h1 {
-    font-weight: 700;
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+  font-weight: 700;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* ==========================================
    Weather Section Dashboard
    ========================================== */
 .weather-section {
-    padding: 80px 5%;
-    background-color: #ffffff;
-    text-align: center;
+  padding: 80px 5%;
+  background-color: #ffffff;
+  text-align: center;
 }
 
 .weather-container {
-    max-width: 1300px;
-    margin: 0 auto;
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
 .section-title {
-    font-size: 2.2rem;
-    color: #2c3e50;
-    margin-bottom: 40px;
-    font-weight: 700;
+  font-size: 2.2rem;
+  color: #2c3e50;
+  margin-bottom: 40px;
+  font-weight: 700;
 }
 
 .weather-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two side-by-side on desktop */
+  gap: 30px;
 }
 
 .weather-box {
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    padding: 10px; /* Minimal padding for maximum iframe visibility */
-    border: 1px solid #eee;
-    overflow: hidden;
-    min-height: 620px; /* Adjusted for taller content */
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  padding: 10px;
+  border: 1px solid #eee;
+  overflow: hidden;
+  min-height: 620px; /* High enough to prevent iframe cutting */
+  transition: transform 0.3s ease;
+}
+
+.weather-box:hover {
+  transform: translateY(-5px);
 }
 
 .weather-label {
-    font-size: 1.2rem;
-    color: #34495e;
-    margin: 15px 0;
-    font-weight: 600;
+  font-size: 1.2rem;
+  color: #34495e;
+  margin: 15px 0;
+  font-weight: 600;
 }
 
 .weather-box iframe {
-    width: 100%;
-    height: 550px;
-    border-radius: 10px;
+  width: 100%;
+  height: 550px;
+  border-radius: 10px;
+  border: none;
 }
 
-/* Tablets and Mobile Stacking */
-@media screen and (max-width: 992px) {
-    .weather-grid {
-        grid-template-columns: 1fr;
-    }
-    .weather-box {
-        min-height: auto;
-        padding-bottom: 20px;
-    }
+.weather-note {
+  margin-top: 30px;
+  font-size: 0.85rem;
+  color: #95a5a6;
 }
 
 /* ==========================================
-   Global Helpers
+   Responsive Styles (Tablets & Mobile)
    ========================================== */
-a {
-  text-decoration: none !important;
+@media screen and (max-width: 992px) {
+  /* Hero Section Mobile */
+  .video-container {
+    aspect-ratio: 16 / 9; /* More standard mobile ratio */
+  }
+
+  .hero-overlay-text {
+    width: 90%;
+    padding: 1.5rem;
+  }
+
+  .hero-overlay-text h1 {
+    font-size: 1.8rem;
+  }
+
+  /* Weather Grid Mobile */
+  .weather-grid {
+    grid-template-columns: 1fr; /* Stack windows vertically */
+    gap: 20px;
+  }
+
+  .weather-box {
+    min-height: auto;
+    padding-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
 }
 
-/* Tablets and Mobile */
-@media screen and (max-width: 992px) {
-    .weather-grid {
-        grid-template-columns: 1fr; /* Stack vertically on small screens */
-    }
-    
-    .video-container {
-        aspect-ratio: 16 / 9;
-    }
+@media screen and (max-width: 480px) {
+  .hero-overlay-text h1 {
+    font-size: 1.5rem;
+  }
 }
