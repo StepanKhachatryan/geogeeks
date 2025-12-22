@@ -8,30 +8,34 @@ function loadComponent(id, file) {
       const element = document.getElementById(id);
       element.innerHTML = data;
 
-      // Logic to highlight the active menu item based on current page
+      // Մենյուի ակտիվ էջի նշման տրամաբանությունը
       if (id === "header-placeholder") {
-        // 1. Get the current filename (e.g., 'about.html')
+        // 1. Ստանում ենք ընթացիկ ֆայլի անունը (օրինակ՝ 'about.html')
         let path = window.location.pathname;
         let currentPath = path.split("/").pop();
         
-        // 2. Default to 'index.html' if the path is empty (root level)
+        // 2. Եթե հասցեն դատարկ է կամ '/', համարում ենք 'index.html'
         if (currentPath === "" || currentPath === "/") {
           currentPath = "index.html";
         }
 
-        // 3. Find all links in the newly loaded menu
+        // 3. Քանի որ 'Գլխավոր'-ը (index.html) այլևս մենյուում չէ,
+        // եթե մենք գլխավոր էջում ենք, ոչինչ չենք նշում
+        if (currentPath === "index.html") {
+          return; 
+        }
+
+        // 4. Գտնում ենք բոլոր հղումները բեռնված մենյուի մեջ
         const links = element.querySelectorAll(".menu a");
 
         links.forEach(link => {
-          // Get the href attribute of the link (e.g., 'about.html')
           const linkHref = link.getAttribute("href");
 
           if (linkHref === currentPath) {
-            // Add a general 'active' class
+            // Ավելացնում ենք ընդհանուր 'active' դասը
             link.classList.add("active");
             
-            // 4. Create a specific page class (e.g., 'active-about')
-            // This splits 'about.html' into ['about', 'html'] and takes 'about'
+            // Ավելացնում ենք էջին հատուկ դասը (օրինակ՝ 'active-about')
             const pageName = currentPath.split(".")[0];
             link.classList.add("active-" + pageName);
           }
@@ -41,6 +45,7 @@ function loadComponent(id, file) {
     .catch(error => console.error("Error loading component:", error));
 }
 
-// Initialize components
+// Բաղադրիչների բեռնում
+// Համոզվեք, որ ֆայլերի ուղիները (path) ճիշտ են ձեր պապկայի կառուցվածքի համեմատ
 loadComponent("header-placeholder", "components/header.html");
 loadComponent("footer-placeholder", "components/footer.html");
