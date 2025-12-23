@@ -2,7 +2,7 @@
 <html lang="hy">
 <head>
   <meta charset="utf-8">
-  <title>ԱՏՀ Նախագծեր</title>
+  <title>ԱՇՀ Նախագծեր - GeoGeeks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="../assets/img/GeoGeeks_logo.png">
   
@@ -12,14 +12,12 @@
   <link rel="stylesheet" href="../assets/css/responsive.css">
 
   <style>
-    /* Հիմնական էջի ոճը */
     .gis-projects-wrapper {
       padding: 40px 5%;
       background-color: #f4f7f6;
       min-height: 90vh;
     }
 
-    /* Քարտերի ցանցը */
     .projects-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -28,20 +26,17 @@
       margin: 0 auto;
     }
 
-    /* Նախագծի քարտի ոճը */
     .gis-project-card {
       background: white;
       border-radius: 15px;
       overflow: hidden;
       cursor: pointer;
       border: 1px solid #e0e6e8;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
-      position: relative;
+      transition: all 0.3s ease;
     }
 
-    /* Hover Zoom էֆեկտը (փոքր մեծացում) */
     .gis-project-card:hover {
-      transform: scale(1.02);
+      transform: translateY(-5px);
       box-shadow: 0 12px 25px rgba(0,0,0,0.1);
     }
 
@@ -49,7 +44,6 @@
       height: 240px;
       background-size: cover;
       background-position: center;
-      transition: transform 0.5s ease;
     }
 
     .project-content {
@@ -59,12 +53,11 @@
 
     .project-content h3 {
       color: #34495e;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      margin: 0;
     }
 
-    /* --- MODAL WIDGET (FULL SCREEN) --- */
+    /* --- MODAL WIDGET --- */
     .project-modal {
       display: none; 
       position: fixed;
@@ -73,29 +66,28 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.85); /* Ավելի մուգ ֆոն */
+      background-color: rgba(0, 0, 0, 0.85);
       align-items: center;
       justify-content: center;
       padding: 20px;
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(10px);
     }
 
     .modal-content {
       background-color: #fff;
       width: 95%;
-      max-width: 1300px; /* Գրեթե ամբողջ էկրանի լայնությունը */
+      max-width: 1250px;
       height: 85vh;
       border-radius: 20px;
       position: relative;
-      overflow-y: auto;
+      overflow: hidden;
       display: flex;
-      flex-direction: column;
-      animation: modalFadeIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      animation: modalSlide 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
-    @keyframes modalFadeIn {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+    @keyframes modalSlide {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     .close-modal {
@@ -104,75 +96,113 @@
       top: 20px;
       font-size: 35px;
       cursor: pointer;
-      color: #333;
       z-index: 100;
-      background: white;
+      color: #333;
+      background: rgba(255,255,255,0.9);
       width: 45px;
       height: 45px;
-      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-radius: 50%;
     }
 
     .modal-body {
       display: grid;
-      grid-template-columns: 1.2fr 1fr; /* Լուսանկարը մի փոքր ավելի լայն */
-      gap: 0;
+      grid-template-columns: 1.2fr 1fr;
+      width: 100%;
       height: 100%;
     }
 
-    .modal-img-side {
+    /* Left Side: Image */
+    .modal-image-side {
+      height: 100%;
       background-size: cover;
       background-position: center;
-      min-height: 400px;
     }
 
-    .modal-text-side {
-      padding: 50px;
+    /* Right Side: Details */
+    .modal-info-side {
+      padding: 60px;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      background: #ffffff;
+      text-align: left;
     }
 
-    .modal-text-side h2 {
+    .modal-info-side h2 {
       color: #0c8495;
-      font-size: 2.2rem;
-      margin-bottom: 25px;
+      font-size: 1.9rem;
       line-height: 1.2;
+      margin-bottom: 5px; /* Reduced to fit client underneath */
+      font-weight: 800;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
-    .modal-text-side p {
+    .modal-client {
+      font-size: 1.1rem;
       color: #555;
+      font-weight: 600;
+      margin-bottom: 25px;
+      display: block;
+      padding-left: 2px;
+    }
+
+    .project-meta-grid {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 30px;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+    }
+
+    .meta-box span {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: #95a5a6;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+
+    .meta-box p {
+      margin: 0;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .modal-description {
+      color: #444;
       line-height: 1.8;
       font-size: 1.05rem;
-      margin-bottom: 30px;
+      margin-bottom: 35px;
     }
 
     .tech-badges {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
+      margin-top: auto;
     }
 
     .tech-badges span {
-      background: #eef7f8;
-      color: #0c8495;
+      background: #f0f4f8;
+      color: #2980b9;
       padding: 8px 16px;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      border: 1px solid rgba(12, 132, 149, 0.1);
+      border: 1px solid rgba(41, 128, 185, 0.1);
     }
 
-    /* Responsive Widget */
-    @media (max-width: 1024px) {
+    @media (max-width: 992px) {
       .modal-body { grid-template-columns: 1fr; }
-      .modal-text-side { padding: 30px; }
-      .modal-text-side h2 { font-size: 1.8rem; }
-      .modal-content { height: 95vh; }
+      .modal-image-side { height: 300px; }
+      .modal-info-side { padding: 30px; }
     }
   </style>
 </head>
@@ -182,35 +212,22 @@
 
   <main class="gis-projects-wrapper">
     <div class="projects-container">
-      
       <div class="gis-project-card" onclick="openWidget('yerevan')">
         <div class="project-img-box" style="background-image: url('../assets/img/projects/gis-yerevan.jpg');"></div>
-        <div class="project-content">
-          <h3>ՀԱԷԿ վրա սելավային հնարավոր հոսքերի ազդեցության գնահատում</h3>
-        </div>
+        <div class="project-content"><h3>Երևանի 3D մոդելավորում</h3></div>
       </div>
 
       <div class="gis-project-card" onclick="openWidget('landslide')">
         <div class="project-img-box" style="background-image: url('../assets/img/projects/gis-landslide.jpg');"></div>
-        <div class="project-content">
-          <h3>Սողանքային վտանգի գնահատում</h3>
-        </div>
+        <div class="project-content"><h3>Սողանքների մոնիթորինգ</h3></div>
       </div>
-
-      <div class="gis-project-card" onclick="openWidget('agri')">
-        <div class="project-img-box" style="background-image: url('../assets/img/projects/gis-agri.jpg');"></div>
-        <div class="project-content">
-          <h3>Ճշգրիտ գյուղատնտեսություն (NDVI)</h3>
-        </div>
-      </div>
-
     </div>
   </main>
 
   <div id="projectWidget" class="project-modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeWidget()">&times;</span>
-      <div id="widgetContent" class="modal-body">
+      <div id="widgetContainer" class="modal-body">
         </div>
     </div>
   </div>
@@ -220,44 +237,57 @@
   <script src="../assets/js/main.js"></script>
   
   <script>
-    const dataBase = {
+    const projectsDB = {
       yerevan: {
-        title: "ՀԱԷԿ վրա սելավային հնարավոր հոսքերի ազդեցության գնահատում",
+        title: "Երևանի 3D քաղաքաշինական թվային մոդելավորում",
+        client: "Երևանի Քաղաքապետարան",
         img: "../assets/img/projects/gis-yerevan.jpg",
-        desc: "Այս նախագիծը ներառում է Երևանի կենտրոնական հատվածի բարձր ճշգրտությամբ 3D մոդելավորումը: Օգտագործելով LiDAR տվյալներ և բազմասպեկտրալ լուսանկարներ, ստեղծվել է թվային երկվորյակ, որն օգնում է քաղաքային իշխանություններին տարածական պլանավորման և արևային էներգիայի պոտենցիալի գնահատման հարցում:",
-        tech: ["HEC-HMS", "HEC-RAS", "QGIS", "Google Earth Engine"]
+        year: "2023",
+        duration: "8 ամիս",
+        desc: "Այս նախագիծը ներառում է Երևանի կենտրոնական հատվածի բարձր ճշգրտությամբ 3D մոդելավորումը: Այն թույլ է տալիս իրականացնել տարածական վերլուծություններ քաղաքային պլանավորման և ենթակառուցվածքների զարգացման համար:",
+        tech: ["ArcGIS Pro", "LiDAR", "3D Analyst"]
       },
       landslide: {
-        title: "Սողանքային վտանգի գնահատում",
+        title: "ՀՀ լեռնային տարածքների սողանքային վտանգի մոնիթորինգ",
+        client: "ՀՀ Շրջակա միջավայրի նախարարություն",
         img: "../assets/img/projects/gis-landslide.jpg",
-        desc: "Հայաստանի լեռնային տարածքների համար մշակվել է սողանքների մոնիթորինգի համակարգ: Օգտագործելով Sentinel-1 ռադարային պատկերները, իրականացվել է մակերևույթի դեֆորմացիաների վերլուծություն (InSAR), ինչը թույլ է տալիս կանխատեսել վտանգավոր գոտիները և նվազեցնել ռիսկերը:",
-        tech: ["QGIS", "InSAR Analysis", "Sentinel-1", "Remote Sensing"]
-      },
-      agri: {
-        title: "Ճշգրիտ գյուղատնտեսություն (NDVI)",
-        img: "../assets/img/projects/gis-agri.jpg",
-        desc: "Գյուղատնտեսական հողատարածքների առողջության վիճակի հեռահար գնահատում արբանյակային տվյալների միջոցով: Հաշվարկվել են վեգետացիոն ինդեքսները (NDVI, EVI), որոնք օգնում են ֆերմերներին օպտիմալացնել ոռոգումը և պարարտացումը՝ բարձրացնելով բերքատվությունը:",
-        tech: ["Sentinel-2", "ENVI", "Spatial Data Mining", "Python"]
+        year: "2024",
+        duration: "12 ամիս",
+        desc: "Sentinel-1 ռադարային տվյալների հիման վրա իրականացվել է մակերևույթի դեֆորմացիաների գնահատում: Նախագիծն ուղղված է բնական աղետների կանխարգելմանը և վաղ ազդարարման համակարգի ստեղծմանը:",
+        tech: ["QGIS", "InSAR", "Remote Sensing"]
       }
     };
 
     function openWidget(id) {
-      const p = dataBase[id];
-      const modal = document.getElementById('projectWidget');
-      const content = document.getElementById('widgetContent');
+      const p = projectsDB[id];
+      const container = document.getElementById('widgetContainer');
 
-      content.innerHTML = `
-        <div class="modal-img-side" style="background-image: url('${p.img}')"></div>
-        <div class="modal-text-side">
+      container.innerHTML = `
+        <div class="modal-image-side" style="background-image: url('${p.img}')"></div>
+        <div class="modal-info-side">
           <h2>${p.title}</h2>
-          <p>${p.desc}</p>
+          <span class="modal-client">Պատվիրատու՝ ${p.client}</span>
+          
+          <div class="project-meta-grid">
+            <div class="meta-box">
+              <span>Տարեթիվ</span>
+              <p>${p.year}</p>
+            </div>
+            <div class="meta-box">
+              <span>Տևողություն</span>
+              <p>${p.duration}</p>
+            </div>
+          </div>
+
+          <div class="modal-description">${p.desc}</div>
+          
           <div class="tech-badges">
             ${p.tech.map(t => `<span>${t}</span>`).join('')}
           </div>
         </div>
       `;
 
-      modal.style.display = "flex";
+      document.getElementById('projectWidget').style.display = "flex";
       document.body.style.overflow = "hidden";
     }
 
