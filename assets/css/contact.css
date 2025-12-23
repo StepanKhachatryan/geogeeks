@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: center;
     padding: 100px 5% 60px;
-    background-color: #ffffff; /* Էջի ֆոնը՝ սպիտակ */
+    background-color: #ffffff;
 }
 
 .contact-grid {
@@ -19,14 +19,14 @@
 }
 
 /* ==========================================
-   Solid Contact Cards (Անթափանց տուփեր)
+   Solid Contact Cards
    ========================================== */
 .contact-card {
-    background: #fdfdfd; /* Լիովին անթափանց բաց երանգ */
+    background: #fdfdfd;
     padding: 50px;
     border-radius: 20px;
-    border: 1px solid #e0e6e8; /* Հստակ եզրագիծ */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Նուրբ ստվեր */
+    border: 1px solid #e0e6e8;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -36,10 +36,22 @@
 }
 
 .contact-card h2 {
-    color: #0c8495; /* GeoGeeks-ի բրենդային կապտականաչը */
+    color: #0c8495;
     margin-bottom: 30px;
     font-size: 1.7rem;
     font-weight: 700;
+}
+
+/* Interactive Links Logic */
+.contact-link {
+    text-decoration: none;
+    color: #5d6d7e; /* Նույն գույնը, ինչ տեքստինը */
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.contact-link:hover {
+    color: #0c8495; /* Մկնիկը պահելիս դառնում է բրենդային գույնի */
 }
 
 /* Ինֆո տարրերի դասավորություն */
@@ -109,7 +121,7 @@
     transform: scale(1.02);
 }
 
-/* Responsive (Մոբայլ) */
+/* Responsive */
 @media screen and (max-width: 850px) {
     .contact-grid {
         grid-template-columns: 1fr;
