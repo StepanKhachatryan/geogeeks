@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: center;
     padding: 100px 5% 60px;
-    background-color: #ffffff; /* Վերադարձ սպիտակ ֆոնին */
+    background-color: #ffffff; /* Էջի ֆոնը՝ սպիտակ */
 }
 
 .contact-grid {
@@ -19,30 +19,30 @@
 }
 
 /* ==========================================
-   Contact Cards (Boxes)
+   Solid Contact Cards (Անթափանց տուփեր)
    ========================================== */
 .contact-card {
-    background: #f9fbfc; /* Շատ թեթև մոխրագույն ֆոն տուփերի համար */
+    background: #fdfdfd; /* Լիովին անթափանց բաց երանգ */
     padding: 50px;
     border-radius: 20px;
-    border: 1px solid #eef2f3;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e6e8; /* Հստակ եզրագիծ */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* Նուրբ ստվեր */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contact-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
 }
 
 .contact-card h2 {
-    color: #0c8495; /* GeoGeeks-ի հիմնական գույնը */
+    color: #0c8495; /* GeoGeeks-ի բրենդային կապտականաչը */
     margin-bottom: 30px;
     font-size: 1.7rem;
     font-weight: 700;
 }
 
-/* Items logic */
+/* Ինֆո տարրերի դասավորություն */
 .contact-item {
     display: flex;
     align-items: center;
@@ -59,23 +59,24 @@
     align-items: center;
     justify-content: center;
     border-radius: 12px;
+    border: 1px solid #f0f0f0;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 .contact-item h4 {
     margin: 0;
-    color: #34495e;
+    color: #2c3e50;
     font-size: 1.1rem;
     font-weight: 700;
 }
 
 .contact-item p {
     margin: 5px 0 0;
-    color: #7f8c8d;
+    color: #5d6d7e;
     font-weight: 500;
 }
 
-/* Social Buttons */
+/* Սոցիալական կոճակներ */
 .social-intro {
     color: #555;
     margin-bottom: 25px;
@@ -104,17 +105,14 @@
 .ig { background-color: #e4405f; }
 
 .social-btn:hover {
-    opacity: 0.9;
+    filter: brightness(1.1);
     transform: scale(1.02);
 }
 
-/* Responsive */
+/* Responsive (Մոբայլ) */
 @media screen and (max-width: 850px) {
     .contact-grid {
-        grid-template-columns: 1fr; /* Մոբայլում տեղադրվում են իրար տակ */
-    }
-    .contact-page-wrapper {
-        padding: 80px 5% 40px;
+        grid-template-columns: 1fr;
     }
     .contact-card {
         padding: 30px;
