@@ -2,7 +2,7 @@
 <html lang="hy">
 <head>
   <meta charset="utf-8">
-  <title>ԱՇՀ Նախագծեր - GeoGeeks</title>
+  <title>Ջրհեղեղների մոդելավորում - GeoGeeks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="../assets/img/GeoGeeks_logo.png">
   
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="../assets/css/responsive.css">
 
   <style>
-    .gis-projects-wrapper {
+    .frm-wrapper {
       padding: 40px 5%;
       background-color: #f4f7f6;
       min-height: 90vh;
@@ -26,7 +26,7 @@
       margin: 0 auto;
     }
 
-    .gis-project-card {
+    .project-card {
       background: white;
       border-radius: 15px;
       overflow: hidden;
@@ -35,29 +35,30 @@
       transition: all 0.3s ease;
     }
 
-    .gis-project-card:hover {
+    .project-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 25px rgba(0,0,0,0.1);
     }
 
-    .project-img-box {
+    .img-box {
       height: 240px;
       background-size: cover;
       background-position: center;
     }
 
-    .project-content {
+    .content-box {
       padding: 20px;
       text-align: center;
     }
 
-    .project-content h3 {
+    .content-box h3 {
       color: #34495e;
       font-size: 1.1rem;
       font-weight: 700;
+      margin: 0;
     }
 
-    /* --- MODAL WIDGET --- */
+    /* --- WIDGET MODAL --- */
     .project-modal {
       display: none; 
       position: fixed;
@@ -114,14 +115,12 @@
       height: 100%;
     }
 
-    /* Left Side: Image */
     .modal-image-side {
       height: 100%;
       background-size: cover;
       background-position: center;
     }
 
-    /* Right Side: Details */
     .modal-info-side {
       padding: 60px;
       overflow-y: auto;
@@ -130,16 +129,13 @@
       text-align: left;
     }
 
+    /* Դինամիկ վերնագիր */
     .modal-info-side h2 {
       color: #0c8495;
-      font-size: 1.9rem;
-      line-height: 1.2;
-      margin-bottom: 5px; /* Reduced to fit client underneath */
+      line-height: 1.1;
+      margin-bottom: 5px;
       font-weight: 800;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      word-wrap: break-word;
     }
 
     .modal-client {
@@ -148,7 +144,6 @@
       font-weight: 600;
       margin-bottom: 25px;
       display: block;
-      padding-left: 2px;
     }
 
     .project-meta-grid {
@@ -184,7 +179,7 @@
 
     .tech-badges {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
       margin-top: auto;
     }
@@ -192,11 +187,10 @@
     .tech-badges span {
       background: #f0f4f8;
       color: #2980b9;
-      padding: 8px 16px;
-      border-radius: 8px;
+      padding: 6px 14px;
+      border-radius: 6px;
       font-size: 0.85rem;
       font-weight: 700;
-      border: 1px solid rgba(41, 128, 185, 0.1);
     }
 
     @media (max-width: 992px) {
@@ -210,25 +204,31 @@
 
   <div id="header-placeholder"></div>
 
-  <main class="gis-projects-wrapper">
+  <main class="frm-wrapper">
     <div class="projects-container">
-      <div class="gis-project-card" onclick="openWidget('yerevan')">
-        <div class="project-img-box" style="background-image: url('../assets/img/projects/gis-yerevan.jpg');"></div>
-        <div class="project-content"><h3>Երևանի 3D մոդելավորում</h3></div>
+      
+      <div class="project-card" onclick="openWidget('flood_yerevan')">
+        <div class="img-box" style="background-image: url('../assets/img/projects/flood1.jpg');"></div>
+        <div class="content-box"><h3>Հրազդան գետի ջրհեղեղների մոդելավորում</h3></div>
       </div>
 
-      <div class="gis-project-card" onclick="openWidget('landslide')">
-        <div class="project-img-box" style="background-image: url('../assets/img/projects/gis-landslide.jpg');"></div>
-        <div class="project-content"><h3>Սողանքների մոնիթորինգ</h3></div>
+      <div class="project-card" onclick="openWidget('flood_risk')">
+        <div class="img-box" style="background-image: url('../assets/img/projects/flood2.jpg');"></div>
+        <div class="content-box"><h3>ՀՀ տարածքի ջրհեղեղների ռիսկի գնահատում</h3></div>
       </div>
+
+      <div class="project-card" onclick="openWidget('flood_infra')">
+        <div class="img-box" style="background-image: url('../assets/img/projects/flood3.jpg');"></div>
+        <div class="content-box"><h3>Ենթակառուցվածքների պաշտպանության ծրագիր</h3></div>
+      </div>
+
     </div>
   </main>
 
   <div id="projectWidget" class="project-modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeWidget()">&times;</span>
-      <div id="widgetContainer" class="modal-body">
-        </div>
+      <div id="widgetContainer" class="modal-body"></div>
     </div>
   </div>
 
@@ -238,23 +238,32 @@
   
   <script>
     const projectsDB = {
-      yerevan: {
-        title: "Երևանի 3D քաղաքաշինական թվային մոդելավորում",
-        client: "Երևանի Քաղաքապետարան",
-        img: "../assets/img/projects/gis-yerevan.jpg",
+      flood_yerevan: {
+        title: "Հրազդան գետի հունի հիդրավլիկ մոդելավորում և հնարավոր ջրածածկման գոտիների որոշում",
+        client: "ՀՀ Ջրային կոմիտե",
+        img: "../assets/img/projects/flood1.jpg",
         year: "2023",
-        duration: "8 ամիս",
-        desc: "Այս նախագիծը ներառում է Երևանի կենտրոնական հատվածի բարձր ճշգրտությամբ 3D մոդելավորումը: Այն թույլ է տալիս իրականացնել տարածական վերլուծություններ քաղաքային պլանավորման և ենթակառուցվածքների զարգացման համար:",
-        tech: ["ArcGIS Pro", "LiDAR", "3D Analyst"]
+        duration: "10 ամիս",
+        desc: "Օգտագործելով HEC-RAS ծրագրային փաթեթը, իրականացվել է Հրազդան գետի հունի 2D մոդելավորում: Նախագիծը թույլ տվեց կանխատեսել ջրի մակարդակի բարձրացումը տարբեր ելքերի դեպքում:",
+        tech: ["HEC-RAS", "ArcGIS Pro", "Hydraulic Modeling"]
       },
-      landslide: {
-        title: "ՀՀ լեռնային տարածքների սողանքային վտանգի մոնիթորինգ",
-        client: "ՀՀ Շրջակա միջավայրի նախարարություն",
-        img: "../assets/img/projects/gis-landslide.jpg",
+      flood_risk: {
+        title: "Հայաստանի հիմնական գետավազանների ջրհեղեղների ռիսկի քարտեզագրում և կառավարման պլան",
+        client: "Շրջակա միջավայրի նախարարություն",
+        img: "../assets/img/projects/flood2.jpg",
         year: "2024",
-        duration: "12 ամիս",
-        desc: "Sentinel-1 ռադարային տվյալների հիման վրա իրականացվել է մակերևույթի դեֆորմացիաների գնահատում: Նախագիծն ուղղված է բնական աղետների կանխարգելմանը և վաղ ազդարարման համակարգի ստեղծմանը:",
-        tech: ["QGIS", "InSAR", "Remote Sensing"]
+        duration: "18 ամիս",
+        desc: "Համապետական նախագիծ, որի նպատակն է սահմանել ջրհեղեղների նկատմամբ խոցելի տարածքները և մշակել ռազմավարական պլան աղետների կառավարման համար:",
+        tech: ["GIS Analysis", "Statistics", "Inundation Mapping"]
+      },
+      flood_infra: {
+        title: "Գյուղական ենթակառուցվածքների պաշտպանություն ջրհեղեղներից. Տեխնիկական լուծումներ",
+        client: "Միջազգային դոնոր կազմակերպություն",
+        img: "../assets/img/projects/flood3.jpg",
+        year: "2022",
+        duration: "6 ամիս",
+        desc: "Տեխնիկական հետազոտություն և նախագծում՝ ուղղված գյուղական ճանապարհների և կամուրջների ամրացմանը ջրհեղեղավտանգ շրջաններում:",
+        tech: ["Engineering GIS", "Civil 3D", "Risk Assessment"]
       }
     };
 
@@ -265,30 +274,36 @@
       container.innerHTML = `
         <div class="modal-image-side" style="background-image: url('${p.img}')"></div>
         <div class="modal-info-side">
-          <h2>${p.title}</h2>
+          <h2 id="modal-title">${p.title}</h2>
           <span class="modal-client">Պատվիրատու՝ ${p.client}</span>
-          
           <div class="project-meta-grid">
-            <div class="meta-box">
-              <span>Տարեթիվ</span>
-              <p>${p.year}</p>
-            </div>
-            <div class="meta-box">
-              <span>Տևողություն</span>
-              <p>${p.duration}</p>
-            </div>
+            <div class="meta-box"><span>Տարեթիվ</span><p>${p.year}</p></div>
+            <div class="meta-box"><span>Տևողություն</span><p>${p.duration}</p></div>
           </div>
-
           <div class="modal-description">${p.desc}</div>
-          
-          <div class="tech-badges">
-            ${p.tech.map(t => `<span>${t}</span>`).join('')}
-          </div>
+          <div class="tech-badges">${p.tech.map(t => `<span>${t}</span>`).join('')}</div>
         </div>
       `;
 
       document.getElementById('projectWidget').style.display = "flex";
       document.body.style.overflow = "hidden";
+      
+      // Կանչում ենք տառաչափի ճշգրտման ֆունկցիան
+      adjustTitleFontSize();
+    }
+
+    function adjustTitleFontSize() {
+      const titleEl = document.getElementById('modal-title');
+      const length = titleEl.innerText.length;
+      
+      // Տրամաբանություն. որքան երկար է տեքստը, այնքան փոքրանում է font-size-ը
+      if (length > 60) {
+        titleEl.style.fontSize = "1.4rem";
+      } else if (length > 40) {
+        titleEl.style.fontSize = "1.6rem";
+      } else {
+        titleEl.style.fontSize = "1.9rem";
+      }
     }
 
     function closeWidget() {
