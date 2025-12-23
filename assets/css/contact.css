@@ -1,142 +1,97 @@
 /* ==========================================
-   Global Reset to avoid scroll
-   ========================================== */
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden; /* Սա արգելում է ցանկացած տեսակի սքրոլ */
-}
-
-/* ==========================================
-   Moving Satellite Background
-   ========================================== */
-.contact-bg-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
-    overflow: hidden; /* Երաշխավորում է, որ նկարի շարժումը դուրս չի գա սահմաններից */
-}
-
-.moving-satellite-img {
-    position: absolute;
-    /* Նկարը մի փոքր ավելի մեծ ենք դնում, քան էկրանը, բայց առանց սքրոլի */
-    width: 110%; 
-    height: 110%;
-    top: -5%;
-    left: -5%;
-    background-image: url('../img/sat_img.jpg'); 
-    background-size: cover;
-    background-position: center;
-    /* Ավելի նուրբ շարժում */
-    animation: satelliteMove 60s linear infinite alternate;
-    will-change: transform; /* Օպտիմալացում սահունության համար */
-}
-
-.bg-dark-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4); 
-}
-
-@keyframes satelliteMove {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(-3%, -2%); } /* Շատ թեթև շարժում, որը չի առաջացնում սքրոլ */
-}
-
-/* ==========================================
-   Contact Page Content
+   Main Layout
    ========================================== */
 .contact-page-wrapper {
-    width: 100%;
-    height: 100vh; /* Զբաղեցնում է էկրանի ճիշտ բարձրությունը */
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 5%;
-    box-sizing: border-box;
+    padding: 100px 5% 60px;
+    background-color: #ffffff; /* Վերադարձ սպիտակ ֆոնին */
 }
 
 .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    gap: 40px;
     width: 100%;
     max-width: 1100px;
 }
 
 /* ==========================================
-   Boxes (30% Transparency)
+   Contact Cards (Boxes)
    ========================================== */
 .contact-card {
-    background: rgba(255, 255, 255, 0.3); 
-    padding: 40px;
+    background: #f9fbfc; /* Շատ թեթև մոխրագույն ֆոն տուփերի համար */
+    padding: 50px;
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    border: 1px solid #eef2f3;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contact-card:hover {
-    background: rgba(255, 255, 255, 0.4);
     transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 
-.section-title {
-    color: #0c8495;
-    margin-bottom: 25px;
-    font-size: 1.6rem;
+.contact-card h2 {
+    color: #0c8495; /* GeoGeeks-ի հիմնական գույնը */
+    margin-bottom: 30px;
+    font-size: 1.7rem;
     font-weight: 700;
 }
 
+/* Items logic */
 .contact-item {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
+    gap: 20px;
+    margin-bottom: 25px;
 }
 
 .contact-item .icon {
-    font-size: 20px;
+    font-size: 24px;
     background: #ffffff;
-    width: 45px;
-    height: 45px;
+    width: 55px;
+    height: 55px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 .contact-item h4 {
     margin: 0;
-    color: #333;
-    font-size: 1rem;
+    color: #34495e;
+    font-size: 1.1rem;
     font-weight: 700;
 }
 
 .contact-item p {
-    margin: 3px 0 0;
-    color: #444;
-    font-weight: 600;
+    margin: 5px 0 0;
+    color: #7f8c8d;
+    font-weight: 500;
+}
+
+/* Social Buttons */
+.social-intro {
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.6;
 }
 
 .social-links-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
 }
 
 .social-btn {
     display: block;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 16px;
+    border-radius: 12px;
     text-align: center;
     color: white;
     font-weight: 700;
@@ -148,18 +103,20 @@ html, body {
 .ln { background-color: #0077b5; }
 .ig { background-color: #e4405f; }
 
-/* ==========================================
-   Responsive Adjustments
-   ========================================== */
+.social-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+/* Responsive */
 @media screen and (max-width: 850px) {
-    html, body {
-        overflow: auto; /* Հեռախոսների վրա թույլատրում ենք սքրոլ, եթե տեքստը չի տեղավորվում */
+    .contact-grid {
+        grid-template-columns: 1fr; /* Մոբայլում տեղադրվում են իրար տակ */
     }
     .contact-page-wrapper {
-        height: auto;
-        padding: 100px 5% 50px;
+        padding: 80px 5% 40px;
     }
-    .contact-grid {
-        grid-template-columns: 1fr;
+    .contact-card {
+        padding: 30px;
     }
 }
