@@ -1,5 +1,5 @@
 /* ==========================================
-   Շարժվող Արբանյակային Ֆոն
+   Moving Satellite Background (No Blur)
    ========================================== */
 .contact-bg-wrapper {
     position: fixed;
@@ -13,16 +13,15 @@
 
 .moving-satellite-img {
     position: absolute;
-    width: 120%; /* Ավելի լայն՝ շարժման համար */
-    height: 120%;
-    top: -10%;
-    left: -10%;
-    /* Փոխարինեք ստորև նշված հասցեն ձեր իրական նկարի ուղիով */
+    width: 130%; /* Extra width for movement */
+    height: 130%;
+    top: -15%;
+    left: -15%;
     background-image: url('../img/sat_img.jpg'); 
     background-size: cover;
     background-position: center;
-    /* Դանդաղ շարժման անիմացիա (40 վայրկյան) */
-    animation: satelliteMove 40s linear infinite alternate;
+    /* No blur filter here */
+    animation: satelliteMove 60s linear infinite alternate;
 }
 
 .bg-dark-overlay {
@@ -31,24 +30,24 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* 50% մթնեցում տեքստի համար */
-    backdrop-filter: blur(3px); /* Թեթև բլյուր էֆեկտ */
+    /* Subtle gradient to ensure text readability on complex imagery */
+    background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
 }
 
 @keyframes satelliteMove {
     0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(-5%, -3%) scale(1.1); }
+    100% { transform: translate(-8%, -5%) scale(1.15); }
 }
 
 /* ==========================================
-   Հիմնական Էջի Դասավորություն
+   Page Layout
    ========================================== */
 .contact-page-wrapper {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 120px 5% 60px;
+    padding: 100px 5% 50px;
     background: transparent;
 }
 
@@ -58,33 +57,35 @@
     gap: 40px;
     width: 100%;
     max-width: 1100px;
-    z-index: 1;
 }
 
 /* ==========================================
-   Կոնտակտային Տուփեր (Glassmorphism)
+   Transparent Cards (Glass Effect without Blur)
    ========================================== */
-.contact-card {
-    background: rgba(255, 255, 255, 0.85); /* Թափանցիկ սպիտակ */
+.contact-card.transparent-card {
+    background: rgba(255, 255, 255, 0.05); /* Very slight tint */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* White border to define the shape */
     padding: 50px;
     border-radius: 20px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    /* backdrop-filter: blur() removed */
 }
 
-.contact-card:hover {
-    transform: translateY(-10px);
+.contact-card.transparent-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 .contact-card h2 {
-    color: #0c8495;
+    color: #f7db5d; /* Using brand yellow for heading to pop against satellite img */
     margin-bottom: 30px;
     font-size: 1.7rem;
     font-weight: 700;
 }
 
-/* Ինֆո տարրեր */
+/* Info Items */
 .contact-item {
     display: flex;
     align-items: center;
@@ -93,36 +94,35 @@
 }
 
 .contact-item .icon {
-    font-size: 26px;
-    background: #ffffff;
-    width: 55px;
-    height: 55px;
+    font-size: 24px;
+    background: rgba(255, 255, 255, 0.1);
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .contact-item h4 {
     margin: 0;
-    color: #2c3e50;
+    color: #fff;
     font-size: 1.1rem;
 }
 
 .contact-item p {
     margin: 5px 0 0;
-    color: #555;
-    font-weight: 500;
+    color: #e0e0e0;
 }
 
-/* Սոցիալական Ցանցերի Կոճակներ */
 .social-intro {
-    color: #444;
+    color: #fff;
     margin-bottom: 25px;
-    line-height: 1.6;
 }
 
+/* Social Buttons */
 .social-links-list {
     display: flex;
     flex-direction: column;
@@ -138,32 +138,18 @@
     font-weight: 700;
     text-decoration: none;
     transition: all 0.3s ease;
-    letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
-
-.fb { background-color: #3b5998; }
-.ln { background-color: #0077b5; }
-.ig { background-color: #e4405f; }
 
 .social-btn:hover {
-    opacity: 0.9;
+    background: #f7db5d;
+    color: #000;
     transform: scale(1.02);
-    filter: brightness(1.1);
 }
 
-/* ==========================================
-   Responsive (Մոբայլի համար)
-   ========================================== */
+/* Tablet & Mobile */
 @media screen and (max-width: 850px) {
-    .contact-grid {
-        grid-template-columns: 1fr; /* Դառնում են իրար տակ */
-    }
-    
-    .contact-page-wrapper {
-        padding-top: 100px;
-    }
-
-    .contact-card {
-        padding: 35px 25px;
-    }
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact-card.transparent-card { padding: 30px 20px; }
 }
