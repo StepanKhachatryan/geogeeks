@@ -45,12 +45,12 @@
 
 /* --- Background Image Paths for 8 Sections --- */
 .hydro-bg { background-image: url('../img/projects_img/hydro.jpg'); }
-.flood-bg { background-image: url('../img/projects_img/flood.jpg'); }
+.flood-bg { background-image: url('../img/projects_img/flood_projects.jpg'); }
 .water-res-bg { background-image: url('../img/projects_img/water_man.jpg'); }
 .irrigation-bg { background-image: url('../img/projects_img/irrigation.jpg'); }
 .agri-bg { background-image: url('../img/projects_img/agri.jpg'); }
 .forest-bg { background-image: url('../img/projects_img/forest.jpg'); }
-.edu-bg { background-image: url('../img/projects_img/education.jpg'); }
+.edu-bg { background-image: url('../img/projects_img/edu_projects.jpg'); }
 .all-bg { background-image: url('../img/projects_img/our_projects.jpg'); }
 
 /* ==========================================
