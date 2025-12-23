@@ -1,31 +1,32 @@
 /* ==========================================
-   Full Page Layout - Changed to White
+   Full Page Layout
    ========================================== */
 .projects-page-wrapper {
     display: flex;
-    align-items: center; 
+    align-items: flex-start; /* Փոխվել է center-ից, որպեսզի սքրոլը լավ աշխատի */
     justify-content: center;
     min-height: calc(100vh - 80px); 
-    padding: 40px 5%;
-    background-color: #ffffff; /* Page background is now white */
+    padding: 40px 2%; /* Փոքրացվել է կողային padding-ը ավելի շատ տեղ ունենալու համար */
+    background-color: #ffffff;
 }
 
 /* ==========================================
-   Project Grid
+   Project Grid (4 columns, 2 rows)
    ========================================= */
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px; 
+    grid-template-columns: repeat(4, 1fr); /* 4 սյունակ կողք-կողքի */
+    gap: 20px; 
     width: 100%;
-    max-width: 1400px;
+    max-width: 1800px; /* Լայնացվել է 8 բաժինների համար */
+    margin: 0 auto;
 }
 
 .category-box {
     position: relative;
     border-radius: 15px;
-    height: 40vh; 
-    min-height: 280px; 
+    height: 35vh; /* Մի փոքր փոքրացվել է բարձրությունը 8 հատի դեպքում */
+    min-height: 250px; 
     text-decoration: none !important;
     overflow: hidden;
     display: flex;
@@ -33,18 +34,23 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Lighter shadow for white background */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .category-box:hover {
-    transform: scale(1.02);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    transform: scale(1.03);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    z-index: 2;
 }
 
-/* --- Background Image Paths --- */
-.gis-bg { background-image: url('../img/projects_img/GIS_projects.jpg'); }
-.water-bg { background-image: url('../img/projects_img/water_projects.jpg'); }
-.edu-bg { background-image: url('../img/projects_img/edu_projects.jpg'); }
+/* --- Background Image Paths for 8 Sections --- */
+.hydro-bg { background-image: url('../img/projects_img/hydro.jpg'); }
+.flood-bg { background-image: url('../img/projects_img/flood.jpg'); }
+.water-res-bg { background-image: url('../img/projects_img/water_man.jpg'); }
+.irrigation-bg { background-image: url('../img/projects_img/irrigation.jpg'); }
+.agri-bg { background-image: url('../img/projects_img/agri.jpg'); }
+.forest-bg { background-image: url('../img/projects_img/forest.jpg'); }
+.edu-bg { background-image: url('../img/projects_img/education.jpg'); }
 .all-bg { background-image: url('../img/projects_img/our_projects.jpg'); }
 
 /* ==========================================
@@ -56,27 +62,23 @@
     left: 0;
     width: 100%;
     height: 100%;
-    /* rgba(0,0,0,0.3) is 30% black
-       rgba(0,0,0,0) is 0% (completely transparent) 
-    */
     background: linear-gradient(
         to top, 
-        rgba(0, 0, 0, 0.3) 0%, 
-        rgba(0, 0, 0, 0) 60% 
+        rgba(0, 0, 0, 0.6) 0%, /* Մթնեցվել է տեքստի ընթեռնելիության համար */
+        rgba(0, 0, 0, 0) 70% 
     );
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 35px;
+    padding: 25px; /* Փոքրացվել է ներքին padding-ը */
     transition: all 0.4s ease;
 }
 
 .category-box:hover .category-overlay {
-    /* Slightly darker on hover to keep text readable */
     background: linear-gradient(
         to top, 
-        rgba(0, 0, 0, 0.5) 0%, 
-        rgba(0, 0, 0, 0.1) 100%
+        rgba(0, 0, 0, 0.8) 0%, 
+        rgba(0, 0, 0, 0.2) 100%
     );
 }
 
@@ -85,26 +87,41 @@
    ========================================== */
 .category-box h3 {
     color: #ffffff;
-    font-size: 1.8rem; 
-    margin-bottom: 12px;
-    line-height: 1.2;
+    font-size: 1.2rem; /* Տառաչափը փոքրացվել է, որպեսզի 4 սյունակում տեղավորվի */
+    margin-bottom: 8px;
+    line-height: 1.3;
     font-weight: 700;
-    letter-spacing: 0.5px;
-    /* Adding text-shadow because the overlay is very light now */
-    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
 }
 
 .view-btn {
-    color: #f7db5d; /* Brand Yellow */
+    color: #f7db5d;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    letter-spacing: 1px;
     transition: all 0.3s ease;
 }
 
 .category-box:hover .view-btn {
-    letter-spacing: 2.5px;
+    letter-spacing: 2px;
     color: #ffffff;
+}
+
+/* ==========================================
+   Responsive adjustments (Tablet & Mobile)
+   ========================================== */
+@media screen and (max-width: 1200px) {
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 սյունակ պլանշետների համար */
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .category-grid {
+        grid-template-columns: 1fr; /* 1 սյունակ հեռախոսների համար */
+    }
+    .category-box {
+        height: 250px;
+    }
 }
