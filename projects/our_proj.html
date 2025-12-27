@@ -2,7 +2,7 @@
 <html lang="hy">
 <head>
   <meta charset="utf-8">
-  <title>Մեր նախագծերը</title>
+  <title>Մեր նախագծերը - GeoGeeks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="../assets/img/GeoGeeks_logo.png">
   
@@ -20,11 +20,11 @@
 
     .projects-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 400px)); /* Մեկ քարտի դեպքում այն չափազանց չի լայնանա */
+      grid-template-columns: repeat(auto-fit, minmax(320px, 400px));
       gap: 25px;
       max-width: 1400px;
       margin: 0 auto;
-      justify-content: center; /* Կենտրոնացնում է քարտը, եթե այն միակն է */
+      justify-content: center;
     }
 
     .project-card {
@@ -153,6 +153,17 @@
       display: block;
     }
 
+    /* Ավելացված է հղման ոճը */
+    .modal-client a {
+      color: #0c8495;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
+    .modal-client a:hover {
+      color: #f7db5d;
+    }
+
     .project-meta-grid {
       display: flex;
       gap: 30px;
@@ -213,14 +224,12 @@
 
   <main class="all-projects-wrapper">
     <div class="projects-container">
-      
       <div class="project-card" onclick="openWidget('project_3')">
         <div class="img-box" style="background-image: url('../assets/img/ind_project_img/our_proj_01.jpg');"></div>
         <div class="content-box">
             <h3>ՀՀ-ում ջրհեղեղների տեղեկատվական հարթակ</h3>
         </div>
       </div>
-
     </div>
   </main>
 
@@ -239,10 +248,11 @@
     const projectsDB = {
       project_3: {
         title: "ՀՀ-ում ջրհեղեղների տեղեկատվական հարթակ",
+        // Օգտագործում ենք Backticks ` խնդիրներից խուսափելու համար
         client: `<a href="https://stepankhachatryan.github.io/fip_armenia/#" target="_blank" rel="noopener noreferrer">այստեղ</a>`,
         img: "../assets/img/ind_project_img/our_proj_01.jpg",
         year: "2026",
-        duration: "",
+        duration: "Շարունակական",
         desc: "Հարթակը մեր մտահաղացումն ու նախաձեռնությունն է, որը նպատակ ունի հավաքագրելու տարբեր սոցիալական հարթակներում օգտատերերի կողմից ջրհեղեղների վերաբերյալ տեսանյութերի հրապարակումները։",
         tech: ["HTML", "CSS", "JavaScript", "GitHub"]
       }
