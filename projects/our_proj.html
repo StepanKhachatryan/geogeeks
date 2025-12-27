@@ -1,1 +1,330 @@
-d
+<!doctype html>
+<html lang="hy">
+<head>
+  <meta charset="utf-8">
+  <title>Մեր նախագծերը - GeoGeeks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="../assets/img/GeoGeeks_logo.png">
+  
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/header.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+
+  <style>
+    .all-projects-wrapper {
+      padding: 40px 5%;
+      background-color: #f4f7f6;
+      min-height: 90vh;
+    }
+
+    .projects-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .project-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid #e0e6e8;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+    }
+
+    .img-box {
+      height: 240px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .content-box {
+      padding: 20px;
+      text-align: center;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content-box h3 {
+      color: #34495e;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* --- MODAL WIDGET --- */
+    .project-modal {
+      display: none; 
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      width: 95%;
+      max-width: 1250px;
+      height: 85vh;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      animation: modalSlide 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .close-modal {
+      position: absolute;
+      right: 25px;
+      top: 20px;
+      font-size: 35px;
+      cursor: pointer;
+      z-index: 100;
+      color: #333;
+      background: rgba(255,255,255,0.9);
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .modal-body {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      width: 100%;
+      height: 100%;
+    }
+
+    .modal-image-side {
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .modal-info-side {
+      padding: 60px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .modal-info-side h2 {
+      color: #0c8495;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      font-weight: 800;
+      word-wrap: break-word;
+    }
+
+    .modal-client {
+      font-size: 1.1rem;
+      color: #555;
+      font-weight: 600;
+      margin-bottom: 25px;
+      display: block;
+    }
+
+    .project-meta-grid {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 30px;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+    }
+
+    .meta-box span {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: #95a5a6;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+
+    .meta-box p {
+      margin: 0;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+
+    .modal-description {
+      color: #444;
+      line-height: 1.8;
+      font-size: 1.05rem;
+      margin-bottom: 35px;
+    }
+
+    .tech-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .tech-badges span {
+      background: #f0f4f8;
+      color: #2980b9;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 992px) {
+      .modal-body { grid-template-columns: 1fr; }
+      .modal-image-side { height: 300px; }
+      .modal-info-side { padding: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main class="all-projects-wrapper">
+    <div class="projects-container">
+      
+      <div class="project-card" onclick="openWidget('project_1')">
+        <div class="img-box" style="background-image: url('../assets/img/projects/flood1.jpg');"></div>
+        <div class="content-box"><h3>Հրազդան գետի հունի հիդրավլիկ մոդելավորում</h3></div>
+      </div>
+
+      <div class="project-card" onclick="openWidget('project_2')">
+        <div class="img-box" style="background-image: url('../assets/img/projects/flood2.jpg');"></div>
+        <div class="content-box"><h3>ՀՀ տարածքի ջրհեղեղների ռիսկի գնահատում</h3></div>
+      </div>
+
+      <div class="project-card" onclick="openWidget('project_3')">
+        <div class="img-box" style="background-image: url('../assets/img/ind_project_img/frm_proj_01.jpg');"></div>
+        <div class="content-box"><h3>ՀԱԷԿ անվտանգության վրա սելավային հնարավոր հոսքի ազդեցության վերլուծություն</h3></div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="projectWidget" class="project-modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeWidget()">&times;</span>
+      <div id="widgetContainer" class="modal-body"></div>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="../assets/js/main.js"></script>
+  
+  <script>
+    const projectsDB = {
+      project_1: {
+        title: "Հրազդան գետի հունի հիդրավլիկ մոդելավորում և հնարավոր ջրածածկման գոտիների որոշում",
+        client: "ՀՀ Ջրային կոմիտե",
+        img: "../assets/img/projects/flood1.jpg",
+        year: "2023",
+        duration: "10 ամիս",
+        desc: "Օգտագործելով HEC-RAS ծրագրային փաթեթը, իրականացվել է Հրազդան գետի հունի 2D մոդելավորում: Նախագիծը թույլ տվեց կանխատեսել ջրի մակարդակի բարձրացումը տարբեր ելքերի դեպքում:",
+        tech: ["HEC-RAS", "ArcGIS Pro", "Hydraulic Modeling"]
+      },
+      project_2: {
+        title: "Հայաստանի հիմնական գետավազանների ջրհեղեղների ռիսկի քարտեզագրում և կառավարման պլան",
+        client: "Շրջակա միջավայրի նախարարություն",
+        img: "../assets/img/projects/flood2.jpg",
+        year: "2024",
+        duration: "18 ամիս",
+        desc: "Համապետական նախագիծ, որի նպատակն է սահմանել ջրհեղեղների նկատմամբ խոցելի տարածքները և մշակել ռազմավարական պլան աղետների կառավարման համար:",
+        tech: ["GIS Analysis", "Statistics", "Inundation Mapping"]
+      },
+      project_3: {
+        title: "ՀԱԷԿ անվտանգության վրա սելավային հնարավոր հոսքի ազդեցության վերլուծություն",
+        client: "«Միջուկային և ռադիացիոն անվտանգության գիտատեխնիկական կենտրոն» ՓԲԸ",
+        img: "../assets/img/ind_project_img/frm_proj_01.jpg",
+        year: "2023",
+        duration: "3 ամիս",
+        desc: "Իրականացվել է առկա տոպոգրաֆիական նյութերի ուսումնասիրում և թվայնացում։ Անձրև-հոսք մոդելի միջոցով տարանջատված ջրհավաք ավազանում հանարավոր առավելագույն ելքերի գնահատում։ Հիդրավլիկ մոդելի միջոցով հոսքի հեռացման մոդելի մշակում։ Առավելագույն ելքի ազդեցության գնահատում",
+        tech: ["HEC-HMS", "HEC-RAS", "QGIS", "Google Earth Engine"]
+      }
+    };
+
+    function openWidget(id) {
+      const p = projectsDB[id];
+      if (!p) return;
+      
+      const container = document.getElementById('widgetContainer');
+
+      container.innerHTML = `
+        <div class="modal-image-side" style="background-image: url('${p.img}')"></div>
+        <div class="modal-info-side">
+          <h2 id="modal-title">${p.title}</h2>
+          <span class="modal-client">Պատվիրատու՝ ${p.client}</span>
+          <div class="project-meta-grid">
+            <div class="meta-box"><span>Տարեթիվ</span><p>${p.year}</p></div>
+            <div class="meta-box"><span>Տևողություն</span><p>${p.duration}</p></div>
+          </div>
+          <div class="modal-description">${p.desc}</div>
+          <div class="tech-badges">${p.tech.map(t => `<span>${t}</span>`).join('')}</div>
+        </div>
+      `;
+
+      document.getElementById('projectWidget').style.display = "flex";
+      document.body.style.overflow = "hidden";
+      
+      adjustTitleFontSize();
+    }
+
+    function adjustTitleFontSize() {
+      const titleEl = document.getElementById('modal-title');
+      if (!titleEl) return;
+      
+      const length = titleEl.innerText.length;
+      
+      if (length > 100) {
+        titleEl.style.fontSize = "1.2rem";
+      } else if (length > 60) {
+        titleEl.style.fontSize = "1.4rem";
+      } else if (length > 40) {
+        titleEl.style.fontSize = "1.6rem";
+      } else {
+        titleEl.style.fontSize = "1.9rem";
+      }
+    }
+
+    function closeWidget() {
+      document.getElementById('projectWidget').style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+
+    window.onclick = function(e) {
+      const modal = document.getElementById('projectWidget');
+      if (e.target == modal) closeWidget();
+    }
+  </script>
+</body>
+</html>
