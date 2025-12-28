@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="hy">
+<head>
+  <meta charset="utf-8">
+  <title>Գյուղատնտեսություն - GeoGeeks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="../assets/img/GeoGeeks_logo.png">
+  
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/header.css">
+  <link rel="stylesheet" href="../assets/css/footer.css">
+  <link rel="stylesheet" href="../assets/css/responsive.css">
+
+  <style>
+    .all-projects-wrapper {
+      padding: 40px 5%;
+      background-color: #f4f7f6;
+      min-height: 90vh;
+    }
+
+    .projects-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 400px));
+      gap: 25px;
+      max-width: 1400px;
+      margin: 0 auto;
+      justify-content: center;
+    }
+
+    .project-card {
+      position: relative;
+      height: 350px;
+      border-radius: 15px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid #e0e6e8;
+      transition: all 0.3s ease;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+    }
+
+    .content-box {
+      width: 100%;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .content-box h3 {
+      color: #1a2a3a;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    /* --- MODAL WIDGET --- */
+    .project-modal {
+      display: none; 
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.85);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      width: 95%;
+      max-width: 1250px;
+      height: 85vh;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      animation: modalSlide 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .close-modal {
+      position: absolute;
+      right: 25px; top: 20px;
+      font-size: 35px;
+      cursor: pointer;
+      z-index: 100;
+      color: #333;
+      background: rgba(255,255,255,0.9);
+      width: 45px; height: 45px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+    }
+
+    .modal-body {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      width: 100%; height: 100%;
+    }
+
+    .modal-image-side {
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .modal-info-side {
+      padding: 60px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .modal-info-side h2 {
+      color: #0c8495;
+      line-height: 1.2;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .modal-client {
+      font-size: 1.1rem;
+      color: #555;
+      font-weight: 600;
+      margin-bottom: 25px;
+      display: block;
+    }
+
+    .project-meta-grid {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 30px;
+      border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      padding: 15px 0;
+    }
+
+    .meta-box span {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: #95a5a6;
+      margin-bottom: 5px;
+    }
+
+    .meta-box p { margin: 0; font-weight: 700; color: #2c3e50; }
+
+    .modal-description {
+      color: #444;
+      line-height: 1.8;
+      font-size: 1.05rem;
+      margin-bottom: 35px;
+    }
+
+    .tech-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .tech-badges span {
+      background: #f0f4f8;
+      color: #2980b9;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 992px) {
+      .modal-body { grid-template-columns: 1fr; }
+      .modal-image-side { height: 300px; }
+      .modal-info-side { padding: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main class="all-projects-wrapper">
+    <div class="projects-container">
+      <div class="project-card" style="background-image: url('../assets/img/ind_project_img/agri_proj_01.jpg');" onclick="openWidget('agri_1')">
+        <div class="content-box">
+            <h3>Արոտավայրերի և խոտհարքների մոնիթորինգային համակարգի մշակում</h3>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="projectWidget" class="project-modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeWidget()">&times;</span>
+      <div id="widgetContainer" class="modal-body"></div>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <script src="../assets/js/main.js"></script>
+  
+  <script>
+    const projectsDB = {
+      agri_1: {
+        title: "Արոտավայրերի և խոտհարքների մոնիթորինգային համակարգի մշակում",
+        client: "«ՀՀ ՇՄՆ Բնապահպանական ծրագրերի իրականացման գրասենյակ» ՊՀ",
+        img: "../assets/img/ind_project_img/agri_proj_01_1.jpg",
+        year: "2024",
+        duration: "10 ամիս",
+        desc: "Նախագծի շրջանակներում իրականացվել է թիրախային համայնքների արոտավայրերի և խոտհարքների վիճակի գնահատում և թվայնացում: Ստեղծվել է մոնիթորինգային հարթակ, որը հնարավորություն է տալիս հեռահար զոնդավորման (Remote Sensing) միջոցով հետևել բուսածածկի որակական փոփոխություններին և կանխարգելել հողերի դեգրադացիան:",
+        tech: ["Satellite Imagery Analysis", "NDVI Mapping", "QGIS", "Environmental Monitoring"]
+      }
+    };
+
+    function openWidget(id) {
+      const p = projectsDB[id];
+      if (!p) return;
+      const container = document.getElementById('widgetContainer');
+      container.innerHTML = `
+        <div class="modal-image-side" style="background-image: url('${p.img}')"></div>
+        <div class="modal-info-side">
+          <h2 id="modal-title">${p.title}</h2>
+          <span class="modal-client">Պատվիրատու՝ ${p.client}</span>
+          <div class="project-meta-grid">
+            <div class="meta-box"><span>Տարեթիվ</span><p>${p.year}</p></div>
+            <div class="meta-box"><span>Տևողություն</span><p>${p.duration}</p></div>
+          </div>
+          <div class="modal-description">${p.desc}</div>
+          <div class="tech-badges">${p.tech.map(t => `<span>${t}</span>`).join('')}</div>
+        </div>
+      `;
+      document.getElementById('projectWidget').style.display = "flex";
+      document.body.style.overflow = "hidden";
+      adjustTitleFontSize();
+    }
+
+    function adjustTitleFontSize() {
+      const titleEl = document.getElementById('modal-title');
+      if (!titleEl) return;
+      const length = titleEl.innerText.length;
+      if (length > 60) titleEl.style.fontSize = "1.4rem";
+      else if (length > 40) titleEl.style.fontSize = "1.6rem";
+      else titleEl.style.fontSize = "1.9rem";
+    }
+
+    function closeWidget() {
+      document.getElementById('projectWidget').style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+
+    window.onclick = function(e) {
+      const modal = document.getElementById('projectWidget');
+      if (e.target == modal) closeWidget();
+    }
+  </script>
+</body>
+</html>
