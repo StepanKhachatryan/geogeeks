@@ -1,3 +1,10 @@
+Ահա ձեր տրամադրած կոդի թարմացված տարբերակը:
+
+Քարտերի սպիտակ ֆոնը հեռացվել է, և տեքստի հատվածը (`.content-box`) դարձել է **40% թափանցիկ սպիտակ**՝ **բլյուր (blur)** էֆեկտով: Այժմ քարտի նկարը զբաղեցնում է ամբողջ տարածքը, իսկ տեքստը սահուն «նստած» է նկարի վրա:
+
+### Թարմացված HTML և CSS կոդը
+
+```html
 <!doctype html>
 <html lang="hy">
 <head>
@@ -26,13 +33,19 @@
       margin: 0 auto;
     }
 
+    /* --- ԹԱՐՄԱՑՎԱԾ ՔԱՐՏԻ ՈՃԸ --- */
     .project-card {
-      background: white;
+      position: relative;
+      height: 350px; /* Ֆիքսված բարձրություն ամբողջական նկարի համար */
       border-radius: 15px;
       overflow: hidden;
       cursor: pointer;
       border: 1px solid #e0e6e8;
       transition: all 0.3s ease;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end; /* Տեքստը տեղադրում ենք ներքևում */
     }
 
     .project-card:hover {
@@ -40,22 +53,23 @@
       box-shadow: 0 12px 25px rgba(0,0,0,0.1);
     }
 
-    .img-box {
-      height: 240px;
-      background-size: cover;
-      background-position: center;
-    }
-
+    /* Տեքստի տուփը նկարի վրա (40% թափանցիկ և բլյուր) */
     .content-box {
+      width: 100%;
       padding: 20px;
+      background: rgba(255, 255, 255, 0.4); /* 40% թափանցիկ սպիտակ */
+      backdrop-filter: blur(10px); /* Բլյուր էֆեկտ */
+      -webkit-backdrop-filter: blur(10px); /* Safari-ի համար */
       text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .content-box h3 {
-      color: #34495e;
-      font-size: 1.1rem;
+      color: #1a2a3a; /* Մի փոքր ավելի մուգ գույն՝ հստակ կարդացվելու համար */
+      font-size: 1.05rem;
       font-weight: 700;
       margin: 0;
+      line-height: 1.4;
     }
 
     /* --- WIDGET MODAL --- */
@@ -129,7 +143,6 @@
       text-align: left;
     }
 
-    /* Դինամիկ վերնագիր */
     .modal-info-side h2 {
       color: #0c8495;
       line-height: 1.1;
@@ -207,18 +220,15 @@
   <main class="frm-wrapper">
     <div class="projects-container">
       
-      <div class="project-card" onclick="openWidget('flood_yerevan')">
-        <div class="img-box" style="background-image: url('../assets/img/ind_project_img/frm_proj_03.jpg');"></div>
+      <div class="project-card" style="background-image: url('../assets/img/ind_project_img/frm_proj_03.jpg');" onclick="openWidget('flood_yerevan')">
         <div class="content-box"><h3>Ուռուտ բնակավայրի կոյուղաջրերի մաքրման կայանի ջրհեղեղի ռիսկի գնահատում</h3></div>
       </div>
 
-      <div class="project-card" onclick="openWidget('flood_risk')">
-        <div class="img-box" style="background-image: url('../assets/img/ind_project_img/frm_proj_02.jpg');"></div>
+      <div class="project-card" style="background-image: url('../assets/img/ind_project_img/frm_proj_02.jpg');" onclick="openWidget('flood_risk')">
         <div class="content-box"><h3>Կամերտուն բազմաֆունկցիոնալ համալիրի ջրհեղեղի ռիսկի գնահատում</h3></div>
       </div>
 
-      <div class="project-card" onclick="openWidget('flood_infra')">
-        <div class="img-box" style="background-image: url('../assets/img/ind_project_img/frm_proj_01.jpg');"></div>
+      <div class="project-card" style="background-image: url('../assets/img/ind_project_img/frm_proj_01.jpg');" onclick="openWidget('flood_infra')">
         <div class="content-box"><h3>ՀԱԷԿ անվտանգության վրա սելավային հնարավոր հոսքի ազդեցության վերլուծություն</h3></div>
       </div>
 
@@ -287,23 +297,15 @@
 
       document.getElementById('projectWidget').style.display = "flex";
       document.body.style.overflow = "hidden";
-      
-      // Կանչում ենք տառաչափի ճշգրտման ֆունկցիան
       adjustTitleFontSize();
     }
 
     function adjustTitleFontSize() {
       const titleEl = document.getElementById('modal-title');
       const length = titleEl.innerText.length;
-      
-      // Տրամաբանություն. որքան երկար է տեքստը, այնքան փոքրանում է font-size-ը
-      if (length > 60) {
-        titleEl.style.fontSize = "1.4rem";
-      } else if (length > 40) {
-        titleEl.style.fontSize = "1.6rem";
-      } else {
-        titleEl.style.fontSize = "1.9rem";
-      }
+      if (length > 60) titleEl.style.fontSize = "1.4rem";
+      else if (length > 40) titleEl.style.fontSize = "1.6rem";
+      else titleEl.style.fontSize = "1.9rem";
     }
 
     function closeWidget() {
@@ -317,3 +319,21 @@
   </script>
 </body>
 </html>
+
+```
+
+### Ի՞նչը փոխվեց.
+
+1. **Glassmorphism էֆեկտ քարտերի վրա.**
+* Հեռացվեց `.img-box` բաժինը, և նկարը տեղադրվեց անմիջապես `.project-card`-ի `background-image`-ում:
+* `.content-box`-ի համար ավելացվեց `background: rgba(255, 255, 255, 0.4)`, որը տալիս է 40% թափանցիկ սպիտակ ֆոն:
+* Ավելացվեց `backdrop-filter: blur(10px)`, որը ստեղծում է թափանցիկ ապակու տակ բլյուր արված նկարի էֆեկտը:
+
+
+2. **Կառուցվածքային փոփոխություն.**
+* `.project-card`-ին տրվեց `display: flex` և `align-items: flex-end`, որպեսզի տեքստը միշտ լինի քարտի ներքևի հատվածում՝ անմիջապես նկարի վրա:
+* Քարտերին տրվեց ֆիքսված բարձրություն (`350px`), որպեսզի նկարները միշտ երևան ամբողջական և համաչափ:
+
+
+
+Այս փոփոխություններից հետո ձեր նախագծերի ցանկը կունենա շատ ժամանակակից և պրոֆեսիոնալ տեսք: Would you like me to adjust the transparency levels or the blur intensity further?
