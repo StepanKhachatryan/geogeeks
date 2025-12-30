@@ -1,17 +1,17 @@
 :root {
   --main-green: #00a971;
   --main-green-light: #e6f6f1;
-  --main-green-dark: #008f5f;
-  --light-bg: #f4f7f6;
   --text-dark: #1a2a3a;
+  --light-bg: #f4f7f6;
 }
 
 .services-page-wrapper {
   padding: 20px 5%;
   background-color: var(--light-bg);
+  min-height: 85vh;
 }
 
-/* --- ՎԵՐԵՎԻ ՍԱԼԻԿՆԵՐ --- */
+/* --- TOP NAVIGATION --- */
 .top-services-nav {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -21,21 +21,16 @@
 
 .main-service-btn {
   background: white;
-  padding: 0; 
+  padding: 0; /* Նկարը կպչում է եզրին */
   border-radius: 15px;
   cursor: pointer;
   border: 2px solid transparent;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: 0.4s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   display: flex;
-  align-items: stretch; /* Սա ստիպում է բոլոր երեխա տարրերին ունենալ նույն բարձրությունը */
-  overflow: hidden; 
-  height: 90px; /* Ֆիքսված բարձրություն սալիկի համար */
-}
-
-.main-service-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0, 169, 113, 0.15);
+  align-items: stretch; /* Ստիպում է նկարին և տեքստին լինել նույն բարձրության */
+  overflow: hidden;
+  height: 90px; /* Ֆիքսված բարձրություն բոլոր սալիկների համար */
 }
 
 .main-service-btn.active {
@@ -43,36 +38,33 @@
   background: var(--main-green-light);
 }
 
-/* --- Ձախակողմյան նկարի բլոկը --- */
+/* --- IMAGE BOX (The Grey Area) --- */
 .icon-box {
-  width: 110px; /* Լայնությունը, որը պետք է ամբողջությամբ լցվի նկարով */
-  position: relative;
+  width: 110px; /* Ֆիքսված լայնություն նկարի համար */
+  background: #eee;
   flex-shrink: 0;
-  background: #eee; /* Սա այն մոխրագույնն է, որը պետք է ծածկվի */
+  display: flex;
 }
 
 .icon-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Սա ամենակարևոր հատկությունն է. այն ստիպում է նկարին լցնել ողջ տարածքը */
+  width: 100%; /* Լցնում է ողջ լայնությունը */
+  height: 100%; /* Լցնում է ողջ բարձրությունը */
+  object-fit: cover; /* Լցնում է տարածքը՝ պահպանելով համամասնությունը */
   display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .main-service-btn h3 {
-  display: flex;
-  align-items: center;
   padding: 0 20px;
   font-size: 0.95rem;
   color: var(--text-dark);
   font-weight: 700;
   margin: 0;
-  flex-grow: 1; /* Տեքստը զբաղեցնում է մնացած ողջ լայնությունը */
+  display: flex;
+  align-items: center; /* Կենտրոնացնում է տեքստը ուղղահայաց */
+  line-height: 1.3;
 }
 
-/* --- ՀԻՄՆԱԿԱՆ ԿՈՆՏԵՅՆԵՐ (SIDEBAR + CONTENT) --- */
+/* --- CONTENT CONTAINER --- */
 .service-body-container {
   display: none;
   grid-template-columns: 280px 1fr;
@@ -86,16 +78,15 @@
   display: grid;
 }
 
-/* Ձախ մենյուի ոճերը */
 .side-nav {
   background: #f9fbf9;
-  padding: 30px 15px;
+  padding: 40px 20px;
   border-right: 1px solid #edf2f0;
 }
 
 .side-nav-btn {
   padding: 14px 18px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 700;
@@ -108,9 +99,8 @@
   color: white;
 }
 
-/* Աջ կողմի բովանդակությունը */
 .content-side {
-  padding: 40px;
+  padding: 50px;
 }
 
 .content-display {
@@ -121,9 +111,14 @@
   display: block;
 }
 
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @media (max-width: 992px) {
-  .top-services-nav { grid-template-columns: 1fr; }
   .service-body-container { grid-template-columns: 1fr; }
+  .top-services-nav { grid-template-columns: 1fr; }
   .main-service-btn { height: 80px; }
   .icon-box { width: 90px; }
 }
