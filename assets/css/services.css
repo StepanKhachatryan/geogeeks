@@ -66,7 +66,7 @@
   line-height: 1.3;
 }
 
-/* --- ՆԵՐՔԵՎԻ ԲԱԺԻՆ (ԱՌԱՆՑ ՇՐՋԱՆԱԿԻ ԵՎ ՍՏՎԵՐԻ) --- */
+/* --- ՆԵՐՔԵՎԻ ԲԱԺԻՆ --- */
 .service-body-container {
   display: none;
   grid-template-columns: 280px 1fr;
@@ -82,7 +82,6 @@
   display: grid;
 }
 
-/* Ուղղահայաց բաժանարար գիծ */
 .side-nav {
   padding: 20px 30px 20px 0;
   border-right: 1px solid #ccc !important;
@@ -107,7 +106,7 @@
 .content-side {
   padding: 20px 50px;
   position: relative;
-  min-height: 500px; /* Ավելացվել է բարձրություն մեծ նկարների համար */
+  min-height: 600px; /* Մեծացված բարձրություն՝ ավելի մեծ նկարների համար */
 }
 
 .content-display {
@@ -123,34 +122,33 @@
   line-height: 1.7;
   color: #444;
   margin-bottom: 30px;
-  max-width: 60%; /* Ավելի շատ տեղ նկարների համար */
+  max-width: 50%; /* Կրճատված լայնություն, որպեսզի նկարները չծածկեն տեքստը */
 }
 
-/* Մեծ և Քառակուսի նկարների պատկերասրահ */
+/* Մեծացված Քառակուսի նկարների պատկերասրահ */
 .image-gallery {
   position: absolute;
-  bottom: 40px;
+  bottom: 50px;
   right: 50px;
-  width: 350px;
-  height: 350px;
+  width: 450px; /* Մեծացված կոնտեյներ */
+  height: 450px;
 }
 
 .image-gallery img {
   position: absolute;
-  width: 250px;       /* Մեծացված չափս */
-  aspect-ratio: 1/1;  /* Քառակուսի տեսք */
+  width: 375px;       /* 1.5 անգամ մեծացված (250px * 1.5) */
+  aspect-ratio: 1/1;  /* Քառակուսի */
   object-fit: cover;
   border-radius: 12px;
-  border: none !important; /* Հեռացված սպիտակ շրջանակը */
-  
-  /* Ստվեր միայն վերևից և աջից (x-offset: 10px, y-offset: -10px) */
-  box-shadow: 10px -10px 25px rgba(0, 0, 0, 0.2);
-  transition: all 0.4s ease;
+  border: none !important;
+  /* Ստվեր վերևից և աջից */
+  box-shadow: 12px -12px 30px rgba(0, 0, 0, 0.2);
+  transition: none;   /* Հեռացված է անիմացիան */
 }
 
-/* Դիրքավորում (Առջևինը՝ ավելի ներքև և ձախ) */
+/* Դիրքավորում */
 
-/* Հետևի նկար (Positioned higher and to the right) */
+/* Հետևի նկար */
 .image-gallery img:nth-child(2) {
   top: 0;
   right: 0;
@@ -159,14 +157,14 @@
 
 /* Առջևի նկար (Lower and to the left of the back image) */
 .image-gallery img:nth-child(1) {
-  top: 60px;   /* Իջեցված է */
-  right: 60px; /* Տեղափոխված է դեպի ձախ */
+  top: 80px;   /* Շեղված է ավելի շատ՝ մեծ չափսի պատճառով */
+  right: 80px; 
   z-index: 2;
 }
 
-/* Hover էֆեկտ */
+/* Հեռացված է Hover էֆեկտը */
 .image-gallery:hover img:nth-child(1) {
-  transform: translate(-15px, 15px);
+  transform: none; 
 }
 
 /* --- RESPONSIVE --- */
@@ -174,7 +172,17 @@
   .top-services-nav { grid-template-columns: 1fr; }
   .service-body-container { grid-template-columns: 1fr; }
   .side-nav { border-right: none !important; border-bottom: 1px solid #ccc !important; padding: 10px 0; }
-  .image-gallery { position: relative; width: 100%; right: 0; bottom: 0; margin-top: 50px; height: 300px; }
-  .image-gallery img { width: 200px; }
+  .image-gallery { 
+    position: relative; 
+    width: 100%; 
+    right: 0; 
+    bottom: 0; 
+    margin-top: 50px; 
+    height: 400px;
+    display: flex;
+    justify-content: center;
+  }
+  .image-gallery img { width: 280px; }
+  .image-gallery img:nth-child(1) { top: 40px; right: 20px; }
   .content-display p { max-width: 100%; }
 }
