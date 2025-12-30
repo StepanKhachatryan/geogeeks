@@ -1,8 +1,11 @@
 :root {
-  --main-dark: #0c8495;
-  --main-yellow: #f7db5d;
-  --light-bg: #f4f7f6;
+  /* Հիմնական կանաչ գույնը և երանգները */
+  --main-green: #00a971;
+  --main-green-light: #e6f6f1; /* Շատ բաց երանգ ֆոնի համար */
+  --main-green-dark: #008f5f;  /* Մուգ երանգ hover-ի համար */
   --glass-bg: rgba(255, 255, 255, 0.4);
+  --light-bg: #f4f7f6;
+  --text-dark: #1a2a3a;
 }
 
 .services-page-wrapper {
@@ -10,7 +13,7 @@
   background-color: var(--light-bg);
 }
 
-/* Վերևի սալիկները */
+/* Վերևի սալիկները (Navigation Tiles) */
 .top-services-nav {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -25,18 +28,18 @@
   border-radius: 20px;
   cursor: pointer;
   border: 2px solid transparent;
-  transition: all 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
 .main-service-btn:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(0, 169, 113, 0.15); /* Կանաչավուն ստվեր */
 }
 
 .main-service-btn.active {
-  border-color: var(--main-dark);
-  background: #eef9fa;
+  border-color: var(--main-green);
+  background: var(--main-green-light);
 }
 
 .icon-box {
@@ -46,7 +49,7 @@
 
 .main-service-btn h3 {
   font-size: 1.1rem;
-  color: #2c3e50;
+  color: var(--text-dark);
   font-weight: 700;
 }
 
@@ -67,9 +70,9 @@
 
 /* Ձախ կողմի մենյու */
 .side-nav {
-  background: #f8fcfc;
+  background: #f9fbf9; /* Թեթև կանաչավուն երանգ */
   padding: 50px 25px;
-  border-right: 1px solid #edf2f2;
+  border-right: 1px solid #edf2f0;
 }
 
 .side-nav-btn {
@@ -84,13 +87,14 @@
 }
 
 .side-nav-btn:hover {
-  background: rgba(12, 132, 149, 0.05);
+  background: var(--main-green-light);
+  color: var(--main-green);
 }
 
 .side-nav-btn.active {
-  background: var(--main-dark);
+  background: var(--main-green);
   color: white;
-  box-shadow: 0 4px 12px rgba(12, 132, 149, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 169, 113, 0.25);
 }
 
 /* Աջ կողմի բովանդակությունը */
@@ -110,7 +114,7 @@
 }
 
 .content-display h2 {
-  color: var(--main-dark);
+  color: var(--main-green);
   font-size: 2rem;
   font-weight: 800;
   margin-bottom: 25px;
@@ -135,10 +139,24 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive */
+/* Responsive (Բջջային տարբերակ) */
 @media (max-width: 992px) {
-  .service-body-container { grid-template-columns: 1fr; }
-  .top-services-nav { grid-template-columns: 1fr; }
-  .side-nav { display: flex; overflow-x: auto; padding: 20px; border-right: none; border-bottom: 1px solid #eee; }
-  .side-nav-btn { white-space: nowrap; margin-right: 10px; margin-bottom: 0; }
+  .service-body-container { 
+    grid-template-columns: 1fr; 
+  }
+  .top-services-nav { 
+    grid-template-columns: 1fr; 
+  }
+  .side-nav { 
+    display: flex; 
+    overflow-x: auto; 
+    padding: 20px; 
+    border-right: none; 
+    border-bottom: 1px solid #eee; 
+  }
+  .side-nav-btn { 
+    white-space: nowrap; 
+    margin-right: 10px; 
+    margin-bottom: 0; 
+  }
 }
