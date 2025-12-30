@@ -68,29 +68,81 @@
         font-size: 1.5rem;
     }
 
-    /* 4. Projects Page Update (8 Boxes) */
+    /* 4. Projects Page Update */
     .projects-page-wrapper {
         padding: 20px 3%;
-        display: block; /* Թույլ է տալիս բնական սքրոլ */
+        display: block;
     }
 
     .category-grid {
-        grid-template-columns: repeat(2, 1fr) !important; /* Պլանշետի վրա 2 սյունակ */
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: 15px;
     }
 
     .category-box {
-        height: 220px; /* Մի փոքր ավելի կարճ քարտեր */
+        height: 220px;
         min-height: auto;
     }
 
     .category-box h3 {
-        font-size: 1rem; /* Փոքր տառաչափ, որպեսզի երկար անունները տեղավորվեն */
+        font-size: 1rem;
         padding: 15px;
     }
 
-    /* 5. Contact, About, Services */
-    .contact-container, .about-section, .services-grid {
+    /* 5. Services Section (Ծառայություններ) */
+    .top-services-nav {
+        grid-template-columns: 1fr !important; /* Սալիկները դասավորվում են իրար տակ */
+        gap: 10px;
+    }
+
+    .main-service-btn {
+        height: 75px !important;
+        border-radius: 12px;
+    }
+
+    .icon-box {
+        width: 80px !important; /* Կրճատված լայնություն նկարի համար */
+    }
+
+    .main-service-btn h3 {
+        font-size: 0.85rem;
+        padding: 0 10px;
+    }
+
+    .service-body-container {
+        grid-template-columns: 1fr !important; /* Ձախ մենյուն և կոնտենտը դառնում են 1 սյունակ */
+        min-height: auto;
+    }
+
+    .side-nav {
+        display: flex; /* Մենյուն դառնում է հորիզոնական */
+        overflow-x: auto; /* Սահող էֆեկտ (scroll) */
+        padding: 10px;
+        border-right: none;
+        border-bottom: 1px solid #edf2f0;
+        gap: 8px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .side-nav-btn {
+        white-space: nowrap; /* Թույլ չի տալիս տեքստին անցնել հաջորդ տող */
+        margin-bottom: 0;
+        padding: 10px 15px;
+        font-size: 0.85rem;
+        border-radius: 8px;
+    }
+
+    .content-display {
+        padding: 30px 15px;
+    }
+
+    .content-display h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    /* 6. Contact & About */
+    .contact-container, .about-section {
         padding: 20px 5%;
         gap: 20px;
     }
@@ -116,7 +168,7 @@
 
     /* Projects Grid for Mobile */
     .category-grid {
-        grid-template-columns: 1fr !important; /* Հեռախոսի վրա 1 սյունակ */
+        grid-template-columns: 1fr !important;
         gap: 15px;
     }
 
@@ -126,6 +178,24 @@
 
     .category-box h3 {
         font-size: 1.1rem;
+    }
+
+    /* Services for Small Mobile */
+    .icon-box {
+        width: 70px !important;
+    }
+
+    .main-service-btn {
+        height: 65px !important;
+    }
+
+    .main-service-btn h3 {
+        font-size: 0.8rem;
+    }
+
+    .side-nav-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
     }
 
     .weather-box iframe {
