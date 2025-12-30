@@ -1,4 +1,3 @@
-/* --- Root Colors --- */
 :root {
   --main-green: #00a971;
   --main-green-light: #e6f6f1;
@@ -6,33 +5,92 @@
   --light-bg: #f4f7f6;
 }
 
-/* --- Container Adjustments --- */
+.services-page-wrapper {
+  padding: 30px 5%;
+  background-color: var(--light-bg);
+  min-height: 85vh;
+}
+
+/* --- ՎԵՐԵՎԻ ԵՐԵՔ ՍԱԼԻԿՆԵՐ (TOP TILES) --- */
+.top-services-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.main-service-btn {
+  background: white;
+  padding: 0;
+  border-radius: 15px;
+  cursor: pointer;
+  border: 1px solid #eee;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center; /* Ուղղահայաց կենտրոնացում */
+  overflow: hidden;
+  height: 80px; /* Ֆիքսված բարձրություն, որպեսզի չլինեն "big pictures" */
+}
+
+.main-service-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 169, 113, 0.15);
+}
+
+.main-service-btn.active {
+  border: 2px solid var(--main-green);
+  background: var(--main-green-light);
+}
+
+.icon-box {
+  width: 100px; /* Ձախակողմյան նկարի ֆիքսված լայնություն */
+  height: 100%;
+  flex-shrink: 0;
+  background: #eee;
+}
+
+.icon-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Նկարը լցնում է ողջ մոխրագույն տարածքը */
+  display: block;
+}
+
+.main-service-btn h3 {
+  padding: 0 15px;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* --- ՆԵՐՔԵՎԻ ՄԵԾ ԲԼՈԿ (LOWER BOX) --- */
 .service-body-container {
   display: none;
   grid-template-columns: 280px 1fr;
-  background: white;
-  border-radius: 20px;
-  overflow: visible; /* Changed to visible to allow image overlap/shadows */
-  box-shadow: none !important; /* Removed shadow per request */
-  border: none !important;     /* Removed border per request */
-  min-height: 550px;
+  background: transparent; /* Հեռացվել է ֆոնը */
+  border-radius: 0;
+  overflow: visible; /* Որպեսզի նկարների shadow-ն երևա */
+  box-shadow: none !important; /* Հեռացվել է ստվերը */
+  border: none !important;     /* Հեռացվել է շրջանակը */
+  margin-top: 20px;
 }
 
 .service-body-container.active {
   display: grid;
 }
 
-/* --- Vertical Divider --- */
+/* Ուղղահայաց բաժանարար գիծ */
 .side-nav {
-  background: transparent; /* Cleaner look without shadow */
-  padding: 40px 20px;
-  border-right: 1px solid #ccc !important; /* Vertical line separator */
+  padding: 20px 30px 20px 0;
+  border-right: 1px solid #ccc !important; /* Ուղղահայաց գիծ ենթածառայությունների միջև */
 }
 
-/* --- Sub-service Buttons --- */
 .side-nav-btn {
-  padding: 14px 18px;
-  margin-bottom: 10px;
+  padding: 12px 18px;
+  margin-bottom: 8px;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 700;
@@ -40,46 +98,60 @@
   transition: 0.3s;
 }
 
+.side-nav-btn:hover {
+  background: var(--main-green-light);
+}
+
 .side-nav-btn.active {
   background: var(--main-green);
   color: white;
 }
 
-/* --- Content Side Layout --- */
+/* --- ԲՈՎԱՆԴԱԿՈՒԹՅՈՒՆ ԵՎ ՆԿԱՐՆԵՐԻ ՇԵՐՏԱՎՈՐՈՒՄ --- */
 .content-side {
-  padding: 50px;
+  padding: 20px 50px;
   position: relative;
+  min-height: 450px;
 }
 
 .content-display {
   display: none;
-  height: 100%;
 }
 
 .content-display.active {
   display: block;
 }
 
-/* --- Diagonal Overlapping Image Gallery --- */
+.content-display p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #444;
+  margin-bottom: 30px;
+  max-width: 70%; /* Որպեսզի տեքստը չծածկի նկարները */
+}
+
+/* Նկարների պատկերասրահ ներքևի աջ անկյունում */
 .image-gallery {
   position: absolute;
-  bottom: 40px;
-  right: 40px;
-  width: 350px;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
   height: 250px;
 }
 
 .image-gallery img {
   position: absolute;
-  width: 200px; /* Fixed size for the overlap effect */
-  border-radius: 10px;
-  background: white;
-  /* Shadow on Upper and Right parts */
-  box-shadow: 5px -5px 15px rgba(0, 0, 0, 0.2); 
-  transition: transform 0.3s ease;
+  width: 220px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid white;
+  /* Ստվեր վերևի և աջ մասում */
+  box-shadow: 8px -8px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.4s ease;
 }
 
-/* Diagonal Overlap logic (75% overlap) */
+/* Անկյունագծային շերտավորում (75% overlap) */
 .image-gallery img:nth-child(1) {
   bottom: 0;
   right: 0;
@@ -87,35 +159,27 @@
 }
 
 .image-gallery img:nth-child(2) {
-  bottom: 40px; /* Moves up */
-  right: 40px;  /* Moves left (diagonal) */
+  bottom: 35px; /* Տեղաշարժ դեպի վեր */
+  right: 35px;  /* Տեղաշարժ դեպի ձախ */
   z-index: 2;
 }
 
 .image-gallery img:nth-child(3) {
-  bottom: 80px;
-  right: 80px;
+  bottom: 70px;
+  right: 70px;
   z-index: 3;
 }
 
-/* Hover effect to see hidden images */
+/* Hover էֆեկտ նկարների վրա */
 .image-gallery:hover img {
-  transform: scale(1.05);
+  transform: translate(-10px, 10px);
 }
 
+/* --- RESPONSIVE --- */
 @media (max-width: 768px) {
-  .service-body-container {
-    grid-template-columns: 1fr;
-  }
-  .side-nav {
-    border-right: none !important;
-    border-bottom: 1px solid #ccc !important;
-  }
-  .image-gallery {
-    position: relative;
-    width: 100%;
-    right: 0;
-    bottom: 0;
-    margin-top: 30px;
-  }
+  .top-services-nav { grid-template-columns: 1fr; }
+  .service-body-container { grid-template-columns: 1fr; }
+  .side-nav { border-right: none !important; border-bottom: 1px solid #ccc !important; padding: 10px 0; }
+  .image-gallery { position: relative; width: 100%; right: 0; bottom: 0; margin-top: 50px; height: 250px; }
+  .content-display p { max-width: 100%; }
 }
