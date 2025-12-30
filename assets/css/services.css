@@ -1,54 +1,144 @@
-/* Services Hero Banner */
-.services-hero {
-    background-color: #00a97a; /* Updated Green */
-    color: white;
-    padding: 80px 5%;
-    text-align: center;
+:root {
+  --main-dark: #0c8495;
+  --main-yellow: #f7db5d;
+  --light-bg: #f4f7f6;
+  --glass-bg: rgba(255, 255, 255, 0.4);
 }
 
-.services-hero h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-    text-transform: uppercase;
+.services-page-wrapper {
+  padding: 60px 5%;
+  background-color: var(--light-bg);
 }
 
-/* Service Cards */
-.services-container {
-    padding: 60px 10%;
-    max-width: 1200px;
-    margin: 0 auto;
+/* Վերևի սալիկները */
+.top-services-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 50px;
 }
 
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+.main-service-btn {
+  background: white;
+  padding: 35px 20px;
+  text-align: center;
+  border-radius: 20px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.4s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
-.service-card {
-    background: white;
-    padding: 40px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    border-bottom: 4px solid transparent;
-    transition: all 0.3s ease;
+.main-service-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* Icon and Hover highlights */
-.service-icon {
-    font-size: 3rem;
-    color: #00a97a; /* Updated Green */
-    margin-bottom: 20px;
+.main-service-btn.active {
+  border-color: var(--main-dark);
+  background: #eef9fa;
 }
 
-.service-card:hover {
-    transform: translateY(-10px);
-    border-bottom: 4px solid #00a97a; /* Updated Green */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+.icon-box {
+  font-size: 40px;
+  margin-bottom: 15px;
 }
 
-.service-card h3 {
-    color: #2c3e50;
-    margin-bottom: 15px;
+.main-service-btn h3 {
+  font-size: 1.1rem;
+  color: #2c3e50;
+  font-weight: 700;
+}
+
+/* Հիմնական կոնտեյները (Side + Content) */
+.service-body-container {
+  display: none;
+  grid-template-columns: 300px 1fr;
+  background: white;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+  min-height: 600px;
+}
+
+.service-body-container.active {
+  display: grid;
+}
+
+/* Ձախ կողմի մենյու */
+.side-nav {
+  background: #f8fcfc;
+  padding: 50px 25px;
+  border-right: 1px solid #edf2f2;
+}
+
+.side-nav-btn {
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  color: #5a6c7d;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.side-nav-btn:hover {
+  background: rgba(12, 132, 149, 0.05);
+}
+
+.side-nav-btn.active {
+  background: var(--main-dark);
+  color: white;
+  box-shadow: 0 4px 12px rgba(12, 132, 149, 0.2);
+}
+
+/* Աջ կողմի բովանդակությունը */
+.content-side {
+  position: relative;
+  background: #fff;
+}
+
+.content-display {
+  display: none;
+  padding: 60px;
+  animation: slideIn 0.4s ease-out;
+}
+
+.content-display.active {
+  display: block;
+}
+
+.content-display h2 {
+  color: var(--main-dark);
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+}
+
+.content-display p {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 40px;
+}
+
+.content-display img {
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Անիմացիա */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .service-body-container { grid-template-columns: 1fr; }
+  .top-services-nav { grid-template-columns: 1fr; }
+  .side-nav { display: flex; overflow-x: auto; padding: 20px; border-right: none; border-bottom: 1px solid #eee; }
+  .side-nav-btn { white-space: nowrap; margin-right: 10px; margin-bottom: 0; }
 }
