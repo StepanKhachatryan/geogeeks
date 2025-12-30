@@ -1,3 +1,4 @@
+/* --- Root Colors --- */
 :root {
   --main-green: #00a971;
   --main-green-light: #e6f6f1;
@@ -5,85 +6,30 @@
   --light-bg: #f4f7f6;
 }
 
-.services-page-wrapper {
-  padding: 20px 5%;
-  background-color: var(--light-bg);
-  min-height: 85vh;
-}
-
-/* --- TOP NAVIGATION --- */
-.top-services-nav {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin-bottom: 30px;
-}
-
-.main-service-btn {
-  background: white;
-  padding: 0; /* Նկարը կպչում է եզրին */
-  border-radius: 15px;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: 0.4s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  display: flex;
-  align-items: stretch; /* Ստիպում է նկարին և տեքստին լինել նույն բարձրության */
-  overflow: hidden;
-  height: 90px; /* Ֆիքսված բարձրություն բոլոր սալիկների համար */
-}
-
-.main-service-btn.active {
-  border-color: var(--main-green);
-  background: var(--main-green-light);
-}
-
-/* --- IMAGE BOX (The Grey Area) --- */
-.icon-box {
-  width: 110px; /* Ֆիքսված լայնություն նկարի համար */
-  background: #eee;
-  flex-shrink: 0;
-  display: flex;
-}
-
-.icon-box img {
-  width: 100%; /* Լցնում է ողջ լայնությունը */
-  height: 100%; /* Լցնում է ողջ բարձրությունը */
-  object-fit: cover; /* Լցնում է տարածքը՝ պահպանելով համամասնությունը */
-  display: block;
-}
-
-.main-service-btn h3 {
-  padding: 0 20px;
-  font-size: 0.95rem;
-  color: var(--text-dark);
-  font-weight: 700;
-  margin: 0;
-  display: flex;
-  align-items: center; /* Կենտրոնացնում է տեքստը ուղղահայաց */
-  line-height: 1.3;
-}
-
-/* --- CONTENT CONTAINER --- */
+/* --- Container Adjustments --- */
 .service-body-container {
   display: none;
   grid-template-columns: 280px 1fr;
   background: white;
   border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  overflow: visible; /* Changed to visible to allow image overlap/shadows */
+  box-shadow: none !important; /* Removed shadow per request */
+  border: none !important;     /* Removed border per request */
+  min-height: 550px;
 }
 
 .service-body-container.active {
   display: grid;
 }
 
+/* --- Vertical Divider --- */
 .side-nav {
-  background: #f9fbf9;
+  background: transparent; /* Cleaner look without shadow */
   padding: 40px 20px;
-  border-right: 1px solid #edf2f0;
+  border-right: 1px solid #ccc !important; /* Vertical line separator */
 }
 
+/* --- Sub-service Buttons --- */
 .side-nav-btn {
   padding: 14px 18px;
   margin-bottom: 10px;
@@ -99,26 +45,77 @@
   color: white;
 }
 
+/* --- Content Side Layout --- */
 .content-side {
   padding: 50px;
+  position: relative;
 }
 
 .content-display {
   display: none;
+  height: 100%;
 }
 
 .content-display.active {
   display: block;
 }
 
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* --- Diagonal Overlapping Image Gallery --- */
+.image-gallery {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  width: 350px;
+  height: 250px;
 }
 
-@media (max-width: 992px) {
-  .service-body-container { grid-template-columns: 1fr; }
-  .top-services-nav { grid-template-columns: 1fr; }
-  .main-service-btn { height: 80px; }
-  .icon-box { width: 90px; }
+.image-gallery img {
+  position: absolute;
+  width: 200px; /* Fixed size for the overlap effect */
+  border-radius: 10px;
+  background: white;
+  /* Shadow on Upper and Right parts */
+  box-shadow: 5px -5px 15px rgba(0, 0, 0, 0.2); 
+  transition: transform 0.3s ease;
+}
+
+/* Diagonal Overlap logic (75% overlap) */
+.image-gallery img:nth-child(1) {
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+}
+
+.image-gallery img:nth-child(2) {
+  bottom: 40px; /* Moves up */
+  right: 40px;  /* Moves left (diagonal) */
+  z-index: 2;
+}
+
+.image-gallery img:nth-child(3) {
+  bottom: 80px;
+  right: 80px;
+  z-index: 3;
+}
+
+/* Hover effect to see hidden images */
+.image-gallery:hover img {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .service-body-container {
+    grid-template-columns: 1fr;
+  }
+  .side-nav {
+    border-right: none !important;
+    border-bottom: 1px solid #ccc !important;
+  }
+  .image-gallery {
+    position: relative;
+    width: 100%;
+    right: 0;
+    bottom: 0;
+    margin-top: 30px;
+  }
 }
