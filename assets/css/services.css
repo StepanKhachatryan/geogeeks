@@ -11,7 +11,7 @@
   min-height: 85vh;
 }
 
-/* --- ՎԵՐԵՎԻ ԵՐԵՔ ՍԱԼԻԿՆԵՐ (TOP TILES) --- */
+/* --- ՎԵՐԵՎԻ ԵՐԵՔ ՍԱԼԻԿՆԵՐ --- */
 .top-services-nav {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -28,9 +28,9 @@
   transition: all 0.4s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   display: flex;
-  align-items: center; /* Ուղղահայաց կենտրոնացում */
+  align-items: center;
   overflow: hidden;
-  height: 80px; /* Ֆիքսված բարձրություն, որպեսզի չլինեն "big pictures" */
+  height: 80px;
 }
 
 .main-service-btn:hover {
@@ -44,7 +44,7 @@
 }
 
 .icon-box {
-  width: 100px; /* Ձախակողմյան նկարի ֆիքսված լայնություն */
+  width: 100px;
   height: 100%;
   flex-shrink: 0;
   background: #eee;
@@ -53,7 +53,7 @@
 .icon-box img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Նկարը լցնում է ողջ մոխրագույն տարածքը */
+  object-fit: cover;
   display: block;
 }
 
@@ -66,15 +66,15 @@
   line-height: 1.3;
 }
 
-/* --- ՆԵՐՔԵՎԻ ՄԵԾ ԲԼՈԿ (LOWER BOX) --- */
+/* --- ՆԵՐՔԵՎԻ ԲԱԺԻՆ (ԱՌԱՆՑ ՇՐՋԱՆԱԿԻ ԵՎ ՍՏՎԵՐԻ) --- */
 .service-body-container {
   display: none;
   grid-template-columns: 280px 1fr;
-  background: transparent; /* Հեռացվել է ֆոնը */
+  background: transparent;
   border-radius: 0;
-  overflow: visible; /* Որպեսզի նկարների shadow-ն երևա */
-  box-shadow: none !important; /* Հեռացվել է ստվերը */
-  border: none !important;     /* Հեռացվել է շրջանակը */
+  overflow: visible;
+  box-shadow: none !important;
+  border: none !important;
   margin-top: 20px;
 }
 
@@ -85,7 +85,7 @@
 /* Ուղղահայաց բաժանարար գիծ */
 .side-nav {
   padding: 20px 30px 20px 0;
-  border-right: 1px solid #ccc !important; /* Ուղղահայաց գիծ ենթածառայությունների միջև */
+  border-right: 1px solid #ccc !important;
 }
 
 .side-nav-btn {
@@ -98,20 +98,16 @@
   transition: 0.3s;
 }
 
-.side-nav-btn:hover {
-  background: var(--main-green-light);
-}
-
 .side-nav-btn.active {
   background: var(--main-green);
   color: white;
 }
 
-/* --- ԲՈՎԱՆԴԱԿՈՒԹՅՈՒՆ ԵՎ ՆԿԱՐՆԵՐԻ ՇԵՐՏԱՎՈՐՈՒՄ --- */
+/* --- ԲՈՎԱՆԴԱԿՈՒԹՅՈՒՆ ԵՎ ՊԱՏԿԵՐԱՍՐԱՀ --- */
 .content-side {
   padding: 20px 50px;
   position: relative;
-  min-height: 450px;
+  min-height: 500px; /* Ավելացվել է բարձրություն մեծ նկարների համար */
 }
 
 .content-display {
@@ -127,52 +123,50 @@
   line-height: 1.7;
   color: #444;
   margin-bottom: 30px;
-  max-width: 70%; /* Որպեսզի տեքստը չծածկի նկարները */
+  max-width: 60%; /* Ավելի շատ տեղ նկարների համար */
 }
 
-/* Նկարների պատկերասրահ ներքևի աջ անկյունում */
+/* Մեծ և Քառակուսի նկարների պատկերասրահ */
 .image-gallery {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 300px;
-  height: 250px;
+  bottom: 40px;
+  right: 50px;
+  width: 350px;
+  height: 350px;
 }
 
 .image-gallery img {
   position: absolute;
-  width: 220px;
-  height: 150px;
+  width: 250px;       /* Մեծացված չափս */
+  aspect-ratio: 1/1;  /* Քառակուսի տեսք */
   object-fit: cover;
   border-radius: 12px;
-  border: 3px solid white;
-  /* Ստվեր վերևի և աջ մասում */
-  box-shadow: 8px -8px 20px rgba(0, 0, 0, 0.15);
+  border: none !important; /* Հեռացված սպիտակ շրջանակը */
+  
+  /* Ստվեր միայն վերևից և աջից (x-offset: 10px, y-offset: -10px) */
+  box-shadow: 10px -10px 25px rgba(0, 0, 0, 0.2);
   transition: all 0.4s ease;
 }
 
-/* Անկյունագծային շերտավորում (75% overlap) */
-.image-gallery img:nth-child(1) {
-  bottom: 0;
+/* Դիրքավորում (Առջևինը՝ ավելի ներքև և ձախ) */
+
+/* Հետևի նկար (Positioned higher and to the right) */
+.image-gallery img:nth-child(2) {
+  top: 0;
   right: 0;
   z-index: 1;
 }
 
-.image-gallery img:nth-child(2) {
-  bottom: 35px; /* Տեղաշարժ դեպի վեր */
-  right: 35px;  /* Տեղաշարժ դեպի ձախ */
+/* Առջևի նկար (Lower and to the left of the back image) */
+.image-gallery img:nth-child(1) {
+  top: 60px;   /* Իջեցված է */
+  right: 60px; /* Տեղափոխված է դեպի ձախ */
   z-index: 2;
 }
 
-.image-gallery img:nth-child(3) {
-  bottom: 70px;
-  right: 70px;
-  z-index: 3;
-}
-
-/* Hover էֆեկտ նկարների վրա */
-.image-gallery:hover img {
-  transform: translate(-10px, 10px);
+/* Hover էֆեկտ */
+.image-gallery:hover img:nth-child(1) {
+  transform: translate(-15px, 15px);
 }
 
 /* --- RESPONSIVE --- */
@@ -180,6 +174,7 @@
   .top-services-nav { grid-template-columns: 1fr; }
   .service-body-container { grid-template-columns: 1fr; }
   .side-nav { border-right: none !important; border-bottom: 1px solid #ccc !important; padding: 10px 0; }
-  .image-gallery { position: relative; width: 100%; right: 0; bottom: 0; margin-top: 50px; height: 250px; }
+  .image-gallery { position: relative; width: 100%; right: 0; bottom: 0; margin-top: 50px; height: 300px; }
+  .image-gallery img { width: 200px; }
   .content-display p { max-width: 100%; }
 }
