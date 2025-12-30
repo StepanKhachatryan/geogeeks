@@ -2,49 +2,224 @@
 <html lang="hy">
 <head>
   <meta charset="utf-8">
-  <title>Ծառայություններ</title>
+  <title>Ծառայություններ | GeoGeeks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <link rel="icon" type="image/png" href="assets/img/GeoGeeks_logo.png">
+  
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/header.css">
-  <link rel="stylesheet" href="assets/css/services.css"> <link rel="stylesheet" href="assets/css/footer.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
+  <link rel="stylesheet" href="assets/css/footer.css">
+
+  <style>
+    :root {
+      --main-dark: #0c8495;
+      --light-bg: #f4f7f6;
+    }
+
+    .services-page-wrapper {
+      padding: 40px 5%;
+      background-color: var(--light-bg);
+      min-height: 80vh;
+    }
+
+    /* --- ՎԵՐԵՎԻ ՀԻՄՆԱԿԱՆ ԲԱԺԻՆՆԵՐԸ --- */
+    .top-services-nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .main-service-btn {
+      background: white;
+      padding: 30px 15px;
+      text-align: center;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .main-service-btn.active {
+      border-color: var(--main-dark);
+      background: #eef9fa;
+    }
+
+    .main-service-btn img {
+      width: 50px;
+      margin-bottom: 15px;
+    }
+
+    .main-service-btn h3 {
+      font-size: 1rem;
+      color: #333;
+      margin: 0;
+    }
+
+    /* --- ԵՐԿՐՈՐԴԱՅԻՆ ԿԱՌՈՒՑՎԱԾՔԸ (ՁԱԽ ԵՎ ԱՋ) --- */
+    .service-body-container {
+      display: none; /* Ցույց կտանք JS-ով */
+      grid-template-columns: 280px 1fr;
+      gap: 30px;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      min-height: 500px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .service-body-container.active {
+      display: grid;
+    }
+
+    /* Ձախ կողմի ուղղահայաց մենյուն */
+    .side-nav {
+      background: #f8fcfc;
+      padding: 40px 20px;
+      border-right: 1px solid #eee;
+    }
+
+    .side-nav-btn {
+      padding: 15px 20px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      color: #555;
+      transition: 0.3s;
+    }
+
+    .side-nav-btn.active {
+      background: var(--main-dark);
+      color: white;
+    }
+
+    /* Աջ կողմի բովանդակությունը */
+    .content-display {
+      padding: 60px;
+      display: none;
+    }
+
+    .content-display.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .content-display h2 {
+      color: var(--main-dark);
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+
+    .content-display p {
+      line-height: 1.8;
+      color: #444;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    .content-display img {
+      width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 900px) {
+      .service-body-container { grid-template-columns: 1fr; }
+      .top-services-nav { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
   <div id="header-placeholder"></div>
 
-  <section class="services-hero">
-    <h1>Մեր Ծառայությունները</h1>
-    <p>Մենք առաջարկում ենք բարձրորակ լուծումներ հիդրոլոգիայի և GIS ոլորտներում</p>
-  </section>
-
-  <main class="services-container">
-    <div class="services-grid">
-      
-      <div class="service-card">
-        <div class="service-icon">🌍</div>
-        <h3>GIS Քարտեզագրում</h3>
-        <p>Տարածական տվյալների հավաքագրում, վերլուծություն և բարձրորակ թվային քարտեզների ստեղծում:</p>
+  <main class="services-page-wrapper">
+    
+    <div class="top-services-nav">
+      <div class="main-service-btn active" onclick="switchMainTab('gis-section')">
+        <img src="assets/img/icons/gis-icon.png" alt="GIS">
+        <h3>GIS ծառայություններ</h3>
       </div>
-
-      <div class="service-card">
-        <div class="service-icon">💧</div>
-        <h3>Հիդրոլոգիական Մոդելավորում</h3>
-        <p>Գետերի հոսքի, ջրհավաք ավազանների և ջրային ռեսուրսների ճշգրիտ հաշվարկ և կանխատեսում:</p>
+      <div class="main-service-btn" onclick="switchMainTab('hydro-section')">
+        <img src="assets/img/icons/water-icon.png" alt="Hydro">
+        <h3>Հիդրոլոգիական և ջրային ռեսուրսներ</h3>
       </div>
-
-      <div class="service-card">
-        <div class="service-icon">📊</div>
-        <h3>Տվյալների Վերլուծություն</h3>
-        <p>Բնապահպանական և աշխարհագրական տվյալների մշակում՝ ճիշտ որոշումներ կայացնելու համար:</p>
+      <div class="main-service-btn" onclick="switchMainTab('edu-section')">
+        <img src="assets/img/icons/edu-icon.png" alt="Edu">
+        <h3>GIS կրթություն</h3>
       </div>
-
     </div>
+
+    <div id="gis-section" class="service-body-container active">
+      <div class="side-nav">
+        <div class="side-nav-btn active" onclick="switchSubTab(this, 'gis-map-content')">GIS Քարտեզագրում</div>
+        <div class="side-nav-btn" onclick="switchSubTab(this, 'remote-sensing-content')">Remote Sensing</div>
+      </div>
+      <div class="content-side">
+        <div id="gis-map-content" class="content-display active">
+          <h2>GIS Քարտեզագրում</h2>
+          <p>Մենք մատուցում ենք պրոֆեսիոնալ քարտեզագրական ծառայություններ՝ օգտագործելով ամենաժամանակակից տեխնոլոգիաները։ Սա ներառում է տվյալների թվայնացում, բարձրորակ տպագիր և թվային քարտեզների ստեղծում։</p>
+          <img src="assets/img/services/gis-mapping.jpg" alt="GIS Mapping">
+        </div>
+        <div id="remote-sensing-content" class="content-display">
+          <h2>Remote Sensing (Հեռահար զոնդավորում)</h2>
+          <p>Արբանյակային և աերոդատախցիկներից ստացված տվյալների մշակում՝ բուսածածկի, հողերի և ջրային մակերևույթների մոնիթորինգի համար։ Մենք իրականացնում ենք NDVI և այլ ինդեքսների վերլուծություն։</p>
+          <img src="assets/img/services/remote-sensing.jpg" alt="Remote Sensing">
+        </div>
+      </div>
+    </div>
+
+    <div id="hydro-section" class="service-body-container">
+      <div class="side-nav">
+        <div class="side-nav-btn active" onclick="switchSubTab(this, 'hydro-model-content')">Մոդելավորում</div>
+      </div>
+      <div class="content-side">
+        <div id="hydro-model-content" class="content-display active">
+          <h2>Հիդրոլոգիական Մոդելավորում</h2>
+          <p>Գետերի հոսքի, ջրհավաք ավազանների և ջրային ռեսուրսների ճշգրիտ հաշվարկ ու կանխատեսում HEC-RAS և HEC-HMS ծրագրերով։</p>
+          <img src="assets/img/services/hydro-modelling.jpg" alt="Hydro">
+        </div>
+      </div>
+    </div>
+
+    <div id="edu-section" class="service-body-container">
+       </div>
+
   </main>
 
   <div id="footer-placeholder"></div>
 
   <script src="assets/js/main.js"></script>
+  <script>
+    // Ֆունկցիա վերևի հիմնական բաժինները փոխելու համար
+    function switchMainTab(sectionId) {
+      // Փոխել կոճակների ակտիվությունը
+      document.querySelectorAll('.main-service-btn').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      // Փոխել բաժինների տեսանելիությունը
+      document.querySelectorAll('.service-body-container').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+    }
+
+    // Ֆունկցիա ձախ կողմի ենթաբաժինները փոխելու համար
+    function switchSubTab(btnElement, contentId) {
+      // Գտնել տվյալ բաժնի ներսում գտնվող տարրերը
+      const parentSection = btnElement.closest('.service-body-container');
+      
+      parentSection.querySelectorAll('.side-nav-btn').forEach(btn => btn.classList.remove('active'));
+      btnElement.classList.add('active');
+
+      parentSection.querySelectorAll('.content-display').forEach(content => content.classList.remove('active'));
+      document.getElementById(contentId).classList.add('active');
+    }
+  </script>
 </body>
 </html>
