@@ -23,7 +23,7 @@
 
 .main-service-btn {
   background: white;
-  padding: 0; /* Հեռացնում ենք padding-ը, որ նկարը կպչի ձախ եզրին */
+  padding: 0; 
   border-radius: 15px;
   cursor: pointer;
   border: 2px solid transparent;
@@ -31,7 +31,8 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   display: flex;
   align-items: center;
-  overflow: hidden; /* Որ նկարի անկյունները դուրս չգան border-radius-ից */
+  overflow: hidden; 
+  height: 80px; /* Ensure the button has a fixed height matching the icon box */
 }
 
 .main-service-btn:hover {
@@ -46,21 +47,24 @@
 
 /* Ձախակողմյան նկարի բլոկը */
 .icon-box {
-  width: 100px; /* Ֆիքսված լայնություն նկարի համար */
-  height: 80px;  /* Ֆիքսված բարձրություն */
+  width: 100px; 
+  height: 100%; /* Make it fill the height of the main-service-btn */
   flex-shrink: 0;
-  display: flex;
+  display: block; /* Changed to block to ensure child img fills correctly */
   background: #eee;
+  overflow: hidden;
 }
 
 .icon-box img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Նկարը ամբողջությամբ լրացնում է բլոկը */
+  display: block; /* Removes any unwanted white space at the bottom */
+  object-fit: cover; /* Forces the image to cover the entire area without distortion */
+  object-position: center; /* Ensures the image is centered within the box */
 }
 
 .main-service-btn h3 {
-  padding: 0 20px; /* Տեքստի համար ավելացնում ենք ներքին հեռավորություն */
+  padding: 0 20px; 
   font-size: 0.95rem;
   color: var(--text-dark);
   font-weight: 700;
@@ -151,5 +155,6 @@
 @media (max-width: 992px) {
   .service-body-container { grid-template-columns: 1fr; }
   .top-services-nav { grid-template-columns: 1fr; }
-  .icon-box { width: 80px; height: 60px; }
+  .main-service-btn { height: 70px; }
+  .icon-box { width: 80px; }
 }
