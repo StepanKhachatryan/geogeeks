@@ -2,12 +2,12 @@
   --main-green: #00a971;
   --main-green-light: #e6f6f1;
   --text-dark: #1a2a3a;
-  --light-bg: #f4f7f6;
+  --light-bg: #ffffff; /* Changed from #f4f7f6 to white */
 }
 
 .services-page-wrapper {
   padding: 30px 5%;
-  background-color: var(--light-bg);
+  background-color: var(--light-bg); /* Now renders as white */
   min-height: 85vh;
 }
 
@@ -47,7 +47,7 @@
   width: 100px;
   height: 100%;
   flex-shrink: 0;
-  background: #eee;
+  background: transparent; /* Removed the light grey #eee background */
 }
 
 .icon-box img {
@@ -106,7 +106,7 @@
 .content-side {
   padding: 20px 50px;
   position: relative;
-  min-height: 600px; /* Մեծացված բարձրություն՝ ավելի մեծ նկարների համար */
+  min-height: 600px; 
 }
 
 .content-display {
@@ -122,7 +122,7 @@
   line-height: 1.7;
   color: #444;
   margin-bottom: 30px;
-  max-width: 50%; /* Կրճատված լայնություն, որպեսզի նկարները չծածկեն տեքստը */
+  max-width: 50%; 
 }
 
 /* Մեծացված Քառակուսի նկարների պատկերասրահ */
@@ -130,41 +130,36 @@
   position: absolute;
   bottom: 50px;
   right: 50px;
-  width: 450px; /* Մեծացված կոնտեյներ */
+  width: 450px; 
   height: 450px;
 }
 
 .image-gallery img {
   position: absolute;
-  width: 375px;       /* 1.5 անգամ մեծացված (250px * 1.5) */
-  aspect-ratio: 1/1;  /* Քառակուսի */
+  width: 375px;       
+  aspect-ratio: 1/1;  
   object-fit: cover;
   border-radius: 12px;
   border: none !important;
-  /* Ստվեր վերևից և աջից */
   box-shadow: 12px -12px 30px rgba(0, 0, 0, 0.2);
-  transition: none;   /* Հեռացված է անիմացիան */
+  transition: none;   
 }
 
 /* Դիրքավորում */
-
-/* Հետևի նկար */
 .image-gallery img:nth-child(2) {
   top: 0;
   right: 0;
   z-index: 1;
 }
 
-/* Առջևի նկար (Lower and to the left of the back image) */
 .image-gallery img:nth-child(1) {
-  top: 80px;   /* Շեղված է ավելի շատ՝ մեծ չափսի պատճառով */
-  right: 80px; 
+  top: 80px;   
+  right: 80px;  
   z-index: 2;
 }
 
-/* Հեռացված է Hover էֆեկտը */
 .image-gallery:hover img:nth-child(1) {
-  transform: none; 
+  transform: none;  
 }
 
 /* --- RESPONSIVE --- */
@@ -172,12 +167,12 @@
   .top-services-nav { grid-template-columns: 1fr; }
   .service-body-container { grid-template-columns: 1fr; }
   .side-nav { border-right: none !important; border-bottom: 1px solid #ccc !important; padding: 10px 0; }
-  .image-gallery { 
-    position: relative; 
-    width: 100%; 
-    right: 0; 
-    bottom: 0; 
-    margin-top: 50px; 
+  .image-gallery {  
+    position: relative;  
+    width: 100%;  
+    right: 0;  
+    bottom: 0;  
+    margin-top: 50px;  
     height: 400px;
     display: flex;
     justify-content: center;
