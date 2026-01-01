@@ -1,15 +1,14 @@
 /* ==========================================
-   TABLET & MOBILE STYLES (Max 768px)
+   TABLET & MOBILE STYLES (Max 1024px)
    ========================================== */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
 
-    /* 1. Header & Navigation Cleanup */
+    /* 1. Header & Navigation Fix */
     .navbar {
         position: fixed !important;
         top: 0;
         width: 100% !important;
         z-index: 2000 !important;
-        height: auto !important;
     }
 
     .nav-container {
@@ -18,7 +17,6 @@
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
-        box-sizing: border-box !important;
     }
 
     .logo-text { display: none !important; }
@@ -31,8 +29,6 @@
     .menu {
         display: flex !important;
         gap: 5px !important;
-        margin: 0 !important;
-        padding: 0 !important;
     }
 
     .menu li a {
@@ -41,43 +37,24 @@
         white-space: nowrap !important;
     }
 
-    /* 2. Services Page Layout Fix */
+    /* 2. Services Page Global Adjustments */
     .services-page-wrapper {
-        padding: 80px 15px 30px !important; 
-        margin-top: 0 !important;
+        padding: 80px 15px 30px !important; /* Prevents header overlap */
     }
 
     .top-services-nav {
         grid-template-columns: 1fr !important;
         gap: 12px !important;
-        margin-bottom: 25px !important;
     }
 
-    .main-service-btn {
-        height: auto !important;
-        min-height: 70px !important;
-    }
-
-    .icon-box {
-        width: 70px !important;
-        height: 70px !important;
-    }
-
-    .main-service-btn h3 {
-        font-size: 0.8rem !important;
-        padding: 0 10px !important;
-    }
-
-    /* 3. Side Navigation (Sub-services) Transformation */
+    /* 3. Visibility & Logic Fix - ՍԱ ԼՈՒԾՈՒՄ Է ՀՈՐԻԶՈՆԱԿԱՆ ԴԻՐՔԻ ԽՆԴԻՐԸ */
     .service-body-container {
-        display: none !important; /* Լռելյայն թաքցնում ենք բոլորը */
+        display: none !important; /* Թաքցնել բոլորը լռելյայն */
         flex-direction: column !important;
-        gap: 0 !important;
     }
 
-    /* 6. Visibility Logic - ՍԱ ԿԱՐԵՎՈՐ Է */
     .service-body-container.active {
-        display: flex !important; /* Ցույց տալ միայն ակտիվ հիմնական բաժինը */
+        display: flex !important; /* Միայն ակտիվ բաժինը դարձնել տեսանելի */
     }
 
     .content-display {
@@ -85,9 +62,10 @@
     }
 
     .content-display.active {
-        display: block !important; /* Ցույց տալ միայն ակտիվ ենթաբաժինը */
+        display: block !important; /* Միայն ակտիվ ենթաբաժինը դարձնել տեսանելի */
     }
 
+    /* 4. Side Navigation (Horizontal Scroll Menu) */
     .side-nav {
         display: flex !important;
         flex-direction: row !important;
@@ -98,20 +76,19 @@
         gap: 8px !important;
         margin-bottom: 20px !important;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; 
+        scrollbar-width: none;
     }
 
     .side-nav::-webkit-scrollbar { display: none; }
 
     .side-nav-btn {
         flex: 0 0 auto !important;
-        margin-bottom: 0 !important;
+        white-space: nowrap !important;
         padding: 10px 18px !important;
         font-size: 0.85rem !important;
-        white-space: nowrap !important;
     }
 
-    /* 4. Content Side Fix */
+    /* 5. Content Layout reset */
     .content-side {
         padding: 0 !important;
         min-height: auto !important;
@@ -120,10 +97,9 @@
     .service-main-desc, 
     .business-list ul {
         max-width: 100% !important;
-        padding: 0 !important;
     }
 
-    /* 5. Image Gallery Adjustment */
+    /* 6. Image Gallery Adjustment */
     .image-gallery {
         position: relative !important;
         top: 0 !important;
@@ -132,7 +108,6 @@
         height: auto !important;
         display: flex !important;
         justify-content: center !important;
-        align-items: center !important;
         margin-top: 40px !important;
         gap: 15px !important;
     }
@@ -140,11 +115,20 @@
     .image-gallery img {
         position: relative !important;
         width: 45% !important;
-        max-width: 200px !important;
-        height: auto !important;
+        max-width: 220px !important;
         top: 0 !important;
         right: 0 !important;
         box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    /* Հատուկ ուղղում հորիզոնական դիրքի համար */
+    @media (orientation: landscape) {
+        .image-gallery {
+            margin-top: 20px !important;
+        }
+        .image-gallery img {
+            width: 30% !important; /* Փոքրացնում ենք նկարները, որ չխանգարեն սքրոլին */
+        }
     }
 }
 
@@ -152,14 +136,14 @@
    SMALL PHONE STYLES (Max 480px)
    ========================================== */
 @media screen and (max-width: 480px) {
-    .nav-container { padding: 8px 10px !important; }
-
     .menu li a {
         padding: 5px 6px !important;
         font-size: 0.65rem !important;
     }
 
-    .image-gallery { flex-direction: column !important; }
+    .image-gallery {
+        flex-direction: column !important;
+    }
 
     .image-gallery img {
         width: 80% !important;
