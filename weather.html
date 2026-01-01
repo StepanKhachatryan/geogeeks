@@ -2,156 +2,147 @@
 <html lang="hy">
 <head>
   <meta charset="utf-8">
-  <title>GeoGeeks | Եղանակի Մոնիթորինգ</title>
+  <title>Ծառայություններ | GeoGeeks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
   <link rel="icon" type="image/png" href="assets/img/GeoGeeks_logo.png">
   
   <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/header.css">
+  <link rel="stylesheet" href="assets/css/services.css"> 
   <link rel="stylesheet" href="assets/css/footer.css">
-  <link rel="stylesheet" href="assets/css/responsive.css">
-
-  <style>
-    /* Weather Page Layout Customization */
-    .weather-page-container {
-      padding: 60px 5%;
-      background-color: #f4f7f6;
-      min-height: 85vh;
-      text-align: center;
-    }
-
-    .weather-card {
-      max-width: 1200px;
-      margin: 0 auto;
-      background: #ffffff;
-      border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      border: 1px solid #e0e6e8;
-    }
-
-    .card-header {
-      background-color: #0c8495; /* GeoGeeks Teal Color */
-      color: white;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .card-header h2 {
-      font-size: 1.4rem;
-      margin: 0;
-      font-weight: 700;
-    }
-
-    .model-badge {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 5px 12px;
-      border-radius: 15px;
-      font-size: 0.8rem;
-      font-weight: bold;
-    }
-
-    .radar-wrapper {
-      width: 100%;
-      height: 650px;
-      position: relative;
-    }
-
-    .radar-frame {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .weather-info-footer {
-      padding: 25px;
-      background: #fafafa;
-      border-top: 1px solid #eee;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      text-align: left;
-    }
-
-    .info-item h4 {
-      color: #0c8495;
-      margin-bottom: 8px;
-    }
-
-    .info-item p {
-      font-size: 0.85rem;
-      color: #555;
-      line-height: 1.4;
-    }
-
-    .back-nav {
-      margin-top: 30px;
-    }
-
-    .back-to-home {
-      color: #34495e;
-      font-weight: 600;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .back-to-home:hover {
-      color: #0c8495;
-      transform: translateX(-5px);
-    }
-
-    /* Tablet/Mobile Adjustments */
-    @media screen and (max-width: 768px) {
-      .radar-wrapper { height: 450px; }
-      .weather-info-footer { grid-template-columns: 1fr; }
-      .card-header h2 { font-size: 1.1rem; }
-    }
-  </style>
 </head>
 <body>
 
   <div id="header-placeholder"></div>
 
-  <main class="weather-page-container">
-    <div class="weather-card">
-      <div class="card-header">
-        <h2>Տեղումների մոնիթորինգ (Հայաստան)</h2>
-        <div class="model-badge">ICON Model v2.0</div>
+  <main class="services-page-wrapper">
+    
+    <div class="top-services-nav">
+      <div class="main-service-btn active" onclick="switchMainTab('gis-section')">
+        <div class="icon-box"><img src="../assets/img/serv_img/serv_gis.jpg" alt="GIS"></div>
+        <h3>Աշխարհագրական տեղեկատվական համակարգերի (GIS) ծառայություններ</h3>
       </div>
-
-      <div class="radar-wrapper">
-        <iframe 
-          class="radar-frame"
-          src="https://embed.windy.com/embed2.html?lat=40.177&lon=44.513&zoom=7&level=surface&overlay=rain&product=icon&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1" 
-          title="GeoGeeks Professional Radar with ICON Model">
-        </iframe>
+      <div class="main-service-btn" onclick="switchMainTab('hydro-section')">
+        <div class="icon-box"><img src="../assets/img/serv_img/serv_hydro.jpg" alt="Hydro"></div>
+        <h3>Ջրային ռեսուրսների և հիդրոլոգիական ծառայություններ</h3>
       </div>
+      <div class="main-service-btn" onclick="switchMainTab('edu-section')">
+        <div class="icon-box"><img src="../assets/img/serv_img/serv_edu.jpg" alt="Edu"></div>
+        <h3>GIS կրթություն</h3>
+      </div>
+    </div>
 
-      <div class="weather-info-footer">
-        <div class="info-item">
-          <h4>ICON Մոդել</h4>
-          <p>Icosahedral Nonhydrostatic (ICON) մոդելը մշակված է Գերմանական եղանակի ծառայության (DWD) կողմից: Այն ապահովում է բարձր ճշգրտություն լեռնային ռելիեֆի համար:</p>
+    <div id="gis-section" class="service-body-container active">
+      <div class="side-nav">
+        <div class="side-nav-btn active" onclick="switchSubTab(this, 'gis-analysis')">GIS վերլուծություն</div>
+        <div class="side-nav-btn" onclick="switchSubTab(this, 'remote-sensing')">Remote Sensing (RS)</div>
+      </div>
+      <div class="content-side">
+        <div id="gis-analysis" class="content-display active">
+          <p class="service-main-desc">Մեր GIS վերլուծության ծառայությունները տվյալները վերածում են ռազմավարական գործիքի՝ թույլ տալով տեսնել կապերն ու օրինաչափությունները:</p>
+          <div class="business-list">
+            <h3>Ովքե՞ր կարող են շահել այս ծառայությունից.</h3>
+            <ul>
+              <li><strong>Գյուղատնտեսություն:</strong> Բերքատվության մոնիթորինգ և հողերի դեգրադացիայի կանխում:</li>
+              <li><strong>Կառուցապատում:</strong> Շինարարական հրապարակների օպտիմալ ընտրություն և ռիսկերի գնահատում:</li>
+              <li><strong>Լոգիստիկա:</strong> Առաքման երթուղիների օպտիմալացում և ծախսերի կրճատում:</li>
+              <li><strong>Պետական սեկտոր:</strong> Քաղաքաշինական պլանավորում և կադաստրային տվյալների կառավարում:</li>
+              <li><strong>Բնապահպանություն:</strong> Էկոհամակարգերի պահպանություն և աղտոտվածության քարտեզագրում:</li>
+            </ul>
+          </div>
+          <div class="image-gallery">
+            <img src="assets/img/serv_img/serv_gis_02.jpg" alt="GIS 2">
+            <img src="assets/img/serv_img/serv_gis_01.jpg" alt="GIS 1">
+          </div>
         </div>
-        <div class="info-item">
-          <h4>Իրական ժամանակում</h4>
-          <p>Տվյալները թարմացվում են օրական մինչև 8 անգամ: Քարտեզի գործիքների միջոցով կարող եք փոփոխել շերտերը (քամի, ամպեր, ճնշում):</p>
+        <div id="remote-sensing" class="content-display">
+          <p class="service-main-desc">Remote Sensing-ը թույլ է տալիս իրականացնել տարածքների մոնիթորինգ առանց ֆիզիկական ներկայության:</p>
+          <div class="business-list">
+            <h3>RS վերլուծության հնարավորությունները.</h3>
+            <ul>
+              <li><strong>NDVI ինդեքս:</strong> Բույսերի առողջության և աճի տեմպերի գնահատում:</li>
+              <li><strong>Ջրային հայելի:</strong> Լճերի և գետերի հունի փոփոխության հսկողություն:</li>
+              <li><strong>Անտառային ֆոնդ:</strong> Ապօրինի հատումների և հրդեհների հայտնաբերում:</li>
+              <li><strong>Հողի խոնավություն:</strong> Ոռոգման արդյունավետության հեռահար գնահատում:</li>
+              <li><strong>Աղետների քարտեզագրում:</strong> Հեղեղումների հետևանքների արագ արձանագրում:</li>
+            </ul>
+          </div>
+          <div class="image-gallery">
+            <img src="assets/img/serv_img/serv_rs_02.jpg" alt="RS 2">
+            <img src="assets/img/serv_img/serv_rs_01.png" alt="RS 1">
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="back-nav">
-      <a href="index.html" class="back-to-home">← Վերադառնալ գլխավոր էջ</a>
+    <div id="hydro-section" class="service-body-container">
+      <div class="side-nav">
+        <div class="side-nav-btn active" onclick="switchSubTab(this, 'hydro-modeling')">Հիդրոլոգիական հետազոտություն</div>
+        <div class="side-nav-btn" onclick="switchSubTab(this, 'water-mgmt')">Ջրհեղեղների մոդելավորում</div>
+      </div>
+      <div class="content-side">
+        <div id="hydro-modeling" class="content-display active">
+          <p class="service-main-desc">Գետերի հոսքի և ջրհավաք ավազանների ճշգրիտ հաշվարկ ժամանակակից ծրագրային փաթեթներով:</p>
+          <div class="business-list">
+            <h3>Հիդրոլոգիական մոդելավորման կիրառությունը.</h3>
+            <ul>
+              <li><strong>Էներգետիկա:</strong> ՀԷԿ-երի ջրային պաշարների կանխատեսում:</li>
+              <li><strong>Ջրամատակարարում:</strong> Խմելու և ոռոգման ջրի պաշարների բաշխում:</li>
+              <li><strong>Ինժեներական նախագծում:</strong> Կամուրջների և ամբարտակների անվտանգություն:</li>
+              <li><strong>Գյուղատնտեսություն:</strong> Ջրային հաշվեկշիռների ճշգրիտ պլանավորում:</li>
+              <li><strong>Գիտական մոնիթորինգ:</strong> Կլիմայական ազդեցության գնահատում ջրային ցիկլի վրա:</li>
+            </ul>
+          </div>
+          <div class="image-gallery">
+            <img src="assets/img/serv_img/serv_hydro_02.jpg" alt="H 2">
+            <img src="assets/img/serv_img/serv_hydro_01.jpg" alt="H 1">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="edu-section" class="service-body-container">
+      <div class="side-nav">
+        <div class="side-nav-btn active" onclick="switchSubTab(this, 'gis-edu')">GIS դասընթացներ</div>
+      </div>
+      <div class="content-side">
+        <div id="gis-edu" class="content-display active">
+          <p class="service-main-desc">Դասընթացներ ArcGIS և QGIS ծրագրերի տիրապետման համար՝ սկսնակներից մինչև պրոֆեսիոնալներ:</p>
+          <div class="business-list">
+            <h3>Ուսումնական ծրագրի ուղղությունները.</h3>
+            <ul>
+              <li><strong>Գործնական GIS:</strong> Աշխատանք իրական տվյալների բազաների հետ:</li>
+              <li><strong>Քարտեզագրում:</strong> Պրոֆեսիոնալ տեմպլեյթների և քարտեզների պատրաստում:</li>
+              <li><strong>Տարածական վերլուծություն:</strong> Geoprocessing գործիքների տիրապետում:</li>
+              <li><strong>Տվյալների կառավարում:</strong> Շերտերի ստեղծում և խմբագրում:</li>
+              <li><strong>Հավաստագրում:</strong> Որակավորման բարձրացում և մասնագիտական աճ:</li>
+            </ul>
+          </div>
+          <div class="image-gallery">
+            <img src="assets/img/serv_img/serv_edu_02.jpg" alt="E 2">
+            <img src="assets/img/serv_img/serv_edu_01.jpg" alt="E 1">
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 
   <div id="footer-placeholder"></div>
-
   <script src="assets/js/main.js"></script>
+  <script>
+    function switchMainTab(sectionId) {
+      document.querySelectorAll('.main-service-btn').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      document.querySelectorAll('.service-body-container').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+    }
+    function switchSubTab(btnElement, contentId) {
+      const parentSection = btnElement.closest('.service-body-container');
+      parentSection.querySelectorAll('.side-nav-btn').forEach(btn => btn.classList.remove('active'));
+      btnElement.classList.add('active');
+      parentSection.querySelectorAll('.content-display').forEach(content => content.classList.remove('active'));
+      document.getElementById(contentId).classList.add('active');
+    }
+  </script>
 </body>
 </html>
