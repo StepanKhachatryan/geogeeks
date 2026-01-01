@@ -1,1 +1,17 @@
+.footer {
+  width: 100%;
+  background-color: #ffffff; /* Կամ ձեր նախընտրած գույնը */
+  padding: 20px 0;
+  border-top: 1px solid #eaeaea; /* Նուրբ գիծ վերևում */
+  display: flex;
+  justify-content: center; /* Հորիզոնական կենտրոնացում */
+  align-items: center;    /* Ուղղահայաց կենտրոնացում */
+}
 
+.footer-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
