@@ -17,61 +17,78 @@
   scroll-snap-align: start;
   padding: 80px 5% 20px;
   box-sizing: border-box;
-  position: relative; /* Անհրաժեշտ է vertical-title-ի համար */
+  position: relative; 
+  overflow: hidden; /* Կանխում է վերնագրի դուրս գալը էկրանից */
 }
 
 .team-bg { background-color: #0c8495; }
 .white-bg { background-color: #ffffff; }
 
-/* Ուղղահայաց գրվածք ձախ կողմում (Red area style from your picture) */
+/* --- Ուղղահայաց վերնագիր (Ձախ կողմում) --- */
 .vertical-title {
   position: absolute;
-  left: 40px;
+  /* Սկզբնական դիրքը ձախից դուրս՝ fade-in էֆեկտի համար */
+  left: -200px; 
   top: 50%;
   transform: translateY(-50%) rotate(-90deg);
-  transform-origin: left bottom;
-  font-size: 3.5rem;
-  font-weight: bold;
-  color: rgba(255, 255, 255, 0.9);
+  transform-origin: center center;
+  
+  /* Ոճավորում */
+  font-size: 8rem; /* Գրեթե վերևից ներքև */
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.15); /* Կիսաթափանցիկ սպիտակ */
   white-space: nowrap;
-  letter-spacing: 2px;
+  letter-spacing: 15px;
+  text-transform: uppercase;
   pointer-events: none;
-}
-
-/* Fade-in Animation Logic */
-.fade-in-section {
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 1s ease-out;
+  transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 1;
 }
 
-/* Երբ բաժինը դառնում է տեսանելի (կարող եք ավելացնել JS-ով կամ պարզապես CSS hover/scroll snap-ով) */
-.about-section:hover .fade-in-section {
+/* Անիմացիայի ակտիվացում Intersection Observer-ի միջոցով */
+.about-section.active-fade .vertical-title {
+  left: 50px; /* Սահում է դեպի իր տեղը */
   opacity: 1;
-  transform: translateY(0);
 }
 
-/* Թիմի դասավորվածություն */
-.team-grid {
-  display: flex;
-  justify-content: center;
-  gap: 50px;
-  flex-wrap: wrap;
+/* --- Թիմի անդամների դասավորվածություն (Random) --- */
+.team-random-container {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  z-index: 2;
 }
 
 .team-member {
+  position: absolute;
+  /* Օգտագործում է inline style-ով տրված --rand-top և --rand-left արժեքները */
+  top: var(--rand-top);
+  left: var(--rand-left);
   text-align: center;
   color: white;
+  
+  /* Անիմացիայի սկզբնական վիճակ */
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 1s ease-out;
+  transition-delay: 0.3s;
+}
+
+/* Թիմի անդամների հայտնվելը */
+.about-section.active-fade .team-member {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .team-member .img-container {
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   overflow: hidden;
   border: 5px solid rgba(255, 255, 255, 0.2);
   margin: 0 auto 15px;
-  transition: transform 0.3s ease;
+  background-color: #fff; /* Սպիտակ ֆոն նկարների տակ */
 }
 
 .team-member img {
@@ -82,31 +99,33 @@
 
 .team-member h4 {
   font-size: 1.2rem;
-  margin: 10px 0 5px;
+  margin: 5px 0;
   font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .team-member p {
-  font-size: 1rem;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 5px;
   opacity: 0.9;
 }
 
+/* LinkedIn Icon */
 .linkedin-link img {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   vertical-align: middle;
-  transition: opacity 0.3s;
+  transition: transform 0.3s ease;
 }
 
 .linkedin-link:hover img {
-  opacity: 0.7;
+  transform: scale(1.2);
 }
 
-/* Գործընկերների պատահական դասավորություն (մնում է նույնը) */
+/* --- Գործընկերների պատահական դասավորություն --- */
 .partners-random-cloud {
   position: relative;
   width: 100%;
@@ -116,4 +135,28 @@
   position: absolute;
   top: var(--rand-top);
   left: var(--rand-left);
+}
+
+/* --- Responsive Adjustments --- */
+@media screen and (max-width: 1024px) {
+  .vertical-title {
+    font-size: 4rem;
+    left: -100px;
+  }
+  
+  .about-section.active-fade .vertical-title {
+    left: 10px;
+  }
+
+  .team-random-container {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .team-member {
+    position: static !important; /* Բջջայինով դասավորում ենք իրար տակ */
+  }
 }
