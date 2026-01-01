@@ -1,51 +1,44 @@
-/* ==========================================================================
-   ABOUT.CSS - ABSOLUTE FIX FOR CENTERING & ICONS
-   ========================================================================== */
-
-html, body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden; 
-}
-
+/* 1. Հիմնական կոնտեյների ուղղում */
 .about-container {
     width: 100%;
     height: 100vh;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
-    scrollbar-width: none; 
+    scrollbar-width: none;
 }
-.about-container::-webkit-scrollbar { display: none; }
 
+/* 2. ՍԵԿՑԻԱՆԵՐԻ ԲԱՐՁՐՈՒԹՅՈՒՆԸ = 100vh - 80px */
 .about-section {
     width: 100%;
-    height: 100vh;
+    /* Սա ձեր ուզած calc-ն է */
+    height: calc(100vh - 80px); 
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     scroll-snap-align: start;
     position: relative;
     box-sizing: border-box;
-    /* Հեռացնում ենք բոլոր padding-ները, որոնք շեղում են կենտրոնը */
-    padding: 0 !important; 
+    
+    /* ԿԱՐԵՎՈՐ. Ամեն սեկցիայի վերևում թողնում ենք 80px դատարկ տարածություն */
+    margin-top: 80px; 
 }
 
-/* --- ԹԻՄԻ ԲԱԺԻՆ --- */
+/* 3. ԹԻՄԻ ԲԱԺԻՆ (ԿԱՊՈՒՅՏ ՖՈՆ) */
 .about-section.team-bg {
     background-color: #0c8495;
+    /* Այս բաժնում padding-ը պետք է լինի 0, որպեսզի կենտրոնը չշեղվի */
+    padding: 0 50px 0 280px !important;
 }
 
-/* ՈՒՂՂԱՀԱՅԱՑ ՎԵՐՆԱԳԻՐ */
+/* Ուղղահայաց վերնագիր - ՀԻՄԱ ԱՅՆ ԿԼԻՆԻ ԲԱՑԱՐՁԱԿ ԿԵՆՏՐՈՆՈՒՄ */
 .vertical-title {
     position: absolute;
     left: -220px;
-    /* Header-ը 80px է, հետևաբար էկրանի կենտրոնը իջնում է 40px-ով */
-    top: calc(50% + 40px); 
+    top: 50%; /* Քանի որ սեկցիան արդեն 80px-ով ցածր է, 50%-ը ճիշտ կենտրոնն է */
     transform: translateY(-50%) rotate(-90deg);
     transform-origin: center center;
-    font-size: 7rem; 
+    font-size: 7rem;
     font-weight: 900;
     color: #ffffff;
     white-space: nowrap;
@@ -61,7 +54,7 @@ html, body {
     left: -180px;
 }
 
-/* ԹԻՄԻ ՑԱՆՑԻ ԿՈՆՏԵՅՆԵՐ */
+/* ԹԻՄԻ ՑԱՆՑԸ */
 .team-grid-container {
     display: flex !important;
     flex-direction: row !important;
@@ -70,72 +63,35 @@ html, body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    padding-left: 200px; /* Տեղ վերնագրի համար */
-    /* Ամբողջ թիմը իջեցնում ենք 40px-ով, որ տեսողականորեն լինի կենտրոնում */
-    margin-top: 80px; 
 }
 
-.team-member {
-    text-align: center;
-    color: white;
-    flex: 0 0 220px;
-    max-width: 220px;
-}
-
-.team-member .img-container {
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 5px solid rgba(255, 255, 255, 0.2);
-    margin: 0 auto 15px;
-    background-color: #fff;
-}
-
-.team-member img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* --- LINKEDIN ICON FIXED SIZE --- */
+/* 4. LINKEDIN ICON FIX (Խիստ սահմանափակում) */
 .linkedin-link {
     display: inline-block !important;
     width: 20px !important;
     height: 20px !important;
-    vertical-align: middle;
     margin-left: 8px;
+    vertical-align: middle;
 }
 
 .linkedin-link img {
-    width: 20px !important; /* Պարտադիր չափս */
+    width: 20px !important;
     height: 20px !important;
-    border: none !important;
-    border-radius: 0 !important;
-    background: none !important;
     display: block !important;
-}
-
-/* --- ԳՈՐԾԸՆԿԵՐՆԵՐ / ՊԱՏՄՈՒԹՅՈՒՆ --- */
-.about-content {
-    /* Իջեցնում ենք տեքստը, որ Header-ի տակ չմնա */
-    margin-top: 80px; 
-    text-align: center;
-    max-width: 1000px;
-    padding: 0 20px;
-}
-
-.about-content h1, .about-content h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+    border: none !important;
+    background: none !important;
 }
 
 /* --- RESPONSIVE --- */
 @media screen and (max-width: 1024px) {
+    .about-section {
+        height: auto;
+        min-height: calc(100vh - 80px);
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
     .team-grid-container {
         flex-direction: column !important;
-        padding-left: 0;
     }
     .vertical-title { display: none; }
-    .about-section { height: auto; min-height: 100vh; }
 }
