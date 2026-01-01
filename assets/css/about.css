@@ -1,92 +1,82 @@
-/* About Page Specific Styling */
-
-/* Banner Section */
-.about-hero {
-    background-color: #0c8495;
-    color: white;
-    padding: 80px 5%;
-    text-align: center;
+/* Container-ը ստիպում է սքրոլին «կպչել» բաժիններին */
+.about-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
 }
 
-.about-hero h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-/* Main Content Area */
 .about-section {
-    padding: 60px 10%;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    gap: 40px;
-    align-items: center;
+  width: 100%;
+  height: 100vh; /* Ամբողջ էկրանը Header-ի տակ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: start;
+  padding: 80px 5% 20px; /* 80px-ը Header-ի համար է */
+  box-sizing: border-box;
 }
 
-.about-text {
-    flex: 1;
+/* Գունային սխեմաներ */
+.white-bg { background-color: #ffffff; }
+.team-bg { background-color: #0c8495; } /* "Մեր մասին" բաժնի կապույտը */
+
+.white-text { color: #ffffff; }
+
+.about-content {
+  max-width: 1000px;
+  text-align: center;
 }
 
-.about-text h2 {
-    color: #0c8495;
-    margin-bottom: 20px;
-    font-size: 2rem;
+/* Թիմի դասավորվածություն */
+.team-grid {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-top: 30px;
 }
 
-.about-text p {
-    line-height: 1.8;
-    color: #444;
-    margin-bottom: 15px;
-    font-size: 1.1rem;
+.team-member img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(255,255,255,0.3);
+  margin-bottom: 15px;
 }
 
-.about-image {
-    flex: 1;
+/* Գործընկերների լոգոների պատահական բաշխում */
+.partners-random-cloud {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  margin-top: 20px;
 }
 
-.about-image img {
-    width: 100%;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+.partner-logo {
+  position: absolute;
+  top: var(--rand-top);
+  left: var(--rand-left);
+  transition: transform 0.3s ease;
 }
 
-/* Mission & Values Grid */
-.values-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    padding: 40px 10%;
-    background-color: #f0f4f5;
+.partner-logo img {
+  height: 60px;
+  width: auto;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: all 0.3s ease;
 }
 
-.value-card {
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    text-align: center;
-    border-top: 5px solid #0c8495;
-    transition: transform 0.3s ease;
+.partner-logo:hover img {
+  filter: grayscale(0%);
+  opacity: 1;
 }
 
-.value-card:hover {
-    transform: translateY(-10px);
+.partner-logo:hover {
+  transform: scale(1.1);
 }
 
-.value-card h3 {
-    margin-bottom: 15px;
-    color: #2c3e50;
-}
-
-/* Responsive Tweaks */
-@media (max-width: 768px) {
-    .about-section {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .about-hero h1 {
-        font-size: 2rem;
-    }
-}
+/* Թաքցնել scrollbar-ը մաքուր տեսքի համար */
+.about-container::-webkit-scrollbar { display: none; }
