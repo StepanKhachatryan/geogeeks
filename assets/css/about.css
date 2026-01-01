@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ABOUT.CSS - COMPLETE FIX WITH INTEGRATED FOOTER
+   ABOUT.CSS - UPDATED FOR FIXED HEADER & INTEGRATED FOOTER
    ========================================================================== */
 
 /* 1. Կոնտեյների ուղղում */
@@ -22,14 +22,15 @@
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
+  /* Ավելացնում ենք վերևից padding, որպեսզի Fixed Header-ը չծածկի տեքստը */
+  padding-top: 80px; 
 }
 
 /* 3. ՎԵՐՋԻՆ ՍԵԿՑԻԱՆ (Գործընկերներ + Footer) */
-/* Սա թույլ է տալիս, որ footer-ը կպած լինի էջի հատակին առանց snap-ը խզելու */
 .footer-integrated-section {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Բովանդակությունը վերևում, Footer-ը՝ ներքևում */
+  justify-content: space-between;
   height: 100vh;
 }
 
@@ -43,15 +44,19 @@
 
 #footer-placeholder {
   width: 100%;
-  margin-top: auto; /* Հրում է footer-ը սեկցիայի ամենաներքևի մաս */
-  scroll-snap-align: end; /* Օգնում է բրաուզերին կանգնել հենց footer-ի վրա */
+  margin-top: auto;
+  scroll-snap-align: end;
 }
 
 /* 4. ԹԻՄԻ ԲԱԺԻՆ */
 .about-section.team-bg {
   background-color: #0c8495;
-  padding: 80px 50px 0 250px !important; 
+  /* Ձախ կողմից տեղ ենք թողնում ուղղահայաց վերնագրի համար */
+  padding-left: 250px !important; 
+  padding-right: 50px !important;
 }
+
+
 
 /* Ուղղահայաց վերնագիր */
 .vertical-title {
@@ -131,19 +136,28 @@
   background: none !important;
 }
 
-/* 6. RESPONSIVE */
+/* 6. RESPONSIVE (Բջջային տարբերակ) */
 @media screen and (max-width: 1024px) {
   .vertical-title { display: none; }
+  
   .about-section { 
     height: auto; 
     min-height: 100vh;
+    /* Բջջայինում Header-ը կարող է ավելի փոքր լինել, բայց padding-ը պահում ենք */
     padding: 100px 20px 40px !important;
   }
+  
   .team-grid-container {
     flex-direction: column !important;
     gap: 40px;
   }
+  
   .footer-integrated-section {
     height: auto;
+  }
+
+  .about-section.team-bg {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
 }
