@@ -1,8 +1,5 @@
 function loadComponent(id, file) {
-    // 1. Ստուգում ենք, թե արդյոք ընթացիկ էջը գտնվում է projects/ ենթաթղթապանակում
     const isSubFolder = window.location.pathname.includes('/projects/');
-    
-    // Եթե ենթաթղթապանակում ենք, ֆայլի ուղին պետք է սկսվի ../-ով
     const adjustedFile = isSubFolder ? '../' + file : file;
 
     fetch(adjustedFile)
@@ -16,8 +13,6 @@ function loadComponent(id, file) {
 
             if (id === "header-placeholder") {
                 highlightActiveMenu(element, isSubFolder);
-                
-                // Եթե ենթաթղթապանակում ենք, ուղղում ենք հղումները և պատկերները
                 if (isSubFolder) {
                     adjustLinksForSubfolder(element);
                 }
@@ -34,22 +29,18 @@ function highlightActiveMenu(headerElement, isSubFolder) {
         currentPath = "index.html";
     }
 
-    // Եթե գլխավոր էջում ենք, active չենք դնում
     if (currentPath === "index.html") return;
 
     const links = headerElement.querySelectorAll(".menu a");
 
     links.forEach(link => {
         const linkHref = link.getAttribute("href");
-
-        // Տրամաբանություն Նախագծեր բաժնի համար (GIS, Water և այլ ենթաէջերի դեպքում)
         const isProjectPage = path.includes('projects.html') || isSubFolder;
 
         if (isProjectPage && linkHref.includes('projects.html')) {
             link.classList.add("active");
             link.classList.add("active-projects");
         } 
-        // Մյուս բոլոր սովորական էջերի համար
         else if (linkHref === currentPath) {
             link.classList.add("active");
             const pageName = currentPath.split(".")[0];
@@ -58,9 +49,7 @@ function highlightActiveMenu(headerElement, isSubFolder) {
     });
 }
 
-// Ֆունկցիա, որը ուղղում է հեդերի հղումները և պատկերները ենթաթղթապանակում գտնվելիս
 function adjustLinksForSubfolder(headerElement) {
-    // 1. Ուղղում ենք բոլոր հղումները (<a>)
     const allLinks = headerElement.querySelectorAll('a');
     allLinks.forEach(link => {
         const href = link.getAttribute('href');
@@ -69,17 +58,46 @@ function adjustLinksForSubfolder(headerElement) {
         }
     });
 
-    // 2. Ուղղում ենք բոլոր պատկերները (<img>), ներառյալ լոգոն
     const allImages = headerElement.querySelectorAll('img');
     allImages.forEach(img => {
         const src = img.getAttribute('src');
-        // Եթե պատկերի հասցեն արդեն չի սկսվում ../ կամ http-ով, ավելացնում ենք ../
         if (src && !src.startsWith('http') && !src.startsWith('../')) {
             img.setAttribute('src', '../' + src);
         }
     });
 }
 
+// --- ԱՎԵԼԱՑՎԱԾ Է․ Intersection Observer անիմացիաների համար ---
+/**
+ * Այս ֆունկցիան հետևում է էջի բաժիններին և ավելացնում է 'active-fade' դասը,
+ * երբ բաժինը հայտնվում է օգտատիրոջ տեսադաշտում։
+ */
+function initScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.2 // Անիմացիան կսկսվի, երբ բաժնի 20%-ը երևա
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active-fade');
+                // Եթե ցանկանում եք, որ անիմացիան միայն մեկ անգամ լինի, 
+                // կարող եք դադարեցնել հետևելը․
+                // observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Հետևում ենք բոլոր .about-section բաժիններին
+    const animatedElements = document.querySelectorAll('.about-section');
+    animatedElements.forEach(el => observer.observe(el));
+}
+
 // Բաղադրիչների բեռնում
 loadComponent("header-placeholder", "components/header.html");
 loadComponent("footer-placeholder", "components/footer.html");
+
+// Ակտիվացնում ենք անիմացիաները էջի բեռնումից հետո
+document.addEventListener("DOMContentLoaded", () => {
+    initScrollAnimations();
+});
