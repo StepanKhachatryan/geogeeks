@@ -13,69 +13,71 @@
   height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end; /* Push content to the right to avoid title overlap */
   scroll-snap-align: start;
   padding: 80px 5% 20px;
   box-sizing: border-box;
   position: relative; 
-  overflow: hidden; /* Կանխում է վերնագրի դուրս գալը էկրանից */
+  overflow: hidden;
 }
 
 .team-bg { background-color: #0c8495; }
 .white-bg { background-color: #ffffff; }
 
-/* --- Ուղղահայաց վերնագիր (Ձախ կողմում) --- */
+/* --- Fixed Vertical Title (Red Box Area) --- */
 .vertical-title {
   position: absolute;
-  /* Սկզբնական դիրքը ձախից դուրս՝ fade-in էֆեկտի համար */
-  left: -200px; 
+  /* Start hidden off-screen to the left */
+  left: -300px; 
   top: 50%;
+  /* Center vertically and rotate */
   transform: translateY(-50%) rotate(-90deg);
+  /* Pivot from the center of the text for accurate rotation */
   transform-origin: center center;
   
-  /* Ոճավորում */
-  font-size: 8rem; /* Գրեթե վերևից ներքև */
+  /* Styling */
+  font-size: 8rem; 
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.15); /* Կիսաթափանցիկ սպիտակ */
+  color: #ffffff; /* Solid White */
   white-space: nowrap;
   letter-spacing: 15px;
   text-transform: uppercase;
   pointer-events: none;
   opacity: 0;
-  transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
-  z-index: 1;
+  transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 5;
 }
 
-/* Անիմացիայի ակտիվացում Intersection Observer-ի միջոցով */
+/* Slide into the "Red Box" area when active */
 .about-section.active-fade .vertical-title {
-  left: 50px; /* Սահում է դեպի իր տեղը */
-  opacity: 1;
+  left: -50px; /* Adjust this to center it perfectly in your side area */
+  opacity: 0.9; /* Bright white but slightly blended */
 }
 
-/* --- Թիմի անդամների դասավորվածություն (Random) --- */
+/* --- Team Random Container --- */
 .team-random-container {
   position: relative;
-  width: 100%;
+  /* Narrow the width so random items don't hit the vertical title on the left */
+  width: 70%; 
   height: 80vh;
+  margin-left: auto; /* Keeps the grid away from the vertical title */
   z-index: 2;
 }
 
 .team-member {
   position: absolute;
-  /* Օգտագործում է inline style-ով տրված --rand-top և --rand-left արժեքները */
   top: var(--rand-top);
   left: var(--rand-left);
   text-align: center;
   color: white;
   
-  /* Անիմացիայի սկզբնական վիճակ */
+  /* Initial state */
   opacity: 0;
   transform: scale(0.8);
   transition: all 1s ease-out;
   transition-delay: 0.3s;
 }
 
-/* Թիմի անդամների հայտնվելը */
 .about-section.active-fade .team-member {
   opacity: 1;
   transform: scale(1);
@@ -88,7 +90,7 @@
   overflow: hidden;
   border: 5px solid rgba(255, 255, 255, 0.2);
   margin: 0 auto 15px;
-  background-color: #fff; /* Սպիտակ ֆոն նկարների տակ */
+  background-color: #fff;
 }
 
 .team-member img {
@@ -125,7 +127,7 @@
   transform: scale(1.2);
 }
 
-/* --- Գործընկերների պատահական դասավորություն --- */
+/* --- Partners --- */
 .partners-random-cloud {
   position: relative;
   width: 100%;
@@ -145,10 +147,12 @@
   }
   
   .about-section.active-fade .vertical-title {
-    left: 10px;
+    left: -20px;
+    opacity: 0.2; /* Make it more of a background on mobile */
   }
 
   .team-random-container {
+    width: 100%;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -157,6 +161,6 @@
   }
 
   .team-member {
-    position: static !important; /* Բջջայինով դասավորում ենք իրար տակ */
+    position: static !important;
   }
 }
