@@ -1,139 +1,121 @@
-/* Container & General */
-.about-container {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-}
-.about-container::-webkit-scrollbar { display: none; }
+/* ==========================================================================
+   ABOUT.CSS - FULL SCREEN TEAM SECTION FIX
+   ========================================================================== */
 
-.about-section {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Կենտրոնացնում ենք թիմի ցանցը */
-  scroll-snap-align: start;
-  padding: 80px 10% 20px 180px; /* Ձախից տեղ ենք թողնում վերնագրի համար */
-  box-sizing: border-box;
-  position: relative; 
-  overflow: hidden;
+.about-section.team-bg {
+    background-color: #0c8495;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Վերնագիրը ձախից սկսելու համար */
+    padding: 0 !important; /* Հեռացնում ենք կողային սահմանափակումները */
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
 }
 
-.team-bg { background-color: #0c8495; }
-
-/* --- Ուղղահայաց վերնագիր (Ամրացված ձախ եզրին) --- */
+/* --- Ուղղահայաց վերնագիր (Ձախ եզրին ամրացված) --- */
 .vertical-title {
-  position: absolute;
-  left: 20px; /* Ֆիքսված հեռավորություն ձախ եզրից */
-  top: 50%;
-  transform: translateY(-50%) rotate(-90deg);
-  transform-origin: center center;
-  
-  /* Ոճավորում */
-  font-size: 7.5rem; 
-  font-weight: 900;
-  color: #ffffff;
-  white-space: nowrap;
-  letter-spacing: 12px;
-  text-transform: uppercase;
-  pointer-events: none;
-  z-index: 5;
-  
-  /* Անիմացիա ձախից */
-  opacity: 0;
-  margin-left: -100px;
-  transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    position: absolute;
+    /* Տեղադրում ենք ձախ եզրին շատ մոտ */
+    left: -160px; 
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: center center;
+    
+    font-size: 8rem; 
+    font-weight: 900;
+    color: #ffffff;
+    white-space: nowrap;
+    letter-spacing: 12px;
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 5;
+    
+    /* Անիմացիա ձախից */
+    opacity: 0;
+    margin-left: -100px;
+    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/* Անիմացիայի ակտիվացում */
 .about-section.active-fade .vertical-title {
-  opacity: 1;
-  margin-left: 0;
+    opacity: 1;
+    margin-left: 0;
+    left: -140px; /* Կարգավորեք այս արժեքը՝ գրվածքը ձախ սահմանում պահելու համար */
 }
 
-/* --- Թիմի անդամների ցանց (Grid Layout) --- */
+/* --- Թիմի անդամների ցանց (Ամբողջ լայնությամբ) --- */
 .team-grid-container {
-  display: grid;
-  /* Ստեղծում ենք 3 հավասար սյունակ (կամ ըստ անդամների քանակի) */
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 40px;
-  width: 100%;
-  max-width: 1100px;
-  z-index: 2;
-  text-align: center;
+    display: grid;
+    /* Ցանցը կսկսվի վերնագրից հետո */
+    margin-left: 200px; 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    width: calc(100% - 250px); /* Լայնությունը հաշվի առնելով վերնագիրը */
+    padding: 20px 50px;
+    box-sizing: border-box;
+    z-index: 2;
+    text-align: center;
 }
 
 .team-member {
-  color: white;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s ease-out;
+    color: white;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
 }
 
 .about-section.active-fade .team-member {
-  opacity: 1;
-  transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
 }
 
-/* Անդամների նկարի ոճը */
 .team-member .img-container {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 5px solid rgba(255, 255, 255, 0.3);
-  margin: 0 auto 15px;
-  background-color: #fff;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    margin: 0 auto 15px;
+    background-color: #fff;
 }
 
 .team-member img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .team-member h4 {
-  font-size: 1.2rem;
-  margin-bottom: 5px;
-  font-weight: 700;
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    font-weight: 700;
+    white-space: nowrap; /* Կանխում է անվան տողադարձը */
 }
 
 .team-member p {
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  opacity: 0.9;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-/* LinkedIn պատկերակ */
-.linkedin-link img {
-  width: 18px;
-  height: 18px;
-  transition: transform 0.3s ease;
-}
-
-.linkedin-link:hover img {
-  transform: scale(1.2);
-}
-
-/* --- Responsive (Mobile) --- */
+/* Բջջային տարբերակի համար */
 @media screen and (max-width: 1024px) {
-  .about-section {
-    padding: 80px 20px;
-    height: auto;
-    min-height: 100vh;
-  }
-  
-  .vertical-title {
-    display: none; /* Բջջայինի վրա թաքցնում ենք տեղ խնայելու համար */
-  }
+    .about-section.team-bg {
+        flex-direction: column;
+        padding-top: 80px !important;
+        height: auto;
+    }
+    
+    .vertical-title {
+        display: none;
+    }
 
-  .team-grid-container {
-    grid-template-columns: 1fr;
-    gap: 50px;
-  }
+    .team-grid-container {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+        grid-template-columns: 1fr;
+    }
 }
