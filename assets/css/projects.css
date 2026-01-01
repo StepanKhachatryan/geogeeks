@@ -10,7 +10,7 @@ html, body {
 .projects-page-wrapper {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Ֆիքսված բարձրություն՝ էկրանի չափով */
+    height: 100vh;
     background-color: #ffffff;
 }
 
@@ -20,10 +20,10 @@ html, body {
     display: flex;
     align-items: center; 
     justify-content: center;
-    padding: 20px 5%; /* Փոքրացված padding վերևից */
-    margin-top: 80px;  /* Հստակ հեռավորություն Header-ի համար */
+    /* Նվազեցրել ենք padding-ը, որպեսզի ավելի շատ տեղ լինի արկղերի համար */
+    padding: 10px 3%; 
+    margin-top: 80px; /* Header-ի բարձրությունը */
     box-sizing: border-box;
-    overflow-y: auto;  /* Սքրոլը կառաջանա միայն այս բաժնի ներսում, եթե հարկ լինի */
 }
 
 /* ==========================================
@@ -32,32 +32,35 @@ html, body {
 .category-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 15px; 
+    gap: 20px; 
     width: 100%;
-    max-width: 1400px; /* Սահմանափակում ենք, որ շատ չձգվի */
+    /* Մեծացրել ենք առավելագույն լայնությունը */
+    max-width: 1800px; 
     margin: 0 auto;
+    /* Ստիպում ենք grid-ին ձգվել բարձրությամբ */
+    height: auto;
 }
 
 
 
 .category-box {
     position: relative;
-    border-radius: 12px;
-    /* aspect-ratio-ն պահում է ուղղանկյուն տեսքը առանց vh-ի հետ կռիվ տալու */
-    aspect-ratio: 16 / 10; 
+    border-radius: 15px;
+    /* Փոխել ենք aspect-ratio-ն, որպեսզի արկղերը լինեն ավելի բարձր (ավելի քառակուսիանման ուղղանկյուն) */
+    aspect-ratio: 16 / 11; 
     text-decoration: none !important;
     overflow: hidden;
     display: flex;
-    transition: all 0.4s ease;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
 
 .category-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
 }
 
 /* --- Ֆոների ուղիները --- */
@@ -74,45 +77,46 @@ html, body {
 .category-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 60%);
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 60%);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 15px;
+    padding: 25px;
 }
 
 .category-box h3 {
     color: #ffffff;
-    font-size: 1rem;
-    margin-bottom: 5px;
+    font-size: 1.2rem; /* Մեծացված տառաչափ */
+    margin-bottom: 8px;
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.3;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
 }
 
 .view-btn {
     color: #f7db5d;
     font-weight: 600;
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
 /* ==========================================
    Responsive adjustments
    ========================================== */
+@media screen and (max-height: 800px) {
+    .category-box {
+        aspect-ratio: 16 / 9; /* Ավելի տափակ արկղեր փոքր բարձրությամբ էկրանների համար */
+    }
+}
+
 @media screen and (max-width: 1200px) {
     .category-grid { grid-template-columns: repeat(2, 1fr); }
-    .category-box { aspect-ratio: 16 / 9; }
+    .projects-main-content { overflow-y: auto; }
 }
 
 @media screen and (max-width: 600px) {
-    .category-grid { 
-        grid-template-columns: 1fr; 
-        gap: 15px;
-    }
-    .projects-main-content {
-        overflow-y: scroll; /* Բջջայինի վրա թույլ ենք տալիս սքրոլ */
-        padding-top: 20px;
-    }
-    .category-box { height: 180px; aspect-ratio: auto; }
+    .category-grid { grid-template-columns: 1fr; }
+    .category-box { height: 220px; aspect-ratio: auto; }
+    .projects-main-content { padding-top: 20px; }
 }
