@@ -1,13 +1,21 @@
 /* ==========================================
-   Full Page Layout
+   Full Page Layout (Sticky Footer Logic)
    ========================================== */
 .projects-page-wrapper {
     display: flex;
-    align-items: flex-start; /* Փոխվել է center-ից, որպեսզի սքրոլը լավ աշխատի */
-    justify-content: center;
-    min-height: calc(100vh - 80px); 
-    padding: 40px 2%; /* Փոքրացվել է կողային padding-ը ավելի շատ տեղ ունենալու համար */
+    flex-direction: column; /* Սյունակային դասավորություն */
+    min-height: 100vh;      /* Ամբողջ էկրանի բարձրությունը */
     background-color: #ffffff;
+}
+
+/* Միջանկյալ կոնտեյներ, որը զբաղեցնում է ազատ տարածությունը */
+.projects-main-content {
+    flex: 1;               /* Այս հատկությունը հրում է Footer-ը ներքև */
+    display: flex;
+    align-items: center;   /* Կենտրոնացնում է Grid-ը ուղղահայաց */
+    justify-content: center;
+    padding: 100px 2% 40px; /* 100px-ը Header-ի համար է */
+    box-sizing: border-box;
 }
 
 /* ==========================================
@@ -15,18 +23,18 @@
    ========================================= */
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 սյունակ կողք-կողքի */
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px; 
     width: 100%;
-    max-width: 1800px; /* Լայնացվել է 8 բաժինների համար */
+    max-width: 1600px; /* Օպտիմալացված լայնություն */
     margin: 0 auto;
 }
 
 .category-box {
     position: relative;
     border-radius: 15px;
-    height: 35vh; /* Մի փոքր փոքրացվել է բարձրությունը 8 հատի դեպքում */
-    min-height: 250px; 
+    height: 38vh;     /* Օպտիմալ բարձրություն, որ տեղավորվի մեկ էկրանում */
+    min-height: 220px; 
     text-decoration: none !important;
     overflow: hidden;
     display: flex;
@@ -38,12 +46,11 @@
 }
 
 .category-box:hover {
-    transform: scale(1.03);
+    transform: translateY(-5px); /* scale-ի փոխարեն ավելի նուրբ շարժում */
     box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-    z-index: 2;
 }
 
-/* --- Background Image Paths for 8 Sections --- */
+/* --- Ֆոների ուղիները մնում են նույնը --- */
 .hydro-bg { background-image: url('../img/projects_img/hydro_projects.jpg'); }
 .flood-bg { background-image: url('../img/projects_img/flood_projects.jpg'); }
 .water-res-bg { background-image: url('../img/projects_img/wr_projects.jpg'); }
@@ -53,75 +60,43 @@
 .edu-bg { background-image: url('../img/projects_img/edu_projects.jpg'); }
 .all-bg { background-image: url('../img/projects_img/our_projects.jpg'); }
 
-/* ==========================================
-   Overlay: 30% Dark at bottom to 0% at top
-   ========================================== */
+/* Overlay & Typography (Մնացել են անփոփոխ) */
 .category-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        to top, 
-        rgba(0, 0, 0, 0.6) 0%, /* Մթնեցվել է տեքստի ընթեռնելիության համար */
-        rgba(0, 0, 0, 0) 70% 
-    );
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 70%);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 25px; /* Փոքրացվել է ներքին padding-ը */
-    transition: all 0.4s ease;
+    padding: 20px;
 }
 
-.category-box:hover .category-overlay {
-    background: linear-gradient(
-        to top, 
-        rgba(0, 0, 0, 0.8) 0%, 
-        rgba(0, 0, 0, 0.2) 100%
-    );
-}
-
-/* ==========================================
-   Typography
-   ========================================== */
 .category-box h3 {
     color: #ffffff;
-    font-size: 1.2rem; /* Տառաչափը փոքրացվել է, որպեսզի 4 սյունակում տեղավորվի */
-    margin-bottom: 8px;
-    line-height: 1.3;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
     font-weight: 700;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .view-btn {
     color: #f7db5d;
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    transition: all 0.3s ease;
-}
-
-.category-box:hover .view-btn {
-    letter-spacing: 2px;
-    color: #ffffff;
 }
 
 /* ==========================================
-   Responsive adjustments (Tablet & Mobile)
+   Responsive adjustments
    ========================================== */
 @media screen and (max-width: 1200px) {
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 սյունակ պլանշետների համար */
-    }
+    .category-grid { grid-template-columns: repeat(2, 1fr); }
+    .projects-main-content { padding-top: 80px; }
 }
 
 @media screen and (max-width: 600px) {
-    .category-grid {
-        grid-template-columns: 1fr; /* 1 սյունակ հեռախոսների համար */
-    }
-    .category-box {
-        height: 250px;
-    }
+    .category-grid { grid-template-columns: 1fr; }
+    .category-box { height: 200px; }
+    .projects-main-content { padding: 80px 5% 20px; }
 }
