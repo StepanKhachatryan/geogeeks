@@ -1,66 +1,23 @@
-/* ==========================================================================
-   ABOUT.CSS - UPDATED FOR FIXED HEADER & SNAPPING
-   ========================================================================== */
-
-/* 1. Էջի հիմնական կարգավորում */
-html, body {
-    height: 100%;
-    margin: 0;
-    /* Արգելում ենք հիմնական body սքրոլը, քանի որ about-container-ն ունի իրենը */
-    overflow: hidden; 
-}
-
-/* 2. Հիմնական կոնտեյներ */
-.about-container {
-    width: 100%;
-    height: 100vh; /* Զբաղեցնում է ողջ էկրանը */
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
-    /* Թաքցնում ենք սքրոլբարը մաքուր տեսքի համար */
-    scrollbar-width: none; 
-}
-.about-container::-webkit-scrollbar { display: none; }
-
-/* 3. Բաժինների հիմնական ոճը */
-.about-section {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    scroll-snap-align: start;
-    position: relative;
-    box-sizing: border-box;
-    /* Padding-top-ը պետք է լինի Header-ի բարձրությամբ (80px) */
-    padding-top: 80px; 
-}
-
-/* Անտեսանելի բլոկ Header-ի տակ տեղ բացելու համար */
-.about-section::before {
-    content: "";
-    display: block;
-    height: 80px;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    pointer-events: none;
-}
-
-
-
 /* --- ԹԻՄԻ ԲԱԺԻՆ --- */
 .about-section.team-bg {
     background-color: #0c8495;
-    /* Ձախ կողմից տեղ ենք բացում ուղղահայաց վերնագրի համար */
+    /* Հեռացնում ենք ընդհանուր padding-top-ը այս սեկցիայի համար */
+    padding-top: 0 !important; 
     padding-left: 250px !important;
     padding-right: 50px !important;
+    
+    /* Ապահովում ենք, որ ներքին տարրերը հաշվի առնեն Header-ի բացը */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
+/* Ուղղահայաց վերնագրի դիրքի ուղղում */
 .vertical-title {
     position: absolute;
     left: -220px;
-    top: 50%;
+    /* Կենտրոնը հաշվարկում ենք Header-ից հետո մնացած տարածքի համար */
+    top: calc(50% + 40px); 
     transform: translateY(-50%) rotate(-90deg);
     transform-origin: center center;
     font-size: 8rem;
@@ -74,11 +31,7 @@ html, body {
     transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.about-section.active-fade .vertical-title {
-    opacity: 1;
-    left: -180px;
-}
-
+/* Թիմի ցանցի դիրքի ուղղում */
 .team-grid-container {
     display: flex !important;
     flex-direction: row !important;
@@ -89,81 +42,11 @@ html, body {
     width: 100%;
     max-width: 1200px;
     z-index: 2;
+    /* Հրում ենք ամբողջ ցանցը ներքև Header-ի չափով կեսի չափով */
+    margin-top: 40px; 
 }
 
-.team-member {
-    text-align: center;
-    color: white;
-    flex: 0 0 220px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.8s ease-out;
-}
-
-.about-section.active-fade .team-member {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Profile Images & Icons */
-.team-member .img-container {
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 5px solid rgba(255, 255, 255, 0.2);
-    margin: 0 auto 15px;
-    background-color: #fff;
-}
-
-.team-member img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.linkedin-link img {
-    width: 18px !important;
-    height: 18px !important;
-    border: none !important;
-    background: none !important;
-    display: inline-block !important;
-    margin-left: 5px;
-}
-
-/* --- FOOTER INTEGRATION --- */
-.footer-integrated-section {
-    display: flex;
-    flex-direction: column;
-}
-
-.footer-integrated-section .about-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#footer-placeholder {
-    width: 100%;
-    z-index: 10;
-    margin-top: auto;
-}
-
-/* --- RESPONSIVE --- */
-@media screen and (max-width: 1024px) {
-    .about-section {
-        height: auto;
-        min-height: 100vh;
-        padding-top: 100px !important;
-        padding-left: 20px !important;
-        padding-right: 20px !important;
-    }
-    .team-grid-container {
-        flex-direction: column !important;
-        flex-wrap: wrap;
-    }
-    .vertical-title { display: none; }
-    .footer-integrated-section { height: auto; }
+/* Եթե օգտագործում եք ::before բլոկը, ապա այս սեկցիայի համար այն պետք է չեզոքացնել */
+.about-section.team-bg::before {
+    display: none;
 }
