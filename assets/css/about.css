@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ABOUT.CSS - RESTORED HORIZONTAL TITLE & HORIZONTAL TEAM
+   ABOUT.CSS - HORIZONTAL TEAM LAYOUT & LEFT-ALIGNED TITLE
    ========================================================================== */
 
 .about-container {
@@ -13,7 +13,7 @@
 
 .about-section {
   width: 100%;
-  /* Հաշվի ենք առնում Header-ի բարձրությունը */
+  /* Հաշվարկում ենք բարձրությունը Header-ից հետո մնացած հատվածի համար */
   height: calc(100vh - 80px); 
   display: flex;
   align-items: center; /* Ուղղահայաց կենտրոնացում (Middle) */
@@ -21,20 +21,21 @@
   scroll-snap-align: start;
   position: relative;
   overflow: hidden;
-  margin-top: 80px; /* Բաժինը սկսվում է Header-ից հետո */
+  margin-top: 80px; /* Սա երաշխավորում է, որ Header-ը միշտ կերևա */
 }
 
 /* ԹԻՄԻ ԲԱԺԻՆ */
 .about-section.team-bg {
   background-color: #0c8495;
-  padding: 0 5% 0 150px !important; /* Հավասարակշռված տարածք ձախից */
+  /* Ձախից մեծ padding ենք տալիս, որ թիմը չմտնի վերնագրի տակ */
+  padding: 0 50px 0 250px !important; 
 }
 
-/* --- Ուղղահայաց վերնագիր - Վերադարձված ՁԱԽ դիրքին --- */
+/* --- Ուղղահայաց վերնագիր - ՁԱԽ ԴԻՐՔ (Red Area) --- */
 .vertical-title {
   position: absolute;
-  /* Վերադարձնում ենք ավելի ձախ դիրքը */
-  left: -220px; 
+  /* Տեղադրում ենք այնքան ձախ, որ տառերը չծածկեն անդամներին */
+  left: -240px; 
   top: 50%;
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: center center;
@@ -53,20 +54,18 @@
 /* Անիմացիայի ժամանակ վերնագիրը հայտնվում է ձախ եզրին */
 .about-section.active-fade .vertical-title {
   opacity: 1;
-  /* Այս արժեքը տեքստը կպահի հենց ձեր նախկին նշած ձախ կարմիր գոտում */
-  left: -200px; 
+  left: -220px; 
 }
 
 /* --- ԹԻՄԻ ԱՆԴԱՄՆԵՐԸ ԿՈՂՔ-ԿՈՂՔԻ (Horizontal Row) --- */
 .team-grid-container {
-  display: flex;
-  flex-direction: row; /* Հորիզոնական դասավորություն */
+  display: flex !important; /* Սա ստիպում է անդամներին լինել իրար կողք */
+  flex-direction: row !important; /* Հորիզոնական շարք */
   justify-content: center;
   align-items: center;
-  gap: 50px; /* Հեռավորություն անդամների միջև */
+  gap: 60px; /* Հեռավորություն անդամների միջև */
   width: 100%;
   z-index: 2;
-  margin-left: 100px; /* Լրացուցիչ տեղ վերնագրի համար */
 }
 
 .team-member {
@@ -85,8 +84,8 @@
 
 /* Նկարի ոճը */
 .team-member .img-container {
-  width: 170px;
-  height: 170px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   overflow: hidden;
   border: 5px solid rgba(255, 255, 255, 0.2);
@@ -98,6 +97,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block; /* Կանխում է լրացուցիչ տարածքները */
 }
 
 /* Տեքստային ոճեր */
@@ -105,6 +105,7 @@
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 5px;
+  white-space: nowrap;
 }
 
 .team-member p {
@@ -122,16 +123,22 @@
   height: 18px !important;
   border-radius: 0 !important;
   border: none !important;
-  margin-left: 4px;
+  margin: 0 0 0 4px !important;
   display: inline-block !important;
+  background: none !important;
 }
 
 /* Բջջային տարբերակ */
 @media screen and (max-width: 1024px) {
   .vertical-title { display: none; }
-  .about-section { height: auto; margin-top: 60px; }
+  .about-section { 
+    height: auto; 
+    min-height: 100vh;
+    margin-top: 60px; 
+    padding: 20px !important;
+  }
   .team-grid-container {
-    flex-direction: column; /* Բջջայինով դառնում է ուղղահայաց */
-    margin-left: 0;
+    flex-direction: column !important; /* Բջջայինով դառնում է ուղղահայաց */
+    gap: 40px;
   }
 }
