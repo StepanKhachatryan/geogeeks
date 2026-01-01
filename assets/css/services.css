@@ -115,46 +115,37 @@
   color: #333;
   margin-bottom: 30px;
   max-width: 55%;
-  border-left: 4px solid var(--main-green);
-  padding-left: 20px;
+  /* Պահպանված է ձեր ուզած Bold ոճը */
+  font-weight: bold; 
 }
 
-/* 2. Business List (Bullet Points) */
-.business-list h3, .benefit-details h3 {
+/* 2. Business List (Lines between, no points) */
+.business-list h3 {
   font-size: 1.2rem;
   color: var(--main-green);
   margin-bottom: 15px;
 }
 
 .business-list ul {
-  list-style: none;
+  list-style: none; /* Հեռացնում է կետերը */
   padding: 0;
   max-width: 55%;
   margin-bottom: 30px;
 }
 
 .business-list ul li {
-  padding: 10px 0;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee; /* Գիծը տողերի միջև */
   font-size: 1rem;
+  line-height: 1.5;
+}
+
+.business-list ul li:last-child {
+  border-bottom: none; /* Վերջին տողի տակ գիծ չի լինի */
 }
 
 .business-list ul li strong {
   color: #1a2a3a;
-}
-
-/* 3. Detailed Benefit Description */
-.benefit-details {
-  max-width: 55%;
-  background: #f9fbf9;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.benefit-details p {
-  margin-bottom: 15px;
-  font-size: 0.95rem;
-  line-height: 1.6;
 }
 
 /* --- IMAGE GALLERY (Diagonal Overlap) --- */
@@ -168,43 +159,105 @@
 
 .image-gallery img {
   position: absolute;
-  width: 375px; /* Bigger images */
+  width: 375px; 
   aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 12px;
-  /* Shadow only on Top and Right */
   box-shadow: 10px -10px 25px rgba(0, 0, 0, 0.2);
 }
 
-/* Position: Front Image (Lower & Left of back image) */
 .image-gallery img:nth-child(1) {
   top: 80px;
   right: 80px;
   z-index: 2;
 }
 
-/* Position: Back Image */
 .image-gallery img:nth-child(2) {
   top: 0;
   right: 0;
   z-index: 1;
 }
 
-/* --- RESPONSIVE --- */
+/* --- RESPONSIVE (Ադապտիվացում) --- */
 @media (max-width: 1024px) {
-  .service-main-desc, .business-list ul, .benefit-details {
+  .top-services-nav {
+    grid-template-columns: 1fr; /* Սալիկները դասավորվում են իրար տակ */
+  }
+
+  .service-body-container {
+    grid-template-columns: 1fr;
+  }
+
+  .side-nav {
+    border-right: none !important;
+    border-bottom: 1px solid #ccc !important;
+    padding: 10px 0;
+    display: flex;
+    overflow-x: auto; /* Հորիզոնական սլայդեր մենյուի համար */
+    gap: 10px;
+  }
+
+  .side-nav-btn {
+    white-space: nowrap;
+    margin-bottom: 0;
+  }
+
+  .content-side {
+    padding: 20px;
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .service-main-desc, 
+  .business-list ul {
     max-width: 100%;
   }
+
   .image-gallery {
     position: relative;
     width: 100%;
     right: 0;
     top: 20px;
-    height: 400px;
+    height: 350px;
     display: flex;
     justify-content: center;
+    order: -1; /* Նկարները բարձրացվում են տեքստից վերև (ըստ ցանկության) */
+    margin-bottom: 30px;
   }
+
   .image-gallery img {
-    width: 280px;
+    width: 250px;
+  }
+
+  .image-gallery img:nth-child(1) {
+    top: 40px;
+    right: 15%;
+  }
+
+  .image-gallery img:nth-child(2) {
+    top: 0;
+    right: 30%;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-service-btn {
+    height: auto;
+    padding: 10px;
+  }
+  
+  .icon-box {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+  }
+
+  .image-gallery {
+    height: 250px;
+  }
+
+  .image-gallery img {
+    width: 180px;
   }
 }
