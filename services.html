@@ -19,23 +19,15 @@
     
     <div class="top-services-nav">
       <div class="main-service-btn active" onclick="switchMainTab('gis-section')">
-        <div class="icon-box">
-          <img src="../assets/img/serv_img/serv_gis.jpg" alt="GIS Icon">
-        </div>
+        <div class="icon-box"><img src="../assets/img/serv_img/serv_gis.jpg" alt="GIS"></div>
         <h3>Աշխարհագրական տեղեկատվական համակարգերի (GIS) ծառայություններ</h3>
       </div>
-
       <div class="main-service-btn" onclick="switchMainTab('hydro-section')">
-        <div class="icon-box">
-          <img src="../assets/img/serv_img/serv_hydro.jpg" alt="Hydro Icon">
-        </div>
+        <div class="icon-box"><img src="../assets/img/serv_img/serv_hydro.jpg" alt="Hydro"></div>
         <h3>Ջրային ռեսուրսների և հիդրոլոգիական ծառայություններ</h3>
       </div>
-
       <div class="main-service-btn" onclick="switchMainTab('edu-section')">
-        <div class="icon-box">
-          <img src="../assets/img/serv_img/serv_edu.jpg" alt="Edu Icon">
-        </div>
+        <div class="icon-box"><img src="../assets/img/serv_img/serv_edu.jpg" alt="Edu"></div>
         <h3>GIS կրթություն</h3>
       </div>
     </div>
@@ -43,14 +35,11 @@
     <div id="gis-section" class="service-body-container active">
       <div class="side-nav">
         <div class="side-nav-btn active" onclick="switchSubTab(this, 'gis-analysis')">GIS վերլուծություն</div>
-        <div class="side-nav-btn" onclick="switchSubTab(this, 'remote-sensing')">Remote Sensing (RS) վերլուծություն</div>
+        <div class="side-nav-btn" onclick="switchSubTab(this, 'remote-sensing')">Remote Sensing (RS)</div>
       </div>
-      
       <div class="content-side">
         <div id="gis-analysis" class="content-display active">
-          <p class="service-main-desc">
-            Մեր GIS վերլուծության ծառայությունները տվյալները վերածում են ռազմավարական գործիքի՝ թույլ տալով տեսնել կապերն ու օրինաչափությունները, որոնք անտեսանելի են սովորական աղյուսակներում:
-          </p>
+          <p class="service-main-desc">Մեր GIS վերլուծության ծառայությունները տվյալները վերածում են ռազմավարական գործիքի՝ թույլ տալով տեսնել կապերն ու օրինաչափությունները, որոնք անտեսանելի են սովորական աղյուսակներում:</p>
           <div class="business-list">
             <h3>Ովքե՞ր կարող են շահել այս ծառայությունից.</h3>
             <ul>
@@ -66,18 +55,16 @@
             <img src="assets/img/serv_img/serv_gis_01.jpg" alt="GIS 1">
           </div>
         </div>
-
         <div id="remote-sensing" class="content-display">
-          <p class="service-main-desc">
-            Remote Sensing-ը թույլ է տալիս իրականացնել տարածքների մոնիթորինգ առանց ֆիզիկական ներկայության՝ օգտագործելով արբանյակային և աերոլուսանկարչական տվյալները:
-          </p>
+          <p class="service-main-desc">Remote Sensing-ը թույլ է տալիս իրականացնել տարածքների մոնիթորինգ առանց ֆիզիկական ներկայության՝ օգտագործելով արբանյակային և աերոլուսանկարչական տվյալները:</p>
           <div class="business-list">
+            <h3>RS վերլուծության հնարավորությունները.</h3>
             <ul>
-              <li><strong>Բուսածածկույթ:</strong> NDVI ինդեքսի միջոցով բույսերի առողջության գնահատում:</li>
-              <li><strong>Ջրային ռեսուրսներ:</strong> Լճերի և գետերի մակերեսների փոփոխության հսկողություն:</li>
-              <li><strong>Անտառային տնտեսություն:</strong> Անտառահատումների և հրդեհների օպերատիվ հայտնաբերում:</li>
-              <li><strong>Հողագործություն:</strong> Հողի խոնավության և բաղադրության հեռահար գնահատում:</li>
-              <li><strong>Աղետների կառավարում:</strong> Հեղեղումների և երկրաշարժերի հետևանքների քարտեզագրում:</li>
+              <li><strong>NDVI ինդեքս:</strong> Բույսերի առողջության և աճի տեմպերի հեռահար գնահատում:</li>
+              <li><strong>Ջրային հայելի:</strong> Լճերի և գետերի հունի փոփոխության օպերատիվ հսկողություն:</li>
+              <li><strong>Անտառային ֆոնդ:</strong> Ապօրինի անտառահատումների և հրդեհների արագ հայտնաբերում:</li>
+              <li><strong>Հողի խոնավություն:</strong> Ոռոգման արդյունավետության և հողի որակի գնահատում:</li>
+              <li><strong>Աղետների մոնիթորինգ:</strong> Հեղեղումների և սողանքների հետևանքների քարտեզագրում:</li>
             </ul>
           </div>
           <div class="image-gallery">
@@ -88,10 +75,77 @@
       </div>
     </div>
 
-    </main>
+    <div id="hydro-section" class="service-body-container">
+      <div class="side-nav">
+        <div class="side-nav-btn active" onclick="switchSubTab(this, 'hydro-modeling')">Հիդրոլոգիական հետազոտություն</div>
+        <div class="side-nav-btn" onclick="switchSubTab(this, 'water-mgmt')">Ջրհեղեղների մոդելավորում</div>
+      </div>
+      <div class="content-side">
+        <div id="hydro-modeling" class="content-display active">
+          <p class="service-main-desc">Գետերի հոսքի, ջրհավաք ավազանների և ջրային ռեսուրսների ճշգրիտ հաշվարկ և կանխատեսում ժամանակակից հիդրոլոգիական ծրագրային փաթեթներով:</p>
+          <div class="business-list">
+            <h3>Հիդրոլոգիական մոդելավորման կիրառությունը.</h3>
+            <ul>
+              <li><strong>Էներգետիկա:</strong> ՀԷԿ-երի համար ջրի հոսքի կանխատեսում և օպտիմալացում:</li>
+              <li><strong>Ջրամատակարարում:</strong> Խմելու և ոռոգման ջրի պաշարների ճիշտ բաշխում:</li>
+              <li><strong>Ինժեներական նախագծում:</strong> Կամուրջների և ամբարտակների անվտանգության հաշվարկ:</li>
+              <li><strong>Գյուղատնտեսություն:</strong> Ոռոգման համակարգերի պլանավորում ըստ տեղանքի:</li>
+              <li><strong>Գիտական հետազոտություն:</strong> Կլիմայի փոփոխության ազդեցությունը ջրային ցիկլի վրա:</li>
+            </ul>
+          </div>
+          <div class="image-gallery">
+            <img src="assets/img/serv_img/serv_hydro_02.jpg" alt="H 2">
+            <img src="assets/img/serv_img/serv_hydro_01.jpg" alt="H 1">
+          </div>
+        </div>
+        <div id="water-mgmt" class="content-display">
+          <p class="service-main-desc">Ջրային հաշվեկշիռների կազմում, ռիսկերի գնահատում և կայուն կառավարման պլանների մշակում՝ բնական աղետների վնասները նվազեցնելու նպատակով:</p>
+          <div class="business-list">
+            <h3>Ջրային ռեսուրսների կառավարման ուղղությունները.</h3>
+            <ul>
+              <li><strong>Վտանգների գնահատում:</strong> Ջրհեղեղների հավանականության և ուժգնության կանխատեսում:</li>
+              <li><strong>Պլանավորում:</strong> Հեղեղումների դեմ պայքարի ռազմավարական քարտեզների ստեղծում:</li>
+              <li><strong>Մոնիթորինգ:</strong> Ջրի որակի և քանակական ցուցանիշների դիտարկում:</li>
+              <li><strong>Էկոլոգիա:</strong> Գետային էկոհամակարգերի վերականգնում և պահպանում:</li>
+              <li><strong>Ապահովագրություն:</strong> Ջրային աղետների հետևանքով հնարավոր վնասների հաշվարկ:</li>
+            </ul>
+          </div>
+          <div class="image-gallery">
+            <img src="assets/img/serv_img/serv_flood_02.jpg" alt="F 2">
+            <img src="assets/img/serv_img/serv_flood_01.png" alt="F 1">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="edu-section" class="service-body-container">
+      <div class="side-nav">
+        <div class="side-nav-btn active" onclick="switchSubTab(this, 'gis-edu')">GIS դասընթացներ</div>
+      </div>
+      <div class="content-side">
+        <div id="gis-edu" class="content-display active">
+          <p class="service-main-desc">Մասնագիտացված դասընթացներ ArcGIS և QGIS ծրագրերի տիրապետման համար՝ սկսնակներից մինչև փորձառու մասնագետների վերապատրաստում:</p>
+          <div class="business-list">
+            <h3>Ուսումնական ծրագրի առավելությունները.</h3>
+            <ul>
+              <li><strong>Գործնական ուսուցում:</strong> Աշխատանք իրական նախագծերի և տվյալների բազաների հետ:</li>
+              <li><strong>Գործիքների տիրապետում:</strong> Աշխարհի առաջատար GIS ծրագրային փաթեթների ուսումնասիրություն:</li>
+              <li><strong>Քարտեզագրում:</strong> Պրոֆեսիոնալ և ստանդարտներին համապատասխան քարտեզների պատրաստում:</li>
+              <li><strong>Տարածական վերլուծություն:</strong> Տվյալների մշակման և վիճակագրական մեթոդների կիրառում:</li>
+              <li><strong>Մասնագիտական աճ:</strong> Դասընթացի ավարտին գիտելիքների հաստատում և հավաստագրում:</li>
+            </ul>
+          </div>
+          <div class="image-gallery">
+            <img src="assets/img/serv_img/serv_edu_02.jpg" alt="E 2">
+            <img src="assets/img/serv_img/serv_edu_01.jpg" alt="E 1">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
 
   <div id="footer-placeholder"></div>
-
   <script src="assets/js/main.js"></script>
   <script>
     function switchMainTab(sectionId) {
@@ -100,7 +154,6 @@
       document.querySelectorAll('.service-body-container').forEach(sec => sec.classList.remove('active'));
       document.getElementById(sectionId).classList.add('active');
     }
-
     function switchSubTab(btnElement, contentId) {
       const parentSection = btnElement.closest('.service-body-container');
       parentSection.querySelectorAll('.side-nav-btn').forEach(btn => btn.classList.remove('active'));
