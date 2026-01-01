@@ -3,9 +3,14 @@
     background-color: #ffffff;
     width: 100%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: sticky;
+    
+    /* Փոփոխված հատված. sticky-ն փոխարինվել է fixed-ով */
+    position: fixed; 
     top: 0;
-    z-index: 9999;
+    left: 0;
+    /* ------------------------------------------------ */
+    
+    z-index: 9999; /* Ապահովում է, որ միշտ լինի ամենավերևում */
 }
 
 .nav-container {
@@ -13,8 +18,10 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    max-width: 100%; /* Ապահովում է ամբողջ լայնությունը */
     padding: 10px 40px;
     box-sizing: border-box;
+    height: 80px; /* Ֆիքսված բարձրություն կայունության համար */
 }
 
 /* Logo Styling */
@@ -62,6 +69,7 @@
     padding: 8px 16px;
     border-radius: 4px;
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 /* --- SPECIFIC ACTIVE COLORS --- */
