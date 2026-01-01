@@ -10,39 +10,6 @@
   <link rel="stylesheet" href="assets/css/header.css">
   <link rel="stylesheet" href="assets/css/services.css"> 
   <link rel="stylesheet" href="assets/css/footer.css">
-
-  <style>
-    /* Paragraph formatting: Bold and no left green line */
-    .service-main-desc {
-      font-weight: bold !important;
-      border-left: none !important;
-      padding-left: 0 !important;
-      max-width: 55%;
-      margin-bottom: 25px;
-    }
-    .business-list h3 {
-      font-size: 1.2rem;
-      color: #00a971;
-      margin-bottom: 15px;
-    }
-    .business-list ul {
-      list-style: none;
-      padding: 0;
-      margin-bottom: 30px;
-    }
-    .business-list ul li {
-      margin-bottom: 10px;
-      padding-left: 20px;
-      position: relative;
-    }
-    .business-list ul li::before {
-      content: "•";
-      color: #00a971;
-      font-weight: bold;
-      position: absolute;
-      left: 0;
-    }
-  </style>
 </head>
 <body>
 
@@ -85,7 +52,8 @@
             Մեր GIS վերլուծության ծառայությունները տվյալները վերածում են ռազմավարական գործիքի՝ թույլ տալով տեսնել կապերն ու օրինաչափությունները, որոնք անտեսանելի են սովորական աղյուսակներում:
           </p>
           <div class="business-list">
-           <ul>
+            <h3>Ովքե՞ր կարող են շահել այս ծառայությունից.</h3>
+            <ul>
               <li><strong>Գյուղատնտեսություն:</strong> Բերքատվության մոնիթորինգ և հողերի դեգրադացիայի կանխում:</li>
               <li><strong>Կառուցապատում:</strong> Շինարարական հրապարակների օպտիմալ ընտրություն և ռիսկերի գնահատում:</li>
               <li><strong>Լոգիստիկա:</strong> Առաքման երթուղիների օպտիմալացում և ծախսերի կրճատում:</li>
@@ -120,81 +88,7 @@
       </div>
     </div>
 
-    <div id="hydro-section" class="service-body-container">
-      <div class="side-nav">
-        <div class="side-nav-btn active" onclick="switchSubTab(this, 'hydro-modeling')">Հիդրոլոգիական հետազոտություն</div>
-        <div class="side-nav-btn" onclick="switchSubTab(this, 'water-mgmt')">Ջրհեղեղների մոդելավորում</div>
-      </div>
-      
-      <div class="content-side">
-        <div id="hydro-modeling" class="content-display active">
-          <p class="service-main-desc">
-            Գետերի հոսքի, ջրհավաք ավազանների և ջրային ռեսուրսների ճշգրիտ հաշվարկ և կանխատեսում ժամանակակից ծրագրային փաթեթներով:
-          </p>
-          <div class="business-list">
-            <ul>
-              <li><strong>Էներգետիկա:</strong> ՀԷԿ-երի համար ջրի հոսքի կանխատեսում և օպտիմալացում:</li>
-              <li><strong>Ջրամատակարարում:</strong> Խմելու և ոռոգման ջրի պաշարների ճիշտ բաշխում:</li>
-              <li><strong>Ինժեներական նախագծում:</strong> Կամուրջների և ամբարտակների անվտանգության հաշվարկ:</li>
-              <li><strong>Գյուղատնտեսություն:</strong> Ոռոգման համակարգերի պլանավորում ըստ տեղանքի:</li>
-              <li><strong>Գիտական հետազոտություն:</strong> Կլիմայի փոփոխության ազդեցությունը ջրային ցիկլի վրա:</li>
-            </ul>
-          </div>
-          <div class="image-gallery">
-            <img src="assets/img/serv_img/serv_hydro_02.jpg" alt="Hydro 2">
-            <img src="assets/img/serv_img/serv_hydro_01.jpg" alt="Hydro 1">
-          </div>
-        </div>
-
-        <div id="water-mgmt" class="content-display">
-          <p class="service-main-desc">
-            Ջրային հաշվեկշիռների կազմում, ռիսկերի գնահատում և կայուն կառավարման պլանների մշակում՝ աղետներից խուսափելու համար:
-          </p>
-          <div class="business-list">
-            <ul>
-              <li><strong>Վտանգների գնահատում:</strong> Ջրհեղեղների հավանականության և ուժգնության կանխատեսում:</li>
-              <li><strong>Պլանավորում:</strong> Հեղեղումների դեմ պայքարի ռազմավարական քարտեզների ստեղծում:</li>
-              <li><strong>Մոնիթորինգ:</strong> Ջրի որակի և քանակական ցուցանիշների դիտարկում:</li>
-              <li><strong>Էկոլոգիա:</strong> Գետային էկոհամակարգերի վերականգնում և պահպանում:</li>
-              <li><strong>Ապահովագրություն:</strong> Ջրային աղետների հետևանքով հնարավոր վնասների հաշվարկ:</li>
-            </ul>
-          </div>
-          <div class="image-gallery">
-            <img src="assets/img/serv_img/serv_flood_02.jpg" alt="Flood 2">
-            <img src="assets/img/serv_img/serv_flood_01.png" alt="Flood 1">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div id="edu-section" class="service-body-container">
-      <div class="side-nav">
-        <div class="side-nav-btn active" onclick="switchSubTab(this, 'gis-edu')">GIS դասընթացներ</div>
-      </div>
-      
-      <div class="content-side">
-        <div id="gis-edu" class="content-display active">
-          <p class="service-main-desc">
-            Դասընթացներ ArcGIS և QGIS ծրագրերի տիրապետման համար՝ սկսնակներից մինչև պրոֆեսիոնալ մակարդակ:
-          </p>
-          <div class="business-list">
-            <ul>
-              <li><strong>Գործնական ուսուցում:</strong> Աշխատանք իրական նախագծերի և տվյալների բազաների հետ:</li>
-              <li><strong>ArcGIS/QGIS:</strong> Աշխարհի առաջատար ծրագրային փաթեթների խորացված ուսումնասիրություն:</li>
-              <li><strong>Քարտեզագրում:</strong> Պրոֆեսիոնալ քարտեզների պատրաստման հմտությունների ձեռքբերում:</li>
-              <li><strong>Վերլուծություն:</strong> Տարածական վիճակագրության և տվյալների վերլուծության մեթոդներ:</li>
-              <li><strong>Հավաստագիր:</strong> Դասընթացի ավարտին մասնագիտական գիտելիքների հաստատում:</li>
-            </ul>
-          </div>
-          <div class="image-gallery">
-            <img src="assets/img/serv_img/serv_edu_02.jpg" alt="Edu 2">
-            <img src="assets/img/serv_img/serv_edu_01.jpg" alt="Edu 1">
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </main>
+    </main>
 
   <div id="footer-placeholder"></div>
 
