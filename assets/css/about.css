@@ -1,82 +1,119 @@
-/* Container-ը ստիպում է սքրոլին «կպչել» բաժիններին */
+/* Container & Sections */
 .about-container {
   height: 100vh;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
+  scrollbar-width: none;
 }
+.about-container::-webkit-scrollbar { display: none; }
 
 .about-section {
   width: 100%;
-  height: 100vh; /* Ամբողջ էկրանը Header-ի տակ */
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   scroll-snap-align: start;
-  padding: 80px 5% 20px; /* 80px-ը Header-ի համար է */
+  padding: 80px 5% 20px;
   box-sizing: border-box;
+  position: relative; /* Անհրաժեշտ է vertical-title-ի համար */
 }
 
-/* Գունային սխեմաներ */
+.team-bg { background-color: #0c8495; }
 .white-bg { background-color: #ffffff; }
-.team-bg { background-color: #0c8495; } /* "Մեր մասին" բաժնի կապույտը */
 
-.white-text { color: #ffffff; }
+/* Ուղղահայաց գրվածք ձախ կողմում (Red area style from your picture) */
+.vertical-title {
+  position: absolute;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: left bottom;
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  letter-spacing: 2px;
+  pointer-events: none;
+}
 
-.about-content {
-  max-width: 1000px;
-  text-align: center;
+/* Fade-in Animation Logic */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1s ease-out;
+}
+
+/* Երբ բաժինը դառնում է տեսանելի (կարող եք ավելացնել JS-ով կամ պարզապես CSS hover/scroll snap-ով) */
+.about-section:hover .fade-in-section {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Թիմի դասավորվածություն */
 .team-grid {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 50px;
   flex-wrap: wrap;
-  margin-top: 30px;
+}
+
+.team-member {
+  text-align: center;
+  color: white;
+}
+
+.team-member .img-container {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  margin: 0 auto 15px;
+  transition: transform 0.3s ease;
 }
 
 .team-member img {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border: 4px solid rgba(255,255,255,0.3);
-  margin-bottom: 15px;
 }
 
-/* Գործընկերների լոգոների պատահական բաշխում */
+.team-member h4 {
+  font-size: 1.2rem;
+  margin: 10px 0 5px;
+  font-weight: 700;
+}
+
+.team-member p {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 0.9;
+}
+
+.linkedin-link img {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  transition: opacity 0.3s;
+}
+
+.linkedin-link:hover img {
+  opacity: 0.7;
+}
+
+/* Գործընկերների պատահական դասավորություն (մնում է նույնը) */
 .partners-random-cloud {
   position: relative;
   width: 100%;
   height: 60vh;
-  margin-top: 20px;
 }
-
 .partner-logo {
   position: absolute;
   top: var(--rand-top);
   left: var(--rand-left);
-  transition: transform 0.3s ease;
 }
-
-.partner-logo img {
-  height: 60px;
-  width: auto;
-  filter: grayscale(100%);
-  opacity: 0.7;
-  transition: all 0.3s ease;
-}
-
-.partner-logo:hover img {
-  filter: grayscale(0%);
-  opacity: 1;
-}
-
-.partner-logo:hover {
-  transform: scale(1.1);
-}
-
-/* Թաքցնել scrollbar-ը մաքուր տեսքի համար */
-.about-container::-webkit-scrollbar { display: none; }
