@@ -1,22 +1,22 @@
 /* --- ԹԻՄԻ ԲԱԺԻՆ --- */
 .about-section.team-bg {
     background-color: #0c8495;
-    /* Հեռացնում ենք ընդհանուր padding-top-ը այս սեկցիայի համար */
-    padding-top: 0 !important; 
-    padding-left: 250px !important;
-    padding-right: 50px !important;
-    
-    /* Ապահովում ենք, որ ներքին տարրերը հաշվի առնեն Header-ի բացը */
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* Սա ապահովում է, որ բովանդակությունը լինի կենտրոնում */
+    justify-content: center; 
+    align-items: center;
+    position: relative;
+    padding: 0 50px 0 250px !important;
+    box-sizing: border-box;
 }
 
-/* Ուղղահայաց վերնագրի դիրքի ուղղում */
+/* Ուղղահայաց վերնագիր - Ճշգրիտ կենտրոնացում Header-ից հետո */
 .vertical-title {
     position: absolute;
     left: -220px;
-    /* Կենտրոնը հաշվարկում ենք Header-ից հետո մնացած տարածքի համար */
+    /* 50% + 40px (Header-ի կեսը), որպեսզի տեսողականորեն լինի կենտրոնում */
     top: calc(50% + 40px); 
     transform: translateY(-50%) rotate(-90deg);
     transform-origin: center center;
@@ -31,7 +31,12 @@
     transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/* Թիմի ցանցի դիրքի ուղղում */
+.about-section.active-fade .vertical-title {
+    opacity: 1;
+    left: -180px;
+}
+
+/* Թիմի ցանցի կոնտեյներ */
 .team-grid-container {
     display: flex !important;
     flex-direction: row !important;
@@ -42,11 +47,34 @@
     width: 100%;
     max-width: 1200px;
     z-index: 2;
-    /* Հրում ենք ամբողջ ցանցը ներքև Header-ի չափով կեսի չափով */
-    margin-top: 40px; 
+    /* Հաշվի ենք առնում Header-ի 80px-ը, որպեսզի ամբողջ շարքը մի փոքր իջնի */
+    margin-top: 80px; 
+    flex-grow: 0; /* Կանխում է պատկերների ավելորդ մեծացումը */
 }
 
-/* Եթե օգտագործում եք ::before բլոկը, ապա այս սեկցիայի համար այն պետք է չեզոքացնել */
-.about-section.team-bg::before {
-    display: none;
+/* Պատկերների չափսերի խիստ սահմանափակում */
+.team-member {
+    text-align: center;
+    color: white;
+    flex: 0 0 220px; /* Ֆիքսված լայնություն յուրաքանչյուր անդամի համար */
+    max-width: 220px;
+}
+
+.team-member .img-container {
+    width: 170px; /* Պահպանում ենք ձեր նախկին չափսը */
+    height: 170px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    margin: 0 auto 15px;
+    background-color: #fff;
+    /* Սա երաշխավորում է, որ կոնտեյները չի ձգվի */
+    flex-shrink: 0; 
+}
+
+.team-member img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
