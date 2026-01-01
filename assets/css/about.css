@@ -1,76 +1,60 @@
 /* ==========================================================================
-   ABOUT.CSS - UPDATED FOR FIXED HEADER & INTEGRATED FOOTER
+   ABOUT.CSS - FINAL STABLE FIX
    ========================================================================== */
 
-/* 1. Կոնտեյների ուղղում */
+html, body {
+  height: 100%;
+  margin: 0;
+  /* Սա թույլ կտա, որ հիմնական սքրոլը աշխատի fixed header-ի հետ */
+  overflow: hidden; 
+}
+
 .about-container {
   width: 100%;
-  overflow-x: hidden;
-  /* Proximity-ն թույլ է տալիս սահուն անցում կատարել դեպի footer-ը վերջում */
-  scroll-snap-type: y proximity; 
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 }
 
-/* 2. Բաժինների բարձրության հաշվարկ */
 .about-section {
   width: 100%;
-  height: 100vh; 
+  height: 100vh;
   display: flex;
-  align-items: center; 
+  align-items: center;
   justify-content: center;
   scroll-snap-align: start;
   position: relative;
-  overflow: hidden;
   box-sizing: border-box;
-  /* Ավելացնում ենք վերևից padding, որպեսզի Fixed Header-ը չծածկի տեքստը */
-  padding-top: 80px; 
 }
 
-/* 3. ՎԵՐՋԻՆ ՍԵԿՑԻԱՆ (Գործընկերներ + Footer) */
-.footer-integrated-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
-}
-
-.footer-integrated-section .about-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-#footer-placeholder {
+/* ՍԱ ԼՈՒԾՈՒՄ Է ԽՆԴԻՐԸ. Անտեսանելի բլոկ Header-ի բարձրությամբ */
+.about-section::before {
+  content: "";
+  display: block;
+  height: 80px; /* Header-ի բարձրությունը */
+  position: absolute;
+  top: 0;
   width: 100%;
-  margin-top: auto;
-  scroll-snap-align: end;
 }
 
-/* 4. ԹԻՄԻ ԲԱԺԻՆ */
+/* --- ԹԻՄԻ ԲԱԺԻՆ --- */
 .about-section.team-bg {
   background-color: #0c8495;
-  /* Ձախ կողմից տեղ ենք թողնում ուղղահայաց վերնագրի համար */
-  padding-left: 250px !important; 
+  padding-left: 250px !important;
   padding-right: 50px !important;
 }
 
-
-
-/* Ուղղահայաց վերնագիր */
 .vertical-title {
   position: absolute;
-  left: -220px; 
-  top: 55%; 
+  left: -220px;
+  top: 50%;
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: center center;
-  font-size: 8rem; 
+  font-size: 8rem;
   font-weight: 900;
   color: #ffffff;
   white-space: nowrap;
-  letter-spacing: 12px;
-  text-transform: uppercase;
   z-index: 5;
   opacity: 0;
   transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
@@ -78,86 +62,45 @@
 
 .about-section.active-fade .vertical-title {
   opacity: 1;
-  left: -180px; 
+  left: -180px;
 }
 
-/* 5. ԹԻՄԻ ԱՆԴԱՄՆԵՐԸ (Հորիզոնական) */
 .team-grid-container {
-  display: flex !important;
-  flex-direction: row !important;
+  display: flex;
+  flex-direction: row;
   flex-wrap: nowrap;
+  gap: 40px;
   justify-content: center;
   align-items: center;
-  gap: 40px;
+}
+
+/* --- FOOTER INTEGRATION --- */
+.footer-integrated-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-integrated-section .about-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#footer-placeholder {
   width: 100%;
-  max-width: 1200px;
-  z-index: 2;
+  z-index: 10;
 }
 
-.team-member {
-  text-align: center;
-  color: white;
-  flex: 0 0 220px; 
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.8s ease-out;
-}
-
-.about-section.active-fade .team-member {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Profile Images */
-.team-member .img-container {
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 5px solid rgba(255, 255, 255, 0.2);
-  margin: 0 auto 15px;
-  background-color: #fff;
-}
-
-.team-member img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* LinkedIn Logo Fix */
-.linkedin-link img {
-  width: 18px !important;
-  height: 18px !important;
-  border-radius: 0 !important;
-  border: none !important;
-  margin-left: 4px !important;
-  display: inline-block !important;
-  background: none !important;
-}
-
-/* 6. RESPONSIVE (Բջջային տարբերակ) */
+/* --- RESPONSIVE --- */
 @media screen and (max-width: 1024px) {
-  .vertical-title { display: none; }
-  
-  .about-section { 
-    height: auto; 
-    min-height: 100vh;
-    /* Բջջայինում Header-ը կարող է ավելի փոքր լինել, բայց padding-ը պահում ենք */
-    padding: 100px 20px 40px !important;
-  }
-  
-  .team-grid-container {
-    flex-direction: column !important;
-    gap: 40px;
-  }
-  
-  .footer-integrated-section {
+  .about-section {
     height: auto;
+    min-height: 100vh;
+    padding-top: 100px !important;
   }
-
-  .about-section.team-bg {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
+  .team-grid-container {
+    flex-direction: column;
   }
+  .vertical-title { display: none; }
 }
