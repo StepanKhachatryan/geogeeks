@@ -3,170 +3,123 @@
    ========================================== */
 @media screen and (max-width: 768px) {
 
-    /* 1. Header & Navigation Cleanup */
+    /* 1. Header & Navigation Fix */
     .nav-container {
-        padding: 10px 3% !important;
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        gap: 5px !important;
-        text-align: left !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
+        padding: 10px 15px !important;
+        height: 60px !important;
     }
 
     .logo-text {
-        display: none !important;
-    }
-
-    .logo {
-        justify-content: flex-start !important;
-        display: flex !important;
+        display: none !important; /* Հեռացնում ենք տեքստը տեղ ազատելու համար */
     }
 
     .logo img {
-        height: 35px !important;
-        width: 35px !important;
+        height: 40px !important;
+        width: 40px !important;
     }
 
     .menu {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        justify-content: flex-end !important;
         gap: 2px !important;
-        padding: 0 !important;
-        list-style: none !important;
     }
 
     .menu li a {
-        padding: 5px 8px !important;
+        padding: 6px 8px !important;
         font-size: 0.7rem !important;
         white-space: nowrap !important;
     }
 
-    /* 2. Hero & Main Layout */
-    .hero {
-        height: 50vh;
-    }
-
-    .video-container {
-        aspect-ratio: auto;
-        height: 100%;
-    }
-
-    /* 3. Weather Section (Dashboard) */
-    .weather-grid {
-        grid-template-columns: 1fr !important;
-        gap: 20px;
-    }
-
-    .weather-box {
-        min-height: auto !important;
-        padding-bottom: 15px;
-    }
-
-    .weather-box iframe {
-        height: 400px;
-    }
-
-    .section-title {
-        font-size: 1.5rem;
-    }
-
-    /* 4. Projects Page Update */
-    .projects-page-wrapper {
-        padding: 20px 3%;
-        display: block;
-    }
-
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 15px;
-    }
-
-    .category-box {
-        height: 220px;
-        min-height: auto;
-    }
-
-    .category-box h3 {
-        font-size: 1rem;
-        padding: 15px;
-    }
-
-    /* 5. Services Section (Ծառայություններ) */
+    /* 2. Services Page Wrapper Fix */
     .services-page-wrapper {
-        padding: 20px 3% !important;
-        /* Եթե header-ը fixed է, ավելացրեք padding-top: 70px; */
+        padding: 20px 15px !important;
+        margin-top: 20px !important;
     }
 
+    /* Հիմնական 3 սալիկները դարձնում ենք 1 սյունակ */
     .top-services-nav {
-        grid-template-columns: 1fr !important; /* Սալիկները դասավորվում են իրար տակ */
+        grid-template-columns: 1fr !important;
         gap: 10px !important;
-        margin-bottom: 20px !important;
     }
 
     .main-service-btn {
-        height: 75px !important;
-        border-radius: 12px !important;
-        display: flex !important;
-        align-items: center !important;
+        height: auto !important;
+        padding: 10px !important;
     }
 
     .icon-box {
-        width: 80px !important; /* Կրճատված լայնություն նկարի համար */
-        height: 100% !important;
+        width: 60px !important;
+        height: 60px !important;
     }
 
-    .main-service-btn h3 {
-        font-size: 0.85rem !important;
-        padding: 0 10px !important;
-        text-align: left !important;
-    }
-
+    /* 3. Side Navigation (Sub-services) */
     .service-body-container {
-        grid-template-columns: 1fr !important; /* Ձախ մենյուն և կոնտենտը դառնում են 1 սյունակ */
-        min-height: auto !important;
-        border-radius: 15px !important;
+        grid-template-columns: 1fr !important; /* Ուղղահայաց դասավորություն */
+        display: flex !important;
+        flex-direction: column !important;
     }
 
     .side-nav {
-        display: flex !important; /* Մենյուն դառնում է հորիզոնական */
-        overflow-x: auto !important; /* Սահող էֆեկտ (scroll) */
-        padding: 10px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important; /* Հորիզոնական սահող մենյու */
+        white-space: nowrap;
         border-right: none !important;
-        border-bottom: 1px solid #edf2f0 !important;
+        border-bottom: 1px solid #ccc !important;
+        padding: 10px 0 !important;
+        margin-bottom: 15px !important;
         gap: 8px !important;
         -webkit-overflow-scrolling: touch;
     }
 
     .side-nav-btn {
-        white-space: nowrap !important;
         margin-bottom: 0 !important;
-        padding: 10px 15px !important;
+        padding: 8px 15px !important;
         font-size: 0.85rem !important;
-        border-radius: 8px !important;
+        flex-shrink: 0;
     }
 
-    .content-display {
-        padding: 30px 15px !important;
+    /* 4. Content & Images Fix */
+    .content-side {
+        padding: 10px 0 !important;
+        min-height: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
 
-    .content-display h2 {
-        font-size: 1.4rem !important;
-        margin-bottom: 15px !important;
+    .service-main-desc, 
+    .business-list ul {
+        max-width: 100% !important; /* Տեքստը զբաղեցնում է ողջ լայնությունը */
     }
 
-    .content-display p {
-        font-size: 1rem !important;
-        line-height: 1.5 !important;
+    /* Պատկերասրահի ադապտացիա */
+    .image-gallery {
+        position: relative !important; /* Հեռացնում ենք absolute դիրքը */
+        width: 100% !important;
+        height: auto !important;
+        top: 0 !important;
+        right: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
+        margin-top: 30px !important;
+        padding-bottom: 50px !important;
     }
 
-    /* 6. Contact & About */
-    .contact-container, .about-section {
-        padding: 20px 5%;
-        gap: 20px;
+    .image-gallery img {
+        width: 240px !important; /* Փոքրացնում ենք նկարները */
+        position: relative !important;
+        display: block;
+    }
+
+    /* Պահպանում ենք թեթևակի շերտավորման էֆեկտը բջջայինում */
+    .image-gallery img:nth-child(1) {
+        top: 30px !important;
+        right: 30px !important;
+        z-index: 2;
+    }
+
+    .image-gallery img:nth-child(2) {
+        top: 0 !important;
+        right: -30px !important;
+        z-index: 1;
     }
 }
 
@@ -174,49 +127,12 @@
    SMALL PHONE STYLES (Max 480px)
    ========================================== */
 @media screen and (max-width: 480px) {
-    .nav-container {
-        padding: 8px 2% !important;
-    }
-
-    .logo img {
-        height: 30px !important;
-        width: 30px !important;
-    }
-
     .menu li a {
         padding: 4px 6px !important;
         font-size: 0.65rem !important;
     }
 
-    /* Projects Grid for Mobile */
-    .category-grid {
-        grid-template-columns: 1fr !important;
-        gap: 15px;
-    }
-
-    .category-box {
-        height: 200px;
-    }
-
-    /* Services for Small Mobile */
-    .icon-box {
-        width: 70px !important;
-    }
-
-    .main-service-btn {
-        height: 65px !important;
-    }
-
-    .main-service-btn h3 {
-        font-size: 0.8rem !important;
-    }
-
-    .side-nav-btn {
-        padding: 8px 12px !important;
-        font-size: 0.8rem !important;
-    }
-
-    .weather-box iframe {
-        height: 320px;
+    .image-gallery img {
+        width: 180px !important;
     }
 }
