@@ -4,13 +4,12 @@
     width: 100%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     
-    /* Փոփոխված հատված. sticky-ն փոխարինվել է fixed-ով */
+    /* Ֆիքսված դիրք բոլոր էջերի համար */
     position: fixed; 
     top: 0;
     left: 0;
-    /* ------------------------------------------------ */
     
-    z-index: 9999; /* Ապահովում է, որ միշտ լինի ամենավերևում */
+    z-index: 10000; /* Բարձր արժեք, որ ոչ մի բան վրայով չանցնի */
 }
 
 .nav-container {
@@ -18,10 +17,11 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 100%; /* Ապահովում է ամբողջ լայնությունը */
-    padding: 10px 40px;
+    max-width: 1400px; /* Կենտրոնացված լայնություն մեծ էկրանների համար */
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 80px; /* Ֆիքսված բարձրություն */
     box-sizing: border-box;
-    height: 80px; /* Ֆիքսված բարձրություն կայունության համար */
 }
 
 /* Logo Styling */
@@ -31,19 +31,12 @@
     text-decoration: none !important;
     gap: 12px;
     flex-shrink: 0;
-    transition: all 0.3s ease;
-}
-
-.logo:hover {
-    opacity: 0.8;
-    transform: translateY(-1px);
 }
 
 .logo img {
     height: 50px; 
     width: 50px; 
     object-fit: contain;
-    display: block;
 }
 
 .logo-text {
@@ -57,7 +50,7 @@
 .menu {
     display: flex;
     list-style: none;
-    gap: 0.5rem;
+    gap: 10px;
     margin: 0;
     padding: 0;
 }
@@ -66,13 +59,13 @@
     text-decoration: none !important;
     color: #34495e;
     font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 4px;
+    padding: 10px 18px;
+    border-radius: 6px;
     transition: all 0.3s ease;
     white-space: nowrap;
 }
 
-/* --- SPECIFIC ACTIVE COLORS --- */
+/* --- Ակտիվ գույները (Active states) --- */
 .menu li a.active-about { 
     background-color: #0c8495 !important; 
     color: #ffffff !important; 
