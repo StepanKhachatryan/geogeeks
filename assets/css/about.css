@@ -1,26 +1,71 @@
+/* ==========================================================================
+   ABOUT.CSS - STABLE LAYOUT & ICON FIX
+   ========================================================================== */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; 
+}
+
+.about-container {
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none; 
+}
+.about-container::-webkit-scrollbar { display: none; }
+
+/* --- ԸՆԴՀԱՆՈՒՐ ՍԵԿՑԻԱՅԻ ՈՃԸ --- */
+.about-section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column; /* Փոխում ենք սյունակային դասավորության */
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    position: relative;
+    box-sizing: border-box;
+    padding: 80px 10% 40px; /* 80px տեղ header-ի համար */
+}
+
+/* --- ՏԵՔՍՏԱՅԻՆ ԲԱԺԻՆՆԵՐ (Մեր Պատմությունը / Գործընկերներ) --- */
+.about-content {
+    max-width: 900px;
+    text-align: center;
+    z-index: 2;
+}
+
+.about-content h1, .about-content h2 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-weight: 800;
+}
+
+.about-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
+}
+
 /* --- ԹԻՄԻ ԲԱԺԻՆ --- */
 .about-section.team-bg {
     background-color: #0c8495;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    /* Սա ապահովում է, որ բովանդակությունը լինի կենտրոնում */
-    justify-content: center; 
-    align-items: center;
-    position: relative;
-    padding: 0 50px 0 250px !important;
-    box-sizing: border-box;
+    padding-left: 280px !important; /* Տեղ ուղղահայաց վերնագրի համար */
+    padding-right: 50px !important;
 }
 
-/* Ուղղահայաց վերնագիր - Ճշգրիտ կենտրոնացում Header-ից հետո */
 .vertical-title {
     position: absolute;
     left: -220px;
-    /* 50% + 40px (Header-ի կեսը), որպեսզի տեսողականորեն լինի կենտրոնում */
-    top: calc(50% + 40px); 
+    top: calc(50% + 40px); /* Կենտրոնացում հաշվի առնելով header-ը */
     transform: translateY(-50%) rotate(-90deg);
     transform-origin: center center;
-    font-size: 8rem;
+    font-size: 7rem; /* Մի փոքր փոքրացված ավելի լավ տեղավորվելու համար */
     font-weight: 900;
     color: #ffffff;
     white-space: nowrap;
@@ -36,45 +81,89 @@
     left: -180px;
 }
 
-/* Թիմի ցանցի կոնտեյներ */
+/* ԹԻՄԻ ՑԱՆՑԸ */
 .team-grid-container {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap;
     gap: 40px;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Հավասարեցնում ենք վերևից */
     width: 100%;
-    max-width: 1200px;
-    z-index: 2;
-    /* Հաշվի ենք առնում Header-ի 80px-ը, որպեսզի ամբողջ շարքը մի փոքր իջնի */
-    margin-top: 80px; 
-    flex-grow: 0; /* Կանխում է պատկերների ավելորդ մեծացումը */
+    margin-top: 40px;
 }
 
-/* Պատկերների չափսերի խիստ սահմանափակում */
 .team-member {
     text-align: center;
     color: white;
-    flex: 0 0 220px; /* Ֆիքսված լայնություն յուրաքանչյուր անդամի համար */
+    flex: 0 0 220px;
     max-width: 220px;
 }
 
 .team-member .img-container {
-    width: 170px; /* Պահպանում ենք ձեր նախկին չափսը */
+    width: 170px;
     height: 170px;
     border-radius: 50%;
     overflow: hidden;
     border: 5px solid rgba(255, 255, 255, 0.2);
     margin: 0 auto 15px;
     background-color: #fff;
-    /* Սա երաշխավորում է, որ կոնտեյները չի ձգվի */
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 
 .team-member img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
+}
+
+.team-member h4 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    line-height: 1.3;
+}
+
+.team-member p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: white !important; /* Ապահովում ենք սպիտակ գույնը */
+}
+
+/* --- LINKEDIN ICON FIX --- */
+/* Այս հատվածը կանխում է պատկերակի աննորմալ մեծացումը */
+.linkedin-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+
+.linkedin-link img {
+    width: 20px !important; /* Խիստ ֆիքսված չափս */
+    height: 20px !important;
+    border-radius: 0 !important;
+    border: none !important;
+    background: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    object-fit: contain !important;
+}
+
+/* --- RESPONSIVE --- */
+@media screen and (max-width: 1024px) {
+    .about-section {
+        height: auto;
+        min-height: 100vh;
+        padding: 100px 20px 40px !important;
+    }
+    .team-grid-container {
+        flex-direction: column !important;
+        align-items: center;
+    }
+    .vertical-title { display: none; }
+    .about-section.team-bg { padding-left: 20px !important; }
 }
