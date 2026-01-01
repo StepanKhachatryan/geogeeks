@@ -12,11 +12,12 @@
   <link rel="stylesheet" href="assets/css/footer.css">
 
   <style>
-    /* Inline override to bold the paragraph and remove the left green line */
+    /* Paragraph formatting: Bold and no left green line */
     .service-main-desc {
       font-weight: bold !important;
       border-left: none !important;
       padding-left: 0 !important;
+      max-width: 55%;
     }
   </style>
 </head>
@@ -58,7 +59,7 @@
       <div class="content-side">
         <div id="gis-analysis" class="content-display active">
           <p class="service-main-desc">
-            Մեր GIS վերլուծության ծառայությունները տվյալները վերածում են ռազմավարական գործիքի՝ թույլ տալով տեսնել կապերն ու օրինաչափությունները, որոնք անտեսանելի են սովորական աղյուսակներում: Մենք օգնում ենք կառավարել տարածական տվյալները՝ սկսած պարզ քարտեզագրումից մինչև բարդ բազմագործոնային վերլուծություններ, որոնք հիմք են հանդիսանում ճշգրիտ և արդյունավետ որոշումների կայացման համար:
+            Մեր GIS վերլուծության ծառայությունները տվյալները վերածում են ռազմավարական գործիքի՝ թույլ տալով տեսնել կապերն ու օրինաչափությունները, որոնք անտեսանելի են սովորական աղյուսակներում:
           </p>
 
           <div class="business-list">
@@ -82,15 +83,56 @@
           <p class="service-main-desc">
             Remote Sensing-ը թույլ է տալիս իրականացնել տարածքների մոնիթորինգ առանց ֆիզիկական ներկայության՝ օգտագործելով արբանյակային և աերոլուսանկարչական տվյալները:
           </p>
-          <div class="business-list">
-             <ul>
-                 <li><strong>Խոշոր հողատերեր:</strong> Դաշտերի վիճակի հեռահար հսկողություն:</li>
-                 <li><strong>Ապահովագրական ընկերություններ:</strong> Վնասների ճշգրիտ գնահատում աղետներից հետո:</li>
-             </ul>
-          </div>
           <div class="image-gallery">
             <img src="assets/img/serv_img/serv_rs_02.jpg" alt="RS 2">
             <img src="assets/img/serv_img/serv_rs_01.png" alt="RS 1">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="hydro-section" class="service-body-container">
+      <div class="side-nav">
+        <div class="side-nav-btn active" onclick="switchSubTab(this, 'hydro-modeling')">Հիդրոլոգիական հետազոտություն</div>
+        <div class="side-nav-btn" onclick="switchSubTab(this, 'water-mgmt')">Ջրհեղեղների մոդելավորում</div>
+      </div>
+      
+      <div class="content-side">
+        <div id="hydro-modeling" class="content-display active">
+          <p class="service-main-desc">
+            Գետերի հոսքի, ջրհավաք ավազանների և ջրային ռեսուրսների ճշգրիտ հաշվարկ և կանխատեսում ժամանակակից ծրագրային փաթեթներով:
+          </p>
+          <div class="image-gallery">
+            <img src="assets/img/serv_img/serv_hydro_02.jpg" alt="Hydro 2">
+            <img src="assets/img/serv_img/serv_hydro_01.jpg" alt="Hydro 1">
+          </div>
+        </div>
+
+        <div id="water-mgmt" class="content-display">
+          <p class="service-main-desc">
+            Ջրային հաշվեկշիռների կազմում, ռիսկերի գնահատում և կայուն կառավարման պլանների մշակում:
+          </p>
+          <div class="image-gallery">
+            <img src="assets/img/serv_img/serv_flood_02.jpg" alt="Flood 2">
+            <img src="assets/img/serv_img/serv_flood_01.png" alt="Flood 1">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="edu-section" class="service-body-container">
+      <div class="side-nav">
+        <div class="side-nav-btn active" onclick="switchSubTab(this, 'gis-edu')">GIS դասընթացներ</div>
+      </div>
+      
+      <div class="content-side">
+        <div id="gis-edu" class="content-display active">
+          <p class="service-main-desc">
+            Դասընթացներ ArcGIS և QGIS ծրագրերի տիրապետման համար՝ սկսնակներից մինչև պրոֆեսիոնալ մակարդակ:
+          </p>
+          <div class="image-gallery">
+            <img src="assets/img/serv_img/serv_edu_02.jpg" alt="Edu 2">
+            <img src="assets/img/serv_img/serv_edu_01.jpg" alt="Edu 1">
           </div>
         </div>
       </div>
