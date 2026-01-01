@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ABOUT.CSS - STABLE LAYOUT & ICON FIX
+   ABOUT.CSS - FIXED SCROLL & CENTERING FIX
    ========================================================================== */
 
 html, body {
@@ -21,55 +21,41 @@ html, body {
 /* --- ԸՆԴՀԱՆՈՒՐ ՍԵԿՑԻԱՅԻ ՈՃԸ --- */
 .about-section {
     width: 100%;
-    height: 100vh;
+    height: 100vh; /* Խիստ 100vh */
     display: flex;
-    flex-direction: column; /* Փոխում ենք սյունակային դասավորության */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     scroll-snap-align: start;
     position: relative;
-    box-sizing: border-box;
-    padding: 80px 10% 40px; /* 80px տեղ header-ի համար */
-}
-
-/* --- ՏԵՔՍՏԱՅԻՆ ԲԱԺԻՆՆԵՐ (Մեր Պատմությունը / Գործընկերներ) --- */
-.about-content {
-    max-width: 900px;
-    text-align: center;
-    z-index: 2;
-}
-
-.about-content h1, .about-content h2 {
-    font-size: 2.5rem;
-    color: #2c3e50;
-    margin-bottom: 25px;
-    font-weight: 800;
-}
-
-.about-content p {
-    font-size: 1.1rem;
-    line-height: 1.8;
-    color: #444;
+    /* ԿԱՐԵՎՈՐ. padding-ը ներառվում է 100vh-ի մեջ, ոչ թե ավելանում դրան */
+    box-sizing: border-box; 
+    padding-top: 80px; /* Header-ի բարձրությունը */
 }
 
 /* --- ԹԻՄԻ ԲԱԺԻՆ --- */
 .about-section.team-bg {
     background-color: #0c8495;
-    padding-left: 280px !important; /* Տեղ ուղղահայաց վերնագրի համար */
+    /* Ձախից տեղ ենք բացում վերնագրի համար, բայց վերևից padding-ը պահում ենք */
+    padding-left: 280px !important;
     padding-right: 50px !important;
 }
 
+/* ՈՒՂՂԱՀԱՅԱՑ ՎԵՐՆԱԳԻՐ - ՃՇԳՐԻՏ ԿԵՆՏՐՈՆԱՑՈՒՄ */
 .vertical-title {
     position: absolute;
-    left: -220px;
-    top: calc(50% + 40px); /* Կենտրոնացում հաշվի առնելով header-ը */
+    /* Ձախ եզրից հեռավորությունը */
+    left: -220px; 
+    /* Կենտրոնացում Header-ից հետո մնացած տարածքում */
+    top: calc(50% + 40px); 
     transform: translateY(-50%) rotate(-90deg);
     transform-origin: center center;
-    font-size: 7rem; /* Մի փոքր փոքրացված ավելի լավ տեղավորվելու համար */
+    
+    font-size: 7.5rem; /* Մի փոքր փոքրացված ավելի լավ տեղավորվելու համար */
     font-weight: 900;
     color: #ffffff;
     white-space: nowrap;
-    letter-spacing: 12px;
+    letter-spacing: 10px;
     text-transform: uppercase;
     z-index: 5;
     opacity: 0;
@@ -78,31 +64,33 @@ html, body {
 
 .about-section.active-fade .vertical-title {
     opacity: 1;
-    left: -180px;
+    left: -180px; /* Հայտնվելու ժամանակաշրջանը */
 }
 
-/* ԹԻՄԻ ՑԱՆՑԸ */
+/* ԹԻՄԻ ԱՆԴԱՄՆԵՐԻ ՑԱՆՑԸ */
 .team-grid-container {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap;
-    gap: 40px;
+    gap: 30px;
     justify-content: center;
-    align-items: flex-start; /* Հավասարեցնում ենք վերևից */
+    align-items: center;
     width: 100%;
-    margin-top: 40px;
+    z-index: 2;
+    /* Հեռացնում ենք ավելորդ margin-ները, քանի որ սեկցիան արդեն ունի padding */
+    margin: 0; 
 }
 
 .team-member {
     text-align: center;
     color: white;
-    flex: 0 0 220px;
-    max-width: 220px;
+    flex: 0 0 200px;
+    max-width: 200px;
 }
 
 .team-member .img-container {
-    width: 170px;
-    height: 170px;
+    width: 160px;
+    height: 160px;
     border-radius: 50%;
     overflow: hidden;
     border: 5px solid rgba(255, 255, 255, 0.2);
@@ -117,53 +105,24 @@ html, body {
     object-fit: cover;
 }
 
-.team-member h4 {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-    line-height: 1.3;
-}
-
-.team-member p {
-    font-size: 0.9rem;
-    opacity: 0.9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: white !important; /* Ապահովում ենք սպիտակ գույնը */
-}
-
-/* --- LINKEDIN ICON FIX --- */
-/* Այս հատվածը կանխում է պատկերակի աննորմալ մեծացումը */
-.linkedin-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-}
-
+/* LINKEDIN ICON - ԽԻՍՏ ՉԱՓՍ */
 .linkedin-link img {
-    width: 20px !important; /* Խիստ ֆիքսված չափս */
+    width: 20px !important;
     height: 20px !important;
-    border-radius: 0 !important;
     border: none !important;
     background: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    object-fit: contain !important;
+    vertical-align: middle;
+    margin-left: 5px;
 }
 
 /* --- RESPONSIVE --- */
-@media screen and (max-width: 1024px) {
-    .about-section {
-        height: auto;
-        min-height: 100vh;
-        padding: 100px 20px 40px !important;
-    }
-    .team-grid-container {
-        flex-direction: column !important;
-        align-items: center;
-    }
+@media screen and (max-width: 1100px) {
+    .vertical-title { font-size: 5rem; left: -140px; }
+    .about-section.team-bg { padding-left: 200px !important; }
+}
+
+@media screen and (max-width: 900px) {
     .vertical-title { display: none; }
-    .about-section.team-bg { padding-left: 20px !important; }
+    .about-section { height: auto; min-height: 100vh; padding: 100px 20px 40px !important; }
+    .team-grid-container { flex-direction: column !important; }
 }
