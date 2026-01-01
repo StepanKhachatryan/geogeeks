@@ -1,46 +1,45 @@
 /* ==========================================================================
-   ABOUT.CSS - COMPLETE HORIZONTAL FIX
+   ABOUT.CSS - FIXED HEADER & SCROLL FIX
    ========================================================================== */
 
+/* 1. Կոնտեյների ուղղում */
 .about-container {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
+  width: 100%;
+  /* Հեռացված է height: 100vh, որպեսզի չառաջանա կրկնակի սքրոլ */
+  overflow-x: hidden;
+  /* Scroll snap-ը proximity-ն ավելի նուրբ է աշխատում վերջնամասում */
+  scroll-snap-type: y proximity; 
   scroll-behavior: smooth;
-  scrollbar-width: none;
 }
-.about-container::-webkit-scrollbar { display: none; }
 
+/* 2. Բաժինների բարձրության հաշվարկ */
 .about-section {
   width: 100%;
-  /* Calculate height to account for the fixed header */
-  height: calc(100vh - 80px); 
+  /* calc(100vh) - առանց հանելու 80px, որպեսզի snap-ը ճիշտ աշխատի էկրանի չափով */
+  height: 100vh; 
   display: flex;
-  align-items: center; /* Centers the row of members vertically */
+  align-items: center; 
   justify-content: center;
   scroll-snap-align: start;
   position: relative;
   overflow: hidden;
-  margin-top: 80px; /* Starts exactly below the header */
+  box-sizing: border-box;
 }
 
-/* TEAM SECTION BACKGROUND */
+/* 3. ԹԻՄԻ ԲԱԺԻՆ */
 .about-section.team-bg {
   background-color: #0c8495;
-  /* Add padding to the left to give the vertical title its own space */
-  padding-left: 200px !important; 
-  padding-right: 50px !important;
+  /* Padding-top-ը ավելացված է Header-ի տակ տեղ բացելու համար */
+  padding: 80px 50px 0 250px !important; 
 }
 
-/* VERTICAL TITLE - ANCHORED LEFT */
+/* Ուղղահայաց վերնագիր - Բարձր Z-index */
 .vertical-title {
   position: absolute;
-  /* Positioned to fit in the far left red area from your image */
   left: -220px; 
-  top: 50%;
+  top: 55%; /* Մի փոքր իջեցված Header-ի պատճառով */
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: center center;
-  
   font-size: 8rem; 
   font-weight: 900;
   color: #ffffff;
@@ -54,18 +53,17 @@
 
 .about-section.active-fade .vertical-title {
   opacity: 1;
-  /* Adjust this value so it sits perfectly in the left margin */
   left: -180px; 
 }
 
-/* TEAM MEMBERS - STRICT HORIZONTAL LAYOUT */
+/* 4. ԹԻՄԻ ԱՆԴԱՄՆԵՐԸ (Հորիզոնական) */
 .team-grid-container {
-  display: flex !important; /* Force Flexbox */
-  flex-direction: row !important; /* Force items into a horizontal row */
-  flex-wrap: nowrap; /* Prevent them from dropping to a new line */
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  gap: 40px; /* Space between members */
+  gap: 40px;
   width: 100%;
   max-width: 1200px;
   z-index: 2;
@@ -74,7 +72,6 @@
 .team-member {
   text-align: center;
   color: white;
-  /* Set a specific width for each member so they align horizontally */
   flex: 0 0 220px; 
   opacity: 0;
   transform: translateY(20px);
@@ -86,42 +83,7 @@
   transform: translateY(0);
 }
 
-/* PROFILE IMAGES */
-.team-member .img-container {
-  width: 170px;
-  height: 170px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 5px solid rgba(255, 255, 255, 0.2);
-  margin: 0 auto 15px;
-  background-color: #fff;
-}
-
-.team-member img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* TEXT STYLING */
-.team-member h4 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-bottom: 5px;
-  white-space: nowrap;
-}
-
-.team-member p {
-  font-size: 0.8rem; /* Smaller specialist position text */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  opacity: 0.9;
-}
-
-/* LINKEDIN LOGO - SIZE RESET */
+/* LinkedIn Պատկերակ */
 .linkedin-link img {
   width: 18px !important;
   height: 18px !important;
@@ -132,17 +94,26 @@
   background: none !important;
 }
 
-/* MOBILE RESPONSIVENESS */
+/* 5. HEADER-Ի ՊԱՇՏՊԱՆՈՒԹՅՈՒՆ (Շատ կարևոր) */
+/* Համոզվեք, որ header.css-ում ունեք այս ոճը */
+#header-placeholder {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999; /* Ամենաբարձր շերտը */
+}
+
+/* 6. ԲՋՋԱՅԻՆ ՏԱՐԲԵՐԱԿ */
 @media screen and (max-width: 1024px) {
   .vertical-title { display: none; }
   .about-section { 
     height: auto; 
     min-height: 100vh;
-    margin-top: 60px; 
-    padding: 40px 20px !important;
+    padding: 100px 20px 40px !important; /* Հեռավորություն Header-ից */
   }
   .team-grid-container {
-    flex-direction: column !important; /* Stack vertically only on mobile */
+    flex-direction: column !important;
     gap: 40px;
   }
 }
