@@ -60,7 +60,7 @@
   line-height: 1.3;
 }
 
-/* --- LOWER CONTENT BOX --- */
+/* --- CONTENT BOX --- */
 .service-body-container {
   display: none;
   grid-template-columns: 280px 1fr;
@@ -93,7 +93,7 @@
   color: white;
 }
 
-/* --- TEXT CONTENT STYLING --- */
+/* --- TEXT CONTENT --- */
 .content-side {
   padding: 20px 50px;
   position: relative;
@@ -108,18 +108,16 @@
   display: block;
 }
 
-/* 1. Paragraph Description */
 .service-main-desc {
   font-size: 1.1rem;
   line-height: 1.8;
   color: #333;
   margin-bottom: 30px;
   max-width: 55%;
-  /* Պահպանված է ձեր ուզած Bold ոճը */
-  font-weight: bold; 
+  font-weight: bold; /* Bold paragraph */
 }
 
-/* 2. Business List (Lines between, no points) */
+/* --- BUSINESS LIST (NO POINTS, ONLY LINES) --- */
 .business-list h3 {
   font-size: 1.2rem;
   color: var(--main-green);
@@ -127,28 +125,32 @@
 }
 
 .business-list ul {
-  list-style: none; /* Հեռացնում է կետերը */
-  padding: 0;
+  list-style: none !important;
+  padding: 0 !important;
   max-width: 55%;
-  margin-bottom: 30px;
+  margin: 0 0 30px 0 !important;
 }
 
 .business-list ul li {
-  padding: 12px 0;
-  border-bottom: 1px solid #eee; /* Գիծը տողերի միջև */
+  list-style-type: none !important;
+  padding: 15px 0 !important;
+  border-bottom: 1px solid #eee !important; /* Line separator */
   font-size: 1rem;
   line-height: 1.5;
+  position: relative;
+}
+
+/* Remove any potential before content (green points) from other CSS files */
+.business-list ul li::before {
+  content: none !important;
+  display: none !important;
 }
 
 .business-list ul li:last-child {
-  border-bottom: none; /* Վերջին տողի տակ գիծ չի լինի */
+  border-bottom: none !important;
 }
 
-.business-list ul li strong {
-  color: #1a2a3a;
-}
-
-/* --- IMAGE GALLERY (Diagonal Overlap) --- */
+/* --- IMAGE GALLERY --- */
 .image-gallery {
   position: absolute;
   top: 50px;
@@ -178,41 +180,22 @@
   z-index: 1;
 }
 
-/* --- RESPONSIVE (Ադապտիվացում) --- */
+/* --- RESPONSIVE STYLES --- */
 @media (max-width: 1024px) {
-  .top-services-nav {
-    grid-template-columns: 1fr; /* Սալիկները դասավորվում են իրար տակ */
-  }
-
-  .service-body-container {
-    grid-template-columns: 1fr;
-  }
-
+  .top-services-nav { grid-template-columns: 1fr; }
+  .service-body-container { grid-template-columns: 1fr; }
+  
   .side-nav {
     border-right: none !important;
     border-bottom: 1px solid #ccc !important;
     padding: 10px 0;
     display: flex;
-    overflow-x: auto; /* Հորիզոնական սլայդեր մենյուի համար */
+    overflow-x: auto;
     gap: 10px;
   }
 
-  .side-nav-btn {
-    white-space: nowrap;
-    margin-bottom: 0;
-  }
-
-  .content-side {
-    padding: 20px;
-    min-height: auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .service-main-desc, 
-  .business-list ul {
-    max-width: 100%;
-  }
+  .content-side { padding: 20px; min-height: auto; }
+  .service-main-desc, .business-list ul { max-width: 100%; }
 
   .image-gallery {
     position: relative;
@@ -222,42 +205,10 @@
     height: 350px;
     display: flex;
     justify-content: center;
-    order: -1; /* Նկարները բարձրացվում են տեքստից վերև (ըստ ցանկության) */
     margin-bottom: 30px;
   }
 
-  .image-gallery img {
-    width: 250px;
-  }
-
-  .image-gallery img:nth-child(1) {
-    top: 40px;
-    right: 15%;
-  }
-
-  .image-gallery img:nth-child(2) {
-    top: 0;
-    right: 30%;
-  }
-}
-
-@media (max-width: 480px) {
-  .main-service-btn {
-    height: auto;
-    padding: 10px;
-  }
-  
-  .icon-box {
-    width: 60px;
-    height: 60px;
-    border-radius: 10px;
-  }
-
-  .image-gallery {
-    height: 250px;
-  }
-
-  .image-gallery img {
-    width: 180px;
-  }
+  .image-gallery img { width: 250px; }
+  .image-gallery img:nth-child(1) { top: 40px; right: 10%; }
+  .image-gallery img:nth-child(2) { top: 0; right: 25%; }
 }
