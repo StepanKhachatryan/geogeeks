@@ -1,13 +1,12 @@
 /* ==========================================================================
-   ABOUT.CSS - FIXED HEADER & SCROLL FIX
+   ABOUT.CSS - COMPLETE FIX WITH INTEGRATED FOOTER
    ========================================================================== */
 
 /* 1. Կոնտեյների ուղղում */
 .about-container {
   width: 100%;
-  /* Հեռացված է height: 100vh, որպեսզի չառաջանա կրկնակի սքրոլ */
   overflow-x: hidden;
-  /* Scroll snap-ը proximity-ն ավելի նուրբ է աշխատում վերջնամասում */
+  /* Proximity-ն թույլ է տալիս սահուն անցում կատարել դեպի footer-ը վերջում */
   scroll-snap-type: y proximity; 
   scroll-behavior: smooth;
 }
@@ -15,7 +14,6 @@
 /* 2. Բաժինների բարձրության հաշվարկ */
 .about-section {
   width: 100%;
-  /* calc(100vh) - առանց հանելու 80px, որպեսզի snap-ը ճիշտ աշխատի էկրանի չափով */
   height: 100vh; 
   display: flex;
   align-items: center; 
@@ -26,18 +24,40 @@
   box-sizing: border-box;
 }
 
-/* 3. ԹԻՄԻ ԲԱԺԻՆ */
+/* 3. ՎԵՐՋԻՆ ՍԵԿՑԻԱՆ (Գործընկերներ + Footer) */
+/* Սա թույլ է տալիս, որ footer-ը կպած լինի էջի հատակին առանց snap-ը խզելու */
+.footer-integrated-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Բովանդակությունը վերևում, Footer-ը՝ ներքևում */
+  height: 100vh;
+}
+
+.footer-integrated-section .about-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#footer-placeholder {
+  width: 100%;
+  margin-top: auto; /* Հրում է footer-ը սեկցիայի ամենաներքևի մաս */
+  scroll-snap-align: end; /* Օգնում է բրաուզերին կանգնել հենց footer-ի վրա */
+}
+
+/* 4. ԹԻՄԻ ԲԱԺԻՆ */
 .about-section.team-bg {
   background-color: #0c8495;
-  /* Padding-top-ը ավելացված է Header-ի տակ տեղ բացելու համար */
   padding: 80px 50px 0 250px !important; 
 }
 
-/* Ուղղահայաց վերնագիր - Բարձր Z-index */
+/* Ուղղահայաց վերնագիր */
 .vertical-title {
   position: absolute;
   left: -220px; 
-  top: 55%; /* Մի փոքր իջեցված Header-ի պատճառով */
+  top: 55%; 
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: center center;
   font-size: 8rem; 
@@ -56,7 +76,7 @@
   left: -180px; 
 }
 
-/* 4. ԹԻՄԻ ԱՆԴԱՄՆԵՐԸ (Հորիզոնական) */
+/* 5. ԹԻՄԻ ԱՆԴԱՄՆԵՐԸ (Հորիզոնական) */
 .team-grid-container {
   display: flex !important;
   flex-direction: row !important;
@@ -83,7 +103,24 @@
   transform: translateY(0);
 }
 
-/* LinkedIn Պատկերակ */
+/* Profile Images */
+.team-member .img-container {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+  margin: 0 auto 15px;
+  background-color: #fff;
+}
+
+.team-member img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* LinkedIn Logo Fix */
 .linkedin-link img {
   width: 18px !important;
   height: 18px !important;
@@ -94,26 +131,19 @@
   background: none !important;
 }
 
-/* 5. HEADER-Ի ՊԱՇՏՊԱՆՈՒԹՅՈՒՆ (Շատ կարևոր) */
-/* Համոզվեք, որ header.css-ում ունեք այս ոճը */
-#header-placeholder {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 9999; /* Ամենաբարձր շերտը */
-}
-
-/* 6. ԲՋՋԱՅԻՆ ՏԱՐԲԵՐԱԿ */
+/* 6. RESPONSIVE */
 @media screen and (max-width: 1024px) {
   .vertical-title { display: none; }
   .about-section { 
     height: auto; 
     min-height: 100vh;
-    padding: 100px 20px 40px !important; /* Հեռավորություն Header-ից */
+    padding: 100px 20px 40px !important;
   }
   .team-grid-container {
     flex-direction: column !important;
     gap: 40px;
+  }
+  .footer-integrated-section {
+    height: auto;
   }
 }
