@@ -48,6 +48,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .main-service-btn h3 {
@@ -111,18 +112,18 @@
   color: #333;
   margin-bottom: 30px;
   max-width: 55%;
-  font-weight: bold !important; /* BOLD Paragraph */
+  font-weight: bold !important; /* ԹԱՎ ՏԵՔՍՏ */
 }
 
-/* BUSINESS LIST (NO POINTS, ONLY LINES, NO GREEN TEXT) */
+/* BUSINESS LIST */
 .business-list h3 {
   font-size: 1.2rem;
-  color: var(--text-dark); /* No Green Text */
+  color: var(--text-dark); /* Մուգ տեքստ (ոչ կանաչ) */
   margin-bottom: 15px;
 }
 
 .business-list ul {
-  list-style: none !important;
+  list-style: none !important; /* Հեռացնում է կետերը */
   padding: 0 !important;
   max-width: 55%;
   margin: 0 !important;
@@ -130,12 +131,12 @@
 
 .business-list ul li {
   padding: 15px 0 !important;
-  border-bottom: 1px solid #eee !important;
+  border-bottom: 1px solid #eee !important; /* Գծեր տողերի արանքում */
   font-size: 1rem;
 }
 
 .business-list ul li::before {
-  content: none !important;
+  content: none !important; /* Հեռացնում է ցանկացած մնացորդային կետ */
 }
 
 .business-list ul li:last-child {
@@ -176,9 +177,25 @@
 @media (max-width: 1024px) {
   .top-services-nav { grid-template-columns: 1fr; }
   .service-body-container { grid-template-columns: 1fr; }
-  .side-nav { border-right: none !important; border-bottom: 1px solid #ccc !important; display: flex; overflow-x: auto; padding-bottom: 10px; }
+  .side-nav { 
+    border-right: none !important; 
+    border-bottom: 1px solid #ccc !important; 
+    display: flex; 
+    overflow-x: auto; 
+    padding-bottom: 10px;
+    padding-right: 0;
+  }
   .side-nav-btn { white-space: nowrap; margin-bottom: 0; margin-right: 10px; }
-  .image-gallery { position: relative; width: 100%; right: 0; top: 20px; height: 350px; display: flex; justify-content: center; }
+  .image-gallery { 
+    position: relative; 
+    width: 100%; 
+    right: 0; 
+    top: 20px; 
+    height: 350px; 
+    display: flex; 
+    justify-content: center; 
+    margin-bottom: 30px;
+  }
   .image-gallery img { width: 250px; }
   .service-main-desc, .business-list ul { max-width: 100%; }
 }
