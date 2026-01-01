@@ -1,28 +1,45 @@
 /* ==========================================================================
-   ABOUT.CSS - UPDATED HORIZONTAL GRID & ALIGNMENT
+   ABOUT.CSS - COMPLETE SEPARATION OF SECTION STYLES
    ========================================================================== */
 
-/* 1. Ընդհանուր սեկցիայի կարգավորում */
-.about-section.team-bg {
-  background-color: #0c8495;
-  display: flex;
-  align-items: flex-start; /* Փոխված է center-ից՝ տարրերը վերև բարձրացնելու համար */
-  justify-content: flex-start;
+/* 1. Ընդհանուր կոնտեյներ */
+.about-container {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+.about-container::-webkit-scrollbar { display: none; }
+
+/* 2. Հիմնական բաժինների ոճը (Պատմություն և Գործընկերներ) */
+.about-section {
   width: 100%;
   height: 100vh;
-  position: relative;
+  display: flex;
+  align-items: center; /* Կենտրոնացնում է տեքստային բաժինները */
+  justify-content: center;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  position: relative; 
   overflow: hidden;
-  padding: 0 !important;
+  padding: 80px 10%; /* Ապահովում է սպիտակ բաժինների կոկիկությունը */
 }
 
-/* 2. Ուղղահայաց վերնագիր - Բարձրացված վերև */
+/* 3. ՄԻԱՅՆ ԹԻՄԻ ԲԱԺԻՆԸ (Team Section Only) */
+.about-section.team-bg {
+  background-color: #0c8495;
+  align-items: flex-start; /* Բարձրացնում է թիմին վերև */
+  padding: 0 !important;   /* Հեռացնում է կողային սահմանափակումները միայն այստեղ */
+}
+
+/* Ուղղահայաց վերնագիր - Բարձր դիրք և ձախ եզր */
 .vertical-title {
   position: absolute;
-  left: -200px; /* Տեղափոխված է ավելի ձախ՝ overlap-ից խուսափելու համար */
-  top: 45%;    /* Փոքրացված է 50%-ից՝ վերև բարձրացնելու համար */
+  left: -240px; 
+  top: 40%; /* Բարձրացված է վերև */
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: center center;
-  
   font-size: 8rem; 
   font-weight: 900;
   color: #ffffff;
@@ -31,35 +48,34 @@
   text-transform: uppercase;
   pointer-events: none;
   z-index: 5;
-  
   opacity: 0;
   transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .about-section.active-fade .vertical-title {
   opacity: 1;
-  left: -240px; /* Վերջնական դիրքը ձախ եզրին */
 }
 
-/* 3. Թիմի անդամների ՀՈՐԻԶՈՆԱԿԱՆ ցանց (Horizontal Grid) */
+/* 4. Թիմի հորիզոնական ցանց (Horizontal Grid) */
 .team-grid-container {
   display: grid;
-  /* Ստեղծում է հորիզոնական շարք՝ մինչև 4 սյունակով */
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+  /* Շարում է անդամներին կողք-կողքի */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 300px)); 
   gap: 30px;
+  justify-content: center; /* Կենտրոնացնում է շարքը հորիզոնական */
   
-  /* Դիրքավորումը վերևում */
-  margin-top: 100px;  /* Հեռավորությունը Header-ից */
-  margin-left: 180px; /* Հեռավորությունը ձախ վերնագրից */
+  margin-top: 120px;  /* Բարձրացնում է շարքը Header-ին մոտ */
+  margin-left: 180px; /* Տեղ է թողնում ձախ վերնագրի համար */
   
   width: calc(100% - 220px); 
-  padding: 40px;
+  padding: 20px;
   box-sizing: border-box;
   z-index: 2;
-  text-align: center;
 }
 
+/* Թիմի անդամի ոճերը */
 .team-member {
+  text-align: center;
   color: white;
   opacity: 0;
   transform: translateY(20px);
@@ -71,9 +87,8 @@
   transform: translateY(0);
 }
 
-/* 4. Թիմի անդամի նկարը */
 .team-member .img-container {
-  width: 160px; /* Փոքրացված չափս՝ հորիզոնական տեղավորվելու համար */
+  width: 160px;
   height: 160px;
   border-radius: 50%;
   overflow: hidden;
@@ -82,50 +97,71 @@
   background-color: #fff;
 }
 
-.team-member .img-container img {
+.team-member img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
-/* 5. Տեքստային ոճեր */
 .team-member h4 {
   font-size: 1.2rem;
   margin-bottom: 5px;
   font-weight: 700;
-  white-space: nowrap;
 }
 
 .team-member p {
-  font-size: 0.8rem; /* Փոքր մասնագիտության տառաչափ */
-  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.9;
+  line-height: 1.4;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.9;
-  line-height: 1.4;
+  gap: 5px;
 }
 
-/* LinkedIn պատկերակ */
+/* LinkedIn Logo Fix */
 .linkedin-link img {
   width: 16px !important;
   height: 16px !important;
-  margin-left: 6px;
   border-radius: 0 !important;
   border: none !important;
-  background: transparent !important;
-  display: inline-block !important;
+  background: none !important;
 }
 
-/* 6. Բջջային տարբերակ (Vertical on Mobile) */
+/* 5. ՏԵՔՍՏԱՅԻՆ ԲԱԺԻՆՆԵՐԻ ՊԱՀՊԱՆՈՒՄ (Story & Partners) */
+.about-content {
+  max-width: 900px;
+  text-align: center;
+  width: 100%;
+}
+
+.white-bg { background-color: #ffffff; }
+
+.partners-random-cloud {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  margin-top: 30px;
+}
+
+.partner-logo {
+  position: absolute;
+  top: var(--rand-top);
+  left: var(--rand-left);
+}
+
+/* 6. RESPONSIVE (Բջջային տարբերակ) */
 @media screen and (max-width: 1024px) {
+  .about-section {
+    height: auto;
+    min-height: 100vh;
+    padding: 80px 20px;
+  }
   .vertical-title { display: none; }
-  .about-section.team-bg { align-items: center; }
   .team-grid-container {
     margin-left: 0;
     margin-top: 50px;
     width: 100%;
-    grid-template-columns: 1fr; /* Բջջայինով մնում է ուղղահայաց */
+    grid-template-columns: 1fr;
   }
 }
