@@ -21,10 +21,7 @@
         box-sizing: border-box !important;
     }
 
-    /* Հեռացնում ենք լոգոյի տեքստը բջջայինում, որպեսզի մենյուն տեղավորվի */
-    .logo-text {
-        display: none !important;
-    }
+    .logo-text { display: none !important; }
 
     .logo img {
         height: 35px !important;
@@ -46,11 +43,10 @@
 
     /* 2. Services Page Layout Fix */
     .services-page-wrapper {
-        padding: 80px 15px 30px !important; /* Ավելացված padding-ը թույլ չի տա Header-ին ծածկել սալիկները */
+        padding: 80px 15px 30px !important; 
         margin-top: 0 !important;
     }
 
-    /* Վերևի 3 հիմնական սալիկները դասավորում ենք իրար տակ */
     .top-services-nav {
         grid-template-columns: 1fr !important;
         gap: 12px !important;
@@ -74,13 +70,24 @@
 
     /* 3. Side Navigation (Sub-services) Transformation */
     .service-body-container {
-        display: flex !important;
+        display: none !important; /* Լռելյայն թաքցնում ենք բոլորը */
         flex-direction: column !important;
-        grid-template-columns: 1fr !important;
         gap: 0 !important;
     }
 
-    /* Ձախ կողմի մենյուն դարձնում ենք հորիզոնական սահող (swipeable) */
+    /* 6. Visibility Logic - ՍԱ ԿԱՐԵՎՈՐ Է */
+    .service-body-container.active {
+        display: flex !important; /* Ցույց տալ միայն ակտիվ հիմնական բաժինը */
+    }
+
+    .content-display {
+        display: none !important; /* Թաքցնել բոլոր ենթաբաժինները */
+    }
+
+    .content-display.active {
+        display: block !important; /* Ցույց տալ միայն ակտիվ ենթաբաժինը */
+    }
+
     .side-nav {
         display: flex !important;
         flex-direction: row !important;
@@ -91,15 +98,13 @@
         gap: 8px !important;
         margin-bottom: 20px !important;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Հեռացնում ենք scrollbar-ը Firefox-ում */
+        scrollbar-width: none; 
     }
 
-    .side-nav::-webkit-scrollbar {
-        display: none; /* Հեռացնում ենք scrollbar-ը Chrome/Safari-ում */
-    }
+    .side-nav::-webkit-scrollbar { display: none; }
 
     .side-nav-btn {
-        flex: 0 0 auto !important; /* Կոճակները չեն սեղմվում */
+        flex: 0 0 auto !important;
         margin-bottom: 0 !important;
         padding: 10px 18px !important;
         font-size: 0.85rem !important;
@@ -114,13 +119,13 @@
 
     .service-main-desc, 
     .business-list ul {
-        max-width: 100% !important; /* Տեքստը զբաղեցնում է ամբողջ լայնությունը */
+        max-width: 100% !important;
         padding: 0 !important;
     }
 
     /* 5. Image Gallery Adjustment */
     .image-gallery {
-        position: relative !important; /* Հեռացնում ենք absolute դիրքը */
+        position: relative !important;
         top: 0 !important;
         right: 0 !important;
         width: 100% !important;
@@ -134,7 +139,7 @@
 
     .image-gallery img {
         position: relative !important;
-        width: 45% !important; /* Երկու նկարները դասավորվում են կողք-կողքի */
+        width: 45% !important;
         max-width: 200px !important;
         height: auto !important;
         top: 0 !important;
@@ -147,21 +152,17 @@
    SMALL PHONE STYLES (Max 480px)
    ========================================== */
 @media screen and (max-width: 480px) {
-    .nav-container {
-        padding: 8px 10px !important;
-    }
+    .nav-container { padding: 8px 10px !important; }
 
     .menu li a {
         padding: 5px 6px !important;
         font-size: 0.65rem !important;
     }
 
-    .image-gallery {
-        flex-direction: column !important; /* Նկարները դասավորվում են իրար տակ շատ փոքր էկրանին */
-    }
+    .image-gallery { flex-direction: column !important; }
 
     .image-gallery img {
         width: 80% !important;
-        margin-bottom: -15px !important; /* Թեթևակի overlap-ը պահելու համար */
+        margin-bottom: -15px !important;
     }
 }
