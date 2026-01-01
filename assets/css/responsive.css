@@ -9,6 +9,7 @@
         top: 0;
         width: 100% !important;
         z-index: 2000 !important;
+        height: auto !important;
     }
 
     .nav-container {
@@ -17,9 +18,13 @@
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
+        box-sizing: border-box !important;
     }
 
-    .logo-text { display: none !important; }
+    /* Հեռացնում ենք լոգոյի տեքստը բջջայինում */
+    .logo-text {
+        display: none !important;
+    }
 
     .logo img {
         height: 35px !important;
@@ -29,6 +34,8 @@
     .menu {
         display: flex !important;
         gap: 5px !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     .menu li a {
@@ -37,38 +44,53 @@
         white-space: nowrap !important;
     }
 
-    /* 2. Services Page Global Adjustments */
+    /* 2. Page Wrappers - Կանխում է Header-ի տակ թաքնվելը */
+    .projects-page-wrapper,
     .services-page-wrapper {
-        padding: 80px 15px 30px !important; 
+        padding-top: 90px !important; /* Ապահովում է հեռավորություն Header-ից */
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        margin-top: 0 !important;
     }
 
+    /* 3. Projects (Նախագծեր) Layout Fix */
+    .category-grid {
+        grid-template-columns: 1fr !important; /* Սալիկները դասավորվում են իրար տակ */
+        gap: 15px !important;
+    }
+
+    .category-box {
+        height: 220px !important;
+    }
+
+    /* 4. Services (Ծառայություններ) Layout Fix */
     .top-services-nav {
         grid-template-columns: 1fr !important;
         gap: 12px !important;
+        margin-bottom: 25px !important;
     }
 
-    /* 3. Visibility & Logic Fix */
     .service-body-container {
-        display: none !important; 
+        display: none !important; /* Լռելյայն թաքցնում ենք */
         flex-direction: column !important;
     }
 
     .service-body-container.active {
-        display: flex !important; 
+        display: flex !important; /* Միայն ակտիվը */
     }
 
     .content-display {
-        display: none !important; 
+        display: none !important;
     }
 
     .content-display.active {
-        display: block !important; 
+        display: block !important;
     }
 
-    /* 4. Sub-Services Navigation (Vertical Order) */
+    /* 5. Sub-Services Navigation (Vertical) */
     .side-nav {
         display: flex !important;
-        flex-direction: column !important; /* Changed from row to column */
+        flex-direction: column !important; /* Ուղղահայաց դասավորություն */
         padding: 10px 0 !important;
         border-right: none !important;
         border-bottom: 1px solid #ccc !important;
@@ -77,57 +99,45 @@
     }
 
     .side-nav-btn {
-        width: 100% !important; /* Make buttons full width */
+        width: 100% !important;
         text-align: left !important;
         padding: 12px 18px !important;
         font-size: 0.9rem !important;
-        box-sizing: border-box !important;
-    }
-
-    /* 5. Content Layout reset */
-    .content-side {
-        padding: 0 !important;
-        min-height: auto !important;
-        display: block !important;
-    }
-
-    .service-main-desc, 
-    .business-list ul {
-        max-width: 100% !important;
+        white-space: normal !important; /* Թույլ է տալիս երկար տեքստը տեղափոխել հաջորդ տող */
     }
 
     /* 6. Overlapping Image Gallery for Mobile */
     .image-gallery {
         position: relative !important;
         width: 100% !important;
-        height: 280px !important; /* Set a fixed height to contain absolute children */
+        height: 280px !important; /* Ֆիքսված բարձրություն շերտավորման համար */
         margin-top: 40px !important;
         display: block !important;
     }
 
     .image-gallery img {
-        position: absolute !important; /* Restore overlapping style */
+        position: absolute !important; /* Վերականգնում ենք Desktop-ի շերտավոր ոճը */
         width: 70% !important;
         max-width: 250px !important;
         border-radius: 12px !important;
         box-shadow: 10px -10px 25px rgba(0, 0, 0, 0.2) !important;
     }
 
-    /* Bottom-Left Image */
+    /* Առջևի նկարը */
     .image-gallery img:nth-child(2) {
         top: 40px !important;
         left: 0 !important;
         z-index: 2 !important;
     }
 
-    /* Top-Right Image */
+    /* Ետևի նկարը */
     .image-gallery img:nth-child(1) {
         top: 0 !important;
         right: 0 !important;
         z-index: 1 !important;
     }
 
-    /* Adjust logic for Landscape orientation */
+    /* Landscape (Հորիզոնական) դիրքի համար */
     @media (orientation: landscape) {
         .image-gallery {
             height: 350px !important;
@@ -145,5 +155,9 @@
     
     .image-gallery img {
         width: 65% !important;
+    }
+
+    .projects-page-wrapper {
+        padding-top: 85px !important;
     }
 }
