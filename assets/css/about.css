@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ABOUT.CSS - FIXED SCROLL & CENTERING FIX
+   ABOUT.CSS - ABSOLUTE FIX FOR CENTERING & ICONS
    ========================================================================== */
 
 html, body {
@@ -18,44 +18,38 @@ html, body {
 }
 .about-container::-webkit-scrollbar { display: none; }
 
-/* --- ԸՆԴՀԱՆՈՒՐ ՍԵԿՑԻԱՅԻ ՈՃԸ --- */
 .about-section {
     width: 100%;
-    height: 100vh; /* Խիստ 100vh */
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     scroll-snap-align: start;
     position: relative;
-    /* ԿԱՐԵՎՈՐ. padding-ը ներառվում է 100vh-ի մեջ, ոչ թե ավելանում դրան */
-    box-sizing: border-box; 
-    padding-top: 80px; /* Header-ի բարձրությունը */
+    box-sizing: border-box;
+    /* Հեռացնում ենք բոլոր padding-ները, որոնք շեղում են կենտրոնը */
+    padding: 0 !important; 
 }
 
 /* --- ԹԻՄԻ ԲԱԺԻՆ --- */
 .about-section.team-bg {
     background-color: #0c8495;
-    /* Ձախից տեղ ենք բացում վերնագրի համար, բայց վերևից padding-ը պահում ենք */
-    padding-left: 280px !important;
-    padding-right: 50px !important;
 }
 
-/* ՈՒՂՂԱՀԱՅԱՑ ՎԵՐՆԱԳԻՐ - ՃՇԳՐԻՏ ԿԵՆՏՐՈՆԱՑՈՒՄ */
+/* ՈՒՂՂԱՀԱՅԱՑ ՎԵՐՆԱԳԻՐ */
 .vertical-title {
     position: absolute;
-    /* Ձախ եզրից հեռավորությունը */
-    left: -220px; 
-    /* Կենտրոնացում Header-ից հետո մնացած տարածքում */
+    left: -220px;
+    /* Header-ը 80px է, հետևաբար էկրանի կենտրոնը իջնում է 40px-ով */
     top: calc(50% + 40px); 
     transform: translateY(-50%) rotate(-90deg);
     transform-origin: center center;
-    
-    font-size: 7.5rem; /* Մի փոքր փոքրացված ավելի լավ տեղավորվելու համար */
+    font-size: 7rem; 
     font-weight: 900;
     color: #ffffff;
     white-space: nowrap;
-    letter-spacing: 10px;
+    letter-spacing: 12px;
     text-transform: uppercase;
     z-index: 5;
     opacity: 0;
@@ -64,39 +58,38 @@ html, body {
 
 .about-section.active-fade .vertical-title {
     opacity: 1;
-    left: -180px; /* Հայտնվելու ժամանակաշրջանը */
+    left: -180px;
 }
 
-/* ԹԻՄԻ ԱՆԴԱՄՆԵՐԻ ՑԱՆՑԸ */
+/* ԹԻՄԻ ՑԱՆՑԻ ԿՈՆՏԵՅՆԵՐ */
 .team-grid-container {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap;
-    gap: 30px;
+    gap: 40px;
     justify-content: center;
     align-items: center;
     width: 100%;
-    z-index: 2;
-    /* Հեռացնում ենք ավելորդ margin-ները, քանի որ սեկցիան արդեն ունի padding */
-    margin: 0; 
+    padding-left: 200px; /* Տեղ վերնագրի համար */
+    /* Ամբողջ թիմը իջեցնում ենք 40px-ով, որ տեսողականորեն լինի կենտրոնում */
+    margin-top: 80px; 
 }
 
 .team-member {
     text-align: center;
     color: white;
-    flex: 0 0 200px;
-    max-width: 200px;
+    flex: 0 0 220px;
+    max-width: 220px;
 }
 
 .team-member .img-container {
-    width: 160px;
-    height: 160px;
+    width: 170px;
+    height: 170px;
     border-radius: 50%;
     overflow: hidden;
     border: 5px solid rgba(255, 255, 255, 0.2);
     margin: 0 auto 15px;
     background-color: #fff;
-    flex-shrink: 0;
 }
 
 .team-member img {
@@ -105,24 +98,44 @@ html, body {
     object-fit: cover;
 }
 
-/* LINKEDIN ICON - ԽԻՍՏ ՉԱՓՍ */
-.linkedin-link img {
+/* --- LINKEDIN ICON FIXED SIZE --- */
+.linkedin-link {
+    display: inline-block !important;
     width: 20px !important;
     height: 20px !important;
-    border: none !important;
-    background: none !important;
     vertical-align: middle;
-    margin-left: 5px;
+    margin-left: 8px;
+}
+
+.linkedin-link img {
+    width: 20px !important; /* Պարտադիր չափս */
+    height: 20px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: none !important;
+    display: block !important;
+}
+
+/* --- ԳՈՐԾԸՆԿԵՐՆԵՐ / ՊԱՏՄՈՒԹՅՈՒՆ --- */
+.about-content {
+    /* Իջեցնում ենք տեքստը, որ Header-ի տակ չմնա */
+    margin-top: 80px; 
+    text-align: center;
+    max-width: 1000px;
+    padding: 0 20px;
+}
+
+.about-content h1, .about-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
 }
 
 /* --- RESPONSIVE --- */
-@media screen and (max-width: 1100px) {
-    .vertical-title { font-size: 5rem; left: -140px; }
-    .about-section.team-bg { padding-left: 200px !important; }
-}
-
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1024px) {
+    .team-grid-container {
+        flex-direction: column !important;
+        padding-left: 0;
+    }
     .vertical-title { display: none; }
-    .about-section { height: auto; min-height: 100vh; padding: 100px 20px 40px !important; }
-    .team-grid-container { flex-direction: column !important; }
+    .about-section { height: auto; min-height: 100vh; }
 }
