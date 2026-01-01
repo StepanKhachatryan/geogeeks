@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ABOUT.CSS - REPAIRED VERSION (ALL SECTIONS STYLED)
+   ABOUT.CSS - FINAL STABLE VERSION (NO OVERLAP & FIXED STYLES)
    ========================================================================== */
 
 /* 1. Ընդհանուր կոնտեյներ և սքրոլ */
@@ -23,24 +23,25 @@
   box-sizing: border-box;
   position: relative; 
   overflow: hidden;
-  padding: 80px 10%; /* Սա վերադարձնում է տեքստային բաժինների հեռավորությունը */
+  padding: 80px 5%;
 }
 
-/* 3. ԹԻՄԻ ԲԱԺԻՆ (Team Section) - Հատուկ ոճեր */
+/* 3. ԹԻՄԻ ԲԱԺԻՆ (Team Section) */
 .about-section.team-bg {
   background-color: #0c8495;
-  padding: 0 !important; /* Հեռացնում ենք padding-ը միայն թիմի համար */
+  padding: 0 !important; /* Ազատ տարածք ամբողջ էկրանով */
   justify-content: flex-start;
 }
 
-/* Ուղղահայաց վերնագիր */
+/* Ուղղահայաց վերնագիր - Տեղափոխված ավելի ձախ */
 .vertical-title {
   position: absolute;
-  left: 20px;
+  /* left: -220px-ը տեքստը կպահի հենց ձախ եզրին՝ առանց անդամներին դիպչելու */
+  left: -220px; 
   top: 50%;
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: center center;
-  font-size: 7.5rem; 
+  font-size: 8rem; 
   font-weight: 900;
   color: #ffffff;
   white-space: nowrap;
@@ -49,50 +50,27 @@
   pointer-events: none;
   z-index: 5;
   opacity: 0;
-  margin-left: -150px;
   transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .about-section.active-fade .vertical-title {
   opacity: 1;
-  margin-left: 0;
 }
 
-/* Թիմի ցանց (Grid) */
+/* Թիմի ցանց (Grid) - Ավելացված margin ձախից overlap-ից խուսափելու համար */
 .team-grid-container {
   display: grid;
-  margin-left: 180px; /* Տեղ վերնագրի համար */
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-left: 140px; /* Ստեղծում է «միջանցք» վերնագրի համար */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 30px;
-  width: calc(100% - 220px); 
-  padding: 20px 50px;
+  width: calc(100% - 140px); 
+  padding: 40px;
   box-sizing: border-box;
   z-index: 2;
   text-align: center;
 }
 
-/* 4. ՏԵՔՍՏԱՅԻՆ ԲՈՎԱՆԴԱԿՈՒԹՅՈՒՆ (Story & Partners) */
-.about-content {
-  max-width: 900px;
-  text-align: center;
-  width: 100%;
-}
-
-.white-bg { background-color: #ffffff; }
-
-.about-content h1, .about-content h2 {
-  font-size: 2.5rem;
-  margin-bottom: 30px;
-  color: #333;
-}
-
-.about-content p {
-  font-size: 1.2rem;
-  line-height: 1.8;
-  color: #555;
-}
-
-/* 5. ԹԻՄԻ ԱՆԴԱՄՆԵՐԻ ՈՃԵՐ */
+/* 4. ԹԻՄԻ ԱՆԴԱՄՆԵՐԻ ՈՃԵՐ */
 .team-member {
   color: white;
   opacity: 0;
@@ -106,8 +84,8 @@
 }
 
 .team-member .img-container {
-  width: 170px;
-  height: 170px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   overflow: hidden;
   border: 5px solid rgba(255, 255, 255, 0.3);
@@ -121,16 +99,46 @@
   object-fit: cover;
 }
 
-/* LinkedIn Պատկերակ */
-.linkedin-link img {
-  width: 20px !important;
-  height: 20px !important;
-  margin-left: 8px;
-  display: inline-block !important;
-  border: none !important;
+/* Անունը ավելի մեծ */
+.team-member h4 {
+  font-size: 1.4rem;
+  margin-bottom: 5px;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-/* 6. ԳՈՐԾԸՆԿԵՐՆԵՐԻ ԲԱԺԻՆ (Cloud distribution) */
+/* Մասնագիտությունը ավելի փոքր */
+.team-member p {
+  font-size: 0.85rem; /* Փոքրացված տառաչափ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+/* LinkedIn Պատկերակի ֆիքսված չափս (որպեսզի չմեծանա) */
+.linkedin-link img {
+  width: 18px !important;
+  height: 18px !important;
+  margin-left: 2px;
+  display: inline-block !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: none !important;
+}
+
+/* 5. ՏԵՔՍՏԱՅԻՆ ԲՈՎԱՆԴԱԿՈՒԹՅՈՒՆ (Story & Partners) */
+.about-content {
+  max-width: 900px;
+  text-align: center;
+  width: 100%;
+}
+
+.white-bg { background-color: #ffffff; }
+
+/* Գործընկերների լոգոները */
 .partners-random-cloud {
   position: relative;
   width: 100%;
@@ -151,22 +159,9 @@
   transition: 0.3s;
 }
 
-.partner-logo:hover img {
-  filter: grayscale(0%);
-  transform: scale(1.1);
-}
-
-/* 7. RESPONSIVE (Բջջային տարբերակ) */
+/* 6. RESPONSIVE (Բջջային տարբերակ) */
 @media screen and (max-width: 1024px) {
-  .about-section {
-    padding: 80px 20px;
-    height: auto;
-    min-height: 100vh;
-    scroll-snap-align: none;
-  }
-  
   .vertical-title { display: none; }
-
   .team-grid-container {
     margin-left: 0;
     width: 100%;
