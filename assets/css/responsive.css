@@ -39,7 +39,7 @@
 
     /* 2. Services Page Global Adjustments */
     .services-page-wrapper {
-        padding: 80px 15px 30px !important; /* Prevents header overlap */
+        padding: 80px 15px 30px !important; 
     }
 
     .top-services-nav {
@@ -47,51 +47,48 @@
         gap: 12px !important;
     }
 
-    /* 3. Visibility & Logic Fix - ՍԱ ԼՈՒԾՈՒՄ Է ՀՈՐԻԶՈՆԱԿԱՆ ԴԻՐՔԻ ԽՆԴԻՐԸ */
+    /* 3. Visibility & Logic Fix */
     .service-body-container {
-        display: none !important; /* Թաքցնել բոլորը լռելյայն */
+        display: none !important; 
         flex-direction: column !important;
     }
 
     .service-body-container.active {
-        display: flex !important; /* Միայն ակտիվ բաժինը դարձնել տեսանելի */
+        display: flex !important; 
     }
 
     .content-display {
-        display: none !important; /* Թաքցնել բոլոր ենթաբաժինները */
+        display: none !important; 
     }
 
     .content-display.active {
-        display: block !important; /* Միայն ակտիվ ենթաբաժինը դարձնել տեսանելի */
+        display: block !important; 
     }
 
-    /* 4. Side Navigation (Horizontal Scroll Menu) */
+    /* 4. Sub-Services Navigation (Vertical Order) */
     .side-nav {
         display: flex !important;
-        flex-direction: row !important;
-        overflow-x: auto !important;
+        flex-direction: column !important; /* Changed from row to column */
         padding: 10px 0 !important;
         border-right: none !important;
         border-bottom: 1px solid #ccc !important;
         gap: 8px !important;
         margin-bottom: 20px !important;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
     }
 
-    .side-nav::-webkit-scrollbar { display: none; }
-
     .side-nav-btn {
-        flex: 0 0 auto !important;
-        white-space: nowrap !important;
-        padding: 10px 18px !important;
-        font-size: 0.85rem !important;
+        width: 100% !important; /* Make buttons full width */
+        text-align: left !important;
+        padding: 12px 18px !important;
+        font-size: 0.9rem !important;
+        box-sizing: border-box !important;
     }
 
     /* 5. Content Layout reset */
     .content-side {
         padding: 0 !important;
         min-height: auto !important;
+        display: block !important;
     }
 
     .service-main-desc, 
@@ -99,35 +96,41 @@
         max-width: 100% !important;
     }
 
-    /* 6. Image Gallery Adjustment */
+    /* 6. Overlapping Image Gallery for Mobile */
     .image-gallery {
         position: relative !important;
-        top: 0 !important;
-        right: 0 !important;
         width: 100% !important;
-        height: auto !important;
-        display: flex !important;
-        justify-content: center !important;
+        height: 280px !important; /* Set a fixed height to contain absolute children */
         margin-top: 40px !important;
-        gap: 15px !important;
+        display: block !important;
     }
 
     .image-gallery img {
-        position: relative !important;
-        width: 45% !important;
-        max-width: 220px !important;
-        top: 0 !important;
-        right: 0 !important;
-        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1) !important;
+        position: absolute !important; /* Restore overlapping style */
+        width: 70% !important;
+        max-width: 250px !important;
+        border-radius: 12px !important;
+        box-shadow: 10px -10px 25px rgba(0, 0, 0, 0.2) !important;
     }
 
-    /* Հատուկ ուղղում հորիզոնական դիրքի համար */
+    /* Bottom-Left Image */
+    .image-gallery img:nth-child(2) {
+        top: 40px !important;
+        left: 0 !important;
+        z-index: 2 !important;
+    }
+
+    /* Top-Right Image */
+    .image-gallery img:nth-child(1) {
+        top: 0 !important;
+        right: 0 !important;
+        z-index: 1 !important;
+    }
+
+    /* Adjust logic for Landscape orientation */
     @media (orientation: landscape) {
         .image-gallery {
-            margin-top: 20px !important;
-        }
-        .image-gallery img {
-            width: 30% !important; /* Փոքրացնում ենք նկարները, որ չխանգարեն սքրոլին */
+            height: 350px !important;
         }
     }
 }
@@ -136,17 +139,11 @@
    SMALL PHONE STYLES (Max 480px)
    ========================================== */
 @media screen and (max-width: 480px) {
-    .menu li a {
-        padding: 5px 6px !important;
-        font-size: 0.65rem !important;
-    }
-
     .image-gallery {
-        flex-direction: column !important;
+        height: 220px !important;
     }
-
+    
     .image-gallery img {
-        width: 80% !important;
-        margin-bottom: -15px !important;
+        width: 65% !important;
     }
 }
