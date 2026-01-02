@@ -103,3 +103,26 @@
     display: none !important;
 }
 body { top: 0px !important; }
+
+
+/* Թաքցնել Google Translate-ի վերևի Banner-ը */
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+/* Թաքցնել Google-ի կողմից ավելացվող դատարկ տարածությունը էջի վերևում */
+body {
+    top: 0px !important;
+}
+
+/* Թաքցնել Google-ի Tooltip-ը, որը հայտնվում է տեքստի վրա մկնիկը պահելիս */
+.goog-te-balloon-frame {
+    display: none !important;
+}
+
+/* Լրացուցիչ շտկում Header-ի համար */
+.navbar {
+    position: sticky; /* Կամ fixed, եթե ցանկանում եք, որ միշտ մնա տեսանելի */
+    top: 0;
+    z-index: 1000;
+}
