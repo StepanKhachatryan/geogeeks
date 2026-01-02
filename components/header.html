@@ -13,5 +13,43 @@
       <li><a href="contact.html">Կապ</a></li>
     </ul>
 
+    <div class="language-switcher">
+      <div id="google_translate_element" style="display:none;"></div>
+      <a href="javascript:void(0)" class="lang-btn active" onclick="translatePage('hy')">HY</a>
+      <span class="divider">|</span>
+      <a href="javascript:void(0)" class="lang-btn" onclick="translatePage('en')">EN</a>
+    </div>
+
   </div>
 </nav>
+
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'hy',
+      includedLanguages: 'en',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      autoDisplay: false
+    }, 'google_translate_element');
+  }
+
+  function translatePage(lang) {
+    var selectField = document.querySelector(".goog-te-combo");
+    if (selectField) {
+      if (lang === 'hy') {
+        // Վերադառնալ բնօրինակին
+        var restore = document.querySelector('.goog-te-banner-frame .goog-te-button button');
+        if(restore) restore.click();
+        location.reload(); 
+      } else {
+        selectField.value = lang;
+        selectField.dispatchEvent(new Event('change'));
+      }
+    }
+    
+    // Կոճակների ակտիվ վիճակի փոփոխություն
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
