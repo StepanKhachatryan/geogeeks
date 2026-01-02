@@ -23,32 +23,39 @@ window.translatePage = function(lang, element) {
             clearInterval(checkReady);
             syncLanguageButtons();
             
-            // Թարգմանությունը սկսվելուց հետո մաքրել Google-ի Banner-ը
-            cleanGoogleUI();
+            // Անմիջապես գործարկել մաքրումը
+            startAggressiveClean();
         }
     }, 200);
 };
 
 /**
- * Հեռացնում է Google-ի վերևի տողը և ուղղում Header-ի դիրքը
+ * MutationObserver՝ Google-ի Banner-ը և տեղաշարժերը բլոկավորելու համար
  */
-function cleanGoogleUI() {
-    const checkGoogleUI = setInterval(() => {
-        const googleFrame = document.querySelector('.goog-te-banner-frame');
-        const googleBalloon = document.querySelector('.goog-te-balloon-frame');
-        
-        // Հեռացնել iframe-ները
-        if (googleFrame) googleFrame.style.display = 'none';
-        if (googleBalloon) googleBalloon.style.display = 'none';
-
-        // Ուղղել body-ի դիրքը, որպեսզի Header-ը չփակվի
+function startAggressiveClean() {
+    // 1. Մաքրել անմիջապես
+    const fix = () => {
         document.body.style.top = '0px';
-        document.documentElement.style.top = '0px';
+        document.body.style.setProperty('top', '0px', 'important');
+        document.documentElement.style.marginTop = '0px';
+        document.documentElement.style.setProperty('margin-top', '0px', 'important');
+        
+        const banner = document.querySelector('.goog-te-banner-frame');
+        if (banner) banner.style.setProperty('display', 'none', 'important');
+    };
 
-        // Եթե Google-ը դեռ փորձում է փոխել դիրքը, շարունակել ստուգումը
-        if (!googleFrame && !googleBalloon) {
-            clearInterval(checkGoogleUI);
-        }
+    fix();
+
+    // 2. Հետևել փոփոխություններին (MutationObserver)
+    const observer = new MutationObserver(fix);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
+    
+    // 3. Պարբերական ստուգում (backup)
+    let attempts = 0;
+    const interval = setInterval(() => {
+        fix();
+        if (attempts++ > 20) clearInterval(interval);
     }, 500);
 }
 
@@ -83,9 +90,8 @@ function loadComponent(id, file) {
                 
                 syncLanguageButtons();
                 
-                // Եթե էջն արդեն թարգմանված է բեռնվում, մաքրել UI-ն
                 if (document.cookie.includes('googtrans=/hy/en')) {
-                    cleanGoogleUI();
+                    startAggressiveClean();
                 }
             }
         });
