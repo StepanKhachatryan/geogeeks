@@ -1,8 +1,7 @@
 /* ==========================================
-    Main Layout - CLEAN FLEX VERSION
+    Main Layout - RESTORED IMAGES VERSION
    ========================================== */
 html, body {
-    /* Վերականգնում ենք սքրոլը բնականոն վիճակի */
     height: auto; 
     margin: 0;
     overflow-y: auto; 
@@ -12,109 +11,105 @@ html, body {
 .projects-page-wrapper {
     display: flex;
     flex-direction: column;
+    width: 100%;
     min-height: 100vh;
-    background-color: #ffffff;
 }
 
 /* Հիմնական բովանդակությունը */
 .projects-main-content {
     flex: 1; 
     display: flex;
+    flex-direction: column;
     align-items: center; 
-    justify-content: center;
-    /* Հեռացրել ենք margin-top: 80px, քանի որ Header-ը հիմա ինքն իրենով տեղ է զբաղեցնում */
-    padding: 60px 3%; 
+    justify-content: flex-start; /* Փոխվել է center-ից, որպեսզի սքրոլի ժամանակ վերևից չկտրվի */
+    padding: 40px 3%; 
     box-sizing: border-box;
 }
 
 /* ==========================================
-    Project Grid (4 columns, 2 rows)
+    Project Grid
    ========================================= */
 .category-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px; 
     width: 100%;
-    max-width: 1600px; /* Օպտիմալացված լայնություն */
+    max-width: 1600px;
     margin: 0 auto;
-    height: auto;
 }
-
-/*  */
 
 .category-box {
     position: relative;
     border-radius: 15px;
-    /* Պահպանում ենք գեղեցիկ համաչափությունը */
-    aspect-ratio: 16 / 11; 
+    aspect-ratio: 16 / 11; /* Սա կարևոր է նկարի տեսանելիության համար */
     text-decoration: none !important;
     overflow: hidden;
-    display: flex;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    /* Նվազեցրել ենք ստվերի գորշությունը */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06); 
-    border: 1px solid #f0f0f0; /* Նուրբ եզրագիծ մաքուր տեսքի համար */
+    display: block; /* Փոխվել է flex-ից block-ի ավելի լավ background աջակցության համար */
+    transition: all 0.4s ease;
+    
+    /* Ֆոնի հիմնական կարգավորումներ */
+    background-color: #eee; /* Ժամանակավոր գույն, եթե նկարը չբեռնվի */
+    background-position: center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    border: 1px solid #f0f0f0;
 }
+
+/*  */
 
 .category-box:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(12, 132, 149, 0.15); /* Բրենդային նուրբ ստվեր */
+    box-shadow: 0 15px 35px rgba(12, 132, 149, 0.2);
 }
+
+/* --- Ֆոների ուղիները (Ստուգեք ֆայլերի տեղը) --- */
+/* Համոզվեք, որ ../img/ ուղին ճիշտ է assets/css/ թղթապանակից հաշված */
+.hydro-bg { background-image: url('../img/projects_img/hydro_projects.jpg') !important; }
+.flood-bg { background-image: url('../img/projects_img/flood_projects.jpg') !important; }
+.water-res-bg { background-image: url('../img/projects_img/wr_projects.jpg') !important; }
+.irrigation-bg { background-image: url('../img/projects_img/irrig_projects.jpg') !important; }
+.agri-bg { background-image: url('../img/projects_img/agri_projects.jpg') !important; }
+.forest-bg { background-image: url('../img/projects_img/forest_projects.jpg') !important; }
+.edu-bg { background-image: url('../img/projects_img/edu_projects.jpg') !important; }
+.all-bg { background-image: url('../img/projects_img/our_projects.jpg') !important; }
 
 /* Overlay & Typography */
 .category-overlay {
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    /* Gradient-ը դարձրել ենք ավելի մաքուր */
-    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 70%);
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0) 100%);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 25px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .category-box h3 {
     color: #ffffff;
-    font-size: 1.25rem;
-    margin-bottom: 8px;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
     font-weight: 700;
-    line-height: 1.3;
 }
 
 .view-btn {
-    color: #f7db5d; /* GeoGeeks Gold */
+    color: #f7db5d;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
-/* ==========================================
-    Responsive adjustments
-   ========================================== */
-@media screen and (max-width: 1400px) {
-    .category-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 սյունակ միջին էկրանների համար */
-    }
-}
-
-@media screen and (max-width: 992px) {
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .projects-main-content {
-        padding: 40px 5%;
-    }
+/* Responsive */
+@media screen and (max-width: 1200px) {
+    .category-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media screen and (max-width: 600px) {
-    .category-grid {
-        grid-template-columns: 1fr;
-    }
-    .category-box {
-        aspect-ratio: 16 / 9;
-    }
+    .category-grid { grid-template-columns: 1fr; }
+    .category-box { aspect-ratio: 16 / 9; }
 }
