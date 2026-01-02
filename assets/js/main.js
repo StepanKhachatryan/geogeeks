@@ -1,104 +1,57 @@
 /**
- * Բաղադրիչների (Header) բեռնման ֆունկցիա
+ * GOOGLE TRANSLATE AI LOGIC
  */
-function loadComponent(id, file) {
-    const isSubFolder = window.location.pathname.includes('/projects/');
-    const adjustedFile = isSubFolder ? '../' + file : file;
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'hy',
+        includedLanguages: 'en',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+        autoDisplay: false
+    }, 'google_translate_element');
+}
 
-    fetch(adjustedFile)
-        .then(response => {
-            if (!response.ok) throw new Error("Failed to load component");
-            return response.text();
-        })
-        .then(data => {
-            const element = document.getElementById(id);
-            if (!element) return;
+function translatePage(lang, element) {
+    // 1. Վիզուալ ակտիվացում
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    if (element) {
+        element.classList.add('active');
+    }
 
-            element.innerHTML = data;
+    // 2. Հայերենի վերականգնում
+    if (lang === 'hy') {
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + document.domain;
+        location.reload();
+        return;
+    }
 
-            if (id === "header-placeholder") {
-                highlightActiveMenu(element, isSubFolder);
-                if (isSubFolder) {
-                    adjustLinksForSubfolder(element);
-                }
-                
-                // ԿԱՐԵՎՈՐ: Վերագործարկել թարգմանության սկրիպտը Header-ը բեռնելուց հետո
-                initTranslationAfterLoad();
-            }
-        })
-        .catch(error => console.error("Error loading component:", error));
+    // 3. Թարգմանության գործարկում
+    const checkExist = setInterval(function() {
+       const selectField = document.querySelector(".goog-te-combo");
+       if (selectField) {
+          selectField.value = lang;
+          selectField.dispatchEvent(new Event('change'));
+          clearInterval(checkExist);
+       }
+    }, 100);
 }
 
 /**
- * Թարգմանության համակարգի ակտիվացում դինամիկ բեռնումից հետո
+ * Լեզվի կոճակների վիճակի ստուգում էջը բեռնելիս կամ Header-ը փոխելիս
  */
-function initTranslationAfterLoad() {
-    // Եթե սկրիպտը արդեն կա էջում, ուղղակի կանչում ենք init-ը
-    if (typeof googleTranslateElementInit === 'function') {
-        googleTranslateElementInit();
-    }
-    
-    // Ստուգում ենք cookie-ն, որպեսզի ակտիվ լեզվի կոճակը ճիշտ լուսավորվի
+function syncLanguageButtons() {
     const isEnglish = document.cookie.includes('googtrans=/hy/en');
-    const langBtns = document.querySelectorAll('.lang-btn');
+    const btns = document.querySelectorAll('.lang-btn');
     
-    langBtns.forEach(btn => {
-        const lang = btn.getAttribute('data-lang');
-        if (isEnglish && lang === 'en') btn.classList.add('active');
-        else if (!isEnglish && lang === 'hy') btn.classList.add('active');
-        else btn.classList.remove('active');
-    });
-}
-
-/**
- * Ակտիվ մենյուի կոճակի լուսավորում
- */
-function highlightActiveMenu(headerElement, isSubFolder) {
-    let path = window.location.pathname;
-    let currentPath = path.split("/").pop();
-    
-    if (currentPath === "" || currentPath === "/") {
-        currentPath = "index.html";
-    }
-
-    const links = headerElement.querySelectorAll(".menu a");
-
-    links.forEach(link => {
-        const linkHref = link.getAttribute("href");
-        const isProjectPage = path.includes('projects.html') || isSubFolder;
-
-        if (isProjectPage && linkHref.includes('projects.html')) {
-            link.classList.add("active");
-            link.classList.add("active-projects");
-        } 
-        else if (linkHref === currentPath || (currentPath === "index.html" && linkHref === "index.html")) {
-            link.classList.add("active");
-            const pageName = currentPath.split(".")[0];
-            link.classList.add("active-" + (pageName === "index" ? "home" : pageName));
+    btns.forEach(btn => {
+        const btnLang = btn.getAttribute('data-lang');
+        if ((isEnglish && btnLang === 'en') || (!isEnglish && btnLang === 'hy')) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
         }
     });
 }
 
-/**
- * Ենթաթղթապանակների համար հղումների ուղղում
- */
-function adjustLinksForSubfolder(headerElement) {
-    const allLinks = headerElement.querySelectorAll('a');
-    allLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('../') && !href.startsWith('javascript')) {
-            link.setAttribute('href', '../' + href);
-        }
-    });
-
-    const allImages = headerElement.querySelectorAll('img');
-    allImages.forEach(img => {
-        const src = img.getAttribute('src');
-        if (src && !src.startsWith('http') && !src.startsWith('../')) {
-            img.setAttribute('src', '../' + src);
-        }
-    });
-}
-
-// Բեռնում ենք Header-ը
-loadComponent("header-placeholder", "components/header.html");
+// Լրացրեք ձեր գոյություն ունեցող loadComponent ֆունկցիան.
+// fetch-ի հաջող ավարտից հետո (element.innerHTML = data) կանչեք syncLanguageButtons();
