@@ -1,11 +1,13 @@
 /* ==========================================
-    Navigation Bar Styling - FINAL FIXED VERSION
+    Navigation Bar Styling - CLEAN & STABLE VERSION
    ========================================== */
 .navbar {
     background-color: #ffffff;
     width: 100%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: relative; 
+    /* Sticky Header՝ միշտ տեսանելի լինելու համար */
+    position: sticky; 
+    top: 0;
     z-index: 1000;
 }
 
@@ -14,18 +16,19 @@
     justify-content: space-between; 
     align-items: center;
     width: 100%;
+    max-width: 100%;
     padding: 0 40px;
-    height: 80px;
+    height: 80px; /* Ֆիքսված բարձրություն բոլոր էջերի համար */
     box-sizing: border-box;
 }
 
-/* Logo Styling - Ֆիքսված չափսեր */
+/* --- Logo Styling --- */
 .logo {
     display: flex;
     align-items: center;
     text-decoration: none !important;
     gap: 12px;
-    flex-shrink: 0; /* Թույլ չի տալիս լոգոյին փոխել չափսը */
+    flex-shrink: 0; /* Կանխում է լոգոյի սեղմվելը */
 }
 
 .logo img {
@@ -41,7 +44,7 @@
     white-space: nowrap;
 }
 
-/* Menu & Switcher Wrapper */
+/* --- Right Side Wrapper (Menu + Switcher) --- */
 .nav-right-side {
     display: flex;
     align-items: center;
@@ -66,13 +69,17 @@
     white-space: nowrap;
 }
 
-/* --- Ակտիվ գույները --- */
+/* --- Menu Active Colors (Page Specific) --- */
 .menu li a.active-about { background-color: #0c8495 !important; color: #ffffff !important; }
 .menu li a.active-services { background-color: #00a97a !important; color: #ffffff !important; }
 .menu li a.active-projects { background-color: #f7db5d !important; color: #2c3e50 !important; }
 .menu li a.active-contact { background-color: #605c5c !important; color: #ffffff !important; }
 
-/* Language Switcher Styling */
+.menu li a:hover:not([class^="active-"]) { 
+    background-color: #f8f9fa; 
+}
+
+/* --- Language Switcher Styling --- */
 .language-switcher {
     display: flex;
     align-items: center;
@@ -98,31 +105,32 @@
     color: #ffffff !important;
 }
 
-/* Google-ի թաքնված տարրեր */
-#google_translate_element, .goog-te-banner-frame, .goog-te-balloon-frame {
+.language-switcher .divider {
+    color: #ddd;
+    margin: 0 2px;
+}
+
+/* ==========================================
+    Google Translate UI Overrides
+    Այս հատվածը թաքցնում է բոլոր ավելորդ Banner-ները
+   ========================================== */
+
+/* Թաքցնում է վերևի Banner-ը, Tooltip-ները և թաքնված ընտրացանկը */
+#google_translate_element, 
+.goog-te-banner-frame, 
+.goog-te-banner-frame.skiptranslate, 
+.goog-te-balloon-frame, 
+#goog-gt-tt {
     display: none !important;
-}
-body { top: 0px !important; }
-
-
-/* Թաքցնել Google Translate-ի վերևի Banner-ը */
-.goog-te-banner-frame.skiptranslate {
-    display: none !important;
+    visibility: hidden !important;
 }
 
-/* Թաքցնել Google-ի կողմից ավելացվող դատարկ տարածությունը էջի վերևում */
-body {
-    top: 0px !important;
+/* Ստիպում է էջին մնալ ամենավերևում՝ հակազդելով Google-ի margin-ներին */
+body { 
+    top: 0px !important; 
+    position: static !important;
 }
 
-/* Թաքցնել Google-ի Tooltip-ը, որը հայտնվում է տեքստի վրա մկնիկը պահելիս */
-.goog-te-balloon-frame {
-    display: none !important;
-}
-
-/* Լրացուցիչ շտկում Header-ի համար */
-.navbar {
-    position: sticky; /* Կամ fixed, եթե ցանկանում եք, որ միշտ մնա տեսանելի */
-    top: 0;
-    z-index: 1000;
+html {
+    margin-top: 0px !important;
 }
