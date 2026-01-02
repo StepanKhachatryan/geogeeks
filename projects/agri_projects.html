@@ -2,23 +2,22 @@
 <html lang="hy">
 <head>
   <meta charset="utf-8">
-  <title>Գյուղատնտեսություն - GeoGeeks</title>
+  <title>Գյուղատնտեսություն</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="../assets/img/GeoGeeks_logo.png">
   
   <link rel="stylesheet" href="../assets/css/main.css">
   <link rel="stylesheet" href="../assets/css/header.css">
-  <link rel="stylesheet" href="../assets/css/footer.css">
   <link rel="stylesheet" href="../assets/css/responsive.css">
 
   <style>
     /* -----------------------------------------------------------
-       GLOBAL PAGE FIX (Sticky Footer Logic)
+        GLOBAL PAGE FIX (Natural Flow)
     ----------------------------------------------------------- */
     html, body {
       margin: 0;
       padding: 0;
-      background-color: #f4f7f6;
+      background-color: #ffffff; /* Վերադարձ սպիտակ ֆոնին */
       height: 100%;
     }
 
@@ -30,7 +29,8 @@
 
     .all-projects-wrapper {
       flex: 1;
-      padding: 120px 5% 60px; /* Header-ի համար 120px հեռավորություն */
+      /* Padding-ը հարմարեցված է relative Header-ին */
+      padding: 60px 5%; 
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -38,7 +38,7 @@
     }
 
     /* -----------------------------------------------------------
-       PROJECT CARDS (Dark Gradient Design)
+        PROJECT CARDS
     ----------------------------------------------------------- */
     .projects-container {
       display: grid;
@@ -55,46 +55,35 @@
       border-radius: 15px;
       overflow: hidden;
       cursor: pointer;
-      border: none;
       background-size: cover;
       background-position: center;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      border: 1px solid #f0f0f0;
     }
 
     .project-card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      box-shadow: 0 15px 35px rgba(12, 132, 149, 0.15);
     }
 
-    /* Մութ գրադիենտով բլոկ (Content Box) */
     .content-box {
       width: 100%;
       height: 100%;
       padding: 25px;
-      text-align: left; /* Ձախակողմյան հավասարեցում */
+      text-align: left;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       box-sizing: border-box;
-      /* Գրադիենտ, որն ապահովում է տեքստի ընթեռնելիությունը */
       background: linear-gradient(
         to top, 
         rgba(0, 0, 0, 0.85) 0%, 
         rgba(0, 0, 0, 0.2) 50%, 
         rgba(0, 0, 0, 0) 100%
-      );
-      transition: all 0.4s ease;
-    }
-
-    .project-card:hover .content-box {
-      background: linear-gradient(
-        to top, 
-        rgba(0, 0, 0, 0.95) 0%, 
-        rgba(0, 0, 0, 0.3) 100%
       );
     }
 
@@ -104,19 +93,18 @@
       font-weight: 700;
       margin: 0 0 10px 0;
       line-height: 1.4;
-      text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
     }
 
     .view-btn {
       color: #f7db5d;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
     /* -----------------------------------------------------------
-       MODAL WIDGET (Matching UI)
+        MODAL WIDGET
     ----------------------------------------------------------- */
     .project-modal {
       display: none; 
@@ -183,6 +171,7 @@
     @media (max-width: 992px) {
       .modal-body { grid-template-columns: 1fr; }
       .modal-image-side { height: 250px; }
+      .modal-info-side { padding: 30px; }
       .projects-container { grid-template-columns: 1fr; }
     }
   </style>
@@ -205,8 +194,7 @@
       </div>
     </main>
 
-    <div id="footer-placeholder"></div>
-  </div>
+    </div>
 
   <div id="projectWidget" class="project-modal">
     <div class="modal-content">
