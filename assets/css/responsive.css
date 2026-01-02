@@ -3,72 +3,102 @@
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* ... Header-ի կոդը մնում է նույնը ... */
+    /* 1. Header - Վերադարձնում ենք կայուն չափսերը */
+    .navbar {
+        position: sticky !important;
+        top: 0;
+        z-index: 1001;
+        background-color: #ffffff !important;
+    }
 
-    /* 2. Contact Page - Բլոկների մասշտաբավորում */
+    .nav-container {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 0 10px !important;
+        height: 70px !important;
+    }
+
+    .logo img {
+        height: 48px !important;
+        width: 48px !important;
+    }
+
+    .logo-text {
+        display: none !important; 
+    }
+
+    .menu {
+        display: flex !important;
+        gap: 10px !important;
+    }
+
+    .menu li a {
+        font-size: 1.1rem !important; /* Պահպանում ենք մեծ և ընթեռնելի տառաչափը */
+        font-weight: 800 !important;
+        text-transform: uppercase;
+        padding: 10px 5px !important;
+    }
+
+    /* 2. Contact Page - Առավելագույն լայնություն առանց scale-ի */
     .contact-container {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        justify-content: flex-start !important;
-        gap: 30px !important;
-        padding: 40px 10px !important;
+        padding: 30px 0 !important; /* Վերացնում ենք կողային padding-ը կոնտեյներից */
         width: 100% !important;
     }
 
     .contact-grid {
         display: flex !important;
         flex-direction: column !important;
-        gap: 40px !important;
+        gap: 25px !important;
         width: 100% !important;
+        padding: 0 !important;
     }
 
     .contact-card {
-        /* Մեծացնում ենք քարտի ընդհանուր մասշտաբը */
-        width: 92% !important;
-        max-width: 550px !important; /* Ավելի լայն սահմանափակում */
-        margin: 0 auto !important;
-        padding: 50px 30px !important; /* Ավելի շատ ներքին տարածություն */
-        box-sizing: border-box !important;
+        /* Տուփը զբաղեցնում է էկրանի ողջ լայնությունը */
+        width: 100% !important; 
+        max-width: 100% !important; 
+        margin: 0 !important;
         
-        /* Մասշտաբի իրական մեծացում */
-        transform: scale(1.05); 
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1) !important;
+        /* Մեծացնում ենք ներքին տարածությունը, որ տուփը «ծանրակշիռ» երևա */
+        padding: 50px 20px !important; 
+        
+        border-radius: 0 !important; /* Հեռախոսի վրա ուղիղ եզրերը ավելի շատ տեղ են տալիս */
+        border-left: none !important;
+        border-right: none !important;
+        box-shadow: none !important; /* Մաքուր տեսքի համար */
+        background: #ffffff !important;
     }
 
-    /* Վերնագրերի և տեքստի մասշտաբավորում */
+    /* Տեքստի և սոց. կոճակների մեծացում */
     .contact-card h2 {
-        font-size: 2rem !important;
-        margin-bottom: 35px !important;
-        text-align: center;
-    }
-
-    .contact-item {
-        gap: 25px !important;
+        font-size: 1.8rem !important;
         margin-bottom: 30px !important;
     }
 
-    .contact-item .contact-link,
-    .contact-item span {
-        font-size: 1.3rem !important; /* Ավելի մեծ տառեր */
-        font-weight: 500;
-    }
-
-    /* Սոցիալական կոճակների մեծացում */
-    .social-links-list {
+    .contact-item {
+        width: 100% !important;
+        justify-content: flex-start !important;
         gap: 20px !important;
     }
 
-    .social-btn {
-        padding: 20px !important;
-        font-size: 1.4rem !important;
-        border-radius: 15px !important;
+    .contact-item .contact-link {
+        font-size: 1.25rem !important; /* Խոշոր հղումներ */
+        word-break: break-word;
     }
 
-    .contact-item .icon {
-        width: 65px !important;
-        height: 65px !important;
-        font-size: 28px !important;
+    .social-links-list {
+        width: 100% !important;
+    }
+
+    .social-btn {
+        width: 100% !important;
+        padding: 22px !important; /* Շատ մեծ և հարմար կոճակներ */
+        font-size: 1.3rem !important;
+        margin-bottom: 10px !important;
     }
 }
 
@@ -76,17 +106,15 @@
    SMALL PHONE STYLES (Max 480px)
    ========================================== */
 @media screen and (max-width: 480px) {
+    .menu li a {
+        font-size: 0.95rem !important;
+    }
+
     .contact-card {
-        width: 98% !important;
-        padding: 40px 20px !important;
-        transform: scale(1); /* Շատ փոքր էկրաններին թողնում ենք բնական չափսը */
+        padding: 40px 15px !important;
     }
 
     .contact-card h2 {
-        font-size: 1.7rem !important;
-    }
-
-    .contact-item .contact-link {
-        font-size: 1.15rem !important;
+        font-size: 1.6rem !important;
     }
 }
