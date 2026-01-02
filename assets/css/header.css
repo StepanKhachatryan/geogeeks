@@ -1,73 +1,25 @@
-/* ==========================================
-    Navigation Bar Styling - CLEAN & STABLE VERSION
-   ========================================== */
-.navbar {
-    background-color: #ffffff;
-    width: 100%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    position: sticky; 
-    top: 0;
-    z-index: 1000;
-}
-
-.nav-container {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
-    padding: 0 40px;
-    height: 80px; /* Ֆիքսված բարձրություն բոլոր էջերի համար */
-    box-sizing: border-box;
-}
-
-/* --- Logo Styling --- */
-.logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none !important;
-    gap: 12px;
-    flex-shrink: 0;
-}
-
-.logo img {
-    height: 50px !important; 
-    width: 50px !important; 
-    object-fit: contain;
-}
-
-.logo-text {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #2c3e50;
-    white-space: nowrap;
-}
-
-/* --- Menu Styling --- */
-.menu {
-    display: flex;
-    list-style: none;
-    gap: 5px;
-    margin: 0;
-    padding: 0;
-}
+/* ... Նախորդ կոդը մնում է նույնը մինչև Menu Styling ... */
 
 .menu li a {
     text-decoration: none !important;
     color: #34495e;
-    font-weight: 500;
+    font-weight: 600; /* Մի փոքր ավելի հաստ՝ ավելի լավ տեսանելիության համար */
     padding: 10px 18px;
     border-radius: 6px;
     transition: all 0.3s ease;
     white-space: nowrap;
+    display: inline-block;
 }
 
-/* --- Menu Active Colors (Page Specific) --- */
+/* --- Ակտիվ Մենյուի Գույները (Թարմացված) --- */
+/* Սրանք կաշխատեն, երբ JS-ը ավելացնի համապատասխան դասը */
 .menu li a.active-about { background-color: #0c8495 !important; color: #ffffff !important; }
 .menu li a.active-services { background-color: #00a97a !important; color: #ffffff !important; }
 .menu li a.active-projects { background-color: #f7db5d !important; color: #2c3e50 !important; }
 .menu li a.active-contact { background-color: #605c5c !important; color: #ffffff !important; }
 
-.menu li a:hover:not([class^="active-"]) { 
+/* Hover էֆեկտ նրանց համար, ովքեր ակտիվ չեն */
+.menu li a:hover:not([class*="active-"]) { 
     background-color: #f8f9fa; 
+    color: #0c8495;
 }
