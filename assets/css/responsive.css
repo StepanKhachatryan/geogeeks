@@ -3,85 +3,70 @@
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* 1. HEADER MENU - Տառաչափի և բացակների շտկում */
-    .navbar {
-        position: sticky !important;
-        top: 0;
-        z-index: 1001;
-    }
-
     .nav-container {
-        padding: 0 10px !important;
-        height: 75px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 0 15px !important;
+        height: 70px !important;
     }
 
-    .logo img {
-        height: 55px !important;
-        width: 55px !important;
+    /* Լոգոն մնում է ձախում՝ հստակ սահմանով */
+    .logo {
+        flex: 0 0 auto !important;
+        margin-right: 20px !important; /* Հեռավորություն մենյուից */
     }
 
     .logo-text {
         display: none !important; 
     }
 
+    /* Մենյուն այլևս չի ձգվում արհեստականորեն */
     .menu {
-        flex: 1 !important;
-        justify-content: flex-end !important;
-        gap: 0 !important;
+        flex: 0 0 auto !important; /* Չի լցնում դատարկ տարածքը */
+        display: flex !important;
+        gap: 12px !important; /* ՍՏԱՆԴԱՐՏ ՀԵՌԱՎՈՐՈՒԹՅՈՒՆ */
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     .menu li {
-        flex: 1 !important;
+        flex: none !important;
     }
 
-    /* Մենյուի տառաչափի իրական մեծացում */
     .menu li a {
-        padding: 15px 2px !important;
-        font-size: 1.25rem !important; /* Զգալիորեն մեծացված */
-        font-weight: 900 !important;
+        display: inline-block !important;
+        padding: 8px 12px !important;
+        /* ՕՊՏԻՄԱԼ ՏԱՌԱՉԱՓ - ՄԵԾ ԵՎ ՄԱՔՈՒՐ */
+        font-size: 1.1rem !important; 
+        font-weight: 700 !important; /* Bold, բայց ոչ չափազանցված */
+        color: #34495e !important;
         text-transform: uppercase;
-        letter-spacing: -0.5px;
+        white-space: nowrap !important;
     }
 
-    /* 2. CONTACT BOXES - Տառաչափի և չափսերի շտկում */
+    /* Կապի էջի բլոկների ուղղում */
     .contact-grid {
         display: flex !important;
         flex-direction: column !important;
-        gap: 20px !important;
-        padding: 0 10px !important;
+        gap: 30px !important;
+        padding: 20px 10px !important;
     }
 
     .contact-card {
         width: 100% !important;
-        padding: 40px 20px !important; /* Մեծացված padding */
-        box-sizing: border-box !important;
+        max-width: 450px !important; /* Սահմանափակում ենք լայնությունը, որ չձգվի արհեստական */
+        margin: 0 auto !important;
+        padding: 30px !important;
     }
 
-    /* Կապի էջի վերնագրերի մեծացում */
     .contact-card h2 {
-        font-size: 2.2rem !important; /* Մեծ վերնագիր */
-        margin-bottom: 25px !important;
+        font-size: 1.6rem !important;
         text-align: center;
     }
 
-    /* Կապի տվյալների տեքստի մեծացում */
-    .contact-item .contact-link, 
-    .contact-item span,
-    .contact-item p {
-        font-size: 1.3rem !important; /* Մեծ և կարդացվող տեքստ */
-        line-height: 1.4 !important;
-    }
-
-    /* Սոցիալական կոճակների տեքստի մեծացում */
-    .social-btn {
-        font-size: 1.4rem !important; /* Մեծ կոճակներ */
-        padding: 20px !important;
-    }
-
-    .contact-item .icon {
-        width: 65px !important;
-        height: 65px !important;
-        font-size: 28px !important;
+    .contact-item .contact-link {
+        font-size: 1.1rem !important;
     }
 }
 
@@ -89,16 +74,16 @@
    SMALL PHONE STYLES (Max 480px)
    ========================================== */
 @media screen and (max-width: 480px) {
+    .nav-container {
+        padding: 0 8px !important;
+    }
+
+    .menu {
+        gap: 6px !important; /* Ավելի փոքր բացակ նեղ էկրանների համար */
+    }
+
     .menu li a {
-        font-size: 1.1rem !important; /* Մի փոքր սեղմում ենք շատ նեղ էկրանի համար */
-        letter-spacing: -1px;
-    }
-
-    .contact-card h2 {
-        font-size: 1.8rem !important;
-    }
-
-    .contact-item .contact-link {
-        font-size: 1.1rem !important;
+        font-size: 0.9rem !important;
+        padding: 6px 8px !important;
     }
 }
