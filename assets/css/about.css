@@ -1,26 +1,23 @@
 /* ==========================================================================
-    ABOUT.CSS - CLEAN NATURAL FLOW (NO FIXED HEADER LOGIC)
+    ABOUT.CSS - UPDATED WITH INTRO GRID DESIGN
    ========================================================================== */
 
 /* 1. Global Page Reset for About */
 html, body {
     height: 100%;
     margin: 0;
-    overflow: hidden; /* Սա կարևոր է, որպեսզի միայն container-ը սքրոլ լինի */
+    overflow: hidden;
     background-color: #ffffff !important;
 }
 
 /* 2. Scroll Container */
 .about-container {
     width: 100%;
-    /* Քանի որ Header-ը վերևում տեղ է զբաղեցնում, սա կլրացնի մնացած ողջ էկրանը */
     height: calc(100vh - 80px); 
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     scrollbar-width: none;
-    
-    /* Հեռացրել ենք scroll-padding-top-ը, քանի որ header-ը fixed չէ */
 }
 
 .about-container::-webkit-scrollbar { 
@@ -30,7 +27,6 @@ html, body {
 /* 3. Base Section Styles */
 .about-section {
     width: 100%;
-    /* Յուրաքանչյուր սեկցիա հիմա հավասար է կոնտեյների ճիշտ բարձրությանը */
     height: 100%; 
     display: flex;
     flex-direction: column;
@@ -40,17 +36,85 @@ html, body {
     position: relative;
     box-sizing: border-box;
     overflow: hidden;
-    margin-top: 0 !important; /* Հեռացվել է margin-top-ը */
 }
 
-/* 4. TEAM SECTION (THE BLUE SECTION) */
+/* 4. NEW: INTRO GRID SECTION (ՄԵՐ ԱՌԱՔԵԼՈՒԹՅՈՒՆԸ ԵՎ GEOGEEKS) */
+.about-intro-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    background-color: #ffffff;
+    padding: 0 5%;
+}
+
+.intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 2px 1fr; /* Երկու սյունակ և բաժանարար գիծ */
+    gap: 80px;
+    align-items: center;
+    max-width: 1300px;
+    width: 100%;
+}
+
+/* Կենտրոնական բաժանարար գիծը */
+.intro-grid::before {
+    content: "";
+    grid-column: 2;
+    background-color: #0c8495;
+    height: 450px; /* Գծի բարձրությունը */
+    width: 2px;
+}
+
+.intro-left {
+    text-align: left;
+}
+
+.intro-left h1 {
+    font-size: 3.8rem;
+    font-weight: 800;
+    margin-bottom: 40px;
+    color: #1a1a1a;
+    line-height: 1;
+}
+
+.intro-left p {
+    font-size: 1.35rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.intro-right {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.intro-right .brand-title {
+    font-size: 5.5rem; /* GeoGeeks-ի մեծ տառաչափը */
+    font-weight: 800;
+    margin-bottom: 30px;
+    color: #000;
+    line-height: 1;
+}
+
+.intro-right p {
+    font-size: 1.6rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* 5. TEAM SECTION (THE BLUE SECTION) */
 .about-section.team-bg {
     background-color: #0c8495;
     padding-left: 280px !important;
     padding-right: 40px !important;
 }
 
-/* Vertical Title Positioning */
 .vertical-title {
     position: absolute;
     left: -220px;
@@ -67,12 +131,6 @@ html, body {
     transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.about-section.active-fade .vertical-title {
-    left: -180px;
-    color: #ffffff;
-}
-
-/* Team Grid Layout */
 .team-grid-container {
     display: flex !important;
     flex-direction: row !important;
@@ -81,7 +139,6 @@ html, body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: auto;
 }
 
 .team-member {
@@ -91,7 +148,6 @@ html, body {
     color: white;
 }
 
-/* IMAGE FIX - Keeps photos circular and correctly sized */
 .team-member .img-container {
     width: 180px !important;
     height: 180px !important;
@@ -100,74 +156,57 @@ html, body {
     border: 4px solid rgba(255, 255, 255, 0.5);
     margin: 0 auto 15px;
     background-color: #fff;
-    flex-shrink: 0;
 }
 
 .team-member .img-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
 }
 
-/* LinkedIn Icon Constraints */
-.linkedin-link {
-    display: inline-block !important;
-    vertical-align: middle;
-    margin-left: 8px;
-}
-
-.linkedin-link img {
-    width: 22px !important;
-    height: 22px !important;
-    border: none !important;
-    background: none !important;
-    display: block !important;
-}
-
-/* 5. TEXT CONTENT SECTIONS (History / Partners) */
-.about-content {
-    max-width: 850px;
-    text-align: center;
-    padding: 0 20px;
-}
-
-.about-content h1, .about-content h2 {
+/* 6. PARTNERS SECTION */
+.about-content h2 {
     font-size: 2.8rem;
     color: #2c3e50;
     margin-bottom: 20px;
     font-weight: 800;
 }
 
-.about-content p {
-    font-size: 1.15rem;
-    color: #444;
-    line-height: 1.7;
-}
-
-/* 6. MOBILE RESPONSIVENESS */
+/* 7. MOBILE RESPONSIVENESS */
 @media screen and (max-width: 1024px) {
     .about-container {
-        height: auto; /* Վերադարձնում ենք բնական սքրոլ մոբայլի համար */
+        height: auto;
         overflow-y: visible;
     }
     
-    .about-section {
+    .about-intro-section, .about-section {
         height: auto;
         min-height: 80vh;
         padding: 60px 20px !important;
     }
+
+    .intro-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .intro-grid::before {
+        display: none;
+    }
+
+    .intro-left, .intro-right {
+        text-align: center;
+    }
+
+    .intro-left h1 { font-size: 2.5rem; }
+    .intro-right .brand-title { font-size: 3.5rem; }
     
     .team-grid-container {
         flex-direction: column !important;
-        gap: 50px;
     }
     
     .vertical-title { 
         display: none; 
-    }
-    
-    .about-section.team-bg {
-        padding-left: 20px !important;
     }
 }
