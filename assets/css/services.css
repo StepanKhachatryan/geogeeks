@@ -1,50 +1,57 @@
 /* ==========================================================================
-   SERVICES.CSS - FULL STABLE VERSION
+   SERVICES.CSS - UPDATED STABLE VERSION (NO FIXED HEADER LOGIC)
    ========================================================================== */
 
 :root {
   --main-green: #00a971;
-  --main-green-light: #e6f6f1;
+  --main-green-light: #f0fcf9; /* Ավելի բաց և մաքուր երանգ */
   --text-dark: #1a2a3a;
   --white: #ffffff;
-  --grey-line: #eee;
+  --grey-line: #f0f0f0; /* Ավելի թեթև գիծ */
 }
 
 .services-page-wrapper {
-  padding: 30px 5%;
-  background-color: var(--white);
-  min-height: 85vh;
+  /* Քանի որ Header-ը տեղ է զբաղեցնում, հաշվարկում ենք մնացած բարձրությունը */
+  min-height: calc(100vh - 80px); 
+  padding: 40px 5%;
+  background-color: var(--white) !important;
 }
 
 /* --- 1. TOP NAVIGATION TILES --- */
 .top-services-nav {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  gap: 20px; /* Մեծացված բացվածք */
   margin-bottom: 40px;
 }
 
 .main-service-btn {
-  background: white;
+  background: var(--white);
   padding: 0;
   border-radius: 15px;
   cursor: pointer;
   border: 1px solid var(--grey-line);
-  transition: all 0.4s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03); /* Նուրբ ստվեր */
   display: flex;
   align-items: center;
   overflow: hidden;
-  height: 80px;
+  height: 90px; /* Մի փոքր ավելի բարձր՝ հարմարավետության համար */
+}
+
+.main-service-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.07);
 }
 
 .main-service-btn.active {
   border: 2px solid var(--main-green);
   background: var(--main-green-light);
+  box-shadow: 0 6px 20px rgba(0, 169, 113, 0.1);
 }
 
 .icon-box {
-  width: 100px;
+  width: 110px;
   height: 100%;
   flex-shrink: 0;
 }
@@ -58,7 +65,7 @@
 
 .main-service-btn h3 {
   padding: 0 15px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: var(--text-dark);
   font-weight: 700;
   margin: 0;
@@ -68,10 +75,9 @@
 /* --- 2. LOWER CONTENT CONTAINER --- */
 .service-body-container {
   display: none;
-  grid-template-columns: 280px 1fr; /* Desktop layout */
+  grid-template-columns: 280px 1fr;
   background: transparent;
-  overflow: visible;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .service-body-container.active {
@@ -81,29 +87,30 @@
 /* Sidebar Navigation */
 .side-nav {
   padding: 20px 30px 20px 0;
-  border-right: 1px solid #ccc;
+  border-right: 1px solid var(--grey-line);
 }
 
 .side-nav-btn {
-  padding: 12px 18px;
-  margin-bottom: 8px;
+  padding: 14px 20px;
+  margin-bottom: 10px;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 700;
   color: #5a6c7d;
   transition: 0.3s;
+  background: #fbfbfb; /* Շատ թեթև ֆոն սովորական վիճակում */
 }
 
 .side-nav-btn.active {
   background: var(--main-green);
-  color: white;
+  color: var(--white);
 }
 
 /* --- 3. CONTENT & DESCRIPTION --- */
 .content-side {
-  padding: 20px 50px;
+  padding: 20px 0 20px 50px;
   position: relative;
-  min-height: 600px;
+  min-height: 550px;
 }
 
 .content-display {
@@ -115,63 +122,56 @@
 }
 
 .service-main-desc {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   line-height: 1.8;
   color: #333;
   margin-bottom: 30px;
-  max-width: 55%; /* Keeps space for diagonal images on desktop */
-  font-weight: bold !important;
+  max-width: 58%;
+  font-weight: 600 !important; /* Պահպանված է ձեր նախընտրած հաստությունը */
 }
 
 .business-list h3 {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--text-dark);
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .business-list ul {
   list-style: none !important;
   padding: 0 !important;
   max-width: 55%;
-  margin: 0 !important;
 }
 
 .business-list ul li {
-  padding: 15px 0 !important;
+  padding: 16px 0 !important;
   border-bottom: 1px solid var(--grey-line) !important;
-  font-size: 1rem;
-}
-
-.business-list ul li::before {
-  content: none !important; /* Removes green points */
-}
-
-.business-list ul li:last-child {
-  border-bottom: none !important;
+  font-size: 1.05rem;
+  color: #444;
 }
 
 /* --- 4. IMAGE GALLERY (Desktop Overlap) --- */
 .image-gallery {
   position: absolute;
-  top: 50px;
-  right: 20px;
-  width: 450px;
-  height: 450px;
+  top: 40px;
+  right: 0;
+  width: 420px;
+  height: 420px;
 }
 
 .image-gallery img {
   position: absolute;
-  width: 375px; 
+  width: 350px; 
   aspect-ratio: 1/1;
   object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 10px -10px 25px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  box-shadow: 15px 15px 40px rgba(0, 0, 0, 0.1);
+  border: 4px solid var(--white);
 }
 
 /* Front Image */
 .image-gallery img:nth-child(2) {
-  top: 80px;
-  right: 80px;
+  top: 60px;
+  right: 60px;
   z-index: 2;
 }
 
@@ -180,88 +180,108 @@
   top: 0;
   right: 0;
   z-index: 1;
+  opacity: 0.9;
 }
 
 /* ==========================================================================
    5. RESPONSIVE RESET (Tablet & Mobile)
    ========================================================================== */
 
+@media screen and (max-width: 1100px) {
+  .service-main-desc, .business-list ul {
+    max-width: 50%;
+  }
+  .image-gallery {
+    width: 350px;
+  }
+  .image-gallery img {
+    width: 280px;
+  }
+}
+
 @media screen and (max-width: 1024px) {
+  .services-page-wrapper {
+    padding-top: 20px;
+  }
+
   .top-services-nav {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .service-body-container {
-    grid-template-columns: 1fr; /* Stacks sidebar and content */
     display: block;
   }
 
   .side-nav {
     display: flex;
     flex-direction: row;
-    overflow-x: auto; /* Swipable menu on mobile */
+    overflow-x: auto;
     border-right: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--grey-line);
     padding: 10px 0;
     margin-bottom: 20px;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
     gap: 10px;
   }
 
   .side-nav-btn {
     margin-bottom: 0;
     flex: 0 0 auto;
+    padding: 10px 15px;
+    font-size: 0.9rem;
   }
 
   .content-side {
     padding: 20px 0;
     min-height: auto;
-    display: flex;
-    flex-direction: column;
   }
 
   .service-main-desc, 
   .business-list ul {
-    max-width: 100%; /* Text uses full width on mobile */
+    max-width: 100%;
   }
 
-  /* Reset Gallery for Mobile */
   .image-gallery {
-    position: relative; /* Moves images below text instead of floating */
+    position: relative;
     top: 0;
     right: 0;
     width: 100%;
     height: auto;
     display: flex;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 30px;
     padding-bottom: 40px;
   }
 
   .image-gallery img {
-    position: relative !important; /* Prevents overlap on mobile */
-    width: 250px;
-    height: 250px;
+    position: relative !important;
+    width: 200px;
+    height: 200px;
     top: 0 !important;
     right: 0 !important;
-    margin: 0 5px;
+    margin: 0;
   }
-  
-  /* Slight overlap effect for mobile images */
+
   .image-gallery img:nth-child(1) {
-    margin-right: -40px;
-    z-index: 1;
+    margin-right: -30px;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .main-service-btn h3 {
-    font-size: 0.8rem;
+  .services-page-wrapper {
+    padding: 20px 15px;
+  }
+
+  .main-service-btn {
+    height: 80px;
+  }
+
+  .icon-box {
+    width: 90px;
   }
 
   .image-gallery img {
-    width: 180px;
-    height: 180px;
+    width: 150px;
+    height: 150px;
   }
 }
