@@ -1,32 +1,28 @@
-/* Navigation Bar Styling */
+/* ==========================================
+    Navigation Bar Styling - STABLE FLEX VERSION
+   ========================================== */
 .navbar {
     background-color: #ffffff;
-    width: 100%; /* Ամբողջ էկրանի լայնությամբ */
+    width: 100%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     
-    /* Ֆիքսված դիրք բոլոր էջերի համար */
-    position: fixed; 
-    top: 0;
-    left: 0;
-    
-    z-index: 10000;
+    /* Փոխված է relative-ի, որպեսզի տեղ զբաղեցնի էջի հոսքի մեջ */
+    position: relative; 
+    z-index: 1000;
 }
 
 .nav-container {
     display: flex;
-    /* Սա հրում է լոգոն ձախ, իսկ մենյուն՝ աջ */
     justify-content: space-between; 
     align-items: center;
-    
-    /* ԿԱՐԵՎՈՐ. Ապահովում է ամբողջական տարածումը */
-    width: 100%; 
-    max-width: 100%; /* Հեռացնում ենք սահմանափակումը, որ կպչի եզրերին */
-    padding: 0 40px; /* Կողային հեռավորություն եզրերից */
-    height: 80px;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 40px;
+    height: 80px; /* Սա ապահովում է ֆիքսված բարձրություն բոլոր էջերում */
     box-sizing: border-box;
 }
 
-/* Logo Styling - Ձախ կողմում */
+/* Logo Styling */
 .logo {
     display: flex;
     align-items: center;
@@ -47,7 +43,7 @@
     white-space: nowrap;
 }
 
-/* Menu Styling - Աջ կողմում */
+/* Menu Styling */
 .menu {
     display: flex;
     list-style: none;
@@ -72,4 +68,6 @@
 .menu li a.active-projects { background-color: #f7db5d !important; color: #2c3e50 !important; }
 .menu li a.active-contact { background-color: #605c5c !important; color: #ffffff !important; }
 
-.menu li a:hover:not([class^="active-"]) { background-color: #f0f0f0; }
+.menu li a:hover:not([class^="active-"]) { 
+    background-color: #f8f9fa; /* Շատ բաց մոխրագույն միայն hover-ի համար */
+}
