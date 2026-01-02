@@ -3,86 +3,72 @@
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* 1. Header & Navigation - Logo Left, Menu Right */
     .navbar {
-        position: relative !important;
+        position: sticky !important; /* Պահում ենք վերևում սքրոլ անելիս */
+        top: 0;
+        z-index: 1001;
         height: auto !important;
         background-color: #ffffff !important;
     }
 
     .nav-container {
         display: flex !important;
-        flex-direction: row !important; /* Լոգոն և Մենյուն կողք-կողքի */
+        flex-direction: row !important;
         justify-content: space-between !important;
         align-items: center !important;
-        padding: 10px 15px !important;
+        padding: 0 10px !important; /* Նվազեցնում ենք կողքի դատարկությունը */
         height: 70px !important;
+        width: 100% !important;
     }
 
-    /* Լոգոն տեղափոխվում է ձախ */
+    /* Լոգոյի կարգավորում */
     .logo {
         flex: 0 0 auto !important;
+        margin-right: 5px !important; /* Նվազագույն հեռավորություն մենյուից */
     }
 
     .logo-text {
-        display: none !important; /* Թաքցնում ենք տեքստը տեղ խնայելու համար */
+        display: none !important; 
     }
 
     .logo img {
-        height: 45px !important;
-        width: 45px !important;
+        height: 50px !important; /* Մի փոքր մեծացնում ենք */
+        width: 50px !important;
     }
 
-    /* Մենյուն ստանում է ողջ ազատ տարածությունը աջ կողմում */
+    /* Մենյուի բլոկը՝ առավելագույն լայնությամբ */
     .menu {
         flex: 1 !important;
         display: flex !important;
-        justify-content: flex-end !important; /* Կոճակները դեպի աջ */
-        gap: 8px !important;
+        justify-content: flex-end !important; 
+        gap: 2px !important; /* Նվազագույն բացակ տառերի միջև */
         margin: 0 !important;
         padding: 0 !important;
         list-style: none !important;
     }
 
+    .menu li {
+        display: block !important;
+    }
+
     .menu li a {
-        padding: 10px 14px !important; /* Ավելի մեծ սեղմման տարածք */
-        font-size: 0.85rem !important; /* Ավելի մեծ և ընթեռնելի տառաչափ */
-        font-weight: 600 !important;
+        padding: 10px 8px !important; /* Նեղացնում ենք կողքի padding-ը, որ տառերը մեծանան */
+        /* Առավելագույն հնարավոր տառաչափ փոքր էկրանի համար */
+        font-size: 1rem !important; 
+        font-weight: 700 !important; /* Ավելի հաստ, որ ավելի երևացող լինի */
         white-space: nowrap !important;
-        border-radius: 6px !important;
+        border-radius: 4px !important;
+        text-transform: uppercase; /* Մեծատառերը ավելի լավ են կարդացվում փոքր էկրանին */
     }
 
-    /* 2. Page Wrappers */
-    .projects-page-wrapper,
-    .services-page-wrapper,
-    .contact-page-wrapper {
-        padding: 20px 15px !important;
-    }
-
-    /* 3. Services Layout (Screenshot-ի նման մաքուր տեսք) */
-    .top-services-nav {
-        grid-template-columns: 1fr !important;
-        gap: 15px !important;
-    }
-
-    .main-service-btn {
-        height: auto !important;
-        padding: 15px !important;
-    }
-
+    /* Ծառայությունների ենթամենյուի շտկում */
     .side-nav {
         display: flex !important;
         flex-direction: row !important;
-        overflow-x: auto !important; /* Հորիզոնական սքրոլ ենթամենյուի համար */
-        white-space: nowrap !important;
-        border-bottom: 2px solid #f0f0f0 !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch; /* Սահուն սքրոլ iOS-ի համար */
         gap: 10px !important;
-        padding-bottom: 10px !important;
-    }
-
-    .side-nav-btn {
-        flex: 0 0 auto !important;
-        padding: 8px 15px !important;
+        padding: 10px 0 !important;
     }
 }
 
@@ -92,19 +78,22 @@
 @media screen and (max-width: 480px) {
     .nav-container {
         height: 65px !important;
+        padding: 0 5px !important;
     }
 
     .logo img {
-        height: 40px !important;
-        width: 40px !important;
+        height: 45px !important;
+        width: 45px !important;
     }
 
     .menu {
-        gap: 4px !important;
+        gap: 0px !important;
     }
 
     .menu li a {
-        padding: 8px 10px !important;
-        font-size: 0.75rem !important;
+        padding: 8px 5px !important;
+        /* Մոբայլի վրա 0.9rem-ը ամենաօպտիմալն է, որ բառերը չիրարանցվեն */
+        font-size: 0.9rem !important; 
+        letter-spacing: -0.5px; /* Մի փոքր սեղմում ենք տառերի արանքը, որ տեղավորվեն */
     }
 }
