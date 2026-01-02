@@ -3,25 +3,95 @@
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* 1. Header & Navigation Adjustments */
+    /* 1. Header & Navigation - Logo Left, Menu Right */
     .navbar {
-        /* Header-ը դառնում է սովորական (ոչ ֆիքսված), որպեսզի չծածկի բովանդակությունը */
-        position: relative !important; 
+        position: relative !important;
         height: auto !important;
         background-color: #ffffff !important;
     }
 
     .nav-container {
-        padding: 10px 20px !important;
-        height: auto !important;
-        min-height: 60px !important;
-        flex-direction: column !important; /* Լոգոն վերևում, մենյուն ներքևում */
-        gap: 10px !important;
+        display: flex !important;
+        flex-direction: row !important; /* Լոգոն և Մենյուն կողք-կողքի */
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 10px 15px !important;
+        height: 70px !important;
     }
 
-    /* Հեռացնում ենք լոգոյի տեքստը տեղ խնայելու համար */
+    /* Լոգոն տեղափոխվում է ձախ */
+    .logo {
+        flex: 0 0 auto !important;
+    }
+
     .logo-text {
-        display: none !important;
+        display: none !important; /* Թաքցնում ենք տեքստը տեղ խնայելու համար */
+    }
+
+    .logo img {
+        height: 45px !important;
+        width: 45px !important;
+    }
+
+    /* Մենյուն ստանում է ողջ ազատ տարածությունը աջ կողմում */
+    .menu {
+        flex: 1 !important;
+        display: flex !important;
+        justify-content: flex-end !important; /* Կոճակները դեպի աջ */
+        gap: 8px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
+    }
+
+    .menu li a {
+        padding: 10px 14px !important; /* Ավելի մեծ սեղմման տարածք */
+        font-size: 0.85rem !important; /* Ավելի մեծ և ընթեռնելի տառաչափ */
+        font-weight: 600 !important;
+        white-space: nowrap !important;
+        border-radius: 6px !important;
+    }
+
+    /* 2. Page Wrappers */
+    .projects-page-wrapper,
+    .services-page-wrapper,
+    .contact-page-wrapper {
+        padding: 20px 15px !important;
+    }
+
+    /* 3. Services Layout (Screenshot-ի նման մաքուր տեսք) */
+    .top-services-nav {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+
+    .main-service-btn {
+        height: auto !important;
+        padding: 15px !important;
+    }
+
+    .side-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important; /* Հորիզոնական սքրոլ ենթամենյուի համար */
+        white-space: nowrap !important;
+        border-bottom: 2px solid #f0f0f0 !important;
+        gap: 10px !important;
+        padding-bottom: 10px !important;
+    }
+
+    .side-nav-btn {
+        flex: 0 0 auto !important;
+        padding: 8px 15px !important;
+    }
+}
+
+/* ==========================================
+   SMALL PHONE STYLES (Max 480px)
+   ========================================== */
+@media screen and (max-width: 480px) {
+    .nav-container {
+        height: 65px !important;
     }
 
     .logo img {
@@ -30,136 +100,11 @@
     }
 
     .menu {
-        width: 100% !important;
-        justify-content: center !important;
-        gap: 5px !important;
-        flex-wrap: wrap !important; /* Մենյուն տեղավորվում է մի քանի տողում */
+        gap: 4px !important;
     }
 
     .menu li a {
-        padding: 8px 12px !important;
+        padding: 8px 10px !important;
         font-size: 0.75rem !important;
-        border-radius: 4px !important;
-    }
-
-    /* 2. Page Wrappers Restructuring */
-    .projects-page-wrapper,
-    .services-page-wrapper,
-    .contact-page-wrapper {
-        padding-top: 20px !important; /* Քանի որ Header-ը fixed չէ, մեծ padding-ի կարիք չկա */
-        padding-left: 15px !important;
-        padding-right: 15px !important;
-        min-height: auto !important;
-    }
-
-    /* 3. Projects (Նախագծեր) Layout */
-    .category-grid {
-        grid-template-columns: 1fr !important;
-        gap: 20px !important;
-    }
-
-    .category-box {
-        aspect-ratio: 16 / 9 !important; /* Ավելի լավ տեսք հեռախոսների համար */
-        height: auto !important;
-    }
-
-    /* 4. Services (Ծառայություններ) Layout */
-    .top-services-nav {
-        grid-template-columns: 1fr !important;
-        gap: 10px !important;
-    }
-
-    .service-body-container {
-        display: flex !important;
-        flex-direction: column !important;
-    }
-
-    .side-nav {
-        border-right: none !important;
-        border-bottom: 1px solid #f0f0f0 !important;
-        margin-bottom: 20px !important;
-        padding-right: 0 !important;
-    }
-
-    .side-nav-btn {
-        width: 100% !important;
-        text-align: center !important;
-        font-size: 0.85rem !important;
-    }
-
-    .content-side {
-        padding-left: 0 !important;
-        min-height: auto !important;
-    }
-
-    .service-main-desc, 
-    .business-list ul {
-        max-width: 100% !important;
-        text-align: center !important;
-    }
-
-    /* 5. Image Gallery Refactoring */
-    .image-gallery {
-        position: relative !important;
-        width: 100% !important;
-        height: 300px !important;
-        margin-top: 30px !important;
-        display: flex !important;
-        justify-content: center !important;
-    }
-
-    .image-gallery img {
-        width: 220px !important;
-        height: 220px !important;
-        max-width: 80% !important;
-        position: absolute !important;
-    }
-
-    .image-gallery img:nth-child(2) {
-        top: 30px !important;
-        left: 50% !important;
-        transform: translateX(-60%) !important;
-        z-index: 2 !important;
-    }
-
-    .image-gallery img:nth-child(1) {
-        top: 0 !important;
-        left: 50% !important;
-        transform: translateX(-40%) !important;
-        z-index: 1 !important;
-        opacity: 0.8 !important;
-    }
-}
-
-/* ==========================================
-   SMALL PHONE STYLES (Max 480px)
-   ========================================== */
-@media screen and (max-width: 480px) {
-    .menu li a {
-        padding: 6px 8px !important;
-        font-size: 0.7rem !important;
-    }
-
-    .section-title, h1, h2 {
-        font-size: 1.5rem !important;
-    }
-
-    .image-gallery {
-        height: 220px !important;
-    }
-
-    .image-gallery img {
-        width: 160px !important;
-        height: 160px !important;
-    }
-
-    /* About page Team Adjustment */
-    .team-grid-container {
-        gap: 30px !important;
-    }
-
-    .team-member .img-container {
-        width: 140px !important;
-        height: 140px !important;
     }
 }
