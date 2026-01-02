@@ -1,5 +1,5 @@
 /* ==========================================================================
-    ABOUT.CSS - FINAL STABLE VERSION WITH PARTNERS GRID
+    ABOUT.CSS - COMPLETE STABLE VERSION
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@400;700;800&display=swap');
@@ -23,7 +23,9 @@ html, body {
     scrollbar-width: none;
 }
 
-.about-container::-webkit-scrollbar { display: none; }
+.about-container::-webkit-scrollbar { 
+    display: none; 
+}
 
 /* 3. Base Section Styles */
 .about-section {
@@ -39,7 +41,7 @@ html, body {
     overflow: hidden;
 }
 
-/* --- SECTION 1: INTRO GRID (Mission & Brand) --- */
+/* 4. SECTION 1: INTRO GRID (Mission & Brand) */
 .intro-grid {
     display: flex;
     align-items: flex-start;
@@ -80,7 +82,7 @@ html, body {
     align-self: center;
 }
 
-/* --- SECTION 2: TEAM (THE BLUE SECTION) --- */
+/* 5. SECTION 2: TEAM (THE BLUE SECTION) */
 .about-section.team-bg {
     background-color: #0c8495;
     padding-left: 280px !important;
@@ -93,16 +95,11 @@ html, body {
     transform: translateY(-50%) rotate(-90deg);
     font-size: 7rem;
     font-weight: 900;
-    color: rgba(255, 255, 255, 0.3);
+    color: #ffffff; /* Մաքուր սպիտակ վերնագիր */
     white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 12px;
-    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.about-section.active-fade .vertical-title {
-    left: -180px;
-    color: #ffffff !important;
+    z-index: 1;
 }
 
 .team-grid-container {
@@ -125,7 +122,8 @@ html, body {
     border-radius: 50%;
     overflow: hidden;
     border: 4px solid rgba(255, 255, 255, 0.5);
-    margin-bottom: 15px;
+    margin: 0 auto 15px;
+    background-color: #fff;
 }
 
 .team-member img {
@@ -134,7 +132,24 @@ html, body {
     object-fit: cover;
 }
 
-/* --- SECTION 3: PARTNERS GRID & TOOLTIP --- */
+/* --- LINKEDIN ICON SIZE FIX --- */
+.linkedin-link {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-left: 8px;
+}
+
+.linkedin-link img {
+    width: 20px !important; /* Հստակ ֆիքսված փոքր չափս */
+    height: 20px !important;
+    border: none !important;
+    background: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+}
+
+/* 6. SECTION 3: PARTNERS GRID */
 .partners-wrapper {
     max-width: 1200px;
     width: 90%;
@@ -143,12 +158,10 @@ html, body {
 
 .partners-grid {
     display: grid;
-    /* Ստեղծում է ադապտիվ ցանց 11 լոգոների համար */
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 40px 30px;
     justify-items: center;
     align-items: center;
-    margin-top: 30px;
 }
 
 .partner-card {
@@ -156,9 +169,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
     height: 110px;
-    text-decoration: none;
 }
 
 .partner-card img {
@@ -175,7 +186,7 @@ html, body {
     transform: scale(1.08);
 }
 
-/* Tooltip - Կազմակերպության անվանումը  */
+/* Tooltip */
 .partner-card::after {
     content: attr(data-tooltip);
     position: absolute;
@@ -187,14 +198,11 @@ html, body {
     padding: 7px 14px;
     border-radius: 6px;
     font-size: 0.8rem;
-    font-weight: 600;
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: 0.3s ease;
     z-index: 100;
-    pointer-events: none;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .partner-card:hover::after {
@@ -203,7 +211,7 @@ html, body {
     transform: translateX(-50%) translateY(0);
 }
 
-/* --- MOBILE RESPONSIVE --- */
+/* 7. MOBILE RESPONSIVE */
 @media screen and (max-width: 1200px) {
     .intro-title { font-size: 2.2rem; white-space: normal; min-height: auto; }
     .intro-text { font-size: 1.1rem; }
@@ -219,9 +227,4 @@ html, body {
     .team-grid-container { flex-direction: column; }
     .about-section.team-bg { padding-left: 20px !important; }
     .vertical-title { display: none; }
-    
-    .partners-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 30px;
-    }
 }
