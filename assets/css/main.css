@@ -2,6 +2,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@100..900&display=swap');
 
 /* ==========================================
+    Google Translate Banner Removal (New Fix)
+   ========================================== */
+
+/* 1. Թաքցնում է Google-ի վերևի բաները և Tooltip-ները */
+.goog-te-banner-frame.skiptranslate, 
+#goog-gt-tt, 
+.goog-te-balloon-frame,
+#google_translate_element {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* 2. Հեռացնում է Google-ի կողմից body-ին ավելացվող դատարկ տարածությունը */
+body {
+    top: 0px !important;
+    position: static !important;
+}
+
+/* 3. Հեռացնում է կապույտ գիծը կամ ֆոնը թարգմանված տեքստերի տակից */
+.goog-text-highlight {
+    background: none !important;
+    box-shadow: none !important;
+}
+
+/* 4. Եթե Google-ը margin է ավելացնում html-ին */
+html {
+    margin-top: 0px !important;
+}
+
+/* ==========================================
     Global Reset & Base Styles
    ========================================== */
 * {
