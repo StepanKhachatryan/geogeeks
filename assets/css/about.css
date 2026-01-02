@@ -2,19 +2,17 @@
     ABOUT.CSS - COMPLETE STABLE VERSION
    ========================================================================== */
 
-/* Ներբեռնում ենք Noto Sans Armenian տառատեսակը */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@400;700;800&display=swap');
 
-/* 1. Global Page Reset */
 html, body {
     height: 100%;
     margin: 0;
     overflow: hidden;
     background-color: #ffffff !important;
-    font-family: 'Noto Sans Armenian', sans-serif !important; /* Բոլոր տեքստերի համար */
+    font-family: 'Noto Sans Armenian', sans-serif !important; /* Միասնական տառատեսակ */
 }
 
-/* 2. Scroll Container */
+/* Scroll Container */
 .about-container {
     width: 100%;
     height: calc(100vh - 80px); 
@@ -24,28 +22,26 @@ html, body {
     scrollbar-width: none;
 }
 
-.about-container::-webkit-scrollbar { 
-    display: none; 
-}
+.about-container::-webkit-scrollbar { display: none; }
 
-/* 3. Base Section Styles - Սեկցիաների մեկուսացում */
+/* Base Section Styles */
 .about-section {
     width: 100%;
-    height: calc(100vh - 80px); /* Ֆիքսված բարձրություն Header-ից հետո */
+    height: calc(100vh - 80px); 
     display: flex;
     align-items: center;
     justify-content: center;
     scroll-snap-align: start;
-    scroll-snap-stop: always; /* Խիստ կանգառ յուրաքանչյուր սեկցիայի վրա */
+    scroll-snap-stop: always;
     position: relative;
     box-sizing: border-box;
-    overflow: hidden; /* Սա կանխում է թիմի նկարների բարձրանալը առաջին բաժին */
+    overflow: hidden; /* Կանխում է տարրերի արտահոսքը */
 }
 
-/* 4. SECTION 1: INTRO GRID (Առաքելություն և GeoGeeks) */
+/* --- SECTION 1: INTRO GRID --- */
 .intro-grid {
-    display: flex; /* Flexbox՝ կատարյալ հորիզոնական հավասարեցման համար */
-    align-items: flex-start; /* Բոլոր սյունակները սկսվում են նույն բարձրությունից */
+    display: flex;
+    align-items: flex-start; /* Հավասարեցում վերևից */
     justify-content: center;
     max-width: 1400px;
     width: 90%;
@@ -57,18 +53,16 @@ html, body {
     flex-direction: column;
 }
 
-/* Վերնագրերի հավասարեցում */
 .intro-title {
-    font-size: 3rem; /* Նույն տառաչափը երկուսի համար */
+    font-size: 3rem;
     font-weight: 800;
     margin: 0 0 40px 0;
     color: #1a1a1a;
     line-height: 1.1;
-    min-height: 3.5rem; /* Երաշխավորում է, որ տակից եկող տեքստը սկսվի նույն գծից */
-    white-space: nowrap; /* Փորձում է պահել մեկ տողում */
+    min-height: 3.5rem; /* Վերնագրերի բլոկի նույն բարձրությունը */
+    white-space: nowrap; 
 }
 
-/* Տեքստերի հավասարեցում */
 .intro-text {
     font-size: 1.3rem; 
     line-height: 1.6;
@@ -77,20 +71,22 @@ html, body {
     text-align: left;
 }
 
-/* Ուղղահայաց բաժանարար գիծ */
 .intro-divider {
     background-color: #0c8495;
     width: 2px;
     height: 450px;
-    margin: 0 80px; /* Լայն բացվածք գծի շուրջ */
+    margin: 0 80px;
     align-self: center;
 }
 
-/* 5. SECTION 2: TEAM (BLUE SECTION) */
+.intro-column:first-child { padding-right: 20px; }
+.intro-column:last-child { padding-left: 20px; }
+
+/* --- SECTION 2: TEAM (THE BLUE SECTION) --- */
 .about-section.team-bg {
     background-color: #0c8495;
-    padding-left: 280px !important; /* Տեղ ուղղահայաց վերնագրի համար */
-    z-index: 5;
+    padding-left: 280px !important;
+    z-index: 10;
 }
 
 .vertical-title {
@@ -100,14 +96,22 @@ html, body {
     transform: translateY(-50%) rotate(-90deg);
     font-size: 7rem;
     font-weight: 900;
-    color: rgba(255, 255, 255, 0.3);
+    /* Սկզբնական վիճակում սպիտակ՝ 0.3 թափանցիկությամբ */
+    color: rgba(255, 255, 255, 0.3); 
+    white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 12px;
+    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Ակտիվ վիճակում լիարժեք սպիտակ */
+.about-section.active-fade .vertical-title {
+    left: -180px;
+    color: #ffffff !important;
 }
 
 .team-grid-container {
     display: flex;
-    flex-direction: row;
     gap: 50px;
     justify-content: center;
     align-items: center;
@@ -130,13 +134,13 @@ html, body {
     background-color: #fff;
 }
 
-.team-member .img-container img {
+.team-member img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
 }
 
+/* LinkedIn Icon */
 .linkedin-link img {
     width: 22px;
     height: 22px;
@@ -144,10 +148,9 @@ html, body {
     vertical-align: middle;
 }
 
-/* 6. SECTION 3: PARTNERS */
+/* Section 3: Partners */
 .partners-random-cloud {
     display: flex;
-    flex-wrap: wrap;
     gap: 40px;
     justify-content: center;
     margin-top: 40px;
@@ -165,11 +168,10 @@ html, body {
     opacity: 1;
 }
 
-/* 7. MOBILE RESPONSIVE */
+/* Mobile Responsive */
 @media screen and (max-width: 1200px) {
     .intro-title { font-size: 2.2rem; white-space: normal; min-height: auto; }
     .intro-text { font-size: 1.1rem; }
-    .intro-divider { margin: 0 40px; }
 }
 
 @media screen and (max-width: 1024px) {
@@ -177,9 +179,8 @@ html, body {
     .about-section { height: auto; min-height: 100vh; padding: 60px 20px !important; }
     .intro-grid { flex-direction: column; align-items: center; }
     .intro-divider { display: none; }
-    .intro-column { text-align: center; padding: 0; }
-    .intro-left { padding: 0; margin-bottom: 40px; }
-    .team-grid-container { flex-direction: column; gap: 50px; }
+    .intro-left, .intro-right { padding: 0; text-align: center; }
+    .team-grid-container { flex-direction: column; }
     .about-section.team-bg { padding-left: 20px !important; }
     .vertical-title { display: none; }
 }
