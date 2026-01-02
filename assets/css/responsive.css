@@ -3,7 +3,7 @@
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* 1. Header Navigation - Կոմպակտ և մաքուր */
+    /* 1. Header Navigation - Կոմպակտ և պրոֆեսիոնալ */
     .navbar {
         position: sticky !important;
         top: 0;
@@ -41,9 +41,9 @@
         color: #34495e !important;
     }
 
-    /* 2. Contact Page - Լայն և Բարձր տուփեր */
+    /* 2. Contact Page - Հսկայական տուփեր՝ ճիշտ համամասնությամբ (Ratio) */
     .contact-container {
-        padding: 40px 0 !important;
+        padding: 30px 0 !important;
         width: 100% !important;
     }
 
@@ -56,11 +56,10 @@
     }
 
     .contact-card {
-        /* Տուփը զբաղեցնում է էկրանի գրեթե ողջ լայնությունը */
-        width: 96% !important; 
+        width: 96% !important; /* Առավելագույն լայնություն */
         max-width: 600px !important; 
         
-        /* Համամասնական բարձրություն (Ratio) */
+        /* Համամասնորեն բարձր տուփեր (Ratio) */
         min-height: 480px !important; 
         display: flex !important;
         flex-direction: column !important;
@@ -69,91 +68,99 @@
         padding: 60px 25px !important; 
         background: #ffffff !important;
         border-radius: 25px !important;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06) !important;
+        box-shadow: 0 15px 45px rgba(0, 0, 0, 0.07) !important;
         box-sizing: border-box !important;
     }
 
     .contact-card h2 {
-        font-size: 2rem !important;
+        font-size: 2.1rem !important;
         margin-bottom: 35px !important;
         text-align: center;
         color: #0c8495;
     }
 
-    .contact-item {
-        width: 100% !important;
-        gap: 20px !important;
-        margin-bottom: 30px !important;
-    }
-
     .contact-item .contact-link {
-        font-size: 1.35rem !important; /* Մեծ տառեր */
+        font-size: 1.4rem !important; /* Խոշոր հղումներ */
         font-weight: 600;
-        word-break: break-all;
     }
 
     .social-btn {
         width: 100% !important;
-        padding: 22px !important; 
-        font-size: 1.4rem !important;
+        padding: 24px !important; /* Շատ խոշոր կոճակներ */
+        font-size: 1.5rem !important;
         border-radius: 15px !important;
-        margin-bottom: 12px !important;
     }
 
-    /* 3. Services Page - Tabs & Content Fix */
-    .services-page-wrapper {
-        padding: 20px 0 !important;
-    }
-
-    /* Թաքցնում ենք ոչ ակտիվ ծառայությունները */
-    .service-content {
+    /* 3. Services Page - Տաբերի և Բովանդակության Շտկում */
+    
+    /* Թաքցնել ԲՈԼՈՐ ենթաբաժինները */
+    .service-content, 
+    [id$="-content"], 
+    .services-page-wrapper section {
         display: none !important;
     }
 
-    .service-content.active {
+    /* Ցույց տալ ՄԻԱՅՆ ակտիվ բաժինը */
+    .service-content.active, 
+    [id$="-content"].active {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
+        animation: fadeIn 0.4s ease;
     }
 
-    /* Հորիզոնական սահող տաբեր */
+    /* Հորիզոնական սահող մենյու (Tabs) */
     .side-nav {
         display: flex !important;
         flex-direction: row !important;
         overflow-x: auto !important;
         white-space: nowrap !important;
         gap: 15px !important;
-        padding: 10px 15px !important;
-        border-bottom: 2px solid #0c8495 !important;
+        padding: 15px !important;
+        border-bottom: 3px solid #0c8495 !important;
+        background: #ffffff;
         -webkit-overflow-scrolling: touch;
     }
 
     .side-nav-btn {
         flex: 0 0 auto !important;
-        padding: 12px 20px !important;
-        font-size: 1.1rem !important;
+        padding: 14px 22px !important;
+        font-size: 1.15rem !important;
         font-weight: 700 !important;
-        border-radius: 10px 10px 0 0 !important;
+        border-radius: 12px 12px 0 0 !important;
+        background: #f1f1f1 !important;
+    }
+
+    .side-nav-btn.active {
+        background: #0c8495 !important;
+        color: white !important;
     }
 
     /* Ծառայությունների տուփի մասշտաբավորում */
     .service-details-box {
         width: 96% !important;
-        min-height: 400px !important;
-        margin: 20px auto !important;
-        padding: 50px 25px !important;
+        min-height: 450px !important; /* Ratio-ի պահպանում */
+        margin: 25px auto !important;
+        padding: 55px 30px !important;
         box-sizing: border-box !important;
+        border-radius: 25px !important;
     }
 
     .service-details-box h3 {
-        font-size: 1.8rem !important;
-        margin-bottom: 25px !important;
+        font-size: 2rem !important;
+        margin-bottom: 30px !important;
     }
 
     .service-details-box p {
-        font-size: 1.3rem !important;
-        line-height: 1.6 !important;
+        font-size: 1.35rem !important;
+        line-height: 1.7 !important;
     }
+}
+
+/* Անիմացիա անցումների համար */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* ==========================================
@@ -161,8 +168,8 @@
    ========================================== */
 @media screen and (max-width: 480px) {
     .nav-container { height: 65px !important; }
-    .logo img { height: 45px !important; width: 45px !important; }
-    .menu li a { font-size: 0.95rem !important; }
+    .logo img { height: 45px !important; }
+    .menu li a { font-size: 1rem !important; }
 
     .contact-card {
         width: 98% !important;
@@ -170,6 +177,7 @@
         padding: 50px 15px !important;
     }
 
-    .contact-card h2 { font-size: 1.7rem !important; }
-    .contact-item .contact-link { font-size: 1.15rem !important; }
+    .service-details-box {
+        padding: 40px 20px !important;
+    }
 }
