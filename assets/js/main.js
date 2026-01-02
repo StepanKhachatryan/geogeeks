@@ -14,54 +14,53 @@ function loadComponent(id, file) {
             const el = document.getElementById(id);
             if (!el) return;
             el.innerHTML = data;
+
+            // Header-ը բեռնելուց հետո ակտիվացնում ենք մենյուի գույնը
+            if (id === "header-placeholder") {
+                highlightActiveMenu();
+            }
         })
         .catch(error => console.error("Error loading component:", error));
 }
 
 /**
- * Գլխավոր տաբերի փոխարկում (GIS, Hydro, Education)
+ * Ակտիվ մենյուի ընդգծում (Background Color)
  */
-function switchMainTab(sectionId) {
-    // Հեռացնել active բոլոր գլխավոր կոճակներից
-    document.querySelectorAll('.main-service-btn').forEach(btn => btn.classList.remove('active'));
-    
-    // Ավելացնել active սեղմվածին
-    if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
-    }
+function highlightActiveMenu() {
+    const currentPage = window.location.pathname.split("/").pop() || "index.html";
+    const navLinks = document.querySelectorAll('.menu li a');
 
-    // Հեռացնել active բոլոր սեկցիաներից
-    document.querySelectorAll('.service-body-container').forEach(sec => {
-        sec.classList.remove('active');
+    navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href').split("/").pop();
+        
+        if (linkPage === currentPage) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
     });
-
-    // Ակտիվացնել ընտրված սեկցիան
-    const targetSection = document.getElementById(sectionId);
-    if (targetSection) {
-        targetSection.classList.add('active');
-    }
 }
 
 /**
- * Ենթատաբերի փոխարկում (Side Nav)
+ * Ծառայությունների տաբերի փոխարկում
  */
+function switchMainTab(sectionId) {
+    document.querySelectorAll('.main-service-btn').forEach(btn => btn.classList.remove('active'));
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
+    document.querySelectorAll('.service-body-container').forEach(sec => sec.classList.remove('active'));
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) targetSection.classList.add('active');
+}
+
 function switchSubTab(btnElement, contentId) {
     const parentSection = btnElement.closest('.service-body-container');
-    
-    // Հեռացնել active տվյալ սեկցիայի բոլոր կողային կոճակներից
     parentSection.querySelectorAll('.side-nav-btn').forEach(btn => btn.classList.remove('active'));
     btnElement.classList.add('active');
-
-    // Հեռացնել active տվյալ սեկցիայի բոլոր content-ներից
-    parentSection.querySelectorAll('.content-display').forEach(content => {
-        content.classList.remove('active');
-    });
-
-    // Ակտիվացնել ընտրված բովանդակությունը
+    parentSection.querySelectorAll('.content-display').forEach(content => content.classList.remove('active'));
     const targetContent = document.getElementById(contentId);
-    if (targetContent) {
-        targetContent.classList.add('active');
-    }
+    if (targetContent) targetContent.classList.add('active');
 }
 
 // Գործարկում
