@@ -134,3 +134,19 @@ body {
 html {
     margin-top: 0px !important;
 }
+
+
+/* Վերջնական CSS արգելք */
+iframe[id^=":1.container"], 
+iframe[class*="goog-te-banner-frame"], 
+.goog-te-banner-frame {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+}
+
+/* Սա կանխում է էջի «ցատկելը» վերև-ներքև */
+html, body {
+    top: 0 !important;
+    margin-top: 0 !important;
+}
