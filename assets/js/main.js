@@ -1,3 +1,6 @@
+/**
+ * Բաղադրիչների (Header) բեռնման ֆունկցիա
+ */
 function loadComponent(id, file) {
     const isSubFolder = window.location.pathname.includes('/projects/');
     const adjustedFile = isSubFolder ? '../' + file : file;
@@ -9,6 +12,8 @@ function loadComponent(id, file) {
         })
         .then(data => {
             const element = document.getElementById(id);
+            if (!element) return; // Եթե տարրը գոյություն չունի էջում
+
             element.innerHTML = data;
 
             if (id === "header-placeholder") {
@@ -21,6 +26,9 @@ function loadComponent(id, file) {
         .catch(error => console.error("Error loading component:", error));
 }
 
+/**
+ * Ակտիվ մենյուի կոճակի լուսավորում
+ */
 function highlightActiveMenu(headerElement, isSubFolder) {
     let path = window.location.pathname;
     let currentPath = path.split("/").pop();
@@ -49,6 +57,9 @@ function highlightActiveMenu(headerElement, isSubFolder) {
     });
 }
 
+/**
+ * Ենթաթղթապանակների (projects) համար հղումների ուղղում
+ */
 function adjustLinksForSubfolder(headerElement) {
     const allLinks = headerElement.querySelectorAll('a');
     allLinks.forEach(link => {
@@ -67,37 +78,8 @@ function adjustLinksForSubfolder(headerElement) {
     });
 }
 
-// --- ԱՎԵԼԱՑՎԱԾ Է․ Intersection Observer անիմացիաների համար ---
-/**
- * Այս ֆունկցիան հետևում է էջի բաժիններին և ավելացնում է 'active-fade' դասը,
- * երբ բաժինը հայտնվում է օգտատիրոջ տեսադաշտում։
- */
-function initScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.2 // Անիմացիան կսկսվի, երբ բաժնի 20%-ը երևա
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active-fade');
-                // Եթե ցանկանում եք, որ անիմացիան միայն մեկ անգամ լինի, 
-                // կարող եք դադարեցնել հետևելը․
-                // observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Հետևում ենք բոլոր .about-section բաժիններին
-    const animatedElements = document.querySelectorAll('.about-section');
-    animatedElements.forEach(el => observer.observe(el));
-}
-
-// Բաղադրիչների բեռնում
+// Բեռնում ենք միայն Header-ը
 loadComponent("header-placeholder", "components/header.html");
-loadComponent("footer-placeholder", "components/footer.html");
 
-// Ակտիվացնում ենք անիմացիաները էջի բեռնումից հետո
-document.addEventListener("DOMContentLoaded", () => {
-    initScrollAnimations();
-});
+// Footer-ի բեռնումը հեռացված է, քանի որ այն այլևս չի օգտագործվում
+// loadComponent("footer-placeholder", "components/footer.html");
