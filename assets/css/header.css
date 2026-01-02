@@ -1,73 +1,59 @@
 /* ==========================================
-    Navigation Bar Styling - STABLE FLEX VERSION
+    Language Switcher Styling
    ========================================== */
-.navbar {
-    background-color: #ffffff;
-    width: 100%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    
-    /* Փոխված է relative-ի, որպեսզի տեղ զբաղեցնի էջի հոսքի մեջ */
-    position: relative; 
-    z-index: 1000;
-}
 
-.nav-container {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
-    padding: 0 40px;
-    height: 80px; /* Սա ապահովում է ֆիքսված բարձրություն բոլոր էջերում */
-    box-sizing: border-box;
-}
-
-/* Logo Styling */
-.logo {
+.language-switcher {
     display: flex;
     align-items: center;
-    text-decoration: none !important;
-    gap: 12px;
+    margin-left: 20px; /* Հեռավորություն մենյուից */
+    gap: 8px;
+    border-left: 1px solid #ddd; /* Նուրբ բաժանարար գիծ */
+    padding-left: 20px;
 }
 
-.logo img {
-    height: 50px; 
-    width: 50px; 
-    object-fit: contain;
-}
-
-.logo-text {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #2c3e50;
-    white-space: nowrap;
-}
-
-/* Menu Styling */
-.menu {
-    display: flex;
-    list-style: none;
-    gap: 10px;
-    margin: 0;
-    padding: 0;
-}
-
-.menu li a {
+.lang-btn {
     text-decoration: none !important;
     color: #34495e;
-    font-weight: 500;
-    padding: 10px 18px;
-    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 6px 10px;
+    border-radius: 4px;
     transition: all 0.3s ease;
-    white-space: nowrap;
+    cursor: pointer;
 }
 
-/* --- Ակտիվ գույները --- */
-.menu li a.active-about { background-color: #0c8495 !important; color: #ffffff !important; }
-.menu li a.active-services { background-color: #00a97a !important; color: #ffffff !important; }
-.menu li a.active-projects { background-color: #f7db5d !important; color: #2c3e50 !important; }
-.menu li a.active-contact { background-color: #605c5c !important; color: #ffffff !important; }
+/* Ակտիվ լեզվի գույնը համապատասխանեցված է About էջի գույնին (#0c8495) */
+.lang-btn.active {
+    color: #ffffff !important;
+    background-color: #0c8495; 
+}
 
-.menu li a:hover:not([class^="active-"]) { 
-    background-color: #f8f9fa; /* Շատ բաց մոխրագույն միայն hover-ի համար */
+.lang-btn:hover:not(.active) {
+    background-color: #f8f9fa;
+    color: #0c8495;
+}
+
+.language-switcher .divider {
+    color: #ddd;
+    font-weight: 300;
+}
+
+/* Թաքցնել Google-ի ավելորդ վիզուալ տարրերը */
+#google_translate_element {
+    display: none;
+}
+
+.goog-te-banner-frame.skiptranslate, 
+.goog-te-gadget img, 
+.goog-te-menu-value span {
+    display: none !important;
+}
+
+body {
+    top: 0px !important;
+}
+
+/* Սա հեռացնում է Google-ի ավտոմատ Tooltip-ները նկարների վրայից */
+.goog-te-balloon-frame {
+    display: none !important;
 }
