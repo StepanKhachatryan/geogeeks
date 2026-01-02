@@ -1,25 +1,26 @@
 /* ==========================================================================
-   ABOUT.CSS - COMPLETE STABLE VERSION (FIXED HEADER COMPATIBLE)
+    ABOUT.CSS - CLEAN NATURAL FLOW (NO FIXED HEADER LOGIC)
    ========================================================================== */
 
 /* 1. Global Page Reset for About */
 html, body {
     height: 100%;
     margin: 0;
-    overflow: hidden; /* Provides clean scroll-snap control */
+    overflow: hidden; /* Սա կարևոր է, որպեսզի միայն container-ը սքրոլ լինի */
+    background-color: #ffffff !important;
 }
 
 /* 2. Scroll Container */
 .about-container {
     width: 100%;
-    height: 100vh;
+    /* Քանի որ Header-ը վերևում տեղ է զբաղեցնում, սա կլրացնի մնացած ողջ էկրանը */
+    height: calc(100vh - 80px); 
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     scrollbar-width: none;
     
-    /* Ensures sections snap below the fixed header (80px) */
-    scroll-padding-top: 80px; 
+    /* Հեռացրել ենք scroll-padding-top-ը, քանի որ header-ը fixed չէ */
 }
 
 .about-container::-webkit-scrollbar { 
@@ -29,8 +30,8 @@ html, body {
 /* 3. Base Section Styles */
 .about-section {
     width: 100%;
-    height: calc(100vh - 80px); /* Screen minus Header height */
-    margin-top: 80px; /* Space for Fixed Header */
+    /* Յուրաքանչյուր սեկցիա հիմա հավասար է կոնտեյների ճիշտ բարձրությանը */
+    height: 100%; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,12 +40,12 @@ html, body {
     position: relative;
     box-sizing: border-box;
     overflow: hidden;
+    margin-top: 0 !important; /* Հեռացվել է margin-top-ը */
 }
 
 /* 4. TEAM SECTION (THE BLUE SECTION) */
 .about-section.team-bg {
     background-color: #0c8495;
-    /* Space for the vertical title on the left */
     padding-left: 280px !important;
     padding-right: 40px !important;
 }
@@ -80,17 +81,17 @@ html, body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: auto; /* CRITICAL: Prevents stretching the grid vertically */
+    height: auto;
 }
 
 .team-member {
-    flex: 0 0 220px; /* Forces fixed width for each member */
+    flex: 0 0 220px;
     max-width: 220px;
     text-align: center;
     color: white;
 }
 
-/* IMAGE FIX - Prevents full-screen image stretching */
+/* IMAGE FIX - Keeps photos circular and correctly sized */
 .team-member .img-container {
     width: 180px !important;
     height: 180px !important;
@@ -99,13 +100,13 @@ html, body {
     border: 4px solid rgba(255, 255, 255, 0.5);
     margin: 0 auto 15px;
     background-color: #fff;
-    flex-shrink: 0; /* CRITICAL: Prevents flexbox from stretching the image */
+    flex-shrink: 0;
 }
 
 .team-member .img-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Maintains aspect ratio */
+    object-fit: cover;
     display: block;
 }
 
@@ -147,14 +148,14 @@ html, body {
 /* 6. MOBILE RESPONSIVENESS */
 @media screen and (max-width: 1024px) {
     .about-container {
-        scroll-padding-top: 70px;
+        height: auto; /* Վերադարձնում ենք բնական սքրոլ մոբայլի համար */
+        overflow-y: visible;
     }
     
     .about-section {
         height: auto;
-        min-height: calc(100vh - 70px);
-        margin-top: 70px;
-        padding: 40px 20px !important;
+        min-height: 80vh;
+        padding: 60px 20px !important;
     }
     
     .team-grid-container {
