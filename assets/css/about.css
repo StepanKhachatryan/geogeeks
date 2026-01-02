@@ -1,13 +1,6 @@
 /* ==========================================================================
-   ABOUT.CSS - FIXED HEADER COMPATIBLE (NO FOOTER)
+   ABOUT.CSS - FINAL LAYOUT FIX (NO PREVIOUS SECTION OVERLAP)
    ========================================================================== */
-
-/* 1. Էջի հիմնական սքրոլի կարգավորում */
-html, body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden; /* Արգելում ենք body-ի սքրոլը */
-}
 
 .about-container {
     width: 100%;
@@ -16,134 +9,44 @@ html, body {
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     scrollbar-width: none;
-    
-    /* ԿԱՐԵՎՈՐ. Այս padding-ը տեղ է բացում Fixed Header-ի համար ամբողջ կոնտեյներում */
-    padding-top: 80px; 
-    box-sizing: border-box;
+
+    /* ԿԱՐԵՎՈՐ. Սա ասում է սքրոլին, որ սեկցիան կանգնեցնի Header-ի տակ (80px) */
+    scroll-padding-top: 80px; 
 }
 .about-container::-webkit-scrollbar { display: none; }
 
-/* 2. Սեկցիաների բարձրությունը = 100vh - 80px (Header) */
 .about-section {
     width: 100%;
+    /* Սահմանում ենք բարձրությունը ուղիղ Header-ից հետո մնացած մասի չափով */
     height: calc(100vh - 80px); 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     scroll-snap-align: start;
     position: relative;
     box-sizing: border-box;
-    overflow: hidden;
+    
+    /* Այս բացը ապահովում է, որ Header-ը չծածկի սեկցիան */
+    margin-top: 80px; 
 }
 
-/* 3. ԹԻՄԻ ԲԱԺԻՆ */
+/* ԹԻՄԻ ԲԱԺԻՆ (ԿԱՊՈՒՅՏ) */
 .about-section.team-bg {
     background-color: #0c8495;
-    /* Ձախից տեղ ենք բացում ուղղահայաց վերնագրի համար */
-    padding-left: 280px !important;
-    padding-right: 40px !important;
+    /* Համոզվեք, որ այստեղ չկա ավելորդ padding-top, որը կհրի բովանդակությունը */
+    padding-top: 0 !important;
 }
 
-/* Ուղղահայաց վերնագիր - Կենտրոնացված ազատ տարածքում */
-.vertical-title {
-    position: absolute;
-    left: -220px;
-    top: 50%; /* Հիմա սա ճիշտ կենտրոնն է, քանի որ սեկցիան արդեն Header-ից ցածր է */
-    transform: translateY(-50%) rotate(-90deg);
-    transform-origin: center center;
-    font-size: 7rem;
-    font-weight: 900;
-    color: rgba(255, 255, 255, 0.3);
-    white-space: nowrap;
-    text-transform: uppercase;
-    letter-spacing: 12px;
-    z-index: 1;
-    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+/* ԳՈՐԾԸՆԿԵՐՆԵՐԻ ԲԱԺԻՆ (ՍՊԻՏԱԿ) */
+/* Սա կլինի վերջին սեկցիան և կերևա ամբողջությամբ */
+.about-section.white-bg {
+    background-color: #ffffff;
 }
 
-.about-section.active-fade .vertical-title {
-    left: -180px;
-    color: #ffffff;
-}
-
-/* Թիմի ցանցի կոնտեյներ */
-.team-grid-container {
-    display: flex !important;
-    flex-direction: row !important;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    width: 100%;
-    max-width: 1200px;
-}
-
-/* Թիմի անդամի բլոկ */
-.team-member {
-    flex: 0 0 220px;
-    text-align: center;
-    color: white;
-}
-
-.team-member .img-container {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid rgba(255, 255, 255, 0.5);
-    margin: 0 auto 15px;
-    background-color: #fff;
-    flex-shrink: 0; /* Կանխում է ձգվելը */
-}
-
-.team-member .img-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* LinkedIn Icon - Խիստ չափսեր */
-.linkedin-link {
-    display: inline-block !important;
-    vertical-align: middle;
-    margin-left: 8px;
-    width: 22px;
-    height: 22px;
-}
-
+/* LinkedIn Icon-ի չափսի խիստ ուղղում (որ չլինի հսկայական) */
 .linkedin-link img {
-    width: 22px !important;
-    height: 22px !important;
-    border: none !important;
-    background: none !important;
-    display: block;
-}
-
-/* 4. ՏԵՔՍՏԱՅԻՆ ԲՈՎԱՆԴԱԿՈՒԹՅՈՒՆ */
-.about-content {
-    max-width: 850px;
-    text-align: center;
-    padding: 0 20px;
-}
-
-.about-content h1, .about-content h2 {
-    font-size: 2.8rem;
-    color: #2c3e50;
-    margin-bottom: 20px;
-}
-
-/* 5. RESPONSIVE */
-@media screen and (max-width: 1024px) {
-    .about-container {
-        padding-top: 70px; /* Մոբայլ header-ի համար */
-    }
-    .about-section {
-        height: auto;
-        min-height: calc(100vh - 70px);
-        padding: 40px 20px !important;
-    }
-    .team-grid-container {
-        flex-direction: column !important;
-        gap: 50px;
-    }
-    .vertical-title { display: none; }
+    width: 24px !important;
+    height: 24px !important;
+    object-fit: contain !important;
 }
