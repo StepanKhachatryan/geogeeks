@@ -1,18 +1,19 @@
 /* ==========================================================================
-    ABOUT.CSS - COMPLETE STABLE VERSION
+    ABOUT.CSS - FINAL STABLE VERSION WITH PARTNERS GRID
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@400;700;800&display=swap');
 
+/* 1. Global Page Reset */
 html, body {
     height: 100%;
     margin: 0;
     overflow: hidden;
     background-color: #ffffff !important;
-    font-family: 'Noto Sans Armenian', sans-serif !important; /* Միասնական տառատեսակ */
+    font-family: 'Noto Sans Armenian', sans-serif !important;
 }
 
-/* Scroll Container */
+/* 2. Scroll Container */
 .about-container {
     width: 100%;
     height: calc(100vh - 80px); 
@@ -24,7 +25,7 @@ html, body {
 
 .about-container::-webkit-scrollbar { display: none; }
 
-/* Base Section Styles */
+/* 3. Base Section Styles */
 .about-section {
     width: 100%;
     height: calc(100vh - 80px); 
@@ -35,13 +36,13 @@ html, body {
     scroll-snap-stop: always;
     position: relative;
     box-sizing: border-box;
-    overflow: hidden; /* Կանխում է տարրերի արտահոսքը */
+    overflow: hidden;
 }
 
-/* --- SECTION 1: INTRO GRID --- */
+/* --- SECTION 1: INTRO GRID (Mission & Brand) --- */
 .intro-grid {
     display: flex;
-    align-items: flex-start; /* Հավասարեցում վերևից */
+    align-items: flex-start;
     justify-content: center;
     max-width: 1400px;
     width: 90%;
@@ -59,12 +60,12 @@ html, body {
     margin: 0 0 40px 0;
     color: #1a1a1a;
     line-height: 1.1;
-    min-height: 3.5rem; /* Վերնագրերի բլոկի նույն բարձրությունը */
+    min-height: 3.5rem;
     white-space: nowrap; 
 }
 
 .intro-text {
-    font-size: 1.3rem; 
+    font-size: 1.25rem; 
     line-height: 1.6;
     margin-bottom: 25px;
     color: #333;
@@ -79,14 +80,10 @@ html, body {
     align-self: center;
 }
 
-.intro-column:first-child { padding-right: 20px; }
-.intro-column:last-child { padding-left: 20px; }
-
 /* --- SECTION 2: TEAM (THE BLUE SECTION) --- */
 .about-section.team-bg {
     background-color: #0c8495;
     padding-left: 280px !important;
-    z-index: 10;
 }
 
 .vertical-title {
@@ -96,15 +93,13 @@ html, body {
     transform: translateY(-50%) rotate(-90deg);
     font-size: 7rem;
     font-weight: 900;
-    /* Սկզբնական վիճակում սպիտակ՝ 0.3 թափանցիկությամբ */
-    color: rgba(255, 255, 255, 0.3); 
+    color: rgba(255, 255, 255, 0.3);
     white-space: nowrap;
     text-transform: uppercase;
     letter-spacing: 12px;
     transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/* Ակտիվ վիճակում լիարժեք սպիտակ */
 .about-section.active-fade .vertical-title {
     left: -180px;
     color: #ffffff !important;
@@ -130,8 +125,7 @@ html, body {
     border-radius: 50%;
     overflow: hidden;
     border: 4px solid rgba(255, 255, 255, 0.5);
-    margin: 0 auto 15px;
-    background-color: #fff;
+    margin-bottom: 15px;
 }
 
 .team-member img {
@@ -140,38 +134,80 @@ html, body {
     object-fit: cover;
 }
 
-/* LinkedIn Icon */
-.linkedin-link img {
-    width: 22px;
-    height: 22px;
-    margin-left: 8px;
-    vertical-align: middle;
+/* --- SECTION 3: PARTNERS GRID & TOOLTIP --- */
+.partners-wrapper {
+    max-width: 1200px;
+    width: 90%;
+    text-align: center;
 }
 
-/* Section 3: Partners */
-.partners-random-cloud {
+.partners-grid {
+    display: grid;
+    /* Ստեղծում է ադապտիվ ցանց 11 լոգոների համար */
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 40px 30px;
+    justify-items: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.partner-card {
+    position: relative;
     display: flex;
-    gap: 40px;
+    align-items: center;
     justify-content: center;
-    margin-top: 40px;
+    width: 100%;
+    height: 110px;
+    text-decoration: none;
 }
 
-.partner-logo img {
-    max-height: 80px;
+.partner-card img {
+    max-width: 140px;
+    max-height: 85px;
     filter: grayscale(100%);
     opacity: 0.6;
-    transition: 0.3s;
+    transition: all 0.4s ease;
 }
 
-.partner-logo img:hover {
+.partner-card:hover img {
     filter: grayscale(0%);
     opacity: 1;
+    transform: scale(1.08);
 }
 
-/* Mobile Responsive */
+/* Tooltip - Կազմակերպության անվանումը  */
+.partner-card::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: #0c8495;
+    color: #fff;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 100;
+    pointer-events: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.partner-card:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* --- MOBILE RESPONSIVE --- */
 @media screen and (max-width: 1200px) {
     .intro-title { font-size: 2.2rem; white-space: normal; min-height: auto; }
     .intro-text { font-size: 1.1rem; }
+    .intro-divider { margin: 0 40px; }
 }
 
 @media screen and (max-width: 1024px) {
@@ -179,8 +215,13 @@ html, body {
     .about-section { height: auto; min-height: 100vh; padding: 60px 20px !important; }
     .intro-grid { flex-direction: column; align-items: center; }
     .intro-divider { display: none; }
-    .intro-left, .intro-right { padding: 0; text-align: center; }
+    .intro-column { text-align: center; padding: 0; }
     .team-grid-container { flex-direction: column; }
     .about-section.team-bg { padding-left: 20px !important; }
     .vertical-title { display: none; }
+    
+    .partners-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 30px;
+    }
 }
