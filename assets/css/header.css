@@ -5,7 +5,6 @@
     background-color: #ffffff;
     width: 100%;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    /* Sticky Header՝ միշտ տեսանելի լինելու համար */
     position: sticky; 
     top: 0;
     z-index: 1000;
@@ -28,7 +27,7 @@
     align-items: center;
     text-decoration: none !important;
     gap: 12px;
-    flex-shrink: 0; /* Կանխում է լոգոյի սեղմվելը */
+    flex-shrink: 0;
 }
 
 .logo img {
@@ -44,13 +43,7 @@
     white-space: nowrap;
 }
 
-/* --- Right Side Wrapper (Menu + Switcher) --- */
-.nav-right-side {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
+/* --- Menu Styling --- */
 .menu {
     display: flex;
     list-style: none;
@@ -77,76 +70,4 @@
 
 .menu li a:hover:not([class^="active-"]) { 
     background-color: #f8f9fa; 
-}
-
-/* --- Language Switcher Styling --- */
-.language-switcher {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-    padding-left: 20px;
-    border-left: 1px solid #eee;
-    gap: 5px;
-}
-
-.lang-btn {
-    text-decoration: none !important;
-    color: #34495e;
-    font-size: 0.85rem;
-    font-weight: 700;
-    padding: 5px 10px;
-    border-radius: 4px;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-.lang-btn.active {
-    background-color: #0c8495;
-    color: #ffffff !important;
-}
-
-.language-switcher .divider {
-    color: #ddd;
-    margin: 0 2px;
-}
-
-/* ==========================================
-    Google Translate UI Overrides
-    Այս հատվածը թաքցնում է բոլոր ավելորդ Banner-ները
-   ========================================== */
-
-/* Թաքցնում է վերևի Banner-ը, Tooltip-ները և թաքնված ընտրացանկը */
-#google_translate_element, 
-.goog-te-banner-frame, 
-.goog-te-banner-frame.skiptranslate, 
-.goog-te-balloon-frame, 
-#goog-gt-tt {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-/* Ստիպում է էջին մնալ ամենավերևում՝ հակազդելով Google-ի margin-ներին */
-body { 
-    top: 0px !important; 
-    position: static !important;
-}
-
-html {
-    margin-top: 0px !important;
-}
-
-
-/* Վերջնական CSS արգելք */
-iframe[id^=":1.container"], 
-iframe[class*="goog-te-banner-frame"], 
-.goog-te-banner-frame {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-}
-
-/* Սա կանխում է էջի «ցատկելը» վերև-ներքև */
-html, body {
-    top: 0 !important;
-    margin-top: 0 !important;
 }
