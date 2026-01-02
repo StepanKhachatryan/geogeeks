@@ -1,13 +1,16 @@
 /* ==========================================
-   Main Layout
+    Contact Page - STABLE LAYOUT
    ========================================== */
+
 .contact-page-wrapper {
-    min-height: 80vh;
+    /* Քանի որ Header-ը տեղ է զբաղեցնում, 80vh-ը բավարար է էկրանը լրացնելու համար */
+    min-height: calc(100vh - 80px); 
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 100px 5% 60px;
-    background-color: #ffffff;
+    /* Փոքրացրել ենք padding-ը, քանի որ Header-ն այլևս չի ծածկում բովանդակությունը */
+    padding: 60px 5%; 
+    background-color: #ffffff !important; /* Ստիպողաբար մաքուր սպիտակ */
 }
 
 .contact-grid {
@@ -19,20 +22,21 @@
 }
 
 /* ==========================================
-   Solid Contact Cards
+    Solid Contact Cards
    ========================================== */
 .contact-card {
-    background: #fdfdfd;
+    background: #ffffff; /* Փոխվել է fdfdfd-ից մաքուր սպիտակի */
     padding: 50px;
     border-radius: 20px;
-    border: 1px solid #e0e6e8;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    /* Թեթևացրել ենք եզրագծերը և ստվերը՝ գորշությունը վերացնելու համար */
+    border: 1px solid #f0f3f5; 
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .contact-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 45px rgba(12, 132, 149, 0.1); /* Բրենդային գույնի նուրբ ստվեր */
 }
 
 .contact-card h2 {
@@ -42,19 +46,7 @@
     font-weight: 700;
 }
 
-/* Interactive Links Logic */
-.contact-link {
-    text-decoration: none;
-    color: #5d6d7e; /* Նույն գույնը, ինչ տեքստինը */
-    transition: all 0.3s ease;
-    display: inline-block;
-}
-
-.contact-link:hover {
-    color: #0c8495; /* Մկնիկը պահելիս դառնում է բրենդային գույնի */
-}
-
-/* Ինֆո տարրերի դասավորություն */
+/* Ինֆո տարրեր */
 .contact-item {
     display: flex;
     align-items: center;
@@ -72,29 +64,21 @@
     justify-content: center;
     border-radius: 12px;
     border: 1px solid #f0f0f0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-.contact-item h4 {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.contact-item p {
-    margin: 5px 0 0;
+/* Ինտերակտիվ հղումներ */
+.contact-link {
+    text-decoration: none;
     color: #5d6d7e;
     font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.contact-link:hover {
+    color: #0c8495;
 }
 
 /* Սոցիալական կոճակներ */
-.social-intro {
-    color: #555;
-    margin-bottom: 25px;
-    line-height: 1.6;
-}
-
 .social-links-list {
     display: flex;
     flex-direction: column;
@@ -108,7 +92,6 @@
     text-align: center;
     color: white;
     font-weight: 700;
-    text-decoration: none;
     transition: all 0.3s ease;
 }
 
@@ -118,14 +101,19 @@
 
 .social-btn:hover {
     filter: brightness(1.1);
-    transform: scale(1.02);
+    transform: translateY(-2px);
 }
 
 /* Responsive */
 @media screen and (max-width: 850px) {
+    .contact-page-wrapper {
+        padding: 40px 20px;
+    }
+    
     .contact-grid {
         grid-template-columns: 1fr;
     }
+    
     .contact-card {
         padding: 30px;
     }
