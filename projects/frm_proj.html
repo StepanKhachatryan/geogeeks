@@ -2,231 +2,186 @@
 <html lang="hy">
 <head>
   <meta charset="utf-8">
-  <title>Ջրհեղեղների մոդելավորում և ռիսկի գնահատում</title>
+  <title>Ջրհեղեղների մոդելավորում</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="../assets/img/GeoGeeks_logo.png">
   
   <link rel="stylesheet" href="../assets/css/main.css">
   <link rel="stylesheet" href="../assets/css/header.css">
-  <link rel="stylesheet" href="../assets/css/footer.css">
   <link rel="stylesheet" href="../assets/css/responsive.css">
 
   <style>
-    .frm-wrapper {
-      padding: 40px 5%;
-      background-color: #f4f7f6;
-      min-height: 90vh;
+    /* --- GLOBAL PAGE FIX --- */
+    html, body {
+      margin: 0; padding: 0;
+      background-color: #ffffff; /* Մաքուր սպիտակ ֆոն */
+      height: 100%;
     }
 
+    .page-main-wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .all-projects-wrapper {
+      flex: 1;
+      padding: 60px 5%; /* Հարմարեցված է relative Header-ին */
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      box-sizing: border-box;
+    }
+
+    /* --- PROJECT CARDS (Wider 1.3x, 3:2 Ratio & Zoom) --- */
     .projects-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 25px;
-      max-width: 1400px;
+      grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); 
+      gap: 35px;
+      width: 100%;
+      max-width: 1600px;
       margin: 0 auto;
     }
 
-    /* --- ԹԱՐՄԱՑՎԱԾ ՔԱՐՏԻ ՈՃԸ --- */
     .project-card {
       position: relative;
-      height: 350px; /* Ֆիքսված բարձրություն ամբողջական նկարի համար */
+      background: #ffffff;
       border-radius: 15px;
       overflow: hidden;
       cursor: pointer;
-      border: 1px solid #e0e6e8;
-      transition: all 0.3s ease;
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: flex-end; /* Տեքստը տեղադրում ենք ներքևում */
+      aspect-ratio: 3 / 2; /* 3:2 հարաբերակցություն */
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      border: 1px solid #eee;
     }
 
     .project-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 15px 35px rgba(12, 132, 149, 0.15);
     }
 
-    /* Տեքստի տուփը նկարի վրա (40% թափանցիկ և բլյուր) */
-    .content-box {
-      width: 100%;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.4); /* 40% թափանցիկ սպիտակ */
-      backdrop-filter: blur(10px); /* Բլյուր էֆեկտ */
-      -webkit-backdrop-filter: blur(10px); /* Safari-ի համար */
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .content-box h3 {
-      color: #1a2a3a; /* Մի փոքր ավելի մուգ գույն՝ հստակ կարդացվելու համար */
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin: 0;
-      line-height: 1.4;
-    }
-
-    /* --- WIDGET MODAL --- */
-    .project-modal {
-      display: none; 
-      position: fixed;
-      z-index: 2000;
-      left: 0;
-      top: 0;
+    .card-image {
       width: 100%;
       height: 100%;
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      /* Zoom էֆեկտի սահունության համար */
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s ease;
+      z-index: 1;
+    }
+
+    /* Hover Zoom & Brightness */
+    .project-card:hover .card-image {
+      transform: scale(1.1);
+      filter: brightness(1.05);
+    }
+
+    /* Նեղացված Blur շերտը տեքստի համար */
+    .card-overlay-info {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 12px 15px; 
+      box-sizing: border-box;
+      background: rgba(255, 255, 255, 0.4); 
+      backdrop-filter: blur(10px); 
+      -webkit-backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+      z-index: 2;
+    }
+
+    .card-overlay-info h3 {
+      color: #1a2a3a;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    /* --- MODAL WIDGET --- */
+    .project-modal {
+      display: none; position: fixed; z-index: 3000;
+      left: 0; top: 0; width: 100%; height: 100%;
       background-color: rgba(0, 0, 0, 0.85);
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      backdrop-filter: blur(10px);
+      align-items: center; justify-content: center;
+      padding: 20px; backdrop-filter: blur(8px);
     }
 
     .modal-content {
-      background-color: #fff;
-      width: 95%;
-      max-width: 1250px;
-      height: 85vh;
-      border-radius: 20px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      animation: modalSlide 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      background-color: #fff; width: 95%; max-width: 1250px;
+      height: 85vh; border-radius: 20px; position: relative;
+      overflow: hidden; display: flex; animation: modalSlide 0.4s ease-out;
     }
 
     @keyframes modalSlide {
-      from { transform: translateY(50px); opacity: 0; }
+      from { transform: translateY(30px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
 
     .close-modal {
-      position: absolute;
-      right: 25px;
-      top: 20px;
-      font-size: 35px;
-      cursor: pointer;
-      z-index: 100;
-      color: #333;
-      background: rgba(255,255,255,0.9);
-      width: 45px;
-      height: 45px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
+      position: absolute; right: 25px; top: 20px; font-size: 35px;
+      cursor: pointer; z-index: 100; color: #333; background: #fff;
+      width: 45px; height: 45px; display: flex; align-items: center;
+      justify-content: center; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
 
-    .modal-body {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      width: 100%;
-      height: 100%;
-    }
-
-    .modal-image-side {
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-    }
-
-    .modal-info-side {
-      padding: 60px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      text-align: left;
-    }
-
-    .modal-info-side h2 {
-      color: #0c8495;
-      line-height: 1.1;
-      margin-bottom: 5px;
-      font-weight: 800;
-      word-wrap: break-word;
-    }
-
-    .modal-client {
-      font-size: 1.1rem;
-      color: #555;
-      font-weight: 600;
-      margin-bottom: 25px;
-      display: block;
-    }
+    .modal-body { display: grid; grid-template-columns: 1.2fr 1fr; width: 100%; height: 100%; }
+    .modal-image-side { background-size: cover; background-position: center; }
+    .modal-info-side { padding: 50px; overflow-y: auto; text-align: left; }
+    .modal-info-side h2 { color: #0c8495; margin-bottom: 10px; font-weight: 800; }
+    .modal-client { color: #666; font-weight: 600; margin-bottom: 25px; display: block; }
 
     .project-meta-grid {
-      display: flex;
-      gap: 30px;
-      margin-bottom: 30px;
-      border-top: 1px solid #eee;
-      border-bottom: 1px solid #eee;
-      padding: 15px 0;
+      display: flex; gap: 30px; margin-bottom: 30px; border-top: 1px solid #eee;
+      border-bottom: 1px solid #eee; padding: 15px 0;
     }
 
-    .meta-box span {
-      display: block;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      color: #95a5a6;
-      letter-spacing: 1px;
-      margin-bottom: 5px;
-    }
+    .meta-box span { font-size: 0.75rem; color: #999; text-transform: uppercase; }
+    .meta-box p { margin: 0; font-weight: 700; color: #333; }
 
-    .meta-box p {
-      margin: 0;
-      font-weight: 700;
-      color: #2c3e50;
-    }
+    .modal-description { line-height: 1.8; color: #444; margin-bottom: 35px; font-size: 1.05rem; }
 
-    .modal-description {
-      color: #444;
-      line-height: 1.8;
-      font-size: 1.05rem;
-      margin-bottom: 35px;
-    }
-
-    .tech-badges {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: auto;
-    }
-
-    .tech-badges span {
-      background: #f0f4f8;
-      color: #2980b9;
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
+    .tech-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+    .tech-badges span { background: #e1f5f7; color: #0c8495; padding: 6px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; }
 
     @media (max-width: 992px) {
       .modal-body { grid-template-columns: 1fr; }
-      .modal-image-side { height: 300px; }
-      .modal-info-side { padding: 30px; }
+      .modal-image-side { height: 250px; }
+      .projects-container { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <div id="header-placeholder"></div>
+  <div class="page-main-wrapper">
+    <div id="header-placeholder"></div>
 
-  <main class="frm-wrapper">
-    <div class="projects-container">
-      
-      <div class="project-card" style="background-image: url('../assets/img/ind_project_img/frm_proj_03.jpg');" onclick="openWidget('flood_yerevan')">
-        <div class="content-box"><h3>Ուռուտ բնակավայրի կոյուղաջրերի մաքրման կայանի ջրհեղեղի ռիսկի գնահատում</h3></div>
-      </div>
+    <main class="all-projects-wrapper">
+      <div class="projects-container">
+        
+        <div class="project-card" onclick="openWidget('flood_yerevan')">
+          <div class="card-image" style="background-image: url('../assets/img/ind_project_img/frm_proj_03.jpg');"></div>
+          <div class="card-overlay-info"><h3>Ուռուտ բնակավայրի կոյուղաջրերի մաքրման կայանի ջրհեղեղի ռիսկի գնահատում</h3></div>
+        </div>
 
-      <div class="project-card" style="background-image: url('../assets/img/ind_project_img/frm_proj_02.jpg');" onclick="openWidget('flood_risk')">
-        <div class="content-box"><h3>Կամերտուն բազմաֆունկցիոնալ համալիրի ջրհեղեղի ռիսկի գնահատում</h3></div>
-      </div>
+        <div class="project-card" onclick="openWidget('flood_risk')">
+          <div class="card-image" style="background-image: url('../assets/img/ind_project_img/frm_proj_02.jpg');"></div>
+          <div class="card-overlay-info"><h3>Կամերտուն բազմաֆունկցիոնալ համալիրի ջրհեղեղի ռիսկի գնահատում</h3></div>
+        </div>
 
-      <div class="project-card" style="background-image: url('../assets/img/ind_project_img/frm_proj_01.jpg');" onclick="openWidget('flood_infra')">
-        <div class="content-box"><h3>ՀԱԷԿ անվտանգության վրա սելավային հնարավոր հոսքի ազդեցության վերլուծություն</h3></div>
+        <div class="project-card" onclick="openWidget('flood_infra')">
+          <div class="card-image" style="background-image: url('../assets/img/ind_project_img/frm_proj_01.jpg');"></div>
+          <div class="card-overlay-info"><h3>ՀԱԷԿ անվտանգության վրա սելավային հնարավոր հոսքի ազդեցության վերլուծություն</h3></div>
+        </div>
+
       </div>
+    </main>
 
     </div>
-  </main>
 
   <div id="projectWidget" class="project-modal">
     <div class="modal-content">
@@ -234,8 +189,6 @@
       <div id="widgetContainer" class="modal-body"></div>
     </div>
   </div>
-
-  <div id="footer-placeholder"></div>
 
   <script src="../assets/js/main.js"></script>
   
@@ -247,7 +200,7 @@
         img: "../assets/img/ind_project_img/frm_proj_03_1.jpg",
         year: "2025",
         duration: "2 ամիս",
-        desc: "Ուռուտ բնակավայրի համար Ուռուտ գետի ափին կառուցվելիք կեղտաջրերի մաքրման կայանի համար կատարվել է մոդելավորում գետի առավելագույն ելքերի անցման պարագայում կայանի հնարավոր ջրածածկման ռիկերը գնահատելու համար։ Բարձրությունների թվային մոդելի և առավելագույն ելքերի մուտքային տվյալներով օգտագործվել է HEC-RAS ծրագիրը, որպեսզի մոդելավորվի ջրի հնարավոր մակարդակները տարբեր ապպահովվածության դեպքում։",
+        desc: "Ուռուտ բնակավայրի համար Ուռուտ գետի ափին կառուցվելիք կեղտաջրերի մաքրման կայանի համար կատարվել է մոդելավորում գետի առավելագույն ելքերի անցման պարագայում կայանի հնարավոր ջրածածկման ռիսկերը գնահատելու համար։ Բարձրությունների թվային մոդելի և առավելագույն ելքերի մուտքային տվյալներով օգտագործվել է HEC-RAS ծրագիրը, որպեսզի մոդելավորվի ջրի հնարավոր մակարդակները տարբեր ապահովվածության դեպքում։",
         tech: ["HEC-RAS", "HEC-HMS", "QGIS", "ArcGIS Pro"]
       },
       flood_risk: {
@@ -256,7 +209,7 @@
         img: "../assets/img/ind_project_img/frm_proj_02_1.png",
         year: "2025",
         duration: "2 ամիս",
-        desc: "Կամերտուն բազմաֆունկցիոնալ համալիրը BREEAM սերտեֆիկացում ստանալու նպատակով, պատվիրակել է իրականացնել համալիրի ջրհեղեղի ռիսկի գնահատում։ Մեր կողմից, BREEAM պահանջներին համապատասխան, իրականացվել է տարածքի ուսումնասիրություն, ջրհեղեղի հնարավոր աղբյուրների բացահայտում և մոդելավորում: Մոդելավորման արդյունքում ներկայացվել է նաև ջրահեռացման կոնցեպտուալ առաջարկներ:",
+        desc: "Կամերտուն բազմաֆունկցիոնալ համալիրը BREEAM սերտեֆիկացում ստանալու նպատակով, պատվիրակել է իրականացնել համալիրի ջրհեղեղի ռիսկի գնահատում։ Մեր կողմից իրականացվել է տարածքի ուսումնասիրություն, ջրհեղեղի հնարավոր աղբյուրների բացահայտում և մոդելավորում:",
         tech: ["HEC-RAS", "QGIS"]
       },
       flood_infra: {
@@ -265,15 +218,15 @@
         img: "../assets/img/ind_project_img/frm_proj_01_1.jpg",
         year: "2023",
         duration: "3 ամիս",
-        desc: "Իրականացվել է առկա տոպոգրաֆիական նյութերի ուսումնասիրում և թվայնացում։ Անձրև-հոսք մոդելի միջոցով տարանջատված ջրհավաք ավազանում հանարավոր առավելագույն ելքերի գնահատում։ Հիդրավլիկ մոդելի միջոցով հոսքի հեռացման մոդելի մշակում։ Առավելագույն ելքի ազդեցության գնահատում",
-        tech: ["HEC-HMS", "HEC-RAS", "QGIS", "Google earth engine"]
+        desc: "Իրականացվել է առկա տոպոգրաֆիական նյութերի ուսումնասիրում և թվայնացում։ Անձրև-հոսք մոդելի միջոցով տարանջատված ջրհավաք ավազանում հնարավոր առավելագույն ելքերի գնահատում։",
+        tech: ["HEC-HMS", "HEC-RAS", "QGIS", "Google Earth Engine"]
       }
     };
 
     function openWidget(id) {
       const p = projectsDB[id];
+      if (!p) return;
       const container = document.getElementById('widgetContainer');
-
       container.innerHTML = `
         <div class="modal-image-side" style="background-image: url('${p.img}')"></div>
         <div class="modal-info-side">
@@ -287,7 +240,6 @@
           <div class="tech-badges">${p.tech.map(t => `<span>${t}</span>`).join('')}</div>
         </div>
       `;
-
       document.getElementById('projectWidget').style.display = "flex";
       document.body.style.overflow = "hidden";
       adjustTitleFontSize();
@@ -295,10 +247,11 @@
 
     function adjustTitleFontSize() {
       const titleEl = document.getElementById('modal-title');
-      const length = titleEl.innerText.length;
-      if (length > 60) titleEl.style.fontSize = "1.4rem";
-      else if (length > 40) titleEl.style.fontSize = "1.6rem";
-      else titleEl.style.fontSize = "1.9rem";
+      if (!titleEl) return;
+      const len = titleEl.innerText.length;
+      if (len > 60) titleEl.style.fontSize = "1.3rem";
+      else if (len > 40) titleEl.style.fontSize = "1.6rem";
+      else titleEl.style.fontSize = "2rem";
     }
 
     function closeWidget() {
