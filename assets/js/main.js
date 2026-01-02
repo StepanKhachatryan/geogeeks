@@ -14,43 +14,53 @@ function loadComponent(id, file) {
             const el = document.getElementById(id);
             if (!el) return;
             el.innerHTML = data;
-
-            if (id === "header-placeholder") {
-                console.log("Header loaded successfully");
-                // Եթե ունեք մենյուի highlight ֆունկցիա, կանչեք այստեղ
-            }
         })
         .catch(error => console.error("Error loading component:", error));
 }
 
 /**
- * Ծառայությունների տաբերի փոխման ֆունկցիա
- * Այս ֆունկցիան պետք է կանչվի HTML-ում onclick="showService('id', this)" միջոցով
+ * Գլխավոր տաբերի փոխարկում (GIS, Hydro, Education)
  */
-function showService(serviceId, element) {
-    // 1. Գտնել բոլոր կոճակները և հեռացնել active դասը
-    const allButtons = document.querySelectorAll('.side-nav-btn');
-    allButtons.forEach(btn => btn.classList.remove('active'));
+function switchMainTab(sectionId) {
+    // Հեռացնել active բոլոր գլխավոր կոճակներից
+    document.querySelectorAll('.main-service-btn').forEach(btn => btn.classList.remove('active'));
+    
+    // Ավելացնել active սեղմվածին
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
 
-    // 2. Գտնել բոլոր բովանդակային բլոկները և թաքցնել դրանք
-    // Այստեղ օգտագործում ենք ավելի լայն սելեկտոր, որպեսզի բոլորը թաքնվեն
-    const allContents = document.querySelectorAll('.service-content, [id$="-content"]');
-    allContents.forEach(content => {
-        content.classList.remove('active');
-        content.style.display = 'none'; // Ապահովության համար
+    // Հեռացնել active բոլոր սեկցիաներից
+    document.querySelectorAll('.service-body-container').forEach(sec => {
+        sec.classList.remove('active');
     });
 
-    // 3. Ակտիվացնել սեղմված կոճակը
-    element.classList.add('active');
+    // Ակտիվացնել ընտրված սեկցիան
+    const targetSection = document.getElementById(sectionId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+}
 
-    // 4. Ցույց տալ համապատասխան բովանդակությունը
-    const activeContent = document.getElementById(serviceId);
-    if (activeContent) {
-        activeContent.classList.add('active');
-        
-        // Մոբայլում օգտագործում ենք flex կամ block՝ կախված դիզայնից
-        const displayType = window.innerWidth <= 1024 ? 'flex' : 'block';
-        activeContent.style.display = displayType;
+/**
+ * Ենթատաբերի փոխարկում (Side Nav)
+ */
+function switchSubTab(btnElement, contentId) {
+    const parentSection = btnElement.closest('.service-body-container');
+    
+    // Հեռացնել active տվյալ սեկցիայի բոլոր կողային կոճակներից
+    parentSection.querySelectorAll('.side-nav-btn').forEach(btn => btn.classList.remove('active'));
+    btnElement.classList.add('active');
+
+    // Հեռացնել active տվյալ սեկցիայի բոլոր content-ներից
+    parentSection.querySelectorAll('.content-display').forEach(content => {
+        content.classList.remove('active');
+    });
+
+    // Ակտիվացնել ընտրված բովանդակությունը
+    const targetContent = document.getElementById(contentId);
+    if (targetContent) {
+        targetContent.classList.add('active');
     }
 }
 
