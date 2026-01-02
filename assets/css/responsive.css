@@ -3,70 +3,72 @@
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    .nav-container {
+    /* ... Header-ի կոդը մնում է նույնը ... */
+
+    /* 2. Contact Page - Բլոկների մասշտաբավորում */
+    .contact-container {
         display: flex !important;
-        justify-content: space-between !important;
+        flex-direction: column !important;
         align-items: center !important;
-        padding: 0 15px !important;
-        height: 70px !important;
+        justify-content: flex-start !important;
+        gap: 30px !important;
+        padding: 40px 10px !important;
+        width: 100% !important;
     }
 
-    /* Լոգոն մնում է ձախում՝ հստակ սահմանով */
-    .logo {
-        flex: 0 0 auto !important;
-        margin-right: 20px !important; /* Հեռավորություն մենյուից */
-    }
-
-    .logo-text {
-        display: none !important; 
-    }
-
-    /* Մենյուն այլևս չի ձգվում արհեստականորեն */
-    .menu {
-        flex: 0 0 auto !important; /* Չի լցնում դատարկ տարածքը */
-        display: flex !important;
-        gap: 12px !important; /* ՍՏԱՆԴԱՐՏ ՀԵՌԱՎՈՐՈՒԹՅՈՒՆ */
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    .menu li {
-        flex: none !important;
-    }
-
-    .menu li a {
-        display: inline-block !important;
-        padding: 8px 12px !important;
-        /* ՕՊՏԻՄԱԼ ՏԱՌԱՉԱՓ - ՄԵԾ ԵՎ ՄԱՔՈՒՐ */
-        font-size: 1.1rem !important; 
-        font-weight: 700 !important; /* Bold, բայց ոչ չափազանցված */
-        color: #34495e !important;
-        text-transform: uppercase;
-        white-space: nowrap !important;
-    }
-
-    /* Կապի էջի բլոկների ուղղում */
     .contact-grid {
         display: flex !important;
         flex-direction: column !important;
-        gap: 30px !important;
-        padding: 20px 10px !important;
+        gap: 40px !important;
+        width: 100% !important;
     }
 
     .contact-card {
-        width: 100% !important;
-        max-width: 450px !important; /* Սահմանափակում ենք լայնությունը, որ չձգվի արհեստական */
+        /* Մեծացնում ենք քարտի ընդհանուր մասշտաբը */
+        width: 92% !important;
+        max-width: 550px !important; /* Ավելի լայն սահմանափակում */
         margin: 0 auto !important;
-        padding: 30px !important;
+        padding: 50px 30px !important; /* Ավելի շատ ներքին տարածություն */
+        box-sizing: border-box !important;
+        
+        /* Մասշտաբի իրական մեծացում */
+        transform: scale(1.05); 
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1) !important;
     }
 
+    /* Վերնագրերի և տեքստի մասշտաբավորում */
     .contact-card h2 {
-        font-size: 1.6rem !important;
+        font-size: 2rem !important;
+        margin-bottom: 35px !important;
         text-align: center;
     }
 
-    .contact-item .contact-link {
-        font-size: 1.1rem !important;
+    .contact-item {
+        gap: 25px !important;
+        margin-bottom: 30px !important;
+    }
+
+    .contact-item .contact-link,
+    .contact-item span {
+        font-size: 1.3rem !important; /* Ավելի մեծ տառեր */
+        font-weight: 500;
+    }
+
+    /* Սոցիալական կոճակների մեծացում */
+    .social-links-list {
+        gap: 20px !important;
+    }
+
+    .social-btn {
+        padding: 20px !important;
+        font-size: 1.4rem !important;
+        border-radius: 15px !important;
+    }
+
+    .contact-item .icon {
+        width: 65px !important;
+        height: 65px !important;
+        font-size: 28px !important;
     }
 }
 
@@ -74,16 +76,17 @@
    SMALL PHONE STYLES (Max 480px)
    ========================================== */
 @media screen and (max-width: 480px) {
-    .nav-container {
-        padding: 0 8px !important;
+    .contact-card {
+        width: 98% !important;
+        padding: 40px 20px !important;
+        transform: scale(1); /* Շատ փոքր էկրաններին թողնում ենք բնական չափսը */
     }
 
-    .menu {
-        gap: 6px !important; /* Ավելի փոքր բացակ նեղ էկրանների համար */
+    .contact-card h2 {
+        font-size: 1.7rem !important;
     }
 
-    .menu li a {
-        font-size: 0.9rem !important;
-        padding: 6px 8px !important;
+    .contact-item .contact-link {
+        font-size: 1.15rem !important;
     }
 }
