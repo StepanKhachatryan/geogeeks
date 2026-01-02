@@ -3,7 +3,7 @@
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* 1. Header - Տառերի մեծացում և դատարկ տարածքի վերացում */
+    /* 1. Header & Navigation - Տառերի մեծացում */
     .navbar {
         position: sticky !important;
         top: 0;
@@ -24,15 +24,15 @@
     }
 
     .logo-text {
-        display: none !important; /* Թաքցնում ենք տեքստը տեղ բացելու համար */
+        display: none !important; /* Տեքստը թաքցնում ենք՝ մենյուին տեղ տալու համար */
     }
 
     .logo img {
-        height: 50px !important;
-        width: 50px !important;
+        height: 52px !important;
+        width: 52px !important;
     }
 
-    /* Մենյուն տարածվում է ողջ լայնությամբ */
+    /* Մենյուն տարածվում է ողջ ազատ հատվածում */
     .menu {
         flex: 1 !important;
         display: flex !important;
@@ -43,7 +43,7 @@
     }
 
     .menu li {
-        flex: 1 !important; /* Յուրաքանչյուր կոճակ զբաղեցնում է հավասար տարածք */
+        flex: 1 !important;
         text-align: center !important;
     }
 
@@ -51,28 +51,39 @@
         display: block !important;
         padding: 12px 2px !important;
         /* ԱՌԱՎԵԼԱԳՈՒՅՆ ՏԱՌԱՉԱՓ */
-        font-size: 1.15rem !important; 
+        font-size: 1.15rem !important;
         font-weight: 900 !important;
         white-space: nowrap !important;
-        letter-spacing: -0.8px; /* Սեղմում ենք տառերը, որպեսզի մեծ չափսը տեղավորվի */
+        letter-spacing: -0.8px;
         text-transform: uppercase;
     }
 
-    /* 2. Contact Page Fix - Տուփերը իրար տակ */
-    .contact-container {
-        display: flex !important;
-        flex-direction: column !important; /* Ուղղահայաց դասավորություն */
-        gap: 25px !important;
-        padding: 20px 15px !important;
+    /* 2. Contact Page - Grid-ի փոխում սյունակի (բլոկները իրար տակ) */
+    .contact-grid {
+        display: flex !important; /* Փոխում ենք Grid-ը Flex-ի՝ ավելի հեշտ կառավարման համար */
+        flex-direction: column !important; /* Դասավորում ենք իրար հետևից */
+        gap: 20px !important;
         width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
     }
 
-    .contact-info-box, 
-    .social-media-box {
-        width: 95% !important; /* Լայնությունը գրեթե ողջ էկրանով */
-        max-width: none !important;
+    .contact-card {
+        width: 100% !important; /* Քարտերը լրացնում են ողջ լայնությունը */
+        padding: 30px 20px !important;
         margin: 0 auto !important;
-        flex: none !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 3. Services Side Nav Fix */
+    .side-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        gap: 10px !important;
+        padding: 10px 0 !important;
+        border-bottom: 2px solid #f0f0f0 !important;
     }
 }
 
@@ -82,6 +93,7 @@
 @media screen and (max-width: 480px) {
     .nav-container {
         height: 65px !important;
+        padding: 0 5px !important;
     }
 
     .logo img {
@@ -90,19 +102,18 @@
     }
 
     .menu li a {
-        /* Ապահովում ենք, որ տառերը մնան մեծ, բայց տեղավորվեն */
+        /* Շատ նեղ էկրանների համար պահպանում ենք մեծությունը */
         font-size: 1rem !important;
         padding: 10px 1px !important;
         letter-spacing: -1px;
     }
 
-    .contact-container {
-        padding: 15px 5px !important;
+    .contact-page-wrapper {
+        padding: 20px 10px !important;
     }
 
-    /* Սոց. հարթակների կոճակների լայնությունը */
-    .social-media-box a {
-        width: 100% !important;
-        margin-bottom: 10px !important;
+    .contact-card h2 {
+        font-size: 1.4rem !important;
+        margin-bottom: 20px !important;
     }
 }
