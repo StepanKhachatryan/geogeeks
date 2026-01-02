@@ -15,7 +15,6 @@ window.translatePage = function(lang, element) {
         return;
     }
 
-    // Սպասել մինչև Google-ի combo-ն հայտնվի
     const checkReady = setInterval(() => {
         const select = document.querySelector('.goog-te-combo');
         if (select) {
@@ -23,9 +22,35 @@ window.translatePage = function(lang, element) {
             select.dispatchEvent(new Event('change'));
             clearInterval(checkReady);
             syncLanguageButtons();
+            
+            // Թարգմանությունը սկսվելուց հետո մաքրել Google-ի Banner-ը
+            cleanGoogleUI();
         }
     }, 200);
 };
+
+/**
+ * Հեռացնում է Google-ի վերևի տողը և ուղղում Header-ի դիրքը
+ */
+function cleanGoogleUI() {
+    const checkGoogleUI = setInterval(() => {
+        const googleFrame = document.querySelector('.goog-te-banner-frame');
+        const googleBalloon = document.querySelector('.goog-te-balloon-frame');
+        
+        // Հեռացնել iframe-ները
+        if (googleFrame) googleFrame.style.display = 'none';
+        if (googleBalloon) googleBalloon.style.display = 'none';
+
+        // Ուղղել body-ի դիրքը, որպեսզի Header-ը չփակվի
+        document.body.style.top = '0px';
+        document.documentElement.style.top = '0px';
+
+        // Եթե Google-ը դեռ փորձում է փոխել դիրքը, շարունակել ստուգումը
+        if (!googleFrame && !googleBalloon) {
+            clearInterval(checkGoogleUI);
+        }
+    }, 500);
+}
 
 function syncLanguageButtons() {
     const isEn = document.cookie.includes('googtrans=/hy/en');
@@ -48,7 +73,6 @@ function loadComponent(id, file) {
             el.innerHTML = data;
 
             if (id === "header-placeholder") {
-                // Կարևոր. Վերաբեռնել Google Script-ը միայն Header-ը հայտնվելուց հետո
                 const oldScript = document.getElementById('google-translate-script');
                 if (oldScript) oldScript.remove();
 
@@ -58,6 +82,11 @@ function loadComponent(id, file) {
                 document.body.appendChild(script);
                 
                 syncLanguageButtons();
+                
+                // Եթե էջն արդեն թարգմանված է բեռնվում, մաքրել UI-ն
+                if (document.cookie.includes('googtrans=/hy/en')) {
+                    cleanGoogleUI();
+                }
             }
         });
 }
