@@ -23,40 +23,40 @@ window.translatePage = function(lang, element) {
             clearInterval(checkReady);
             syncLanguageButtons();
             
-            // Անմիջապես գործարկել մաքրումը
-            startAggressiveClean();
+            // Գործարկել մաքրումը առանց էջը ծանրաբեռնելու
+            startSafeClean();
         }
     }, 200);
 };
 
 /**
- * MutationObserver՝ Google-ի Banner-ը և տեղաշարժերը բլոկավորելու համար
+ * Անվտանգ մաքրում՝ առանց անվերջ ցիկլերի
  */
-function startAggressiveClean() {
-    // 1. Մաքրել անմիջապես
-    const fix = () => {
-        document.body.style.top = '0px';
-        document.body.style.setProperty('top', '0px', 'important');
-        document.documentElement.style.marginTop = '0px';
-        document.documentElement.style.setProperty('margin-top', '0px', 'important');
+function startSafeClean() {
+    const fixStyles = () => {
+        // Ուղղում ենք body-ն միայն եթե այն զրոյից տարբեր է
+        if (document.body.style.top !== '0px' && document.body.style.top !== '') {
+            document.body.style.setProperty('top', '0px', 'important');
+        }
+        if (document.documentElement.style.marginTop !== '0px' && document.documentElement.style.marginTop !== '') {
+            document.documentElement.style.setProperty('margin-top', '0px', 'important');
+        }
         
+        // Թաքցնել բաները
         const banner = document.querySelector('.goog-te-banner-frame');
-        if (banner) banner.style.setProperty('display', 'none', 'important');
+        if (banner && banner.style.display !== 'none') {
+            banner.style.setProperty('display', 'none', 'important');
+        }
     };
 
-    fix();
+    // Կիրառել անմիջապես
+    fixStyles();
 
-    // 2. Հետևել փոփոխություններին (MutationObserver)
-    const observer = new MutationObserver(fix);
-    observer.observe(document.body, { attributes: true, attributeFilter: ['style'] });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
+    // Օգտագործում ենք պարբերական ստուգում MutationObserver-ի փոխարեն՝ freeze-ից խուսափելու համար
+    const cleanInterval = setInterval(fixStyles, 500);
     
-    // 3. Պարբերական ստուգում (backup)
-    let attempts = 0;
-    const interval = setInterval(() => {
-        fix();
-        if (attempts++ > 20) clearInterval(interval);
-    }, 500);
+    // Դադարեցնել ստուգումը 10 վայրկյան անց (երբ թարգմանությունն ավարտված կլինի)
+    setTimeout(() => clearInterval(cleanInterval), 10000);
 }
 
 function syncLanguageButtons() {
@@ -91,11 +91,10 @@ function loadComponent(id, file) {
                 syncLanguageButtons();
                 
                 if (document.cookie.includes('googtrans=/hy/en')) {
-                    startAggressiveClean();
+                    startSafeClean();
                 }
             }
         });
 }
 
-// Գործարկում
 loadComponent("header-placeholder", "components/header.html");
