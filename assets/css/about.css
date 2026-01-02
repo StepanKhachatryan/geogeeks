@@ -1,102 +1,142 @@
-/* Intro Section-ի հիմնական կոնտեյները */
-.about-intro-section {
+/* ==========================================================================
+    ABOUT.CSS - FIXED STABLE VERSION
+   ========================================================================== */
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: #ffffff !important;
+}
+
+.about-container {
     width: 100%;
-    height: 100vh; /* Զբաղեցնում է էկրանի ողջ բարձրությունը */
+    height: calc(100vh - 80px); 
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.about-container::-webkit-scrollbar { display: none; }
+
+.about-section {
+    width: 100%;
+    height: 100%; 
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #ffffff;
-    padding: 0 10%;
-    box-sizing: border-box;
     scroll-snap-align: start;
+    position: relative;
+    box-sizing: border-box;
 }
 
-/* Ցանցի հստակ կարգավորում */
+/* --- SECTION 1 GRID FIX --- */
 .intro-grid {
     display: grid;
-    /* Ձախ սյունակ | Բաժանարար | Աջ սյունակ */
-    grid-template-columns: 1fr 2px 1fr; 
-    gap: 0; 
+    grid-template-columns: 1fr 2px 1fr; /* Ձախ | Գիծ | Աջ */
     align-items: center;
-    max-width: 1400px;
-    width: 100%;
-    position: relative;
+    max-width: 1300px;
+    width: 90%;
+    height: auto;
 }
 
-/* Ուղղահայաց բաժանարար գիծը */
-.intro-grid::before {
-    content: "";
-    grid-column: 2;
-    background-color: #0c8495; /* Բրենդային կապույտ */
-    height: 500px; /* Գծի բարձրությունը */
+.intro-divider {
+    background-color: #0c8495;
+    height: 400px; /* Գծի ֆիքսված բարձրություն */
     width: 2px;
     justify-self: center;
 }
 
-/* Ձախ կողմի ձևավորում */
 .intro-left {
-    padding-right: 80px; /* Հեռավորություն գծից */
+    padding-right: 60px;
     text-align: left;
 }
 
 .intro-left h1 {
-    font-size: 3.5rem;
+    font-size: 3.2rem;
     font-weight: 800;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     color: #1a1a1a;
-    line-height: 1.1;
-    letter-spacing: -1px;
 }
 
 .intro-left p {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     line-height: 1.6;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     color: #333;
 }
 
-/* Աջ կողմի (GeoGeeks) ձևավորում */
 .intro-right {
-    padding-left: 100px; /* Հստակ տեղափոխում դեպի աջ */
+    padding-left: 100px; /* GeoGeeks-ը տեղափոխում ենք աջ */
     text-align: left;
 }
 
 .intro-right .brand-title {
-    font-size: 5.5rem; /* Մեծ շեշտադրված վերնագիր */
+    font-size: 5.5rem; /* Մեծ շեշտադրված GeoGeeks */
     font-weight: 800;
-    margin-bottom: 30px;
+    margin: 0 0 20px 0;
     color: #000;
     line-height: 1;
-    letter-spacing: -2px;
 }
 
 .intro-right p {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     line-height: 1.5;
-    color: #333;
+    color: #444;
 }
 
-/* Ռեսպոնսիվ տարբերակ մոբայլ սարքերի համար */
+/* --- SECTION 2: TEAM (THE BLUE SECTION) --- */
+.about-section.team-bg {
+    background-color: #0c8495;
+    padding-left: 280px !important;
+}
+
+.vertical-title {
+    position: absolute;
+    left: -220px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    font-size: 7rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 12px;
+}
+
+.team-grid-container {
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+}
+
+.team-member {
+    text-align: center;
+    color: white;
+}
+
+.team-member .img-container {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid rgba(255, 255, 255, 0.5);
+    margin-bottom: 15px;
+}
+
+.team-member .img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* --- MOBILE RESPONSIVE --- */
 @media screen and (max-width: 1024px) {
-    .about-intro-section {
-        height: auto;
-        padding: 80px 20px;
-    }
-    
-    .intro-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .intro-grid::before {
-        display: none; /* Հեռացնում ենք գիծը մոբայլում */
-    }
-    
-    .intro-left, .intro-right {
-        padding: 0;
-        text-align: center;
-        margin-bottom: 50px;
-    }
-    
-    .intro-left h1 { font-size: 2.5rem; }
-    .intro-right .brand-title { font-size: 3.5rem; }
+    .about-container { height: auto; overflow-y: visible; }
+    .about-section { height: auto; padding: 60px 20px !important; }
+    .intro-grid { grid-template-columns: 1fr; text-align: center; }
+    .intro-divider { display: none; }
+    .intro-left, .intro-right { padding: 0; text-align: center; }
+    .team-grid-container { flex-direction: column; }
+    .vertical-title { display: none; }
 }
