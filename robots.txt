@@ -1,0 +1,11 @@
+# Թույլ տալ բոլոր որոնողական համակարգերին սկանավորել կայքը
+User-agent: *
+Allow: /
+
+# Արգելել մուտքը տեխնիկական կամ մասնավոր թղթապանակներ (եթե ունեք այդպիսիք)
+Disallow: /assets/css/
+Disallow: /assets/js/
+Disallow: /components/
+
+# Ցույց տալ կայքի քարտեզի հասցեն (փոխեք ձեր իրական դոմենով)
+Sitemap: https://geogeeks.am/sitemap.xml
