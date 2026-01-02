@@ -2,36 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Armenian:wght@100..900&display=swap');
 
 /* ==========================================
-    Google Translate Banner Removal (New Fix)
-   ========================================== */
-
-/* 1. Թաքցնում է Google-ի վերևի բաները և Tooltip-ները */
-.goog-te-banner-frame.skiptranslate, 
-#goog-gt-tt, 
-.goog-te-balloon-frame,
-#google_translate_element {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-/* 2. Հեռացնում է Google-ի կողմից body-ին ավելացվող դատարկ տարածությունը */
-body {
-    top: 0px !important;
-    position: static !important;
-}
-
-/* 3. Հեռացնում է կապույտ գիծը կամ ֆոնը թարգմանված տեքստերի տակից */
-.goog-text-highlight {
-    background: none !important;
-    box-shadow: none !important;
-}
-
-/* 4. Եթե Google-ը margin է ավելացնում html-ին */
-html {
-    margin-top: 0px !important;
-}
-
-/* ==========================================
     Global Reset & Base Styles
    ========================================== */
 * {
@@ -48,10 +18,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
-    
-    /* Վերադարձ սպիտակ ֆոնին և հեռացնում ենք fixed header-ի padding-ը */
-    background-color: #ffffff !important;
-    padding-top: 0 !important; 
+    background-color: #ffffff;
 }
 
 /* Remove Underlines Globally */
@@ -77,11 +44,10 @@ footer,
 }
 
 /* ==========================================
-    Hero Video Section - RESTORED TO FULL SCREEN
+    Hero Video Section - FULL SCREEN
    ========================================== */
 .hero {
     width: 100%;
-    /* Քանի որ Header-ը տեղ է զբաղեցնում, 100vh-ը կլինի ամբողջական */
     height: 100vh;  
     display: flex;
     justify-content: center;
@@ -188,10 +154,6 @@ footer,
 }
 
 @media screen and (max-width: 992px) {
-    body {
-        padding-top: 0 !important;
-    }
-
     .hero {
         height: 60vh;
     }
