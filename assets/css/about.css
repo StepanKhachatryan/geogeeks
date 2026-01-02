@@ -1,6 +1,13 @@
 /* ==========================================================================
-   ABOUT.CSS - FINAL LAYOUT FIX (NO PREVIOUS SECTION OVERLAP)
+   ABOUT.CSS - FINAL STABLE VERSION (NO FOOTER)
    ========================================================================== */
+
+/* 1. Էջի հիմնական սքրոլի կոնտեյներ */
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Արգելում ենք հիմնական body-ի սքրոլը */
+}
 
 .about-container {
     width: 100%;
@@ -8,17 +15,22 @@
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
-    scrollbar-width: none;
-
-    /* ԿԱՐԵՎՈՐ. Սա ասում է սքրոլին, որ սեկցիան կանգնեցնի Header-ի տակ (80px) */
+    scrollbar-width: none; /* Firefox-ի համար */
+    
+    /* ԿԱՐԵՎՈՐ. Ասում է սքրոլին կանգնել Header-ի տակ (80px) */
     scroll-padding-top: 80px; 
 }
-.about-container::-webkit-scrollbar { display: none; }
 
+.about-container::-webkit-scrollbar { 
+    display: none; /* Chrome/Safari-ի համար */
+}
+
+/* 2. Սեկցիաների հիմնական ոճը */
 .about-section {
     width: 100%;
-    /* Սահմանում ենք բարձրությունը ուղիղ Header-ից հետո մնացած մասի չափով */
+    /* Բարձրությունը = 100vh - 80px (Header) */
     height: calc(100vh - 80px); 
+    margin-top: 80px; /* Տեղ Header-ի համար */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,27 +38,135 @@
     scroll-snap-align: start;
     position: relative;
     box-sizing: border-box;
-    
-    /* Այս բացը ապահովում է, որ Header-ը չծածկի սեկցիան */
-    margin-top: 80px; 
+    overflow: hidden;
 }
 
-/* ԹԻՄԻ ԲԱԺԻՆ (ԿԱՊՈՒՅՏ) */
+/* 3. ԹԻՄԻ ԲԱԺԻՆ (ԿԱՊՈՒՅՏ ՖՈՆ) */
 .about-section.team-bg {
     background-color: #0c8495;
-    /* Համոզվեք, որ այստեղ չկա ավելորդ padding-top, որը կհրի բովանդակությունը */
-    padding-top: 0 !important;
+    /* Ձախից տեղ ենք թողնում ուղղահայաց վերնագրի համար */
+    padding-left: 280px !important;
+    padding-right: 40px !important;
 }
 
-/* ԳՈՐԾԸՆԿԵՐՆԵՐԻ ԲԱԺԻՆ (ՍՊԻՏԱԿ) */
-/* Սա կլինի վերջին սեկցիան և կերևա ամբողջությամբ */
-.about-section.white-bg {
-    background-color: #ffffff;
+/* Ուղղահայաց վերնագիր */
+.vertical-title {
+    position: absolute;
+    left: -220px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: center center;
+    font-size: 7rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.3);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 12px;
+    z-index: 1;
+    transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-/* LinkedIn Icon-ի չափսի խիստ ուղղում (որ չլինի հսկայական) */
+.about-section.active-fade .vertical-title {
+    left: -180px;
+    color: #ffffff;
+}
+
+/* Թիմի անդամների ցանց */
+.team-grid-container {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto; /* Կանխում է ավելորդ ձգումը */
+}
+
+.team-member {
+    flex: 0 0 220px; /* Ֆիքսված լայնություն */
+    max-width: 220px;
+    text-align: center;
+    color: white;
+}
+
+/* Նկարների կոնտեյներ - ԽԻՍՏ ՍԱՀՄԱՆԱՓԱԿՈՒՄ */
+.team-member .img-container {
+    width: 180px !important;
+    height: 180px !important;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid rgba(255, 255, 255, 0.5);
+    margin: 0 auto 15px;
+    background-color: #fff;
+    flex-shrink: 0; /* Սա թույլ չի տալիս նկարին մեծանալ */
+}
+
+.team-member .img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* LinkedIn Պատկերակի ուղղում */
+.linkedin-link {
+    display: inline-block !important;
+    vertical-align: middle;
+    margin-left: 8px;
+}
+
 .linkedin-link img {
-    width: 24px !important;
-    height: 24px !important;
-    object-fit: contain !important;
+    width: 22px !important;
+    height: 22px !important;
+    border: none !important;
+    background: none !important;
+    display: block !important;
+}
+
+/* 4. ՏԵՔՍՏԱՅԻՆ ԲՈՎԱՆԴԱԿՈՒԹՅՈՒՆ (Պատմություն / Գործընկերներ) */
+.about-content {
+    max-width: 850px;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.about-content h1, .about-content h2 {
+    font-size: 2.8rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 800;
+}
+
+.about-content p {
+    font-size: 1.15rem;
+    color: #444;
+    line-height: 1.7;
+}
+
+/* 5. RESPONSIVE - ՄՈԲԱՅԼ ՏԱՐԲԵՐԱԿ */
+@media screen and (max-width: 1024px) {
+    .about-container {
+        scroll-padding-top: 70px;
+    }
+    
+    .about-section {
+        height: auto;
+        min-height: calc(100vh - 70px);
+        margin-top: 70px;
+        padding: 40px 20px !important;
+    }
+    
+    .team-grid-container {
+        flex-direction: column !important;
+        gap: 50px;
+    }
+    
+    .vertical-title { 
+        display: none; 
+    }
+    
+    .about-section.team-bg {
+        padding-left: 20px !important;
+    }
 }
