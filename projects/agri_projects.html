@@ -14,7 +14,7 @@
     /* --- GLOBAL PAGE FIX --- */
     html, body {
       margin: 0; padding: 0;
-      background-color: #f8f9fa; /* Թեթև մոխրագույն ֆոն, որ քարտերն ավելի լավ երևան */
+      background-color: #f8f9fa;
       height: 100%;
     }
 
@@ -33,10 +33,10 @@
       box-sizing: border-box;
     }
 
-    /* --- PROJECT CARDS (Ձեր նախընտրած ոճը) --- */
+    /* --- PROJECT CARDS (3:2 Ratio & Glassmorphism) --- */
     .projects-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
       gap: 30px;
       width: 100%;
       max-width: 1400px;
@@ -44,64 +44,58 @@
     }
 
     .project-card {
+      position: relative;
       background: #ffffff;
-      border-radius: 12px;
+      border-radius: 15px;
       overflow: hidden;
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
+      /* Սահմանում ենք 3:2 հարաբերակցությունը */
+      aspect-ratio: 3 / 2;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       border: 1px solid #eee;
     }
 
     .project-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
     }
 
-    /* Նկարը վերևում */
+    /* Նկարը զբաղեցնում է ողջ քարտը */
     .card-image {
       width: 100%;
-      height: 220px;
+      height: 100%;
       background-size: cover;
       background-position: center;
-      border-bottom: 1px solid #f0f0f0;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
-    /* Տեքստը ներքևում՝ սպիտակ ֆոնի վրա */
-    .card-content {
+    /* Տեքստի բլոկը՝ 40% թափանցիկ սպիտակ և Blur էֆեկտով */
+    .card-overlay-info {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
       padding: 20px;
-      background: #ffffff;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex-grow: 1;
+      box-sizing: border-box;
+      
+      /* Glassmorphism էֆեկտ */
+      background: rgba(255, 255, 255, 0.4); 
+      backdrop-filter: blur(10px); 
+      -webkit-backdrop-filter: blur(10px);
+      
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      text-align: center;
     }
 
-    .card-content h3 {
-      color: #2c3e50;
-      font-size: 1.05rem;
+    .card-overlay-info h3 {
+      color: #1a2a3a;
+      font-size: 1.1rem;
       font-weight: 700;
-      margin: 0 0 15px 0;
-      line-height: 1.5;
-      min-height: 3em; /* Ապահովում է հավասար բարձրություն */
-    }
-
-    .view-btn {
-      background-color: #f7db5d;
-      color: #2c3e50;
-      padding: 8px 15px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      align-self: flex-start;
-      transition: background 0.2s;
-    }
-
-    .project-card:hover .view-btn {
-      background-color: #f1c40f;
+      margin: 0;
+      line-height: 1.4;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.5);
     }
 
     /* --- MODAL WIDGET --- */
@@ -167,9 +161,8 @@
         
         <div class="project-card" onclick="openWidget('agri_1')">
           <div class="card-image" style="background-image: url('../assets/img/ind_project_img/agri_proj_01.jpg');"></div>
-          <div class="card-content">
+          <div class="card-overlay-info">
               <h3>Գյուղատնտեսական ծրագրի վարելահողերի առցանց քարտեզի ստեղծում</h3>
-              <span class="view-btn">Դիտել</span>
           </div>
         </div>
 
