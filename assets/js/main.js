@@ -24,31 +24,46 @@ function loadComponent(id, file) {
 }
 
 /**
- * Ակտիվ մենյուի ընդգծում (Background Color)
+ * Ակտիվ մենյուի ընդգծում (Page Specific Colors)
  */
 function highlightActiveMenu() {
-    const currentPage = window.location.pathname.split("/").pop() || "index.html";
+    const path = window.location.pathname;
+    const currentPage = path.split("/").pop() || "index.html";
     const navLinks = document.querySelectorAll('.menu li a');
 
     navLinks.forEach(link => {
-        const linkPage = link.getAttribute('href').split("/").pop();
-        
-        if (linkPage === currentPage) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
+        const href = link.getAttribute('href');
+        const linkPage = href.split("/").pop();
+
+        // 1. Հեռացնում ենք բոլոր հնարավոր active դասերը նախապես
+        link.classList.remove('active-about', 'active-services', 'active-projects', 'active-contact');
+
+        // 2. Ստուգում ենք համընկնումը և ավելացնում համապատասխան դասը ձեր CSS-ից
+        if (currentPage === linkPage || (currentPage === "index.html" && linkPage === "")) {
+            if (linkPage.includes("index.html")) {
+                link.classList.add('active-about');
+            } else if (linkPage.includes("services.html")) {
+                link.classList.add('active-services');
+            } else if (linkPage.includes("projects.html") || path.includes('/projects/')) {
+                link.classList.add('active-projects');
+            } else if (linkPage.includes("contact.html")) {
+                link.classList.add('active-contact');
+            }
         }
     });
 }
 
 /**
- * Ծառայությունների տաբերի փոխարկում
+ * Ծառայությունների տաբերի փոխարկում (Services Page)
  */
 function switchMainTab(sectionId) {
     document.querySelectorAll('.main-service-btn').forEach(btn => btn.classList.remove('active'));
-    if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
+    
+    // Ստուգում ենք, որ event-ը գոյություն ունի
+    if (window.event && window.event.currentTarget) {
+        window.event.currentTarget.classList.add('active');
     }
+    
     document.querySelectorAll('.service-body-container').forEach(sec => sec.classList.remove('active'));
     const targetSection = document.getElementById(sectionId);
     if (targetSection) targetSection.classList.add('active');
@@ -56,8 +71,11 @@ function switchMainTab(sectionId) {
 
 function switchSubTab(btnElement, contentId) {
     const parentSection = btnElement.closest('.service-body-container');
+    if (!parentSection) return;
+
     parentSection.querySelectorAll('.side-nav-btn').forEach(btn => btn.classList.remove('active'));
     btnElement.classList.add('active');
+
     parentSection.querySelectorAll('.content-display').forEach(content => content.classList.remove('active'));
     const targetContent = document.getElementById(contentId);
     if (targetContent) targetContent.classList.add('active');
