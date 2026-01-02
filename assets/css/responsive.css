@@ -3,107 +3,114 @@
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* Header & Navigation Fix */
-    .nav-container { height: 70px !important; padding: 0 10px !important; }
-    .logo img { height: 50px !important; width: 50px !important; }
-    .logo-text { display: none !important; }
-    .menu li a { font-size: 1.1rem !important; font-weight: 800 !important; }
-
-    /* 1. SERVICES PAGE - ՄԻԱՅՆ ԱԿՏԻՎԸ ՑՈՒՅՑ ՏԱԼ */
-    
-    /* Թաքցնել ոչ ակտիվ գլխավոր սեկցիաները */
-    .service-body-container {
-        display: none !important;
+    /* 1. Header & Navigation - Կայուն և ճշգրիտ */
+    .nav-container { 
+        height: 70px !important; 
+        padding: 0 10px !important; 
     }
-    .service-body-container.active {
+    .logo img { 
+        height: 50px !important; 
+        width: 50px !important; 
+    }
+    .logo-text { 
+        display: none !important; 
+    }
+    .menu li a { 
+        font-size: 1.1rem !important; 
+        font-weight: 800 !important; 
+    }
+
+    /* 2. ABOUT PAGE (Մեր մասին) - Սքրոլի (Swipe up) ակտիվացում */
+    /* Հեռացնում ենք բոլոր սահմանափակումները, որոնք արգելափակում էին սքրոլը */
+    .about-page-wrapper, 
+    .about-container,
+    section.about-section {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-y: visible !important;
         display: block !important;
+        padding-bottom: 40px !important;
     }
 
-    /* Թաքցնել ոչ ակտիվ ենթաբաժինները */
-    .content-display {
-        display: none !important;
+    /* 3. SERVICES PAGE - Տաբերի և բովանդակության կառավարում */
+    .service-body-container { 
+        display: none !important; 
     }
-    .content-display.active {
+    .service-body-container.active { 
+        display: block !important; 
+    }
+    .content-display { 
+        display: none !important; 
+    }
+    .content-display.active { 
+        display: flex !important; 
+        flex-direction: column !important; 
+        animation: fadeIn 0.4s ease; 
+    }
+    
+    .side-nav { 
+        display: flex !important; 
+        flex-direction: row !important; 
+        overflow-x: auto !important; 
+        white-space: nowrap !important; 
+        gap: 10px !important; 
+        padding: 15px !important; 
+        border-bottom: 3px solid #0c8495 !important; 
+    }
+
+    /* 4. PROJECTS SECTION - Մեկ սյունակ (One column layout) */
+    .projects-grid {
         display: flex !important;
         flex-direction: column !important;
-        animation: fadeIn 0.4s ease;
-    }
-
-    /* 2. MAIN TABS (Top Navigation) - Մասշտաբավորում */
-    .top-services-nav {
-        grid-template-columns: 1fr !important; /* Իրար տակ */
-        gap: 15px !important;
-        padding: 10px !important;
-    }
-
-    .main-service-btn {
+        align-items: center !important;
+        gap: 30px !important;
         padding: 20px !important;
-        min-height: 120px !important;
-    }
-
-    /* 3. SIDE NAV (Sub Tabs) - Հորիզոնական սքրոլ */
-    .side-nav {
-        display: flex !important;
-        flex-direction: row !important;
-        overflow-x: auto !important;
-        white-space: nowrap !important;
-        gap: 10px !important;
-        padding: 15px !important;
-        border-bottom: 3px solid #0c8495 !important;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .side-nav-btn {
-        flex: 0 0 auto !important;
-        padding: 12px 20px !important;
-        font-size: 1.1rem !important;
-        font-weight: 700 !important;
-        background: #f1f1f1 !important;
-        border-radius: 8px 8px 0 0 !important;
-    }
-
-    .side-nav-btn.active {
-        background: #0c8495 !important;
-        color: white !important;
-    }
-
-    /* 4. CONTENT BOXES - Ratio-ի պահպանում */
-    .content-side {
-        padding: 10px !important;
-    }
-
-    .content-display {
         width: 100% !important;
-        min-height: 500px !important; /* Մեծ բարձրություն */
-        background: #ffffff !important;
+    }
+
+    .project-card {
+        width: 95% !important;
+        max-width: 500px !important;
+        margin: 0 auto !important;
+    }
+
+    /* 5. CONTACT PAGE - Մեկ սյունակ և խոշոր տուփեր */
+    .contact-container {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        padding: 40px 10px !important;
+        width: 100% !important;
+    }
+
+    .contact-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 35px !important;
+    }
+
+    .contact-card {
+        width: 96% !important; 
+        min-height: 480px !important; /* Պահպանում ենք մեծ չափսի ratio-ն */
+        padding: 55px 25px !important;
+        margin: 0 auto !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+    }
+
+    /* Ծառայությունների բովանդակության տուփերի մասշտաբավորում */
+    .content-display.active {
+        width: 96% !important;
+        min-height: 500px !important;
+        margin: 20px auto !important;
         padding: 40px 20px !important;
-        border-radius: 20px !important;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
-    }
-
-    .service-main-desc {
-        font-size: 1.3rem !important;
-        line-height: 1.7 !important;
-        margin-bottom: 30px !important;
-    }
-
-    .business-list ul li {
-        font-size: 1.2rem !important;
-        margin-bottom: 15px !important;
-    }
-
-    /* Պատկերասրահի շտկում */
-    .image-gallery {
-        grid-template-columns: 1fr !important;
-        gap: 15px !important;
-    }
-
-    .image-gallery img {
-        height: 300px !important;
-        object-fit: cover !important;
     }
 }
 
+/* Անիմացիա ծառայությունների տաբերի համար */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -113,12 +120,17 @@
    SMALL PHONE STYLES (Max 480px)
    ========================================== */
 @media screen and (max-width: 480px) {
-    .menu li a { font-size: 1rem !important; }
+    .menu li a { 
+        font-size: 0.95rem !important; 
+    }
     
-    .content-display {
-        padding: 30px 15px !important;
-        min-height: 450px !important;
+    .contact-card {
+        width: 98% !important;
+        min-height: 400px !important;
+        padding: 40px 15px !important;
     }
 
-    .service-main-desc { font-size: 1.15rem !important; }
+    .project-card {
+        width: 100% !important;
+    }
 }
