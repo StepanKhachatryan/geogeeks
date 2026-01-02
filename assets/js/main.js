@@ -28,19 +28,28 @@ function loadComponent(id, file) {
  */
 function highlightActiveMenu() {
     const path = window.location.pathname;
-    const currentPage = path.split("/").pop() || "index.html";
+    // Ստանում ենք ֆայլի անունը (օրինակ՝ services.html)
+    let currentPage = path.split("/").pop();
+    
+    // Եթե էջը դատարկ է կամ /, համարում ենք index.html
+    if (currentPage === "" || currentPage === "index.html") {
+        currentPage = "index.html";
+    }
+
     const navLinks = document.querySelectorAll('.menu li a');
 
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
         const linkPage = href.split("/").pop();
 
-        // 1. Հեռացնում ենք բոլոր հնարավոր active դասերը նախապես
+        // 1. Հեռացնում ենք բոլոր հնարավոր active դասերը
         link.classList.remove('active-about', 'active-services', 'active-projects', 'active-contact');
 
-        // 2. Ստուգում ենք համընկնումը և ավելացնում համապատասխան դասը ձեր CSS-ից
-        if (currentPage === linkPage || (currentPage === "index.html" && linkPage === "")) {
-            if (linkPage.includes("index.html")) {
+        // 2. Ստուգում ենք համընկնումը
+        const isIndex = (currentPage === "index.html" && (linkPage === "index.html" || linkPage === ""));
+        
+        if (currentPage === linkPage || isIndex) {
+            if (linkPage.includes("index.html") || linkPage === "") {
                 link.classList.add('active-about');
             } else if (linkPage.includes("services.html")) {
                 link.classList.add('active-services');
@@ -59,7 +68,6 @@ function highlightActiveMenu() {
 function switchMainTab(sectionId) {
     document.querySelectorAll('.main-service-btn').forEach(btn => btn.classList.remove('active'));
     
-    // Ստուգում ենք, որ event-ը գոյություն ունի
     if (window.event && window.event.currentTarget) {
         window.event.currentTarget.classList.add('active');
     }
