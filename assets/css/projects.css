@@ -1,16 +1,18 @@
 /* ==========================================
-   Full Page Layout (Fixed No-Scroll Logic)
+    Main Layout - CLEAN FLEX VERSION
    ========================================== */
 html, body {
-    height: 100%;
+    /* Վերականգնում ենք սքրոլը բնականոն վիճակի */
+    height: auto; 
     margin: 0;
-    overflow: hidden; /* Արգելում ենք հիմնական էջի սքրոլը */
+    overflow-y: auto; 
+    background-color: #ffffff !important;
 }
 
 .projects-page-wrapper {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #ffffff;
 }
 
@@ -20,33 +22,30 @@ html, body {
     display: flex;
     align-items: center; 
     justify-content: center;
-    /* Նվազեցրել ենք padding-ը, որպեսզի ավելի շատ տեղ լինի արկղերի համար */
-    padding: 10px 3%; 
-    margin-top: 80px; /* Header-ի բարձրությունը */
+    /* Հեռացրել ենք margin-top: 80px, քանի որ Header-ը հիմա ինքն իրենով տեղ է զբաղեցնում */
+    padding: 60px 3%; 
     box-sizing: border-box;
 }
 
 /* ==========================================
-   Project Grid (4 columns, 2 rows)
+    Project Grid (4 columns, 2 rows)
    ========================================= */
 .category-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px; 
     width: 100%;
-    /* Մեծացրել ենք առավելագույն լայնությունը */
-    max-width: 1800px; 
+    max-width: 1600px; /* Օպտիմալացված լայնություն */
     margin: 0 auto;
-    /* Ստիպում ենք grid-ին ձգվել բարձրությամբ */
     height: auto;
 }
 
-
+/*  */
 
 .category-box {
     position: relative;
     border-radius: 15px;
-    /* Փոխել ենք aspect-ratio-ն, որպեսզի արկղերը լինեն ավելի բարձր (ավելի քառակուսիանման ուղղանկյուն) */
+    /* Պահպանում ենք գեղեցիկ համաչափությունը */
     aspect-ratio: 16 / 11; 
     text-decoration: none !important;
     overflow: hidden;
@@ -55,29 +54,22 @@ html, body {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    /* Նվազեցրել ենք ստվերի գորշությունը */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06); 
+    border: 1px solid #f0f0f0; /* Նուրբ եզրագիծ մաքուր տեսքի համար */
 }
 
 .category-box:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    box-shadow: 0 15px 35px rgba(12, 132, 149, 0.15); /* Բրենդային նուրբ ստվեր */
 }
-
-/* --- Ֆոների ուղիները --- */
-.hydro-bg { background-image: url('../img/projects_img/hydro_projects.jpg'); }
-.flood-bg { background-image: url('../img/projects_img/flood_projects.jpg'); }
-.water-res-bg { background-image: url('../img/projects_img/wr_projects.jpg'); }
-.irrigation-bg { background-image: url('../img/projects_img/irrig_projects.jpg'); }
-.agri-bg { background-image: url('../img/projects_img/agri_projects.jpg'); }
-.forest-bg { background-image: url('../img/projects_img/forest_projects.jpg'); }
-.edu-bg { background-image: url('../img/projects_img/edu_projects.jpg'); }
-.all-bg { background-image: url('../img/projects_img/our_projects.jpg'); }
 
 /* Overlay & Typography */
 .category-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 60%);
+    /* Gradient-ը դարձրել ենք ավելի մաքուր */
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 70%);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -86,37 +78,43 @@ html, body {
 
 .category-box h3 {
     color: #ffffff;
-    font-size: 1.2rem; /* Մեծացված տառաչափ */
+    font-size: 1.25rem;
     margin-bottom: 8px;
     font-weight: 700;
     line-height: 1.3;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
 }
 
 .view-btn {
-    color: #f7db5d;
-    font-weight: 600;
+    color: #f7db5d; /* GeoGeeks Gold */
+    font-weight: 700;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 /* ==========================================
-   Responsive adjustments
+    Responsive adjustments
    ========================================== */
-@media screen and (max-height: 800px) {
-    .category-box {
-        aspect-ratio: 16 / 9; /* Ավելի տափակ արկղեր փոքր բարձրությամբ էկրանների համար */
+@media screen and (max-width: 1400px) {
+    .category-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 սյունակ միջին էկրանների համար */
     }
 }
 
-@media screen and (max-width: 1200px) {
-    .category-grid { grid-template-columns: repeat(2, 1fr); }
-    .projects-main-content { overflow-y: auto; }
+@media screen and (max-width: 992px) {
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .projects-main-content {
+        padding: 40px 5%;
+    }
 }
 
 @media screen and (max-width: 600px) {
-    .category-grid { grid-template-columns: 1fr; }
-    .category-box { height: 220px; aspect-ratio: auto; }
-    .projects-main-content { padding-top: 20px; }
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+    .category-box {
+        aspect-ratio: 16 / 9;
+    }
 }
