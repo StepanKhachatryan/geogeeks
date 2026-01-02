@@ -1,5 +1,5 @@
 /**
- * Բաղադրիչների բեռնման ֆունկցիա
+ * Բաղադրիչների բեռնման ֆունկցիա (Header, Footer)
  */
 function loadComponent(id, file) {
     const isSubFolder = window.location.pathname.includes('/projects/');
@@ -15,7 +15,7 @@ function loadComponent(id, file) {
             if (!el) return;
             el.innerHTML = data;
 
-            // Header-ը բեռնելուց հետո ակտիվացնում ենք մենյուի գույնը
+            // Եթե Header-ն է բեռնվել, ակտիվացնում ենք մենյուի գույները
             if (id === "header-placeholder") {
                 highlightActiveMenu();
             }
@@ -24,7 +24,8 @@ function loadComponent(id, file) {
 }
 
 /**
- * Ակտիվ մենյուի ընդգծում (about.html տարբերակի համար)
+ * Ակտիվ մենյուի ընդգծում ըստ էջերի
+ * Գլխավոր էջում (root) ոչ մի մենյու չի ընդգծվում
  */
 function highlightActiveMenu() {
     const path = window.location.pathname;
@@ -33,54 +34,79 @@ function highlightActiveMenu() {
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
         
-        // Հեռացնում ենք բոլոր հնարավոր active դասերը
+        // Նախ հեռացնում ենք բոլոր հնարավոր active դասերը
         link.classList.remove('active-about', 'active-services', 'active-projects', 'active-contact');
 
-        // 1. Մեր մասին (about.html)
-        if (path.includes("about.html") || path.endsWith("/") || path.endsWith("index.html")) {
-            if (href.includes("about.html")) {
-                link.classList.add('active-about');
-            }
+        // Եթե մենք գլխավոր էջում ենք (root / կամ index.html), ապա ոչ մի կոճակ չի ներկվում
+        if (path === "/" || path === "" || path.endsWith("index.html")) {
+            return; 
+        }
+
+        // Յուրաքանչյուր էջի համար ստուգում ենք համընկնումը
+        if (path.includes("about.html") && href.includes("about.html")) {
+            link.classList.add('active-about');
         } 
-        // 2. Ծառայություններ
-        else if (path.includes("services.html")) {
-            if (href.includes("services.html")) link.classList.add('active-services');
+        else if (path.includes("services.html") && href.includes("services.html")) {
+            link.classList.add('active-services');
         } 
-        // 3. Նախագծեր
-        else if (path.includes("projects.html") || path.includes("/projects/")) {
-            if (href.includes("projects.html")) link.classList.add('active-projects');
+        else if ((path.includes("projects.html") || path.includes("/projects/")) && href.includes("projects.html")) {
+            link.classList.add('active-projects');
         } 
-        // 4. Կապ
-        else if (path.includes("contact.html")) {
-            if (href.includes("contact.html")) link.classList.add('active-contact');
+        else if (path.includes("contact.html") && href.includes("contact.html")) {
+            link.classList.add('active-contact');
         }
     });
 }
 
 /**
- * Ծառայությունների տաբերի փոխարկում (Services Page)
+ * Ծառայությունների էջ - Գլխավոր տաբերի փոխարկում (GIS, Hydro, Education)
  */
 function switchMainTab(sectionId) {
+    // Հեռացնել active դասը բոլոր գլխավոր կոճակներից
     document.querySelectorAll('.main-service-btn').forEach(btn => btn.classList.remove('active'));
+    
+    // Ավելացնել active սեղմվածին
     if (window.event && window.event.currentTarget) {
         window.event.currentTarget.classList.add('active');
     }
-    document.querySelectorAll('.service-body-container').forEach(sec => sec.classList.remove('active'));
+
+    // Թաքցնել բոլոր սեկցիաները և ցույց տալ միայն ակտիվը
+    document.querySelectorAll('.service-body-container').forEach(sec => {
+        sec.classList.remove('active');
+    });
+
     const targetSection = document.getElementById(sectionId);
-    if (targetSection) targetSection.classList.add('active');
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
 }
 
+/**
+ * Ծառայությունների էջ - Ենթատաբերի փոխարկում (Side Nav)
+ */
 function switchSubTab(btnElement, contentId) {
     const parentSection = btnElement.closest('.service-body-container');
     if (!parentSection) return;
+
+    // Ակտիվացնել կողային կոճակը
     parentSection.querySelectorAll('.side-nav-btn').forEach(btn => btn.classList.remove('active'));
     btnElement.classList.add('active');
-    parentSection.querySelectorAll('.content-display').forEach(content => content.classList.remove('active'));
+
+    // Ցույց տալ համապատասխան բովանդակությունը
+    parentSection.querySelectorAll('.content-display').forEach(content => {
+        content.classList.remove('active');
+    });
+
     const targetContent = document.getElementById(contentId);
-    if (targetContent) targetContent.classList.add('active');
+    if (targetContent) {
+        targetContent.classList.add('active');
+    }
 }
 
-// Գործարկում
+/**
+ * Ֆայլի գործարկում DOM-ը բեռնելուց հետո
+ */
 document.addEventListener("DOMContentLoaded", () => {
     loadComponent("header-placeholder", "components/header.html");
+    loadComponent("footer-placeholder", "components/footer.html");
 });
