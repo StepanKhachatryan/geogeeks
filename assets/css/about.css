@@ -1,5 +1,5 @@
 /* ==========================================================================
-    ABOUT.CSS - UPDATED WITH INTRO GRID DESIGN
+    ABOUT.CSS - FIXED INTRO GRID DESIGN
    ========================================================================== */
 
 /* 1. Global Page Reset for About */
@@ -38,7 +38,7 @@ html, body {
     overflow: hidden;
 }
 
-/* 4. NEW: INTRO GRID SECTION (ՄԵՐ ԱՌԱՔԵԼՈՒԹՅՈՒՆԸ ԵՎ GEOGEEKS) */
+/* 4. INTRO GRID SECTION (FIXED LAYOUT) */
 .about-intro-section {
     width: 100%;
     height: 100%;
@@ -47,15 +47,16 @@ html, body {
     justify-content: center;
     scroll-snap-align: start;
     background-color: #ffffff;
-    padding: 0 5%;
+    padding: 0 8%; /* Մեծացված կողմնային padding ավելի ազատ տեսքի համար */
 }
 
 .intro-grid {
     display: grid;
-    grid-template-columns: 1fr 2px 1fr; /* Երկու սյունակ և բաժանարար գիծ */
-    gap: 80px;
+    /* Սյունակների չափսերի կարգավորում. ձախը մի փոքր ավելի նեղ, աջը՝ ազատ */
+    grid-template-columns: 1.1fr 2px 0.9fr; 
+    gap: 0; /* Gap-ը դարձնում ենք 0, որպեսզի padding-ով կառավարենք */
     align-items: center;
-    max-width: 1300px;
+    max-width: 1400px;
     width: 100%;
 }
 
@@ -64,30 +65,34 @@ html, body {
     content: "";
     grid-column: 2;
     background-color: #0c8495;
-    height: 450px; /* Գծի բարձրությունը */
+    height: 400px;
     width: 2px;
+    justify-self: center;
 }
 
 .intro-left {
+    padding-right: 60px; /* Հեռավորություն գծից */
     text-align: left;
 }
 
 .intro-left h1 {
-    font-size: 3.8rem;
+    font-size: 3.2rem; /* Մի փոքր փոքրացված ավելի հստակ լինելու համար */
     font-weight: 800;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     color: #1a1a1a;
-    line-height: 1;
+    line-height: 1.1;
 }
 
 .intro-left p {
-    font-size: 1.35rem;
+    font-size: 1.2rem;
     line-height: 1.6;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     color: #333;
 }
 
 .intro-right {
+    /* Այս հատվածը տեղափոխում է GeoGeeks-ը ավելի աջ */
+    padding-left: 100px; 
     text-align: left;
     display: flex;
     flex-direction: column;
@@ -95,15 +100,16 @@ html, body {
 }
 
 .intro-right .brand-title {
-    font-size: 5.5rem; /* GeoGeeks-ի մեծ տառաչափը */
+    font-size: 5rem;
     font-weight: 800;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     color: #000;
     line-height: 1;
+    letter-spacing: -2px;
 }
 
 .intro-right p {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     line-height: 1.5;
     color: #333;
 }
@@ -197,6 +203,7 @@ html, body {
 
     .intro-left, .intro-right {
         text-align: center;
+        padding: 0;
     }
 
     .intro-left h1 { font-size: 2.5rem; }
