@@ -15,8 +15,11 @@ function loadComponent(id, file) {
             if (!el) return;
             el.innerHTML = data;
 
-            // Եթե Header-ն է բեռնվել, ակտիվացնում ենք մենյուի գույները
             if (id === "header-placeholder") {
+                // Եթե սա ենթապանակ է, շտկում ենք լոգոյի և հղումների ուղիները
+                if (isSubFolder) {
+                    fixHeaderPaths(el);
+                }
                 highlightActiveMenu();
             }
         })
@@ -24,8 +27,36 @@ function loadComponent(id, file) {
 }
 
 /**
- * Ակտիվ մենյուի ընդգծում ըստ էջերի
- * Գլխավոր էջում (root) ոչ մի մենյու չի ընդգծվում
+ * Շտկում է Header-ի ուղիները, երբ օգտատերը ենթապանակում է
+ */
+function fixHeaderPaths(headerElement) {
+    // Շտկում ենք լոգոյի հղումը (index.html)
+    const logoAnchor = headerElement.querySelector('.logo');
+    if (logoAnchor) {
+        logoAnchor.setAttribute('href', '../index.html');
+    }
+
+    // Շտկում ենք լոգոյի նկարի ուղին (img src)
+    const logoImg = headerElement.querySelector('.logo img');
+    if (logoImg) {
+        const currentSrc = logoImg.getAttribute('src');
+        if (!currentSrc.startsWith('../')) {
+            logoImg.setAttribute('src', '../' + currentSrc);
+        }
+    }
+
+    // Շտկում ենք մենյուի մնացած հղումները
+    const navLinks = headerElement.querySelectorAll('.menu li a');
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && !href.startsWith('../')) {
+            link.setAttribute('href', '../' + href);
+        }
+    });
+}
+
+/**
+ * Ակտիվ մենյուի ընդգծում
  */
 function highlightActiveMenu() {
     const path = window.location.pathname;
@@ -34,15 +65,12 @@ function highlightActiveMenu() {
     navLinks.forEach(link => {
         const href = link.getAttribute('href');
         
-        // Նախ հեռացնում ենք բոլոր հնարավոր active դասերը
         link.classList.remove('active-about', 'active-services', 'active-projects', 'active-contact');
 
-        // Եթե մենք գլխավոր էջում ենք (root / կամ index.html), ապա ոչ մի կոճակ չի ներկվում
         if (path === "/" || path === "" || path.endsWith("index.html")) {
             return; 
         }
 
-        // Յուրաքանչյուր էջի համար ստուգում ենք համընկնումը
         if (path.includes("about.html") && href.includes("about.html")) {
             link.classList.add('active-about');
         } 
@@ -59,53 +87,28 @@ function highlightActiveMenu() {
 }
 
 /**
- * Ծառայությունների էջ - Գլխավոր տաբերի փոխարկում (GIS, Hydro, Education)
+ * Services Tabs Logic
  */
 function switchMainTab(sectionId) {
-    // Հեռացնել active դասը բոլոր գլխավոր կոճակներից
     document.querySelectorAll('.main-service-btn').forEach(btn => btn.classList.remove('active'));
-    
-    // Ավելացնել active սեղմվածին
     if (window.event && window.event.currentTarget) {
         window.event.currentTarget.classList.add('active');
     }
-
-    // Թաքցնել բոլոր սեկցիաները և ցույց տալ միայն ակտիվը
-    document.querySelectorAll('.service-body-container').forEach(sec => {
-        sec.classList.remove('active');
-    });
-
+    document.querySelectorAll('.service-body-container').forEach(sec => sec.classList.remove('active'));
     const targetSection = document.getElementById(sectionId);
-    if (targetSection) {
-        targetSection.classList.add('active');
-    }
+    if (targetSection) targetSection.classList.add('active');
 }
 
-/**
- * Ծառայությունների էջ - Ենթատաբերի փոխարկում (Side Nav)
- */
 function switchSubTab(btnElement, contentId) {
     const parentSection = btnElement.closest('.service-body-container');
     if (!parentSection) return;
-
-    // Ակտիվացնել կողային կոճակը
     parentSection.querySelectorAll('.side-nav-btn').forEach(btn => btn.classList.remove('active'));
     btnElement.classList.add('active');
-
-    // Ցույց տալ համապատասխան բովանդակությունը
-    parentSection.querySelectorAll('.content-display').forEach(content => {
-        content.classList.remove('active');
-    });
-
+    parentSection.querySelectorAll('.content-display').forEach(content => content.classList.remove('active'));
     const targetContent = document.getElementById(contentId);
-    if (targetContent) {
-        targetContent.classList.add('active');
-    }
+    if (targetContent) targetContent.classList.add('active');
 }
 
-/**
- * Ֆայլի գործարկում DOM-ը բեռնելուց հետո
- */
 document.addEventListener("DOMContentLoaded", () => {
     loadComponent("header-placeholder", "components/header.html");
     loadComponent("footer-placeholder", "components/footer.html");
