@@ -1,36 +1,36 @@
 /* ==========================================================================
-   ABOUT.CSS - FINAL STABLE VERSION (NO FOOTER)
+   ABOUT.CSS - COMPLETE STABLE VERSION (FIXED HEADER COMPATIBLE)
    ========================================================================== */
 
-/* 1. Էջի հիմնական սքրոլի կոնտեյներ */
+/* 1. Global Page Reset for About */
 html, body {
     height: 100%;
     margin: 0;
-    overflow: hidden; /* Արգելում ենք հիմնական body-ի սքրոլը */
+    overflow: hidden; /* Provides clean scroll-snap control */
 }
 
+/* 2. Scroll Container */
 .about-container {
     width: 100%;
     height: 100vh;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
-    scrollbar-width: none; /* Firefox-ի համար */
+    scrollbar-width: none;
     
-    /* ԿԱՐԵՎՈՐ. Ասում է սքրոլին կանգնել Header-ի տակ (80px) */
+    /* Ensures sections snap below the fixed header (80px) */
     scroll-padding-top: 80px; 
 }
 
 .about-container::-webkit-scrollbar { 
-    display: none; /* Chrome/Safari-ի համար */
+    display: none; 
 }
 
-/* 2. Սեկցիաների հիմնական ոճը */
+/* 3. Base Section Styles */
 .about-section {
     width: 100%;
-    /* Բարձրությունը = 100vh - 80px (Header) */
-    height: calc(100vh - 80px); 
-    margin-top: 80px; /* Տեղ Header-ի համար */
+    height: calc(100vh - 80px); /* Screen minus Header height */
+    margin-top: 80px; /* Space for Fixed Header */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,15 +41,15 @@ html, body {
     overflow: hidden;
 }
 
-/* 3. ԹԻՄԻ ԲԱԺԻՆ (ԿԱՊՈՒՅՏ ՖՈՆ) */
+/* 4. TEAM SECTION (THE BLUE SECTION) */
 .about-section.team-bg {
     background-color: #0c8495;
-    /* Ձախից տեղ ենք թողնում ուղղահայաց վերնագրի համար */
+    /* Space for the vertical title on the left */
     padding-left: 280px !important;
     padding-right: 40px !important;
 }
 
-/* Ուղղահայաց վերնագիր */
+/* Vertical Title Positioning */
 .vertical-title {
     position: absolute;
     left: -220px;
@@ -71,7 +71,7 @@ html, body {
     color: #ffffff;
 }
 
-/* Թիմի անդամների ցանց */
+/* Team Grid Layout */
 .team-grid-container {
     display: flex !important;
     flex-direction: row !important;
@@ -80,17 +80,17 @@ html, body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: auto; /* Կանխում է ավելորդ ձգումը */
+    height: auto; /* CRITICAL: Prevents stretching the grid vertically */
 }
 
 .team-member {
-    flex: 0 0 220px; /* Ֆիքսված լայնություն */
+    flex: 0 0 220px; /* Forces fixed width for each member */
     max-width: 220px;
     text-align: center;
     color: white;
 }
 
-/* Նկարների կոնտեյներ - ԽԻՍՏ ՍԱՀՄԱՆԱՓԱԿՈՒՄ */
+/* IMAGE FIX - Prevents full-screen image stretching */
 .team-member .img-container {
     width: 180px !important;
     height: 180px !important;
@@ -99,17 +99,17 @@ html, body {
     border: 4px solid rgba(255, 255, 255, 0.5);
     margin: 0 auto 15px;
     background-color: #fff;
-    flex-shrink: 0; /* Սա թույլ չի տալիս նկարին մեծանալ */
+    flex-shrink: 0; /* CRITICAL: Prevents flexbox from stretching the image */
 }
 
 .team-member .img-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Maintains aspect ratio */
     display: block;
 }
 
-/* LinkedIn Պատկերակի ուղղում */
+/* LinkedIn Icon Constraints */
 .linkedin-link {
     display: inline-block !important;
     vertical-align: middle;
@@ -124,7 +124,7 @@ html, body {
     display: block !important;
 }
 
-/* 4. ՏԵՔՍՏԱՅԻՆ ԲՈՎԱՆԴԱԿՈՒԹՅՈՒՆ (Պատմություն / Գործընկերներ) */
+/* 5. TEXT CONTENT SECTIONS (History / Partners) */
 .about-content {
     max-width: 850px;
     text-align: center;
@@ -144,7 +144,7 @@ html, body {
     line-height: 1.7;
 }
 
-/* 5. RESPONSIVE - ՄՈԲԱՅԼ ՏԱՐԲԵՐԱԿ */
+/* 6. MOBILE RESPONSIVENESS */
 @media screen and (max-width: 1024px) {
     .about-container {
         scroll-padding-top: 70px;
