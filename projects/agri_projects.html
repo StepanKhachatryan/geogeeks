@@ -2,7 +2,7 @@
 <html lang="hy">
 <head>
   <meta charset="utf-8">
-  <title>Գյուղատնտեսություն</title>
+  <title>Գյուղատնտեսություն - GeoGeeks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" href="../assets/img/GeoGeeks_logo.png">
   
@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../assets/css/responsive.css">
 
   <style>
+    /* --- GLOBAL PAGE FIX --- */
     html, body {
       margin: 0; padding: 0;
       background-color: #f8f9fa;
@@ -32,6 +33,7 @@
       box-sizing: border-box;
     }
 
+    /* --- PROJECT CARDS (3:2 Ratio & Hover Effects) --- */
     .projects-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
@@ -53,9 +55,10 @@
       border: 1px solid #eee;
     }
 
+    /* Էֆեկտներ քարտի վրա մկնիկը պահելիս */
     .project-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      box-shadow: 0 15px 35px rgba(12, 132, 149, 0.15);
     }
 
     .card-image {
@@ -66,19 +69,28 @@
       position: absolute;
       top: 0;
       left: 0;
+      /* Սահուն Zoom անցման համար */
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s ease;
+    }
+
+    /* Zoom և Brightness էֆեկտ */
+    .project-card:hover .card-image {
+      transform: scale(1.1); /* 10% մեծացում */
+      filter: brightness(1.1); /* 10% լուսավորում */
     }
 
     .card-overlay-info {
       position: absolute;
       bottom: 0;
       width: 100%;
-      padding: 12px 15px; /* Նեղացված բարձրություն */
+      padding: 12px 15px; 
       box-sizing: border-box;
       background: rgba(255, 255, 255, 0.4); 
       backdrop-filter: blur(10px); 
       -webkit-backdrop-filter: blur(10px);
       border-top: 1px solid rgba(255, 255, 255, 0.2);
       text-align: center;
+      z-index: 2; /* Համոզվում ենք, որ տեքստը միշտ նկարից վերև է */
     }
 
     .card-overlay-info h3 {
@@ -138,7 +150,7 @@
     @media (max-width: 992px) {
       .modal-body { grid-template-columns: 1fr; }
       .modal-image-side { height: 250px; }
-      .projects-container { grid-template-columns: 1fr; minmax(300px, 1fr); }
+      .projects-container { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -169,6 +181,7 @@
   <script src="../assets/js/main.js"></script>
   
   <script>
+    // JavaScript-ի հատվածը մնում է անփոփոխ
     const projectsDB = {
       agri_1: {
         title: "Գյուղատնտեսական ծրագրի վարելահողերի առցանց քարտեզի ստեղծում",
