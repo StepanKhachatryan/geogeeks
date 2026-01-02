@@ -18,10 +18,10 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
-    background-color: #ffffff;
     
-    /* ԿԱՐԵՎՈՐ: Ապահովում է, որ էջի բովանդակությունը սկսվի Fixed Header-ի տակից */
-    padding-top: 80px; 
+    /* Վերադարձ սպիտակ ֆոնին և հեռացնում ենք fixed header-ի padding-ը */
+    background-color: #ffffff !important;
+    padding-top: 0 !important; 
 }
 
 /* Remove Underlines Globally */
@@ -30,12 +30,29 @@ a {
 }
 
 /* ==========================================
-    Hero Video Section - ADJUSTED FOR FIXED HEADER
+    Global Layout Cleaning
+   ========================================== */
+
+/* Ամբողջությամբ հեռացնում ենք Footer-ը բոլոր էջերից */
+footer, 
+#footer-placeholder, 
+.footer-section {
+    display: none !important;
+}
+
+/* Հեռացնում ենք ցանկացած մոխրագույն երանգ կամ ստվեր էջերից */
+.bg-light, 
+.gray-bg {
+    background-color: #ffffff !important;
+}
+
+/* ==========================================
+    Hero Video Section - RESTORED TO FULL SCREEN
    ========================================== */
 .hero {
     width: 100%;
-    /* 100vh - 80px (header), որպեսզի վիդեոն ճիշտ տեղավորվի էկրանի մեջ */
-    height: calc(100vh - 80px); 
+    /* Քանի որ Header-ը տեղ է զբաղեցնում, 100vh-ը կլինի ամբողջական */
+    height: 100vh;  
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,8 +60,6 @@ a {
     overflow: hidden;
     position: relative;
 }
-
-
 
 .video-container {
     width: 100%;
@@ -69,7 +84,7 @@ a {
 }
 
 /* ==========================================
-    Weather Section Dashboard - WIDE & GIS STYLE
+    Weather Section Dashboard
    ========================================== */
 .weather-section {
     padding: 80px 2.5%;
@@ -133,7 +148,7 @@ a {
 }
 
 /* ==========================================
-    Responsive Adjustments (Mobile & Tablet)
+    Responsive Adjustments
    ========================================== */
 
 @media screen and (max-width: 1200px) {
@@ -144,11 +159,11 @@ a {
 
 @media screen and (max-width: 992px) {
     body {
-        padding-top: 70px; /* Եթե մոբայլում header-ը փոքրանում է */
+        padding-top: 0 !important;
     }
 
     .hero {
-        height: calc(60vh - 70px);
+        height: 60vh;
     }
 
     .weather-grid {
