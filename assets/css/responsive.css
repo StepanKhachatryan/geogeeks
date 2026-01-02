@@ -3,71 +3,77 @@
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* 1. Header & Navigation - Ձեր նախընտրած կայուն տեսքը */
-    .nav-container { height: 70px !important; padding: 0 10px !important; }
-    .logo img { height: 50px !important; width: 50px !important; }
-    .logo-text { display: none !important; }
-    .menu li a { font-size: 1.1rem !important; font-weight: 800 !important; }
+    /* 1. Header - Ձեր նախընտրած կայուն տեսքը */
+    body .nav-container { height: 70px !important; padding: 0 10px !important; }
+    body .logo img { height: 50px !important; width: 50px !important; }
+    body .logo-text { display: none !important; }
+    body .menu li a { font-size: 1.1rem !important; font-weight: 800 !important; }
 
-    /* 2. ABOUT PAGE (Մեր մասին) - Դարձնում ենք մեկ մեծ սքրոլվող էջ */
-    .about-page-wrapper, 
-    .about-container, 
-    main.about-page {
-        display: block !important; /* Չեղարկում ենք Flex/Grid */
+    /* 2. ABOUT PAGE (Մեր մասին) - Խիստ չեղարկում ենք սահմանափակումները */
+    body .about-page-wrapper, 
+    body .about-container, 
+    body main.about-page,
+    body #about-hero { /* Եթե ID կա օգտագործված */
+        display: block !important; 
         overflow-y: auto !important;
         height: auto !important;
         min-height: 100vh !important;
-        padding-top: 20px !important;
+        position: relative !important;
     }
 
-    /* Բոլոր ենթաբաժինները ցույց ենք տալիս իրար տակ */
-    .about-section, 
-    .about-content, 
-    .about-box {
+    body .about-section, 
+    body .about-content, 
+    body .about-box,
+    body section[class*="about"] {
         display: block !important;
         width: 100% !important;
         height: auto !important;
-        margin-bottom: 40px !important;
+        min-height: auto !important;
+        margin-bottom: 50px !important;
+        position: static !important; /* Հանում ենք absolute դիրքերը */
         opacity: 1 !important;
         visibility: visible !important;
         transform: none !important;
     }
 
-    /* 3. PROJECTS SECTION - Խիստ մեկ սյունակ (One column) */
-    .projects-grid {
+    /* 3. PROJECTS SECTION - Ստիպողաբար մեկ սյունակ */
+    body .projects-grid, 
+    body #projects-grid,
+    body .grid-container {
         display: flex !important;
-        flex-direction: column !important; /* Ստիպում ենք դասավորվել ուղղահայաց */
-        grid-template-columns: 1fr !important; /* Չեղարկում ենք grid-ի սյունակները */
+        flex-direction: column !important; 
+        grid-template-columns: none !important; /* Ջնջում ենք Grid սյունակները */
         align-items: center !important;
         gap: 30px !important;
         padding: 20px !important;
         width: 100% !important;
     }
 
-    .project-card {
-        width: 95% !important; /* Զբաղեցնում է էկրանի գրեթե ողջ լայնությունը */
-        max-width: 500px !important;
-        margin: 0 auto !important;
+    body .project-card {
+        width: 100% !important; 
+        max-width: 550px !important;
+        margin: 0 auto 20px auto !important;
+        float: none !important; /* Եթե հին float կա */
     }
 
-    /* 4. CONTACT PAGE - Մեկ սյունակ և խոշոր տուփեր */
-    .contact-container {
+    /* 4. CONTACT PAGE - Մեկ սյունակ */
+    body .contact-container {
         display: flex !important;
         flex-direction: column !important;
         padding: 40px 10px !important;
     }
 
-    .contact-grid {
+    body .contact-grid {
         display: flex !important;
         flex-direction: column !important;
-        grid-template-columns: 1fr !important;
+        grid-template-columns: none !important;
         width: 100% !important;
         gap: 35px !important;
     }
 
-    .contact-card {
+    body .contact-card {
         width: 96% !important; 
-        min-height: 480px !important; /* Մեծ չափսի ratio */
+        min-height: 480px !important; 
         padding: 60px 25px !important;
         margin: 0 auto !important;
         display: flex !important;
@@ -75,25 +81,24 @@
         justify-content: center !important;
     }
 
-    /* 5. SERVICES PAGE - Տաբերի համակարգը */
-    .service-body-container { display: none !important; }
-    .service-body-container.active { display: block !important; }
-    .content-display { display: none !important; }
-    .content-display.active { 
+    /* 5. SERVICES PAGE */
+    body .service-body-container { display: none !important; }
+    body .service-body-container.active { display: block !important; }
+    body .content-display { display: none !important; }
+    body .content-display.active { 
         display: flex !important; 
         flex-direction: column !important; 
         width: 96% !important;
         margin: 20px auto !important;
     }
 
-    .side-nav { 
+    body .side-nav { 
         display: flex !important; 
         flex-direction: row !important; 
         overflow-x: auto !important; 
         white-space: nowrap !important; 
         gap: 10px !important; 
         padding: 15px !important; 
-        border-bottom: 3px solid #0c8495 !important; 
     }
 }
 
@@ -101,9 +106,9 @@
    SMALL PHONE STYLES (Max 480px)
    ========================================== */
 @media screen and (max-width: 480px) {
-    .contact-card, .project-card {
+    body .contact-card, 
+    body .project-card {
         width: 100% !important;
         padding: 40px 15px !important;
     }
-    .contact-card { min-height: 420px !important; }
 }
