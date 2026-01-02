@@ -15,7 +15,8 @@
 
     <div class="language-switcher">
       <div id="google_translate_element" style="display:none;"></div>
-      <a href="javascript:void(0)" class="lang-btn active" data-lang="hy" onclick="translatePage('hy', this)">HY</a>
+      
+      <a href="javascript:void(0)" class="lang-btn" data-lang="hy" onclick="translatePage('hy', this)">HY</a>
       <span class="divider">|</span>
       <a href="javascript:void(0)" class="lang-btn" data-lang="en" onclick="translatePage('en', this)">EN</a>
     </div>
@@ -23,50 +24,4 @@
   </div>
 </nav>
 
-<script type="text/javascript">
-  function googleTranslateElementInit() {
-    new google.translate.TranslateElement({
-      pageLanguage: 'hy',
-      includedLanguages: 'en',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-      autoDisplay: false
-    }, 'google_translate_element');
-  }
-
-  function translatePage(lang, element) {
-    // 1. Ակտիվացնել կոճակը վիզուալ
-    if (element) {
-        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-        element.classList.add('active');
-    }
-
-    if (lang === 'hy') {
-        // Հայերենի դեպքում ուղղակի մաքրում ենք cookie-ն և վերաբեռնում
-        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + document.domain;
-        location.reload();
-        return;
-    }
-
-    // 2. Գտնել Google-ի ընտրացանկը (սպասելով մինչև բեռնվի)
-    var checkExist = setInterval(function() {
-       var selectField = document.querySelector(".goog-te-combo");
-       if (selectField) {
-          selectField.value = lang;
-          selectField.dispatchEvent(new Event('change'));
-          clearInterval(checkExist);
-       }
-    }, 100); // ստուգել ամեն 100մվ-ը մեկ
-  }
-
-  // Էջը բեռնվելիս ստուգել լեզուն (որպեսզի կոճակը ակտիվ մնա)
-  window.addEventListener('load', function() {
-      if (document.cookie.includes('/hy/en')) {
-          document.querySelectorAll('.lang-btn').forEach(btn => {
-              if (btn.getAttribute('data-lang') === 'en') btn.classList.add('active');
-              else btn.classList.remove('active');
-          });
-      }
-  });
-</script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
