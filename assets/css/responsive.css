@@ -3,15 +3,19 @@
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* 1. Header Navigation - Պահպանում ենք ձեր նախընտրած կատարյալ տեսքը */
+    /* 1. Header Navigation - Կոմպակտ և մաքուր */
     .navbar {
         position: sticky !important;
         top: 0;
         z-index: 1001;
+        background-color: #ffffff !important;
     }
 
     .nav-container {
-        padding: 0 10px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 0 15px !important;
         height: 70px !important;
     }
 
@@ -20,19 +24,26 @@
         width: 50px !important;
     }
 
+    .logo-text {
+        display: none !important; 
+    }
+
     .menu {
-        gap: 10px !important;
+        display: flex !important;
+        gap: 12px !important;
     }
 
     .menu li a {
         font-size: 1.1rem !important;
         font-weight: 800 !important;
+        text-transform: uppercase;
         padding: 10px 5px !important;
+        color: #34495e !important;
     }
 
-    /* 2. Contact Page - Լայն ու բարձր տուփեր (Ratio-ի պահպանում) */
+    /* 2. Contact Page - Լայն և Բարձր տուփեր */
     .contact-container {
-        padding: 20px 0 !important;
+        padding: 40px 0 !important;
         width: 100% !important;
     }
 
@@ -40,61 +51,108 @@
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        gap: 35px !important; /* Հեռավորություն տուփերի միջև */
+        gap: 40px !important;
+        width: 100% !important;
     }
 
     .contact-card {
-        /* Լայնությունը՝ հեռախոսի էկրանի գրեթե ողջ չափով */
+        /* Տուփը զբաղեցնում է էկրանի գրեթե ողջ լայնությունը */
         width: 96% !important; 
         max-width: 600px !important; 
         
-        /* Բարձրության ավելացում համամասնորեն */
-        min-height: 450px !important; 
+        /* Համամասնական բարձրություն (Ratio) */
+        min-height: 480px !important; 
         display: flex !important;
         flex-direction: column !important;
-        justify-content: center !important; /* Բովանդակությունը կենտրոնում */
+        justify-content: center !important;
         
-        /* Ներքին տարածություն բարձրությունը մեծացնելու համար */
         padding: 60px 25px !important; 
-        
         background: #ffffff !important;
         border-radius: 25px !important;
         box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06) !important;
         box-sizing: border-box !important;
     }
 
-    /* Տեքստի և տարրերի մասշտաբավորում */
     .contact-card h2 {
         font-size: 2rem !important;
-        margin-bottom: 40px !important;
+        margin-bottom: 35px !important;
         text-align: center;
+        color: #0c8495;
     }
 
     .contact-item {
+        width: 100% !important;
+        gap: 20px !important;
         margin-bottom: 30px !important;
-        gap: 20px !important;
     }
 
-    .contact-item .contact-link,
-    .contact-item span {
-        font-size: 1.35rem !important; /* Տառերի իրական մեծացում */
-        font-weight: 500;
-    }
-
-    .social-links-list {
-        gap: 20px !important;
+    .contact-item .contact-link {
+        font-size: 1.35rem !important; /* Մեծ տառեր */
+        font-weight: 600;
+        word-break: break-all;
     }
 
     .social-btn {
-        padding: 22px !important; /* Ավելի բարձր կոճակներ */
+        width: 100% !important;
+        padding: 22px !important; 
         font-size: 1.4rem !important;
         border-radius: 15px !important;
+        margin-bottom: 12px !important;
     }
 
-    .contact-item .icon {
-        width: 65px !important;
-        height: 65px !important;
-        font-size: 30px !important;
+    /* 3. Services Page - Tabs & Content Fix */
+    .services-page-wrapper {
+        padding: 20px 0 !important;
+    }
+
+    /* Թաքցնում ենք ոչ ակտիվ ծառայությունները */
+    .service-content {
+        display: none !important;
+    }
+
+    .service-content.active {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+    /* Հորիզոնական սահող տաբեր */
+    .side-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        gap: 15px !important;
+        padding: 10px 15px !important;
+        border-bottom: 2px solid #0c8495 !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .side-nav-btn {
+        flex: 0 0 auto !important;
+        padding: 12px 20px !important;
+        font-size: 1.1rem !important;
+        font-weight: 700 !important;
+        border-radius: 10px 10px 0 0 !important;
+    }
+
+    /* Ծառայությունների տուփի մասշտաբավորում */
+    .service-details-box {
+        width: 96% !important;
+        min-height: 400px !important;
+        margin: 20px auto !important;
+        padding: 50px 25px !important;
+        box-sizing: border-box !important;
+    }
+
+    .service-details-box h3 {
+        font-size: 1.8rem !important;
+        margin-bottom: 25px !important;
+    }
+
+    .service-details-box p {
+        font-size: 1.3rem !important;
+        line-height: 1.6 !important;
     }
 }
 
@@ -102,17 +160,16 @@
    SMALL PHONE STYLES (Max 480px)
    ========================================== */
 @media screen and (max-width: 480px) {
+    .nav-container { height: 65px !important; }
+    .logo img { height: 45px !important; width: 45px !important; }
+    .menu li a { font-size: 0.95rem !important; }
+
     .contact-card {
-        width: 98% !important; /* Առավելագույն լայնություն */
-        min-height: 400px !important;
+        width: 98% !important;
+        min-height: 420px !important;
         padding: 50px 15px !important;
     }
 
-    .contact-card h2 {
-        font-size: 1.7rem !important;
-    }
-
-    .contact-item .contact-link {
-        font-size: 1.15rem !important;
-    }
+    .contact-card h2 { font-size: 1.7rem !important; }
+    .contact-item .contact-link { font-size: 1.15rem !important; }
 }
