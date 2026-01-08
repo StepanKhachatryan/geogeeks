@@ -1,66 +1,124 @@
 /* ==========================================
-   SUPER RESPONSIVE FIX (Aggressive Selectors)
+   SUPER RESPONSIVE & COMPACT HEADER
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* Ստիպում ենք ամեն ինչին տեղավորվել լայնության մեջ */
+    /* 0. Global Fixes */
     * { box-sizing: border-box !important; }
-    html, body { overflow-x: hidden !important; width: 100% !important; height: auto !important; }
+    html, body { 
+        overflow-x: hidden !important; 
+        width: 100% !important; 
+        height: auto !important; 
+    }
 
-    /* 1. ՄԵՐ ՄԱՍԻՆ (About) - Լիարժեք սքրոլ */
-    html body .about-page-wrapper, 
-    html body .about-container, 
-    html body main.about-page {
+    /* 1. Header & Compact Navigation */
+    body .nav-container { 
+        display: flex !important;
+        justify-content: center !important; /* Կենտրոնացնում է տարրերը իրար մոտ */
+        gap: 20px !important;            /* Լոգոյի և մենյուի միջև հեռավորությունը */
+        max-width: 95% !important;       /* Նեղացնում ենք հիդերի ընդհանուր լայնությունը */
+        margin: 0 auto !important;
+        height: 80px !important; 
+        padding: 0 10px !important; 
+    }
+
+    body .logo img { 
+        height: 55px !important;        /* Մեծացված լոգո */
+        width: auto !important; 
+    }
+    
+    body .logo-text { display: none !important; }
+
+    body .menu { 
+        display: flex !important;
+        gap: 15px !important;           /* Մենյուի կոճակների միջև հեռավորությունը */
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    body .menu li a { 
+        font-size: 1.2rem !important;   /* Մեծ տառաչափ մոբայլի համար */
+        font-weight: 800 !important;    /* Ավելի հաստ (Bold) */
+        white-space: nowrap !important;
+    }
+
+    /* 2. ABOUT PAGE - Լիարժեք սքրոլի ապահովում */
+    body .about-page-wrapper, 
+    body .about-container, 
+    body main.about-page {
         display: block !important; 
         height: auto !important;
         min-height: 100vh !important;
-        overflow-y: auto !important;
+        overflow-y: visible !important;
         position: relative !important;
-        padding-top: 80px !important;
+        padding-top: 100px !important; /* Որպեսզի հիդերը չփակի բովանդակությունը */
     }
 
-    html body .about-section, 
-    html body .about-content, 
-    html body .about-box {
+    body .about-section, 
+    body .about-content, 
+    body .about-box {
         display: block !important;
-        position: static !important; /* ԿԱՐԵՎՈՐ. հանում է շերտավորումը */
+        position: static !important; /* ԿԱՐԵՎՈՐ. հանում է absolute դիրքերը */
         width: 100% !important;
         height: auto !important;
-        min-height: auto !important;
-        margin-bottom: 50px !important;
+        margin-bottom: 60px !important;
         opacity: 1 !important;
         visibility: visible !important;
         transform: none !important;
     }
 
     /* ԳՈՐԾԸՆԿԵՐՆԵՐ (Partners) - Ցուցադրել բոլորը */
-    html body .partners-grid, 
-    html body .partners-container, 
-    html body .clients-grid {
+    body .partners-grid, 
+    body .clients-grid {
         display: flex !important;
         flex-direction: column !important;
+        align-items: center !important;
         height: auto !important;
         overflow: visible !important;
-        gap: 30px !important;
+        gap: 40px !important;
     }
 
-    /* 2. ԾԱՌԱՅՈՒԹՅՈՒՆՆԵՐ (Services) - Վերականգնում ենք JS-ը */
-    html body .content-display { 
-        display: none; /* Հանված է !important-ը */
-    }
-    html body .content-display.active { 
-        display: flex !important; 
-        flex-direction: column !important;
-    }
-
-    /* 3. ՆԱԽԱԳԾԵՐ (Projects) - Մեկ սյունակ */
-    html body .projects-grid {
+    /* 3. PROJECTS (Նախագծեր) - Մեկ սյունակ */
+    body .projects-grid {
         display: flex !important;
         flex-direction: column !important;
         grid-template-columns: none !important;
+        align-items: center !important;
+        gap: 30px !important;
     }
-    html body .project-card {
+    
+    body .project-card {
         width: 100% !important;
         max-width: 100% !important;
+    }
+
+    /* 4. SERVICES (Ծառայություններ) - JS-ի վերականգնում */
+    body .content-display { 
+        display: none; /* ԱՌԱՆՑ !important, որպեսզի JS-ը աշխատի */
+    }
+    body .content-display.active { 
+        display: flex !important; 
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+    body .side-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        background: #f4f4f4 !important;
+        padding: 10px !important;
+    }
+}
+
+/* ==========================================
+   SMALL PHONE STYLES (Max 480px)
+   ========================================== */
+@media screen and (max-width: 480px) {
+    body .nav-container { 
+        gap: 10px !important; 
+    }
+    body .menu li a { 
+        font-size: 1rem !important; 
     }
 }
