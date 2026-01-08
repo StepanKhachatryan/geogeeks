@@ -1,157 +1,66 @@
 /* ==========================================
-   TABLET & MOBILE STYLES (Max 1024px)
+   SUPER RESPONSIVE FIX (Aggressive Selectors)
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* 0. Global Fixes - Կանխում ենք "փոքրացած կայքի" էֆեկտը */
-    * {
-        box-sizing: border-box !important;
-    }
+    /* Ստիպում ենք ամեն ինչին տեղավորվել լայնության մեջ */
+    * { box-sizing: border-box !important; }
+    html, body { overflow-x: hidden !important; width: 100% !important; height: auto !important; }
 
-    html, body {
-        overflow-x: hidden !important;
-        width: 100% !important;
-        height: auto !important;
-    }
-
-    /* 1. Header & Navigation */
-    body .nav-container { 
-        height: 70px !important; 
-        padding: 0 15px !important; 
-        width: 100% !important;
-    }
-    body .logo img { height: 45px !important; width: 45px !important; }
-    body .logo-text { display: none !important; }
-    body .menu li a { font-size: 1rem !important; font-weight: 800 !important; }
-
-    /* 2. ABOUT PAGE - Մեր մասին */
-    body .about-page-wrapper, 
-    body .about-container, 
-    body main.about-page {
+    /* 1. ՄԵՐ ՄԱՍԻՆ (About) - Լիարժեք սքրոլ */
+    html body .about-page-wrapper, 
+    html body .about-container, 
+    html body main.about-page {
         display: block !important; 
-        overflow-y: visible !important;
         height: auto !important;
         min-height: 100vh !important;
+        overflow-y: auto !important;
         position: relative !important;
-        padding: 80px 10px 40px 10px !important;
+        padding-top: 80px !important;
     }
 
-    body .about-section, 
-    body .about-content, 
-    body .about-box {
+    html body .about-section, 
+    html body .about-content, 
+    html body .about-box {
         display: block !important;
+        position: static !important; /* ԿԱՐԵՎՈՐ. հանում է շերտավորումը */
         width: 100% !important;
         height: auto !important;
-        margin-bottom: 40px !important;
-        position: static !important; /* Չեղարկում է absolute դիրքը */
+        min-height: auto !important;
+        margin-bottom: 50px !important;
         opacity: 1 !important;
         visibility: visible !important;
         transform: none !important;
     }
 
-    /* ԳՈՐԾԸՆԿԵՐՆԵՐ - Ստիպում ենք բոլոր լոգոներին երևալ */
-    body .partners-grid, 
-    body .partners-container, 
-    body .clients-grid {
+    /* ԳՈՐԾԸՆԿԵՐՆԵՐ (Partners) - Ցուցադրել բոլորը */
+    html body .partners-grid, 
+    html body .partners-container, 
+    html body .clients-grid {
         display: flex !important;
         flex-direction: column !important;
-        align-items: center !important;
-        gap: 30px !important;
         height: auto !important;
         overflow: visible !important;
-        padding: 20px 0 !important;
-    }
-
-    body .partner-logo, 
-    body .partner-item {
-        width: 150px !important;
-        height: auto !important;
-        opacity: 1 !important;
-    }
-
-    /* 3. PROJECTS SECTION - Մեկ սյունակ */
-    body .projects-grid, 
-    body #projects-grid {
-        display: flex !important;
-        flex-direction: column !important; 
-        grid-template-columns: none !important;
-        align-items: center !important;
         gap: 30px !important;
-        padding: 20px !important;
-        width: 100% !important;
     }
 
-    body .project-card {
-        width: 100% !important; 
-        max-width: 500px !important;
-        margin: 0 auto 20px auto !important;
+    /* 2. ԾԱՌԱՅՈՒԹՅՈՒՆՆԵՐ (Services) - Վերականգնում ենք JS-ը */
+    html body .content-display { 
+        display: none; /* Հանված է !important-ը */
+    }
+    html body .content-display.active { 
+        display: flex !important; 
+        flex-direction: column !important;
     }
 
-    /* 4. CONTACT PAGE - Մեկ սյունակ */
-    body .contact-container {
-        display: block !important;
-        height: auto !important;
-        padding: 90px 15px 40px 15px !important;
-    }
-
-    body .contact-grid {
+    /* 3. ՆԱԽԱԳԾԵՐ (Projects) - Մեկ սյունակ */
+    html body .projects-grid {
         display: flex !important;
         flex-direction: column !important;
         grid-template-columns: none !important;
-        gap: 30px !important;
+    }
+    html body .project-card {
         width: 100% !important;
-    }
-
-    body .contact-card {
-        width: 100% !important; 
-        min-height: auto !important; 
-        padding: 40px 20px !important;
-    }
-
-    /* 5. SERVICES PAGE - Տաբերի վերականգնում */
-    body .service-body-container { 
-        display: flex !important;
-        flex-direction: column !important;
-        height: auto !important;
-    }
-
-    /* Սա թույլ է տալիս JavaScript-ին թաքցնել ոչ ակտիվ տաբերը */
-    body .content-display { 
-        display: none; /* ԱՌԱՆՑ !important */
-    }
-
-    body .content-display.active { 
-        display: flex !important; 
-        flex-direction: column !important; 
-        width: 100% !important;
-        margin: 20px auto !important;
-    }
-
-    body .side-nav { 
-        display: flex !important; 
-        flex-direction: row !important; 
-        overflow-x: auto !important; 
-        white-space: nowrap !important; 
-        gap: 15px !important; 
-        padding: 15px !important; 
-        background: #eee !important;
-        -webkit-overflow-scrolling: touch;
-    }
-}
-
-/* ==========================================
-   SMALL PHONE STYLES (Max 480px)
-   ========================================== */
-@media screen and (max-width: 480px) {
-    body .about-section h2 { font-size: 1.6rem !important; }
-    
-    body .contact-card, 
-    body .project-card {
-        padding: 30px 15px !important;
-    }
-
-    body .side-nav button {
-        padding: 8px 15px !important;
-        font-size: 0.9rem !important;
+        max-width: 100% !important;
     }
 }
