@@ -1,106 +1,84 @@
 /* ==========================================
-   FINAL RESPONSIVE FOR ABOUT.HTML
+   SCROLL FIX & FULL VISIBILITY FOR ABOUT PAGE
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* 0. Global Reset */
-    * { box-sizing: border-box !important; }
-    html, body { overflow-x: hidden !important; width: 100% !important; height: auto !important; }
+    /* 0. Global Scroll Enable - Սա թույլ կտա մատով սքրոլ անել (Swipe) */
+    html, body { 
+        overflow-x: hidden !important; 
+        overflow-y: auto !important; /* Միացնում է ուղղահայաց սքրոլը */
+        height: auto !important; 
+        touch-action: auto !important; /* Թույլ է տալիս բրաուզերին կառավարել swipe-ը */
+        -webkit-overflow-scrolling: touch; /* Սահուն սքրոլ iOS-ի համար */
+    }
 
-    /* 1. Header (Compact & Big Font) */
-    #header-placeholder { height: 70px; } /* Բացատ header-ի համար */
-    
+    /* 1. Header Fix */
     body .nav-container { 
         display: flex !important;
         justify-content: center !important; 
         gap: 15px !important;            
-        height: 80px !important;
+        height: 75px !important;
         padding: 0 10px !important; 
     }
+    body .menu li a { font-size: 1.2rem !important; font-weight: 800 !important; }
 
-    body .menu li a { 
-        font-size: 1.3rem !important; /* Մեծ տառեր */
-        font-weight: 900 !important;
-        white-space: nowrap !important;
-    }
-
-    /* 2. ABOUT SECTIONS (General) */
-    .about-container { padding: 0 !important; width: 100% !important; }
-
-    .about-section {
-        padding: 40px 20px !important;
-        height: auto !important;
-        min-height: auto !important;
+    /* 2. ABOUT CONTAINER - Հեռացնում ենք բոլոր արգելքները */
+    .about-container { 
         display: block !important;
-        position: relative !important;
+        width: 100% !important;
+        height: auto !important; 
+        min-height: 100vh !important;
+        overflow: visible !important; /* Թույլ է տալիս բովանդակությանը դուրս գալ կոնտեյներից */
+        padding: 0 !important;
     }
 
-    /* 3. ՄԵՐ ԱՌԱՔԵԼՈՒԹՅՈՒՆԸ (Intro Grid) */
-    .intro-grid {
-        display: flex !important;
-        flex-direction: column !important; /* Տեքստերը դասավորել իրար տակ */
-        gap: 30px !important;
+    /* Յուրաքանչյուր Section-ի ուղղում */
+    .about-section {
+        display: block !important;
+        position: static !important; /* Հանում ենք absolute/fixed դիրքերը */
+        width: 100% !important;
+        height: auto !important;     /* Էջը կերկարի ըստ բովանդակության */
+        min-height: auto !important;
+        overflow: visible !important;
+        padding: 60px 20px !important;
+        transform: none !important;    /* Հանում ենք CSS անիմացիաները, որոնք կարող են խանգարել */
     }
 
-    .intro-column { width: 100% !important; }
-    .intro-divider { display: none !important; } /* Մոբայլում գիծը հեռացնում ենք */
-    .intro-title { font-size: 1.8rem !important; text-align: center !important; }
-
-    /* 4. ՄԵՐ ԹԻՄԸ (Team Grid) */
-    .team-grid-container {
-        display: flex !important;
-        flex-direction: column !important; /* Թիմի անդամները իրար տակ */
-        align-items: center !important;
-        gap: 40px !important;
-    }
-
-    .team-member { width: 100% !important; max-width: 300px !important; }
-    .vertical-title { 
-        position: static !important; /* Հանում ենք կողքի ուղղահայաց գրվածքը */
-        transform: none !important;
-        text-align: center !important;
-        font-size: 2rem !important;
-        margin-bottom: 30px !important;
-    }
-
-    /* 5. ՄԵՐ ԳՈՐԾԸՆԿԵՐՆԵՐԸ (Partners Grid) - FULL VISIBILITY */
-    .partners-wrapper { 
-        width: 100% !important; 
-        padding: 0 !important; 
-        overflow: visible !important; 
+    /* 3. PARTNERS (Լոգոների բաժին) - Հատուկ ուշադրություն */
+    .partners-wrapper {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
     }
 
     .partners-grid {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important; /* 2 լոգո կողք կողքի */
-        gap: 20px !important;
+        gap: 15px !important;
         height: auto !important;
-        overflow: visible !important;
+        padding-bottom: 50px !important; /* Բացատ էջի վերջում */
     }
 
     .partner-card {
         display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        height: 120px !important; /* Կայուն բարձրություն լոգոների համար */
+        height: 110px !important;
         background: #fff;
-        padding: 10px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
 
-    .partner-card img {
-        max-width: 100% !important;
-        max-height: 80px !important;
-        object-fit: contain !important;
+    /* 4. TEAM & INTRO */
+    .intro-grid, .team-grid-container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 30px !important;
     }
-}
-
-/* ==========================================
-   SMALL PHONE FIX (Max 480px)
-   ========================================== */
-@media screen and (max-width: 480px) {
-    .partners-grid {
-        grid-template-columns: 1fr !important; /* Շատ փոքր էկրանին՝ 1 լոգո ամեն տողում */
+    
+    .vertical-title {
+        position: static !important;
+        transform: none !important;
+        text-align: center !important;
+        margin-bottom: 20px !important;
+        font-size: 1.8rem !important;
     }
-    body .menu li a { font-size: 1rem !important; }
 }
