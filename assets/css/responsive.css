@@ -1,73 +1,89 @@
-/* ==========================================
-   FINAL STABLE RESPONSIVE CODE
-   ========================================== */
+/* ============================================================
+   FULL RESPONSIVE.CSS - FINAL STABLE VERSION
+   (Header, About, and Services tabs fix)
+   ============================================================ */
+
 @media screen and (max-width: 1024px) {
 
-    /* 1. GLOBAL SCROLL - Սա պետք է "Մեր մասին" էջի swipe-ի համար */
-    html, body {
-        overflow-y: auto !important;
-        height: auto !important;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /* 2. HEADER - Մեծ տառաչափ և հեռավորություն */
-    header .nav-container, body .nav-container { 
+    /* 1. HEADER - BIG FONT & COMPACT (Fixed per your request) */
+    body .nav-container { 
         display: flex !important;
         justify-content: center !important; 
-        gap: 25px !important;            
-        height: 100px !important; /* Ավելի բարձր հիդեր մեծ տեքստի համար */
+        gap: 20px !important;            
+        height: 90px !important; 
+        padding: 0 10px !important; 
     }
 
-    header .menu li a, body .menu li a { 
-        font-size: 1.6rem !important; /* Ավելի մեծ տառաչափ */
+    body .logo img { height: 55px !important; width: auto !important; }
+
+    body .menu { 
+        display: flex !important;
+        gap: 15px !important;
+        align-items: center !important;
+    }
+
+    body .menu li a { 
+        font-size: 1.5rem !important; /* Մեծ տառաչափ */
         font-weight: 900 !important;
+        color: #000 !important;
         text-transform: uppercase !important;
+        white-space: nowrap !important;
     }
 
-    /* 3. SERVICES (Ծառայություններ) - JS-Ի ՃԻՇՏ ԱՇԽԱՏԱՆՔ */
-    /* Թաքցնում ենք բոլոր ենթաբաժինները */
-    .service-body-container .content-display { 
-        display: none; /* ԱՌԱՆՑ !important, որ JS-ը կարողանա բացել */
+    /* 2. SERVICES SECTION - TABS FIX (Selecting one hides others) */
+    .service-body-container {
+        display: block !important;
+        height: auto !important;
+        min-height: auto !important;
     }
 
-    /* Միայն ակտիվ ենթաբաժինը կերևա */
-    .service-body-container .content-display.active { 
-        display: block !important; 
+    /* Թաքցնում ենք բոլոր ենթաբաժինները (առանց !important, որ JS-ը աշխատի) */
+    .content-display {
+        display: none; 
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
-    /* Մոբայլ տաբերի նավիգացիան */
+    /* Միայն ակտիվ բաժինն է դառնում տեսանելի */
+    .content-display.active {
+        display: block !important;
+        visibility: visible !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding: 20px !important;
+        margin-top: 20px !important;
+    }
+
+    /* Մոբայլ տաբերի նավիգացիան (Side Nav) */
     .side-nav {
         display: flex !important;
         flex-direction: row !important;
         overflow-x: auto !important;
-        padding: 15px !important;
-        background: #f8f8f8 !important;
+        white-space: nowrap !important;
+        gap: 10px !important;
+        padding: 10px !important;
+        background: #f5f5f5 !important;
+        border-bottom: 2px solid #ddd !important;
+        -webkit-overflow-scrolling: touch;
     }
 
-    /* 4. ՄԵՐ ՄԱՍԻՆ (About) - ՍՔՐՈԼԻ ՎԵՐԱԿԱՆԳՆՈՒՄ */
-    /* Օգտագործում ենք հենց ձեր HTML-ի կլասները */
-    .about-container {
-        display: block !important;
-        height: auto !important;
-        overflow: visible !important;
+    .side-nav button {
+        flex: 0 0 auto !important;
+        padding: 10px 20px !important;
+        font-weight: 700 !important;
     }
 
-    .about-section {
+    /* 3. ՄԵՐ ՄԱՍԻՆ (ABOUT SECTION) - KEEPING AS IS (Working perfectly) */
+    .about-container, .about-section {
         display: block !important;
-        position: static !important; /* Քանդում է absolute-ը */
+        position: static !important;
         height: auto !important;
         min-height: auto !important;
         overflow: visible !important;
-        padding: 50px 20px !important;
-    }
-
-    /* Գործընկերների լոգոների լիարժեք տեսանելիություն */
-    .partners-grid {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 20px !important;
-        height: auto !important;
-        overflow: visible !important;
+        padding: 40px 20px !important;
     }
 
     .vertical-title {
@@ -76,13 +92,35 @@
         writing-mode: horizontal-tb !important;
         transform: none !important;
         text-align: center !important;
-        font-size: 2rem !important;
-        margin-bottom: 25px !important;
+        font-size: 1.8rem !important;
+        margin-bottom: 20px !important;
+    }
+
+    .partners-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .partner-card {
+        display: flex !important;
+        height: 110px !important;
+        background: #fff;
+    }
+
+    /* 4. GLOBAL SCROLL - Ensures About page remains scrollable */
+    html, body {
+        overflow-y: auto !important;
+        height: auto !important;
+        -webkit-overflow-scrolling: touch;
     }
 }
 
-/* SMALL PHONE FIX */
+/* SMALL PHONE FIXES */
 @media screen and (max-width: 480px) {
-    header .menu li a { font-size: 1.3rem !important; }
+    body .menu li a { font-size: 1.2rem !important; }
     .partners-grid { grid-template-columns: 1fr !important; }
+    .vertical-title { font-size: 1.5rem !important; }
 }
