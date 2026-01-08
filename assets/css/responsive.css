@@ -38,7 +38,7 @@
     }
 
     /* 3. SERVICES SECTION - THE ULTIMATE TAB FIX */
-    /* Թաքցնում ենք ԲՈԼՈՐ ենթաբաժինները, որոնք ՉՈՒՆԵՆ .active կլաս */
+    /* Ստիպողաբար թաքցնում ենք ԲՈԼՈՐ բաժինները, որոնք ՉՈՒՆԵՆ .active կլաս */
     html body .content-display:not(.active) {
         display: none !important;
         opacity: 0 !important;
