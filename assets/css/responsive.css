@@ -1,106 +1,109 @@
 /* ==========================================
-   FULL RESPONSIVE & ALL SECTIONS VISIBLE
+   FINAL RESPONSIVE FIX - BIGGER TEXT & ALL SECTIONS
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* 0. Global Fixes - Վերացնում ենք կայքի "փոքրացած" տեսքը */
+    /* 0. Global Fixes */
     * { box-sizing: border-box !important; }
     html, body { 
         overflow-x: hidden !important; 
         width: 100% !important; 
         height: auto !important; 
-        -webkit-overflow-scrolling: touch;
     }
 
-    /* 1. Header & Compact Menu - Լոգոն և մենյուն մոտ են, տառերը՝ մեծ */
+    /* 1. Header & Navigation - BIGGER TEXT */
     body .nav-container { 
         display: flex !important;
         justify-content: center !important; 
-        gap: 15px !important;            
-        max-width: 100% !important;
-        height: 70px !important; 
+        gap: 20px !important;            
+        height: 90px !important; /* Մի փոքր բարձրացրել ենք հիդերը մեծ տեքստի համար */
         padding: 0 10px !important; 
     }
 
-    body .logo img { height: 45px !important; width: auto !important; }
+    body .logo img { height: 60px !important; width: auto !important; }
     body .logo-text { display: none !important; }
 
     body .menu { 
         display: flex !important;
-        gap: 12px !important;
-        margin: 0 !important;
+        gap: 15px !important;
+        align-items: center !important;
     }
 
     body .menu li a { 
-        font-size: 1.1rem !important;
-        font-weight: 800 !important;
+        font-size: 1.4rem !important; /* Ավելի մեծ տառաչափ (Header writing bigger) */
+        font-weight: 900 !important; /* Ավելի հաստ */
+        color: #000 !important;      /* Համոզվեք, որ գույնը երևում է */
         white-space: nowrap !important;
+        text-transform: uppercase !important;
     }
 
-    /* 2. ՄԵՐ ՄԱՍԻՆ (About Page) - Սա կցուցադրի ԲՈԼՈՐ բաժինները */
+    /* 2. ABOUT PAGE (Մեր մասին) - FULL VISIBILITY */
     body .about-page-wrapper, 
     body .about-container, 
     body main.about-page,
-    body .about-hero {
+    body section[id*="about"] {
         display: block !important; 
-        position: relative !important;
-        height: auto !important; /* Հանում ենք 100vh սահմանափակումը */
+        height: auto !important;      /* Սա թույլ կտա սքրոլ անել բոլոր բաժինները */
         min-height: 100vh !important;
-        overflow-y: visible !important;
-        overflow-x: hidden !important;
-        padding-top: 80px !important; 
+        overflow: visible !important; /* Ոչ մի բան չթաքցնել */
+        position: relative !important;
+        padding-top: 100px !important; 
     }
 
-    /* Յուրաքանչյուր բաժին (Section 1, 2, 3) */
     body .about-section, 
     body .about-content, 
-    body .about-box,
-    body section[class*="about"] {
+    body .about-box {
         display: block !important;
-        position: static !important; /* Չեղարկում է absolute դիրքը, որ բաժինները չլինեն իրար վրա */
+        position: static !important;  /* Հանում է շերտավորումը */
         width: 100% !important;
-        height: auto !important;     /* Թույլ է տալիս բաժնին աճել ըստ տեքստի/նկարների */
+        height: auto !important;
         min-height: auto !important;
-        margin-bottom: 50px !important; /* Բացատ բաժինների միջև */
+        margin-bottom: 80px !important; /* Մեծ բացատ բաժինների միջև */
         opacity: 1 !important;
         visibility: visible !important;
-        transform: none !important;    /* Հանում է անիմացիոն շեղումները */
-        padding: 20px !important;
+        transform: none !important;
     }
 
-    /* ԳՈՐԾԸՆԿԵՐՆԵՐ (Partners/Subsection 3) - Ցուցադրել բոլոր լոգոները */
+    /* PARTNERS SUB-SECTION - SHOW FULL LIST */
+    /* Սա այն հատվածն է, որտեղ լոգոները կտրվում էին */
     body .partners-grid, 
+    body .partners-container, 
     body .clients-grid,
-    body .partners-container {
+    body .partner-logos-wrapper {
         display: flex !important;
-        flex-direction: column !important; /* Լոգոները դասավորել իրար տակ */
+        flex-direction: column !important; /* Լոգոները իրար տակ */
         align-items: center !important;
-        height: auto !important;
-        overflow: visible !important;
-        gap: 35px !important;
-        padding-bottom: 40px !important;
+        justify-content: flex-start !important;
+        height: auto !important;        /* ԿԱՐԵՎՈՐ: հեռացնում է բարձրության սահմանափակումը */
+        min-height: 500px !important;   /* Ապահովում է նվազագույն տեղ բոլորի համար */
+        overflow: visible !important;   /* Թույլ է տալիս տեսնել ողջ պարունակությունը */
+        gap: 40px !important;
+        padding: 40px 0 !important;
     }
 
-    body .partner-logo, body .partner-item img {
-        width: 160px !important; /* Լոգոների չափսը հարմարեցնել մոբայլին */
+    body .partner-item, 
+    body .partner-logo, 
+    body .client-logo {
+        width: 180px !important;        /* Մեծացված լոգոներ մոբայլի համար */
         height: auto !important;
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
     }
 
-    /* 3. PROJECTS & CONTACT - Մեկ սյունակ */
+    /* 3. PROJECTS & CONTACT - SINGLE COLUMN */
     body .projects-grid, body .contact-grid {
         display: flex !important;
         flex-direction: column !important;
-        grid-template-columns: none !important;
-        gap: 30px !important;
+        gap: 40px !important;
     }
     
     body .project-card, body .contact-card {
         width: 100% !important;
-        max-width: 100% !important;
         height: auto !important;
     }
 
-    /* 4. SERVICES - JS վերականգնում */
+    /* 4. SERVICES - JS FIX */
     body .content-display { display: none; }
     body .content-display.active { display: flex !important; flex-direction: column !important; }
 }
@@ -109,6 +112,6 @@
    SMALL PHONE FIXES (Max 480px)
    ========================================== */
 @media screen and (max-width: 480px) {
-    body .menu li a { font-size: 0.95rem !important; }
-    body .about-section h2 { font-size: 1.5rem !important; }
+    body .menu li a { font-size: 1.1rem !important; }
+    body .nav-container { gap: 10px !important; }
 }
