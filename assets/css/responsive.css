@@ -37,48 +37,47 @@
         white-space: nowrap !important;
     }
 
-    /* 3. SERVICES SECTION - THE ULTIMATE TAB FIX */
-    /* Ստիպողաբար թաքցնում ենք ԲՈԼՈՐ բաժինները, որոնք ՉՈՒՆԵՆ .active կլաս */
-    html body .content-display:not(.active) {
+    /* --- ԾԱՌԱՅՈՒԹՅՈՒՆՆԵՐԻ ԲԱԺՆԻ ՇՏԿՈՒՄ --- */
+
+    /* 1. Թաքցնում ենք բոլոր ենթաբաժինները (content-display) */
+    html body .content-display {
         display: none !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
         height: 0 !important;
         overflow: hidden !important;
+        visibility: hidden !important;
         padding: 0 !important;
         margin: 0 !important;
     }
 
-    /* Ցուցադրում ենք ՄԻԱՅՆ ակտիվ բաժինը */
-    html body .content-display.active {
+    /* 2. Ցուցադրում ենք ՄԻԱՅՆ այն ենթաբաժինը, որը միաժամանակ՝
+       - ունի .active կլաս
+       - գտնվում է ԱԿՏԻՎ գլխավոր բաժնի (.service-body-container.active) ներսում */
+    html body .service-body-container.active .content-display.active {
         display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
         height: auto !important;
+        visibility: visible !important;
         overflow: visible !important;
         padding: 20px !important;
         margin-top: 20px !important;
     }
 
-    /* Տաբերի նավիգացիան (Side Nav) */
+    /* 3. Եթե գլխավոր բաժինը ակտիվ չէ, նրա ներսի բոլոր ենթաբաժինները ՊԵՏՔ Է թաքնված լինեն */
+    html body .service-body-container:not(.active) .content-display {
+        display: none !important;
+    }
+
+    /* 4. Side Nav-ի (ենթատաբերի) դասավորությունը մոբայլում */
     html body .side-nav {
         display: flex !important;
         flex-direction: row !important;
         overflow-x: auto !important;
         white-space: nowrap !important;
-        padding: 15px !important;
+        padding: 10px !important;
+        gap: 10px !important;
         background: #f8f8f8 !important;
         -webkit-overflow-scrolling: touch;
-        border-bottom: 2px solid #ddd !important;
     }
-
-    html body .side-nav button {
-        flex: 0 0 auto !important;
-        padding: 10px 20px !important;
-        font-weight: 700 !important;
-        font-size: 1.1rem !important;
-    }
-
+   
     /* 4. ՄԵՐ ՄԱՍԻՆ (ABOUT SECTION) - KEEPING WORKING STATE */
     /* Սա պահպանում է լոգոների տեսանելիությունը և սքրոլը */
     .about-container, .about-section {
