@@ -1,36 +1,89 @@
 /* ==========================================
-   COMPACT SECTIONS & NO EXTRA SPACING
+   FINAL RESPONSIVE - FIXED HEADER & SERVICES
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* 0. Scroll & Global Fix */
-    html, body { 
-        overflow-y: auto !important; 
-        height: auto !important; 
+    /* 1. HEADER - BIGGER FONT & COMPACT */
+    body .nav-container { 
+        display: flex !important;
+        justify-content: center !important; 
+        gap: 20px !important;            
+        height: 90px !important; 
+        padding: 0 10px !important; 
     }
 
-    /* 1. Compact Header */
-    body .nav-container { height: 70px !important; gap: 15px !important; }
-    body .menu li a { font-size: 1.2rem !important; font-weight: 900 !important; }
+    body .logo img { height: 55px !important; width: auto !important; }
 
-    /* 2. ABOUT SECTIONS - Removing Fixed Heights */
-    .about-container { 
-        padding: 0 !important; 
+    body .menu { 
+        display: flex !important;
+        gap: 15px !important;
+        align-items: center !important;
     }
 
-    .about-section {
+    body .menu li a { 
+        font-size: 1.5rem !important; /* Մեծացված տառաչափ */
+        font-weight: 900 !important;
+        color: #000 !important;
+        text-transform: uppercase !important;
+        white-space: nowrap !important;
+    }
+
+    /* 2. SERVICES SECTION - FIXING TABS */
+    /* Հեռացնում ենք !important-ը, որպեսզի JavaScript-ը կարողանա թաքցնել/բացել բաժինները */
+    .service-body-container {
+        display: flex !important;
+        flex-direction: column !important;
+        height: auto !important;
+    }
+
+    /* Ոչ ակտիվ բովանդակությունը պետք է թաքնված լինի */
+    .content-display { 
+        display: none; /* ԱՌԱՆՑ !important */
+        width: 100% !important;
+        padding: 20px !important;
+    }
+
+    /* Միայն ակտիվ բաժինը կերևա */
+    .content-display.active { 
+        display: block !important; 
+    }
+
+    /* Մոբայլ Նավիգացիան (Tabs) */
+    .side-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        gap: 10px !important;
+        padding: 15px !important;
+        background: #f0f0f0 !important;
+        -webkit-overflow-scrolling: touch;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .side-nav button {
+        padding: 12px 20px !important;
+        font-size: 1.1rem !important;
+        font-weight: 700 !important;
+        border: none !important;
+        background: none !important;
+    }
+
+    .side-nav button.active {
+        color: #007bff !important; /* Կամ ձեր կայքի հիմնական գույնը */
+        border-bottom: 3px solid #007bff !important;
+    }
+
+    /* 3. ՄԵՐ ՄԱՍԻՆ (ABOUT SECTION) - ՁԵՌՔ ՉԵՆՔ ՏԱԼԻՍ (WORKING) */
+    /* Պահպանված են նախորդ աշխատող կարգավորումները */
+    .about-container, .about-section {
         display: block !important;
         position: static !important;
-        width: 100% !important;
-        /* Փոխում ենք height-ը, որպեսզի չլինեն մեծ դատարկ տարածքներ */
-        height: auto !important; 
-        min-height: auto !important; 
-        padding: 50px 20px !important; /* Հավասարաչափ բացատներ վերևից և ներքևից */
-        margin: 0 !important;
+        height: auto !important;
+        min-height: auto !important;
         overflow: visible !important;
+        padding: 40px 20px !important;
     }
-
-    /* 3. VERTICAL TITLE (Մեր Թիմը) - Compact */
     .vertical-title {
         position: static !important;
         display: block !important;
@@ -38,52 +91,18 @@
         transform: none !important;
         text-align: center !important;
         font-size: 1.8rem !important;
-        margin: 0 0 20px 0 !important; /* Փոքրացված բացատ վերնագրի տակ */
-        padding: 0 !important;
+        margin-bottom: 20px !important;
     }
-
-    /* 4. INTRO GRID (Առաքելություն) - Compact */
-    .intro-grid {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 20px !important;
-    }
-    .intro-column { margin: 0 !important; padding: 0 !important; }
-    .intro-title { margin-bottom: 10px !important; }
-
-    /* 5. TEAM GRID - No excess space */
-    .team-grid-container {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        gap: 30px !important;
-        margin-top: 10px !important;
-    }
-
-    .team-member {
-        margin-bottom: 10px !important;
-    }
-
-    /* 6. PARTNERS GRID - Clean layout */
-    .partners-wrapper {
-        padding: 0 !important;
-        margin-top: 20px !important;
-    }
-
     .partners-grid {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 15px !important;
-        height: auto !important;
-    }
-
-    .partner-card {
-        height: 100px !important; /* Ավելի կոմպակտ լոգոների բլոկներ */
     }
 }
 
-/* SMALL PHONE FIX */
+/* SMALL PHONE FIXES */
 @media screen and (max-width: 480px) {
-    .about-section { padding: 40px 15px !important; }
+    body .menu li a { font-size: 1.2rem !important; }
+    .side-nav button { font-size: 1rem !important; }
     .partners-grid { grid-template-columns: 1fr !important; }
 }
