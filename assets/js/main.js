@@ -113,5 +113,3 @@ document.addEventListener("DOMContentLoaded", () => {
     loadComponent("header-placeholder", "components/header.html");
     loadComponent("footer-placeholder", "components/footer.html");
 });
-
-here is my main.js code. do changes if needed. only touch code part related to this issue. and provide updated code
