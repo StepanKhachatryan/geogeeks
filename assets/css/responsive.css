@@ -1,124 +1,114 @@
 /* ==========================================
-   SUPER RESPONSIVE & COMPACT HEADER
+   FULL RESPONSIVE & ALL SECTIONS VISIBLE
    ========================================== */
 @media screen and (max-width: 1024px) {
 
-    /* 0. Global Fixes */
+    /* 0. Global Fixes - Վերացնում ենք կայքի "փոքրացած" տեսքը */
     * { box-sizing: border-box !important; }
     html, body { 
         overflow-x: hidden !important; 
         width: 100% !important; 
         height: auto !important; 
+        -webkit-overflow-scrolling: touch;
     }
 
-    /* 1. Header & Compact Navigation */
+    /* 1. Header & Compact Menu - Լոգոն և մենյուն մոտ են, տառերը՝ մեծ */
     body .nav-container { 
         display: flex !important;
-        justify-content: center !important; /* Կենտրոնացնում է տարրերը իրար մոտ */
-        gap: 20px !important;            /* Լոգոյի և մենյուի միջև հեռավորությունը */
-        max-width: 95% !important;       /* Նեղացնում ենք հիդերի ընդհանուր լայնությունը */
-        margin: 0 auto !important;
-        height: 80px !important; 
+        justify-content: center !important; 
+        gap: 15px !important;            
+        max-width: 100% !important;
+        height: 70px !important; 
         padding: 0 10px !important; 
     }
 
-    body .logo img { 
-        height: 55px !important;        /* Մեծացված լոգո */
-        width: auto !important; 
-    }
-    
+    body .logo img { height: 45px !important; width: auto !important; }
     body .logo-text { display: none !important; }
 
     body .menu { 
         display: flex !important;
-        gap: 15px !important;           /* Մենյուի կոճակների միջև հեռավորությունը */
+        gap: 12px !important;
         margin: 0 !important;
-        padding: 0 !important;
     }
 
     body .menu li a { 
-        font-size: 1.2rem !important;   /* Մեծ տառաչափ մոբայլի համար */
-        font-weight: 800 !important;    /* Ավելի հաստ (Bold) */
+        font-size: 1.1rem !important;
+        font-weight: 800 !important;
         white-space: nowrap !important;
     }
 
-    /* 2. ABOUT PAGE - Լիարժեք սքրոլի ապահովում */
+    /* 2. ՄԵՐ ՄԱՍԻՆ (About Page) - Սա կցուցադրի ԲՈԼՈՐ բաժինները */
     body .about-page-wrapper, 
     body .about-container, 
-    body main.about-page {
+    body main.about-page,
+    body .about-hero {
         display: block !important; 
-        height: auto !important;
+        position: relative !important;
+        height: auto !important; /* Հանում ենք 100vh սահմանափակումը */
         min-height: 100vh !important;
         overflow-y: visible !important;
-        position: relative !important;
-        padding-top: 100px !important; /* Որպեսզի հիդերը չփակի բովանդակությունը */
+        overflow-x: hidden !important;
+        padding-top: 80px !important; 
     }
 
+    /* Յուրաքանչյուր բաժին (Section 1, 2, 3) */
     body .about-section, 
     body .about-content, 
-    body .about-box {
+    body .about-box,
+    body section[class*="about"] {
         display: block !important;
-        position: static !important; /* ԿԱՐԵՎՈՐ. հանում է absolute դիրքերը */
+        position: static !important; /* Չեղարկում է absolute դիրքը, որ բաժինները չլինեն իրար վրա */
         width: 100% !important;
-        height: auto !important;
-        margin-bottom: 60px !important;
+        height: auto !important;     /* Թույլ է տալիս բաժնին աճել ըստ տեքստի/նկարների */
+        min-height: auto !important;
+        margin-bottom: 50px !important; /* Բացատ բաժինների միջև */
         opacity: 1 !important;
         visibility: visible !important;
-        transform: none !important;
+        transform: none !important;    /* Հանում է անիմացիոն շեղումները */
+        padding: 20px !important;
     }
 
-    /* ԳՈՐԾԸՆԿԵՐՆԵՐ (Partners) - Ցուցադրել բոլորը */
+    /* ԳՈՐԾԸՆԿԵՐՆԵՐ (Partners/Subsection 3) - Ցուցադրել բոլոր լոգոները */
     body .partners-grid, 
-    body .clients-grid {
+    body .clients-grid,
+    body .partners-container {
         display: flex !important;
-        flex-direction: column !important;
+        flex-direction: column !important; /* Լոգոները դասավորել իրար տակ */
         align-items: center !important;
         height: auto !important;
         overflow: visible !important;
-        gap: 40px !important;
+        gap: 35px !important;
+        padding-bottom: 40px !important;
     }
 
-    /* 3. PROJECTS (Նախագծեր) - Մեկ սյունակ */
-    body .projects-grid {
+    body .partner-logo, body .partner-item img {
+        width: 160px !important; /* Լոգոների չափսը հարմարեցնել մոբայլին */
+        height: auto !important;
+    }
+
+    /* 3. PROJECTS & CONTACT - Մեկ սյունակ */
+    body .projects-grid, body .contact-grid {
         display: flex !important;
         flex-direction: column !important;
         grid-template-columns: none !important;
-        align-items: center !important;
         gap: 30px !important;
     }
     
-    body .project-card {
+    body .project-card, body .contact-card {
         width: 100% !important;
         max-width: 100% !important;
+        height: auto !important;
     }
 
-    /* 4. SERVICES (Ծառայություններ) - JS-ի վերականգնում */
-    body .content-display { 
-        display: none; /* ԱՌԱՆՑ !important, որպեսզի JS-ը աշխատի */
-    }
-    body .content-display.active { 
-        display: flex !important; 
-        flex-direction: column !important;
-        width: 100% !important;
-    }
-
-    body .side-nav {
-        display: flex !important;
-        flex-direction: row !important;
-        overflow-x: auto !important;
-        background: #f4f4f4 !important;
-        padding: 10px !important;
-    }
+    /* 4. SERVICES - JS վերականգնում */
+    body .content-display { display: none; }
+    body .content-display.active { display: flex !important; flex-direction: column !important; }
 }
 
 /* ==========================================
-   SMALL PHONE STYLES (Max 480px)
+   SMALL PHONE FIXES (Max 480px)
    ========================================== */
 @media screen and (max-width: 480px) {
-    body .nav-container { 
-        gap: 10px !important; 
-    }
-    body .menu li a { 
-        font-size: 1rem !important; 
-    }
+    body .menu li a { font-size: 0.95rem !important; }
+    body .about-section h2 { font-size: 1.5rem !important; }
 }
