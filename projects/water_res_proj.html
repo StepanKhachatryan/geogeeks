@@ -14,7 +14,7 @@
     /* --- GLOBAL PAGE FIX --- */
     html, body {
       margin: 0; padding: 0;
-      background-color: #ffffff; /* Մաքուր սպիտակ ֆոն */
+      background-color: #ffffff;
       height: 100%;
     }
 
@@ -26,14 +26,14 @@
 
     .all-projects-wrapper {
       flex: 1;
-      padding: 60px 5%; /* Հարմարեցված է relative Header-ին */
+      padding: 60px 5%;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       box-sizing: border-box;
     }
 
-    /* --- PROJECT CARDS (Wider 1.3x, 3:2 Ratio & Zoom) --- */
+    /* --- PROJECT CARDS --- */
     .projects-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(500px, 1fr)); 
@@ -49,7 +49,7 @@
       border-radius: 15px;
       overflow: hidden;
       cursor: pointer;
-      aspect-ratio: 3 / 2; /* 3:2 հարաբերակցություն */
+      aspect-ratio: 3 / 2;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
       border: 1px solid #eee;
@@ -68,18 +68,15 @@
       position: absolute;
       top: 0;
       left: 0;
-      /* Zoom էֆեկտի սահունության համար */
       transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s ease;
       z-index: 1;
     }
 
-    /* Hover Zoom & Brightness */
     .project-card:hover .card-image {
       transform: scale(1.1);
       filter: brightness(1.05);
     }
 
-    /* Նեղացված Blur շերտը տեքստի համար */
     .card-overlay-info {
       position: absolute;
       bottom: 0;
@@ -177,6 +174,13 @@
           </div>
         </div>
 
+        <div class="project-card" onclick="openWidget('irrig_1')">
+          <div class="card-image" style="background-image: url('../assets/img/ind_project_img/irrig_proj_01.jpg');"></div>
+          <div class="card-overlay-info">
+              <h3>Պիլոտային տարածքում ոռոգման ջրապահանջի հաշվարկի ավտոմատացում</h3>
+          </div>
+        </div>
+
       </div>
     </main>
   </div>
@@ -209,6 +213,15 @@
         duration: "10 ամիս",
         desc: "Նախագծի շրջանակներում իրականացվել է հիդրոլոգիական և ջրային ռեսուրսներին առնչվող հարցերի ուսումնասիրություն և տեսլականի մշակում:",
         tech: ["Սևանա լիճ", "ջրային հաշվեկշիռ", "մոնիթորինգ"]
+      },
+      irrig_1: {
+        title: "Պիլոտային տարածքում ոռոգման ջրապահանջի հաշվարկի ավտոմատացում",
+        client: "«Ինովացիոն Լուծումների և Տեխնոլոգիաների Կենտրոն» հիմնադրամ",
+        img: "../assets/img/ind_project_img/irrig_proj_01_1.jpg",
+        year: "2022",
+        duration: "1 ամիս",
+        desc: "Նախագծի շրջանակում իրականացվել է պիլոտային տարածքի ոռոգման ջրապահանջի ավտոմատացում GIS միջավայրում: Հաշվարկվել է ոռոգման ընդհանուր ջրապահանջը՝ ելնելով հողամասի մակերեսից, մշակաբույսի տեսակից և ցանցի կորուստներից:",
+        tech: ["QGIS", "QField", "Database Management"]
       }
     };
 
