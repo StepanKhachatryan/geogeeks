@@ -29,6 +29,12 @@ html {
 
 body {
   margin: 0;
+  /* Fill the viewport so a short page still puts the footer at the bottom,
+     without pushing it past the fold. `dvh` follows a mobile browser's bars. */
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
   background: var(--gg-surface);
   color: var(--gg-ink);
   font-family: var(--font-noto-armenian), system-ui, sans-serif;

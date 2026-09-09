@@ -15,16 +15,18 @@ export function Footer() {
 
   return (
     <footer data-footer className={styles.footer}>
-      <div className={styles.brand}>
-        <Image src="/assets/img/GeoGeeks_logo.png" alt="" width={30} height={30} className={styles.logo} />
-        <span className={styles.copyright}>{t('footer.rights')}</span>
-      </div>
-      <div className={styles.socials}>
-        {socials.map((social) => (
-          <a key={social.label} href={social.href} target="_blank" rel="noreferrer" className={styles.social}>
-            {social.label}
-          </a>
-        ))}
+      <div className={styles.inner}>
+        <div className={styles.brand}>
+          <Image src="/assets/img/GeoGeeks_logo.png" alt="" width={30} height={30} className={styles.logo} />
+          <span className={styles.copyright}>{t('footer.rights')}</span>
+        </div>
+        <div className={styles.socials}>
+          {socials.map((social) => (
+            <a key={social.label} href={social.href} target="_blank" rel="noreferrer" className={styles.social}>
+              {social.label}
+            </a>
+          ))}
+        </div>
       </div>
     </footer>
   );

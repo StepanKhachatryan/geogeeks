@@ -1,13 +1,21 @@
+/* The footer spans the page; its content is what is centred. Centring the
+   footer itself with auto margins would stop it stretching in the body's
+   column flex layout. */
 .footer {
-  padding: 34px clamp(14px, 3vw, 40px);
+  width: 100%;
+  padding: 0 clamp(14px, 3vw, 40px);
+}
+
+.inner {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 34px 0;
   border-top: 1px solid var(--gg-divider);
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
   align-items: center;
   justify-content: space-between;
-  max-width: 1500px;
-  margin: 0 auto;
 }
 
 .brand {
