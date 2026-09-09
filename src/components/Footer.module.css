@@ -1,0 +1,45 @@
+.footer {
+  padding: 34px clamp(14px, 3vw, 40px);
+  border-top: 1px solid var(--gg-divider);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  height: 30px;
+  width: 30px;
+  object-fit: contain;
+}
+
+.copyright {
+  font-size: 14px;
+  color: var(--gg-warm-grey);
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.social {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gg-warm-grey);
+  transition: color 0.3s ease;
+}
+
+.social:hover {
+  color: var(--gg-teal);
+}
