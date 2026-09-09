@@ -1,0 +1,18 @@
+.page {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  animation: gg-pagein 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* The last section takes the leftover height, so its background reaches the
+   footer instead of leaving a band of page white above it. */
+.page > :last-child {
+  flex: 1 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    animation: none;
+  }
+}

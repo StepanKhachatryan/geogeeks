@@ -1,0 +1,6 @@
+# Թույլ տալ բոլոր որոնողական համակարգերին սկանավորել կայքը
+User-agent: *
+Allow: /
+
+# Կայքի քարտեզի հասցեն
+Sitemap: https://geogeeks.am/sitemap.xml

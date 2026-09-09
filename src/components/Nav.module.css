@@ -1,0 +1,110 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--gg-surface);
+  border-bottom: 1px solid var(--gg-border);
+}
+
+.inner {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 clamp(14px, 3vw, 40px);
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.logo {
+  height: 40px;
+  width: 40px;
+  object-fit: contain;
+  display: block;
+}
+
+.wordmark {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gg-ink);
+  letter-spacing: -0.01em;
+}
+
+.items {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.items::-webkit-scrollbar {
+  display: none;
+}
+
+/* Nav text stays ink-dark in every state; only the background and border move. */
+.item {
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--gg-ink);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.item:hover {
+  background: var(--gg-hover-grey);
+  color: var(--gg-ink);
+}
+
+.contact {
+  padding: 9px 16px;
+  font-weight: 700;
+  background: var(--gg-surface);
+}
+
+.active {
+  background: var(--gg-surface);
+  border-color: var(--gg-ink);
+}
+
+.lang {
+  margin-left: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(22, 48, 44, 0.16);
+  background: var(--gg-surface);
+  color: var(--gg-ink);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.lang:hover {
+  background: var(--gg-hover-grey);
+}
+
+/* Under ~480px the wordmark gives its room to the scrolling nav strip. */
+@media (max-width: 480px) {
+  .wordmark {
+    display: none;
+  }
+}

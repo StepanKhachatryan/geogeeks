@@ -1,0 +1,30 @@
+/** The two in-house platforms shown as the rotating home hero. */
+export type Product = {
+  title: string;
+  titleEn: string;
+  desc: string;
+  descEn: string;
+  img: string;
+  url: string;
+};
+
+export const products: Product[] = [
+  {
+    title: 'Բերքատեղ',
+    titleEn: "Berqategh — Armenia's fertile land platform",
+    desc: 'Քարտեզի վրա հիմնված հարթակ հայկական բերքի համար․ արտադրողները տեղադրում են իրենց ապրանքը՝ մեծածախ և մանրածախ գներով, քանակով և տեղանքով, իսկ գնորդները գտնում են դրանք քարտեզի վրա։',
+    descEn:
+      'A map-based marketplace for Armenian produce: growers list what they sell with wholesale and retail prices, quantities and location, and buyers find them on the map.',
+    img: '/assets/img/products/berqategh.jpg',
+    url: 'https://berqategh.am/',
+  },
+  {
+    title: 'Ջրհեղեղների տեղեկատվական հարթակ',
+    titleEn: 'Flood information platform',
+    desc: 'Մեր նախաձեռնությունը՝ հավաքագրում է սոցիալական հարթակներում օգտատերերի հրապարակած ջրհեղեղների վերաբերյալ նյութերը և քարտեզագրում մեկ ընդհանուր բազայում։',
+    descEn:
+      'Our own initiative: it collects flood reports published by users across social platforms and maps them into a single national record.',
+    img: '/assets/img/products/fiparmenia.jpg',
+    url: 'https://fiparmenia.netlify.app/',
+  },
+];

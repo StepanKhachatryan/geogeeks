@@ -1,0 +1,139 @@
+:root {
+  --gg-teal: #0c8495;
+  --gg-green: #00a97a;
+  --gg-yellow: #f7db5d;
+  --gg-warm-grey: #605c5c;
+  --gg-ink: #16302c;
+  --gg-body: #3f4f4b;
+  --gg-muted: #95a5a6;
+  --gg-surface: #ffffff;
+  --gg-off-white: #fbfcfb;
+  --gg-tint: #eef4f2;
+  --gg-tint-yellow: #fdf6d9;
+  --gg-hover-grey: #f2f5f4;
+  --gg-border: rgba(22, 48, 44, 0.1);
+  --gg-divider: rgba(22, 48, 44, 0.09);
+  --gg-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Decorative blobs sit outside the page box; clip them without creating a
+     scroll container, which would break the sticky nav. */
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  /* Fill the viewport so a short page still puts the footer at the bottom,
+     without pushing it past the fold. `dvh` follows a mobile browser's bars. */
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--gg-surface);
+  color: var(--gg-ink);
+  font-family: var(--font-noto-armenian), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+a {
+  color: var(--gg-teal);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--gg-green);
+}
+
+button {
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--gg-yellow);
+  color: var(--gg-ink);
+}
+
+@keyframes gg-curtain {
+  0% {
+    transform: translateY(101%);
+  }
+  40% {
+    transform: translateY(0);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-101%);
+  }
+}
+
+@keyframes gg-pagein {
+  0% {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/** Section shells shared by the routed pages. */
+.gg-section {
+  padding: clamp(20px, 2.6vw, 38px) clamp(14px, 3vw, 40px);
+}
+
+.gg-inner {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.gg-back {
+  flex-shrink: 0;
+  padding: 11px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--gg-ink);
+  background: var(--gg-surface);
+  color: var(--gg-ink);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.gg-back:hover {
+  background: var(--gg-hover-grey);
+  color: var(--gg-ink);
+}
+
+.gg-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid var(--gg-border);
+}
+
+.gg-kicker {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gg-green);
+}
