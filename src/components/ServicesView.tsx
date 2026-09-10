@@ -9,6 +9,9 @@ import styles from './ServicesView.module.css';
 
 /** Below this much free height the expanded panel scrolls with the page instead. */
 const FIT_THRESHOLD = 620;
+/** Narrower than this the panel is one column, where a fixed height would
+    squeeze the text to nothing and leave only the image on screen. */
+const FIT_MIN_WIDTH = 900;
 
 export function ServicesView() {
   const { t, pick } = useLanguage();
@@ -30,7 +33,8 @@ export function ServicesView() {
     setSubKey(group.subs[0].key);
   };
 
-  const expandedHeight = space.height >= FIT_THRESHOLD ? `${space.height}px` : 'auto';
+  const fitsViewport = space.width >= FIT_MIN_WIDTH && space.height >= FIT_THRESHOLD;
+  const expandedHeight = fitsViewport ? `${space.height}px` : 'auto';
 
   return (
     <section ref={section} className={styles.section}>

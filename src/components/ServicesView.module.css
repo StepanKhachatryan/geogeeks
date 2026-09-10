@@ -270,3 +270,25 @@
   background-position: center;
   box-shadow: 0 14px 40px rgba(22, 48, 44, 0.14);
 }
+
+/* Below this the panel body is a single column: the text is read in full and the
+   image keeps a fixed shape under it instead of taking half the screen. */
+@media (max-width: 700px) {
+  .panelBody {
+    grid-template-columns: 1fr;
+  }
+
+  .copy {
+    overflow-y: visible;
+  }
+
+  .subImage {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+
+  .compactRow {
+    grid-template-columns: 1fr;
+  }
+}

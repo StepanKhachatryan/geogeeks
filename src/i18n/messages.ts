@@ -9,6 +9,8 @@ export const messages = {
     'nav.contact': 'Կապ',
     /** The toggle shows the language it switches to. */
     'nav.langToggle': 'ENG',
+    'nav.openMenu': 'Բացել մենյուն',
+    'nav.closeMenu': 'Փակել մենյուն',
     'hero.openPlatform': 'Բացել հարթակը →',
     'home.latest': 'Վերջին նախագծեր',
     'home.openProject': 'Բացել նախագիծը',
@@ -42,6 +44,8 @@ export const messages = {
     'nav.about': 'About',
     'nav.contact': 'Contact',
     'nav.langToggle': 'ՀԱՅ',
+    'nav.openMenu': 'Open the menu',
+    'nav.closeMenu': 'Close the menu',
     'hero.openPlatform': 'Open the platform →',
     'home.latest': 'Latest projects',
     'home.openProject': 'Open project',
