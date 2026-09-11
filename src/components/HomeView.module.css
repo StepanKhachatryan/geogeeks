@@ -1,7 +1,14 @@
+/* The section spans the window; its content is what is centred. Auto side
+   margins here would stop it stretching in the page's column flex layout. */
 .hero {
   position: relative;
-  padding: clamp(16px, 2vw, 28px) clamp(14px, 3vw, 40px) clamp(40px, 5vw, 72px);
-  max-width: 1500px;
+  width: 100%;
+  padding: clamp(16px, 2vw, 28px) var(--gg-gutter) clamp(40px, 5vw, 72px);
+}
+
+.inner {
+  position: relative;
+  max-width: var(--gg-content-max);
   margin: 0 auto;
 }
 
@@ -24,7 +31,9 @@
 .stage {
   position: relative;
   width: 100%;
-  height: clamp(360px, 46vw, 560px);
+  /* Grows with the window, but never takes more than most of the fold, so the
+     projects below stay reachable on a short laptop screen. */
+  height: clamp(360px, 46vw, min(720px, 64vh));
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 22px 60px rgba(22, 48, 44, 0.14);

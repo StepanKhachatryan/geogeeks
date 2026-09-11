@@ -11,17 +11,26 @@ import styles from './ProjectsView.module.css';
 const GAP = 20;
 const MIN_TILE = 250;
 const MIN_ROW = 120;
+const MAX_CONTENT = 2200;
 
 /**
- * All sector tiles are the same size and the grid is sized so they fit the
- * viewport without scrolling: columns come from the available width, rows from
- * the tile count, and the row height divides what is left of the height.
+ * All sector tiles are the same size and the grid fits the viewport without
+ * scrolling. The width decides how many tiles could sit in a row; the count is
+ * then evened out over the rows they need, so a wide screen shows 4 and 4
+ * rather than 6 and 2. The row height divides whatever height is left.
  */
-function rowHeight(width: number, height: number, tiles: number): string {
-  if (!height) return 'minmax(150px, auto)';
-  const columns = Math.max(1, Math.min(4, Math.floor((width - 80 + GAP) / (MIN_TILE + GAP))));
-  const rows = Math.ceil(tiles / columns);
-  return `${Math.max(MIN_ROW, Math.floor((height - GAP * (rows - 1)) / rows))}px`;
+function grid(width: number, height: number, tiles: number) {
+  const gutter = Math.min(56, Math.max(14, width * 0.03));
+  const inner = Math.min(width, MAX_CONTENT) - gutter * 2;
+  const fitting = Math.max(1, Math.min(tiles, Math.floor((inner + GAP) / (MIN_TILE + GAP))));
+  const rows = Math.ceil(tiles / fitting);
+  const columns = Math.ceil(tiles / rows);
+  return {
+    gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
+    gridAutoRows: height
+      ? `${Math.max(MIN_ROW, Math.floor((height - GAP * (rows - 1)) / rows))}px`
+      : 'minmax(150px, auto)',
+  };
 }
 
 export function ProjectsView() {
@@ -33,10 +42,7 @@ export function ProjectsView() {
   return (
     <section ref={section} className={styles.section}>
       <div className={styles.inner}>
-        <div
-          className={styles.grid}
-          style={{ gridAutoRows: rowHeight(space.width || 1280, space.height, sectors.length) }}
-        >
+        <div className={styles.grid} style={grid(space.width || 1280, space.height, sectors.length)}>
           {sectors.map((sector) => (
             <TransitionLink
               key={sector.key}

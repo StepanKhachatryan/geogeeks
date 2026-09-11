@@ -1,11 +1,11 @@
 .section {
-  padding: clamp(20px, 2.6vw, 38px) clamp(14px, 3vw, 40px);
+  padding: clamp(20px, 2.6vw, 38px) var(--gg-gutter);
   background: var(--gg-off-white);
   border-top: 1px solid rgba(22, 48, 44, 0.07);
 }
 
 .inner {
-  max-width: 1500px;
+  max-width: var(--gg-content-max);
   margin: 0 auto;
 }
 
@@ -234,6 +234,7 @@
 .copy {
   min-height: 0;
   overflow-y: auto;
+  max-width: 80ch;
 }
 
 .subDesc {

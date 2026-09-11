@@ -3,11 +3,11 @@
    column flex layout. */
 .footer {
   width: 100%;
-  padding: 0 clamp(14px, 3vw, 40px);
+  padding: 0 var(--gg-gutter);
 }
 
 .inner {
-  max-width: 1500px;
+  max-width: var(--gg-content-max);
   margin: 0 auto;
   padding: 34px 0;
   border-top: 1px solid var(--gg-divider);

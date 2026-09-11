@@ -1,12 +1,14 @@
 .section {
-  padding: clamp(20px, 2.6vw, 38px) clamp(14px, 3vw, 40px);
+  padding: clamp(20px, 2.6vw, 38px) var(--gg-gutter);
 }
 
 .inner {
-  max-width: 1500px;
+  max-width: var(--gg-content-max);
   margin: 0 auto;
 }
 
+/* The column count is set inline from the measured width; this is the layout
+   before that first measurement lands. */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));

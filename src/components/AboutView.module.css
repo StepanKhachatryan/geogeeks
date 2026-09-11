@@ -1,6 +1,6 @@
 .about {
   position: relative;
-  padding: clamp(28px, 3.4vw, 56px) clamp(14px, 3vw, 40px) clamp(56px, 7vw, 110px);
+  padding: clamp(28px, 3.4vw, 56px) var(--gg-gutter) clamp(56px, 7vw, 110px);
   background: var(--gg-teal);
   color: #fff;
   overflow: hidden;
@@ -18,7 +18,7 @@
 }
 
 .inner {
-  max-width: 1500px;
+  max-width: var(--gg-content-max);
   margin: 0 auto;
   position: relative;
 }
@@ -54,6 +54,8 @@
   font-size: clamp(16px, 1.2vw, 19px);
   color: var(--gg-body);
   margin: 0;
+  /* Keeps the line length readable once the panel spans a wide monitor. */
+  max-width: 62ch;
 }
 
 .teamTitle {
@@ -131,11 +133,11 @@
 }
 
 .partners {
-  padding: clamp(56px, 7vw, 110px) clamp(14px, 3vw, 40px);
+  padding: clamp(56px, 7vw, 110px) var(--gg-gutter);
 }
 
 .partnersInner {
-  max-width: 1300px;
+  max-width: var(--gg-content-max);
   margin: 0 auto;
   text-align: center;
 }

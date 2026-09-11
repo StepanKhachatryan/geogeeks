@@ -14,6 +14,11 @@
   --gg-border: rgba(22, 48, 44, 0.1);
   --gg-divider: rgba(22, 48, 44, 0.09);
   --gg-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* Content fills the window on laptops and desktops, and only stops growing
+     on an ultra-wide monitor, where edge-to-edge would be unreadable. */
+  --gg-content-max: min(100%, 2200px);
+  /* Side gutters grow with the screen instead of sticking at 40px. */
+  --gg-gutter: clamp(14px, 3vw, 56px);
 }
 
 * {
@@ -94,11 +99,11 @@ img {
 
 /** Section shells shared by the routed pages. */
 .gg-section {
-  padding: clamp(20px, 2.6vw, 38px) clamp(14px, 3vw, 40px);
+  padding: clamp(20px, 2.6vw, 38px) var(--gg-gutter);
 }
 
 .gg-inner {
-  max-width: 1500px;
+  max-width: var(--gg-content-max);
   margin: 0 auto;
 }
 

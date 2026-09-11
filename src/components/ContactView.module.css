@@ -1,11 +1,16 @@
+/* The page holds two cards, so on a large screen they sit in the middle of the
+   space rather than clinging to the top. */
 .section {
-  padding: clamp(56px, 7vw, 110px) clamp(14px, 3vw, 40px);
+  padding: clamp(56px, 7vw, 110px) var(--gg-gutter);
   background: var(--gg-off-white);
   border-top: 1px solid rgba(22, 48, 44, 0.07);
+  display: flex;
+  align-items: center;
 }
 
 .inner {
-  max-width: 1200px;
+  width: 100%;
+  max-width: var(--gg-content-max);
   margin: 0 auto;
 }
 
