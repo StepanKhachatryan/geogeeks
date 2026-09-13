@@ -39,6 +39,7 @@ export function ServicesView() {
   return (
     <section ref={section} className={styles.section}>
       <div className={styles.inner}>
+        <h1 className="gg-sr-only">{t('h1.services')}</h1>
         {!openGroup && (
           <div className={styles.cards}>
             {serviceGroups.map((group) => (
@@ -51,7 +52,11 @@ export function ServicesView() {
               >
                 <span className={styles.cardMedia}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={group.cardImg} alt="" className={styles.cardImage} />
+                  <img
+                    src={group.cardImg}
+                    alt={pick(group.cardTitle, group.cardTitleEn)}
+                    className={styles.cardImage}
+                  />
                   <span className={styles.cardScrim} style={{ background: group.scrim }} />
                 </span>
                 <span className={styles.cardBody}>
@@ -90,6 +95,8 @@ export function ServicesView() {
                     <span
                       className={styles.compactImage}
                       style={{ backgroundImage: `url('${group.cardImg}')` }}
+                      role="img"
+                      aria-label={pick(group.cardTitle, group.cardTitleEn)}
                     />
                     <span className={styles.compactBody}>
                       <span className={styles.compactTitle}>

@@ -36,6 +36,10 @@ export const messages = {
     'contact.followText':
       'Նոր քարտեզները, մոդելները և դասընթացների հայտարարությունները հրապարակվում են մեր էջերում:',
     'footer.rights': '© 2026 GeoGeeks LLC. Բոլոր իրավունքները պաշտպանված են:',
+    'h1.home': 'GeoGeeks — ԱՏՀ (GIS), հիդրոլոգիա և ջրհեղեղների մոդելավորում Հայաստանում',
+    'h1.services': 'ԱՏՀ (GIS), հիդրոլոգիական և ջրհեղեղների մոդելավորման ծառայություններ',
+    'h1.projects': 'GeoGeeks-ի նախագծերն ըստ ոլորտների',
+    'h1.contact': 'Կապ GeoGeeks-ի հետ',
   },
   en: {
     'nav.home': 'Home',
@@ -70,6 +74,10 @@ export const messages = {
     'contact.followTitle': 'Follow the work',
     'contact.followText': 'New maps, models and course announcements go out on our pages.',
     'footer.rights': '© 2026 GeoGeeks LLC. All rights reserved.',
+    'h1.home': 'GeoGeeks — GIS, hydrology and flood modelling in Armenia',
+    'h1.services': 'GIS, hydrology and flood modelling services',
+    'h1.projects': 'GeoGeeks projects by sector',
+    'h1.contact': 'Contact GeoGeeks',
   },
 } satisfies Record<Lang, Record<string, string>>;
 

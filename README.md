@@ -68,6 +68,25 @@ moving the routes under a `[locale]` segment.
 
 All three respect `prefers-reduced-motion: reduce`.
 
+## Search engines
+
+Every route ships a canonical URL, its own title, description and social card,
+and JSON-LD structured data: the company and the site on every page, plus
+breadcrumbs, a service catalogue, sector collections and one record per project.
+`src/lib/seo.ts` holds the helpers; `src/app/sitemap.ts` generates
+`/sitemap.xml` from the project data, and `public/robots.txt` points to it.
+Pages the design leaves without a visible heading carry a screen-reader `h1`
+(`.gg-sr-only`), so each one states what it is.
+
+Two steps happen outside the repository:
+
+1. Verify the domain in Google Search Console. For the HTML-tag method, set
+   `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` to the token before building; the meta
+   tag is then rendered on every page. DNS verification needs no code change.
+2. Submit `https://geogeeks.am/sitemap.xml` in Search Console and request
+   indexing for the home page. Indexing is Google's decision and takes days to
+   weeks; the site cannot force it.
+
 ## Design source
 
 `docs/design-handoff.md` is the handoff that this implementation follows: tokens,

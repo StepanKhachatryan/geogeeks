@@ -6,6 +6,8 @@ import { Nav } from '@/components/Nav';
 import { PageFrame } from '@/components/PageFrame';
 import { TransitionProvider } from '@/components/TransitionProvider';
 import { LanguageProvider } from '@/i18n/LanguageProvider';
+import { JsonLd } from '@/components/JsonLd';
+import { jsonLd, organizationId, organizationSchema, SITE_NAME, SITE_URL } from '@/lib/seo';
 import './globals.css';
 
 const notoSansArmenian = Noto_Sans_Armenian({
@@ -18,9 +20,9 @@ const notoSansArmenian = Noto_Sans_Armenian({
 const GA_ID = 'G-84V1L77P4S';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://geogeeks.am'),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'GeoGeeks',
+    default: 'GeoGeeks — ԱՏՀ (GIS), հիդրոլոգիա և ջրհեղեղների մոդելավորում Հայաստանում',
     template: '%s | GeoGeeks',
   },
   description:
@@ -41,16 +43,53 @@ export const metadata: Metadata = {
     'GIS կրթություն',
   ],
   authors: [{ name: 'GeoGeeks' }],
+  creator: 'GeoGeeks',
+  publisher: 'GeoGeeks LLC',
   icons: { icon: '/assets/img/GeoGeeks_logo.png' },
+  alternates: { canonical: `${SITE_URL}/` },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  // Paste the token from Search Console into this variable to verify the site.
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
   openGraph: {
+    type: 'website',
+    siteName: SITE_NAME,
+    locale: 'hy_AM',
     title: 'ԱՏՀ և ջրային ռեսուրսների ծառայություններ',
     description:
       'GeoGeeks-ը մասնագիտացված է ԱՏՀ վերլուծությունների և հիդրոլոգիական, ջրային ռեսուրսներին առնչվող խնդիրների լուծման ոլորտում:',
-    url: 'https://geogeeks.am',
+    url: `${SITE_URL}/`,
     images: ['/assets/img/GeoGeeks_logo.png'],
-    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ԱՏՀ և ջրային ռեսուրսների ծառայություններ',
+    description:
+      'GeoGeeks-ը մասնագիտացված է ԱՏՀ վերլուծությունների և հիդրոլոգիական, ջրային ռեսուրսներին առնչվող խնդիրների լուծման ոլորտում:',
+    images: ['/assets/img/GeoGeeks_logo.png'],
   },
 };
+
+/** Site-wide identity: the company, and the site itself for sitelinks. */
+const siteSchema = jsonLd(organizationSchema, {
+  '@type': 'WebSite',
+  '@id': `${SITE_URL}/#website`,
+  url: `${SITE_URL}/`,
+  name: SITE_NAME,
+  inLanguage: 'hy-AM',
+  publisher: { '@id': organizationId },
+});
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -64,6 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </TransitionProvider>
         </LanguageProvider>
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+        <JsonLd data={siteSchema} />
         <Script id="ga-init" strategy="afterInteractive">
           {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}

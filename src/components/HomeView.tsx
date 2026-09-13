@@ -50,6 +50,9 @@ export function HomeView() {
   return (
     <section className={styles.hero}>
       <div className={styles.inner}>
+        {/* The visible hero caption changes with the slide, so the page keeps a
+            stable heading of its own for search engines and screen readers. */}
+        <h1 className="gg-sr-only">{t('h1.home')}</h1>
         <div data-parallax="0.06" className={styles.blob} aria-hidden />
 
         <div data-parallax="-0.03" className={styles.stage}>
@@ -65,14 +68,14 @@ export function HomeView() {
           <div className={styles.wash} aria-hidden />
 
           <div className={styles.caption}>
-            <h1
+            <h2
               ref={(el) => {
                 fadeTargets.current[1] = el;
               }}
               className={styles.title}
             >
               {pick(product.title, product.titleEn)}
-            </h1>
+            </h2>
             <p
               ref={(el) => {
                 fadeTargets.current[2] = el;
@@ -115,7 +118,12 @@ export function HomeView() {
                 data-reveal
               >
                 <div className={styles.cardMedia}>
-                  <div className={styles.cardImage} style={{ backgroundImage: `url('${project.card}')` }} />
+                  <div
+                  className={styles.cardImage}
+                  style={{ backgroundImage: `url('${project.card}')` }}
+                  role="img"
+                  aria-label={project.title}
+                />
                   <span className={styles.year}>{project.year}</span>
                 </div>
                 <div className={styles.cardBody}>

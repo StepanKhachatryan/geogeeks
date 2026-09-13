@@ -15,6 +15,7 @@ export function ContactView() {
   return (
     <section className={styles.section}>
       <div className={styles.inner}>
+        <h1 className="gg-sr-only">{t('h1.contact')}</h1>
         <div className={styles.cards}>
           <div data-reveal className={styles.details}>
             <div className={styles.row}>
@@ -25,7 +26,7 @@ export function ContactView() {
                 </svg>
               </span>
               <div>
-                <h2 className={styles.label}>{t('contact.address')}</h2>
+                <h3 className={styles.label}>{t('contact.address')}</h3>
                 <p className={styles.value}>{t('contact.addressValue')}</p>
               </div>
             </div>
@@ -37,7 +38,7 @@ export function ContactView() {
                 </svg>
               </span>
               <div>
-                <h2 className={styles.label}>{t('contact.phone')}</h2>
+                <h3 className={styles.label}>{t('contact.phone')}</h3>
                 <p className={styles.value}>
                   <a href="tel:+37498098006" className={styles.plainLink}>
                     +374 (98) 09-80-06
@@ -54,7 +55,7 @@ export function ContactView() {
                 </svg>
               </span>
               <div>
-                <h2 className={styles.label}>{t('contact.email')}</h2>
+                <h3 className={styles.label}>{t('contact.email')}</h3>
                 <p className={styles.value}>
                   <a href="mailto:geogeeksllc@gmail.com">geogeeksllc@gmail.com</a>
                 </p>

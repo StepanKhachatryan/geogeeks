@@ -85,7 +85,12 @@ export function AboutView() {
                 title={partner.name}
                 className={styles.partner}
               >
-                <span className={styles.partnerLogo} style={{ backgroundImage: `url('${partner.img}')` }} />
+                <span
+                  className={styles.partnerLogo}
+                  style={{ backgroundImage: `url('${partner.img}')` }}
+                  role="img"
+                  aria-label={partner.name}
+                />
                 <span className={styles.partnerName}>{partner.name}</span>
               </a>
             ))}

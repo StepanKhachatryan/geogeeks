@@ -42,6 +42,7 @@ export function ProjectsView() {
   return (
     <section ref={section} className={styles.section}>
       <div className={styles.inner}>
+        <h1 className="gg-sr-only">{t('h1.projects')}</h1>
         <div className={styles.grid} style={grid(space.width || 1280, space.height, sectors.length)}>
           {sectors.map((sector) => (
             <TransitionLink
@@ -50,7 +51,12 @@ export function ProjectsView() {
               className={styles.tile}
               data-reveal
             >
-              <span className={styles.tileImage} style={{ backgroundImage: `url('${sector.tile}')` }} />
+              <span
+                className={styles.tileImage}
+                style={{ backgroundImage: `url('${sector.tile}')` }}
+                role="img"
+                aria-label={pick(sector.title, sector.titleEn)}
+              />
               <span className={styles.tileBody}>
                 <span className={styles.tileTitle}>{pick(sector.title, sector.titleEn)}</span>
                 <span className={styles.tileCta}>{t('projects.view')}</span>
