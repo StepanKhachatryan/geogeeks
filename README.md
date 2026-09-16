@@ -71,6 +71,14 @@ The parser and writer are plain functions with no browser dependency, so they
 can be exercised directly from Node against fixtures generated with pyshp and
 validated with ezdxf.
 
+### Paying for a conversion
+
+The tool is free until a verification endpoint is configured. `supabase/` holds
+the backend that turns it into a paid tool: a visitor enters the number they pay
+from, scans the Idram QR, receives a six-character code over Telegram, and types
+it in. `supabase/README.md` covers deployment and says plainly what the gate can
+and cannot enforce.
+
 ## Language
 
 Armenian is the default and the language the static HTML is prerendered in. The nav

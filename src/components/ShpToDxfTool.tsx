@@ -13,6 +13,8 @@ import {
   type ConvertResult,
   type LoadedLayer,
 } from '@/lib/shpToDxf';
+import { unlockConfig } from '@/lib/unlock';
+import { UnlockGate } from './UnlockGate';
 import styles from './ShpToDxfTool.module.css';
 
 type Loaded = { fileName: string; layers: LoadedLayer[] };
@@ -46,8 +48,13 @@ function crsName(wkt?: string): string | undefined {
 
 const LATIN_NAME = /^[\w\s().,+-]+$/;
 
+/** Off unless the deployment sets both the flag and the verification endpoint. */
+const unlock = unlockConfig();
+const GATED = unlock.required && Boolean(unlock.endpoint);
+
 export function ShpToDxfTool() {
   const { t, lang } = useLanguage();
+  const [paid, setPaid] = useState(!GATED);
   const [loaded, setLoaded] = useState<Loaded | null>(null);
   const [options, setOptions] = useState<ConvertOptions>(DEFAULT_OPTIONS);
   const [error, setError] = useState<MessageKey | null>(null);
@@ -214,9 +221,19 @@ export function ShpToDxfTool() {
                 <span>{hasZ ? t('tool.z') : t('tool.noZ')}</span>
               </label>
 
-              <button type="button" className={styles.primary} onClick={() => void download()}>
-                {t('tool.download')}
-              </button>
+              {paid ? (
+                <button type="button" className={styles.primary} onClick={() => void download()}>
+                  {t('tool.download')}
+                </button>
+              ) : (
+                <UnlockGate
+                  config={unlock}
+                  onUnlocked={() => {
+                    setPaid(true);
+                    void download();
+                  }}
+                />
+              )}
 
               <ul className={styles.outputs}>
                 {result.files.map((file) => (

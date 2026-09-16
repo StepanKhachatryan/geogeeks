@@ -1,0 +1,176 @@
+.gate {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(18px, 2.2vw, 26px);
+  border: 1px solid var(--gg-border);
+  border-radius: 16px;
+  background: var(--gg-off-white);
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gg-ink);
+}
+
+.price {
+  margin: -6px 0 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gg-teal);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gg-ink);
+}
+
+.hint {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--gg-warm-grey);
+}
+
+.phoneRow {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.prefix {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: var(--gg-tint);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gg-ink);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--gg-border);
+  border-radius: 8px;
+  background: var(--gg-surface);
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--gg-ink);
+}
+
+.input:focus {
+  outline: 2px solid var(--gg-teal);
+  outline-offset: 1px;
+}
+
+.code {
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.payment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border);
+}
+
+.qr {
+  flex-shrink: 0;
+  width: 132px;
+  height: 132px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.qrImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.payText {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.payTitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gg-ink);
+}
+
+.telegram {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--gg-tint);
+  color: var(--gg-teal);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.telegram:hover {
+  background: var(--gg-hover-grey);
+}
+
+.primary {
+  align-self: flex-start;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 10px;
+  background: var(--gg-teal);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.primary:hover:enabled {
+  background: var(--gg-green);
+}
+
+.primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #8a2b2b;
+}
+
+.ok {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gg-green);
+}

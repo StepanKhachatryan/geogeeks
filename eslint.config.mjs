@@ -4,7 +4,8 @@ import typescript from 'eslint-config-next/typescript';
 const config = [
   ...coreWebVitals,
   ...typescript,
-  { ignores: ['.next/**', 'out/**', 'node_modules/**'] },
+  { // Deno Edge Functions: a different runtime, type-checked by the Supabase CLI.
+  ignores: ['.next/**', 'out/**', 'node_modules/**', 'supabase/**'] },
 ];
 
 export default config;
