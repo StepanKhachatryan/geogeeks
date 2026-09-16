@@ -9,10 +9,10 @@ import { TransitionLink } from './TransitionLink';
 import styles from './Nav.module.css';
 
 const items: { href: string; key: MessageKey }[] = [
+  { href: '/tools', key: 'nav.tools' },
   { href: '/', key: 'nav.home' },
   { href: '/services', key: 'nav.services' },
   { href: '/projects', key: 'nav.projects' },
-  { href: '/tools', key: 'nav.tools' },
   { href: '/about', key: 'nav.about' },
   { href: '/contact', key: 'nav.contact' },
 ];
