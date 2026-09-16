@@ -1,10 +1,13 @@
 /**
- * Telegram bot that issues unlock codes.
+ * Telegram bot for the converter's payment step.
  *
- * The owner sends "/code +37498098006" after seeing an Idram payment; the bot
- * generates a six-character code, stores its hash and replies with the code to
- * pass on to the customer. Messages from anyone else are relayed to the owner,
- * so a customer can send their payment confirmation in the same chat.
+ * A customer pays with Idram, types the number they paid from on the site and
+ * presses send. The site opens this bot with that request's token; pressing
+ * Start binds their chat, and the owner receives the request with two buttons.
+ * Approving mints a code and sends it to the customer; rejecting says no.
+ *
+ * `/code +374XXXXXXXX` still issues a code by hand, for a customer who cannot
+ * use Telegram.
  *
  * Environment: TELEGRAM_BOT_TOKEN, TELEGRAM_OWNER_ID, TELEGRAM_WEBHOOK_SECRET.
  * SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided by the platform.
@@ -26,12 +29,24 @@ function newCode(): string {
   return [...bytes].map((byte) => ALPHABET[byte % ALPHABET.length]).join('');
 }
 
-async function send(chatId: string | number, text: string) {
-  await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+async function telegram(method: string, payload: unknown) {
+  const response = await fetch(`https://api.telegram.org/bot${TOKEN}/${method}`, {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ chat_id: chatId, text }),
+    body: JSON.stringify(payload),
   });
+  if (!response.ok) console.error(method, await response.text());
+}
+
+const send = (chatId: string | number, text: string, extra: Record<string, unknown> = {}) =>
+  telegram('sendMessage', { chat_id: chatId, text, ...extra });
+
+function client() {
+  return createClient(
+    Deno.env.get('SUPABASE_URL')!,
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
+    { auth: { persistSession: false } },
+  );
 }
 
 Deno.serve(async (request) => {
@@ -41,37 +56,126 @@ Deno.serve(async (request) => {
   if (!TOKEN) return new Response('not configured', { status: 503 });
 
   const update = await request.json().catch(() => null);
+  const supabase = client();
+
+  // The owner tapped Confirm or Reject under a request.
+  const callback = update?.callback_query;
+  if (callback) {
+    const from = callback.from?.id?.toString();
+    const [verdict, id] = String(callback.data ?? '').split(':');
+    if (from !== OWNER_ID || !id) {
+      await telegram('answerCallbackQuery', { callback_query_id: callback.id });
+      return new Response('ok');
+    }
+
+    const approved = verdict === 'ok';
+    const code = approved ? newCode() : null;
+    const { data, error } = await supabase.rpc('geogeeks_decide_unlock_request', {
+      p_id: id,
+      p_approved: approved,
+      p_by: from,
+      p_code: code,
+      p_days: VALID_DAYS,
+    });
+
+    const row = Array.isArray(data) ? data[0] : data;
+    if (error || !row) {
+      await telegram('answerCallbackQuery', {
+        callback_query_id: callback.id,
+        text: error?.message ?? 'Հարցումը չի գտնվել',
+      });
+      return new Response('ok');
+    }
+
+    if (approved && row.chat_id && code) {
+      await send(
+        row.chat_id,
+        `Վճարումը հաստատվեց։\n\nՁեր կոդը՝ ${code}\n\nՄուտքագրեք այն կայքում՝ ֆայլերը ներբեռնելու համար։ Կոդը գործում է ${VALID_DAYS} օր և մեկ անգամ:`,
+      );
+    } else if (!approved && row.chat_id) {
+      await send(
+        row.chat_id,
+        'Վճարումը չհաստատվեց։ Ստուգեք փոխանցումը կամ գրեք մեզ՝ geogeeksllc@gmail.com',
+      );
+    }
+
+    await telegram('answerCallbackQuery', {
+      callback_query_id: callback.id,
+      text: approved ? `Կոդն ուղարկվեց՝ ${code}` : 'Մերժվեց',
+    });
+    await telegram('editMessageText', {
+      chat_id: callback.message.chat.id,
+      message_id: callback.message.message_id,
+      text: `${callback.message.text}\n\n${approved ? `✅ Հաստատված · ${code}` : '❌ Մերժված'}`,
+    });
+    return new Response('ok');
+  }
+
   const message = update?.message;
   const chatId: string | undefined = message?.chat?.id?.toString();
   const text: string = message?.text ?? '';
   if (!chatId) return new Response('ok');
 
+  const who = [message.from?.first_name, message.from?.last_name].filter(Boolean).join(' ');
+  const handle = message.from?.username ? `@${message.from.username}` : chatId;
+
+  // The customer arrived from the site: /start <token> carries their request.
+  const start = /^\/start\s+([a-z0-9_-]{8,64})$/i.exec(text.trim());
+  if (start) {
+    const { data, error } = await supabase.rpc('geogeeks_link_unlock_request', {
+      p_token: start[1],
+      p_chat_id: chatId,
+      p_user: handle,
+    });
+    const row = Array.isArray(data) ? data[0] : data;
+
+    if (error || !row) {
+      await send(chatId, 'Հարցումը չի գտնվել։ Վերադարձեք կայք և փորձեք նորից:');
+      return new Response('ok');
+    }
+
+    if (row.status === 'approved') {
+      await send(chatId, 'Այս հարցումն արդեն հաստատված է։ Կոդն ուղարկված է ավելի վաղ:');
+      return new Response('ok');
+    }
+
+    await send(
+      chatId,
+      `Ստացանք ձեր հարցումը՝ ${row.phone}։\nՍպասեք՝ վճարումը ստուգվում է, կոդը կուղարկվի այստեղ:`,
+    );
+    if (OWNER_ID) {
+      await send(OWNER_ID, `Նոր հարցում\nՀամար՝ ${row.phone}\nTelegram՝ ${who} (${handle})`, {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              { text: '✅ Հաստատել', callback_data: `ok:${row.id}` },
+              { text: '❌ Մերժել', callback_data: `no:${row.id}` },
+            ],
+          ],
+        },
+      });
+    }
+    return new Response('ok');
+  }
+
   if (chatId !== OWNER_ID) {
-    // A customer writing in. Pass it to the owner, who confirms and issues.
-    const who = [message.from?.first_name, message.from?.last_name].filter(Boolean).join(' ');
-    const handle = message.from?.username ? `@${message.from.username}` : chatId;
     if (OWNER_ID) await send(OWNER_ID, `Հաղորդագրություն ${who} (${handle}):\n\n${text}`);
     await send(
       chatId,
-      'Շնորհակալություն։ Ուղարկեք վճարման հաստատումը և ձեր հեռախոսահամարը (+374XXXXXXXX), և մենք կուղարկենք կոդը:',
+      'Բարև։ Կոդ ստանալու համար վճարեք կայքում նշված Idram QR-ով, մուտքագրեք ձեր հեռախոսահամարը և սեղմեք ուղարկել:',
     );
     return new Response('ok');
   }
 
-  const match = /^\/code\s+(\+374\d{8})(?:\s+(.*))?$/.exec(text.trim());
-  if (!match) {
-    await send(chatId, 'Կոդ տալու համար՝ /code +374XXXXXXXX [նշում]');
+  // The owner, issuing a code by hand.
+  const manual = /^\/code\s+(\+374\d{8})(?:\s+(.*))?$/.exec(text.trim());
+  if (!manual) {
+    await send(chatId, 'Ձեռքով կոդ տալու համար՝ /code +374XXXXXXXX [նշում]');
     return new Response('ok');
   }
 
-  const [, phone, note] = match;
+  const [, phone, note] = manual;
   const code = newCode();
-  const supabase = createClient(
-    Deno.env.get('SUPABASE_URL')!,
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
-    { auth: { persistSession: false } },
-  );
-
   const { data, error } = await supabase.rpc('geogeeks_issue_unlock_code', {
     p_phone: phone,
     p_code: code,

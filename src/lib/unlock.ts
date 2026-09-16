@@ -36,12 +36,16 @@ export const IDRAM_ID = process.env.NEXT_PUBLIC_IDRAM_ID ?? '750794530';
 const DEFAULT_ENDPOINT =
   'https://mejjprejtcyoyfoiocrq.supabase.co/functions/v1/geogeeks-verify-unlock';
 
+/** Opens a request for a code and reports how the owner answered it. */
+const DEFAULT_REQUEST_ENDPOINT =
+  'https://mejjprejtcyoyfoiocrq.supabase.co/functions/v1/geogeeks-request-code';
+
 export const SUPPORT_EMAIL = 'geogeeksllc@gmail.com';
 
 export type UnlockConfig = {
   required: boolean;
   endpoint?: string;
-  telegram?: string;
+  requestEndpoint?: string;
   price?: string;
   idramId: string;
 };
@@ -53,7 +57,7 @@ export function unlockConfig(): UnlockConfig {
     // `NEXT_PUBLIC_PAYMENT_REQUIRED=false` turns the tool free again.
     required: flag ? flag === 'true' : true,
     endpoint: process.env.NEXT_PUBLIC_UNLOCK_ENDPOINT ?? DEFAULT_ENDPOINT,
-    telegram: process.env.NEXT_PUBLIC_TELEGRAM_BOT,
+    requestEndpoint: process.env.NEXT_PUBLIC_REQUEST_ENDPOINT ?? DEFAULT_REQUEST_ENDPOINT,
     price: process.env.NEXT_PUBLIC_UNLOCK_PRICE,
     idramId: IDRAM_ID,
   };
@@ -99,5 +103,49 @@ export async function verifyCode(
     return body.reason === 'expired' ? 'expired' : 'invalid';
   } catch {
     return 'network';
+  }
+}
+
+export type RequestStatus = 'pending' | 'linked' | 'approved' | 'rejected' | 'unknown';
+
+export type CreatedRequest =
+  | { ok: true; token: string; botUrl: string | null }
+  | { ok: false; reason: 'rate' | 'invalid' | 'network' };
+
+/**
+ * Tells the owner that this number has paid. The reply carries the Telegram
+ * deep link when a bot is configured: opening it is what gives the bot somewhere
+ * to send the code, since a phone number cannot be messaged on Telegram.
+ */
+export async function createRequest(endpoint: string, phoneDigits: string): Promise<CreatedRequest> {
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ action: 'create', phone: `${PHONE_PREFIX}${phoneDigits}` }),
+    });
+    if (response.status === 429) return { ok: false, reason: 'rate' };
+    if (!response.ok) return { ok: false, reason: 'network' };
+    const body: { ok?: boolean; token?: string; botUrl?: string | null } = await response.json();
+    if (!body.ok || !body.token) return { ok: false, reason: 'invalid' };
+    return { ok: true, token: body.token, botUrl: body.botUrl ?? null };
+  } catch {
+    return { ok: false, reason: 'network' };
+  }
+}
+
+/** Where the request stands while the owner checks the payment. */
+export async function requestStatus(endpoint: string, token: string): Promise<RequestStatus> {
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ action: 'status', token }),
+    });
+    if (!response.ok) return 'unknown';
+    const body: { ok?: boolean; status?: RequestStatus } = await response.json();
+    return body.ok && body.status ? body.status : 'unknown';
+  } catch {
+    return 'unknown';
   }
 }

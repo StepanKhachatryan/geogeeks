@@ -13,10 +13,11 @@ they cannot collide with or be reached through that project's own data.
 
 | Piece | Name |
 | --- | --- |
-| Schema | `geogeeks` — `unlock_codes`, `unlock_attempts` |
+| Schema | `geogeeks` — `unlock_codes`, `unlock_attempts`, `unlock_requests` |
 | Issue a code | `public.geogeeks_issue_unlock_code(phone, code, issued_by, note, days)` |
 | Spend a code | `public.geogeeks_redeem_unlock_code(phone, code)` |
-| Called by the page | Edge Function `geogeeks-verify-unlock` |
+| Request a code | `public.geogeeks_create_unlock_request`, `_link_`, `_decide_`, `_status_` |
+| Called by the page | Edge Functions `geogeeks-request-code`, `geogeeks-verify-unlock` |
 | Called by Telegram | Edge Function `geogeeks-telegram-bot` |
 
 Codes are stored as bcrypt hashes and compared inside the database, so neither
@@ -27,13 +28,32 @@ the Edge Function nor a copy of the table reveals a code. Both SQL functions are
 A code is single use, expires after fourteen days, and belongs to one number.
 Ten attempts per number in ten minutes stop further tries.
 
+## The flow
+
+1. The customer pays 300 AMD with Idram, by QR or by ID.
+2. They type the number they paid from and press send. The page opens a request
+   and sends them to the bot.
+3. Pressing Start in the bot binds their Telegram chat to that request, and the
+   owner receives it with Confirm and Reject buttons.
+4. The owner checks Idram and taps one. Confirming mints a code, binds it to the
+   number and sends it to the customer's chat.
+5. The customer types the code; the page verifies it and the download starts.
+
+The page polls the request while the owner decides, so it shows "waiting" and
+then "confirmed" on its own.
+
+Telegram is required on the customer's side, because a bot can only message a
+chat that has been opened with it: a phone number is not addressable. Anyone
+without Telegram writes to geogeeksllc@gmail.com and gets a code issued by hand.
+
 ## Still to do
 
-The Telegram bot is deployed but idle until its secrets exist. In the Supabase
-dashboard, under Edge Functions → Secrets, add:
+The bot is deployed but idle until its secrets exist. In the Supabase dashboard,
+under Edge Functions → Secrets, add:
 
 ```
 TELEGRAM_BOT_TOKEN      from @BotFather
+TELEGRAM_BOT_USERNAME   the bot's @name without the @, used to build the deep link
 TELEGRAM_OWNER_ID       your own Telegram numeric id, from @userinfobot
 TELEGRAM_WEBHOOK_SECRET any long random string
 ```
@@ -46,14 +66,12 @@ curl "https://api.telegram.org/bot<TOKEN>/setWebhook" \
   -d "secret_token=<TELEGRAM_WEBHOOK_SECRET>"
 ```
 
-Until that is done, codes are issued by hand from the SQL editor:
+Until that is done the page tells customers to send their confirmation by email,
+and codes are issued from the SQL editor or with `/code` in the bot:
 
 ```sql
 select public.geogeeks_issue_unlock_code('+374XXXXXXXX', 'ABC123', 'manual', null, 14);
 ```
-
-Set `NEXT_PUBLIC_TELEGRAM_BOT` to the bot username once it exists, and the page
-swaps its email line for a Telegram button.
 
 ## Turning the gate off
 
