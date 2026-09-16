@@ -2,53 +2,58 @@
   max-width: var(--gg-content-max);
 }
 
+/* The page is meant to fit a laptop screen without scrolling, so it carries
+   less vertical padding than the content pages. */
+.section {
+  padding-block: clamp(14px, 1.6vw, 24px);
+}
+
 .title {
-  font-size: clamp(24px, 2.8vw, 38px);
+  font-size: clamp(20px, 1.9vw, 26px);
   font-weight: 700;
   letter-spacing: -0.02em;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
   color: var(--gg-ink);
 }
 
+/* Runs to about the width of the panel below it, rather than breaking early. */
 .intro {
-  margin: 0 0 26px;
-  max-width: 62ch;
-  font-size: clamp(15px, 1.1vw, 17px);
-  line-height: 1.6;
+  margin: 0 0 14px;
+  max-width: min(100%, 96ch);
+  font-size: clamp(14px, 1vw, 16px);
+  line-height: 1.55;
   color: var(--gg-body);
 }
 
 /* Sits in the tool's right-hand column, under the payment block. */
 .how {
-  padding: clamp(18px, 2.2vw, 26px);
+  padding: 16px 18px;
   border: 1px solid var(--gg-border);
   border-radius: 16px;
   background: var(--gg-surface);
 }
 
 .howTitle {
-  margin: 0 0 14px;
-  font-size: 18px;
+  margin: 0 0 8px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--gg-ink);
 }
 
 .steps {
-  margin: 0 0 16px;
+  margin: 0 0 10px;
   padding-left: 18px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-width: 70ch;
-  font-size: 15px;
-  line-height: 1.6;
+  gap: 4px;
+  font-size: 12.5px;
+  line-height: 1.45;
   color: var(--gg-body);
 }
 
 .notes {
   margin: 0;
-  max-width: 70ch;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 12.5px;
+  line-height: 1.5;
   color: var(--gg-warm-grey);
 }

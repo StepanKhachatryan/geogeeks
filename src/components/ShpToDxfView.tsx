@@ -8,7 +8,7 @@ export function ShpToDxfView() {
   const { t } = useLanguage();
 
   return (
-    <section className="gg-section">
+    <section className={`gg-section ${styles.section}`}>
       <div className={`gg-inner ${styles.inner}`}>
         <h1 className={styles.title}>{t('tool.shpdxf.name')}</h1>
         <p className={styles.intro}>{t('tool.shpdxf.summary')}</p>

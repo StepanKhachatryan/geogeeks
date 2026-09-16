@@ -235,30 +235,33 @@ export function ShpToDxfTool({ guide }: { guide?: ReactNode }) {
               <div className={styles.summary}>
                 <h2 className={styles.sectionTitle}>{t('tool.result')}</h2>
 
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th scope="col">{t('tool.files')}</th>
-                      <th scope="col">{t('tool.features')}</th>
-                      <th scope="col">{t('tool.rings')}</th>
-                      <th scope="col">{t('tool.vertices')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {result.layers.map((layer) => (
-                      <tr key={layer.layer}>
-                        <th scope="row">
-                          {layer.layer === 'parcel'
-                            ? t('tool.layerParcel')
-                            : t('tool.layerBuilding')}
-                        </th>
-                        <td>{number(layer.features)}</td>
-                        <td>{number(layer.rings)}</td>
-                        <td>{number(layer.vertices)}</td>
+                {/* Narrow screens scroll the table rather than clipping a column. */}
+                <div className={styles.tableWrap}>
+                  <table className={styles.table}>
+                    <thead>
+                      <tr>
+                        <th scope="col">{t('tool.files')}</th>
+                        <th scope="col">{t('tool.features')}</th>
+                        <th scope="col">{t('tool.rings')}</th>
+                        <th scope="col">{t('tool.vertices')}</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {result.layers.map((layer) => (
+                        <tr key={layer.layer}>
+                          <th scope="row">
+                            {layer.layer === 'parcel'
+                              ? t('tool.layerParcel')
+                              : t('tool.layerBuilding')}
+                          </th>
+                          <td>{number(layer.features)}</td>
+                          <td>{number(layer.rings)}</td>
+                          <td>{number(layer.vertices)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
 
                 <dl className={styles.stats}>
                   <div>

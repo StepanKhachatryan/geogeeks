@@ -58,27 +58,58 @@ export function UnlockGate({ config, onUnlocked }: Props) {
 
   return (
     <div className={styles.gate}>
-      <h3 className={styles.title}>{t('unlock.title')}</h3>
-      {config.price && <p className={styles.price}>{config.price}</p>}
+      <div className={styles.header}>
+        <h3 className={styles.title}>{t('unlock.title')}</h3>
+        {config.price && <p className={styles.price}>{config.price}</p>}
+      </div>
 
-      <label className={styles.field}>
-        <span className={styles.label}>{t('unlock.phoneLabel')}</span>
-        <span className={styles.phoneRow}>
-          <span className={styles.prefix}>{PHONE_PREFIX}</span>
-          <input
-            className={styles.input}
-            inputMode="numeric"
-            autoComplete="tel-national"
-            placeholder={'0'.repeat(PHONE_DIGITS)}
-            value={phone}
-            onChange={(event) => setPhone(normalizePhone(event.target.value))}
-          />
-        </span>
-        <span className={styles.hint}>{t('unlock.phoneHint')}</span>
-      </label>
+      <div className={styles.body}>
+        <div className={styles.inputs}>
+          <label className={styles.field}>
+            <span className={styles.label}>{t('unlock.phoneLabel')}</span>
+            <span className={styles.phoneRow}>
+              <span className={styles.prefix}>{PHONE_PREFIX}</span>
+              <input
+                className={styles.input}
+                inputMode="numeric"
+                autoComplete="tel-national"
+                placeholder={'0'.repeat(PHONE_DIGITS)}
+                value={phone}
+                onChange={(event) => setPhone(normalizePhone(event.target.value))}
+              />
+            </span>
+            <span className={styles.hint}>{t('unlock.phoneHint')}</span>
+          </label>
 
-      {phoneReady && (
-        <div className={styles.payment}>
+          <label className={styles.field}>
+            <span className={styles.label}>{t('unlock.codeLabel')}</span>
+            <input
+              className={`${styles.input} ${styles.code}`}
+              value={code}
+              maxLength={CODE_LENGTH}
+              autoComplete="one-time-code"
+              placeholder={'X'.repeat(CODE_LENGTH)}
+              disabled={!phoneReady}
+              onChange={(event) => setCode(normalizeCode(event.target.value))}
+            />
+            <span className={styles.hint}>{t('unlock.codeHint')}</span>
+          </label>
+
+          <button
+            type="button"
+            className={styles.primary}
+            disabled={!phoneReady || !isCodeComplete(code) || checking}
+            onClick={() => void submit()}
+          >
+            {checking ? t('unlock.checking') : t('unlock.verify')}
+          </button>
+
+          {message && (
+            <p className={message === 'unlock.unlocked' ? styles.ok : styles.error}>{t(message)}</p>
+          )}
+        </div>
+
+        <div className={styles.pay}>
           {!qrMissing && (
             <div className={styles.qr}>
               <Image
@@ -92,65 +123,33 @@ export function UnlockGate({ config, onUnlocked }: Props) {
               />
             </div>
           )}
-          <div className={styles.payText}>
-            <p className={styles.payTitle}>{t('unlock.payTitle')}</p>
-            <p className={styles.idram}>
-              {t('unlock.idramId')}: <strong>{config.idramId}</strong>
-            </p>
-            <p className={styles.hint}>{t('unlock.payHint')}</p>
-            {/* The code comes back over Telegram once a bot is configured, and
-                by email until then. */}
-            <p className={styles.hint}>
-              {config.telegram ? t('unlock.codeViaTelegram') : t('unlock.codeViaEmail')}
-            </p>
-            {config.telegram ? (
-              <a
-                className={styles.telegram}
-                href={`https://t.me/${config.telegram}?text=${encodeURIComponent(`${PHONE_PREFIX}${phone}`)}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {t('unlock.telegram')}
-              </a>
-            ) : (
-              <a
-                className={styles.telegram}
-                href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Shapefile → DXF')}&body=${encodeURIComponent(`${PHONE_PREFIX}${phone}`)}`}
-              >
-                {SUPPORT_EMAIL}
-              </a>
-            )}
-          </div>
+          <p className={styles.idram}>
+            {t('unlock.idramId')}: <strong>{config.idramId}</strong>
+          </p>
+          {/* The code comes back over Telegram once a bot is configured, and by
+              email until then. */}
+          <p className={styles.hint}>
+            {config.telegram ? t('unlock.codeViaTelegram') : t('unlock.codeViaEmail')}
+          </p>
+          {config.telegram ? (
+            <a
+              className={styles.telegram}
+              href={`https://t.me/${config.telegram}?text=${encodeURIComponent(`${PHONE_PREFIX}${phone}`)}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t('unlock.telegram')}
+            </a>
+          ) : (
+            <a
+              className={styles.telegram}
+              href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Shapefile - DXF')}&body=${encodeURIComponent(`${PHONE_PREFIX}${phone}`)}`}
+            >
+              {SUPPORT_EMAIL}
+            </a>
+          )}
         </div>
-      )}
-
-      {phoneReady && (
-        <label className={styles.field}>
-          <span className={styles.label}>{t('unlock.codeLabel')}</span>
-          <input
-            className={`${styles.input} ${styles.code}`}
-            value={code}
-            maxLength={CODE_LENGTH}
-            autoComplete="one-time-code"
-            placeholder={'X'.repeat(CODE_LENGTH)}
-            onChange={(event) => setCode(normalizeCode(event.target.value))}
-          />
-          <span className={styles.hint}>{t('unlock.codeHint')}</span>
-        </label>
-      )}
-
-      <button
-        type="button"
-        className={styles.primary}
-        disabled={!phoneReady || !isCodeComplete(code) || checking}
-        onClick={() => void submit()}
-      >
-        {checking ? t('unlock.checking') : t('unlock.verify')}
-      </button>
-
-      {message && (
-        <p className={message === 'unlock.unlocked' ? styles.ok : styles.error}>{t(message)}</p>
-      )}
+      </div>
     </div>
   );
 }

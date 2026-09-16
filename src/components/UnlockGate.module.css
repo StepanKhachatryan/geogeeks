@@ -1,11 +1,19 @@
 .gate {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: clamp(18px, 2.2vw, 26px);
+  gap: 12px;
+  padding: 16px 18px;
   border: 1px solid var(--gg-border);
   border-radius: 16px;
   background: var(--gg-off-white);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .title {
@@ -16,10 +24,43 @@
 }
 
 .price {
-  margin: -6px 0 0;
+  margin: 0;
   font-size: 15px;
   font-weight: 700;
   color: var(--gg-teal);
+}
+
+/* Fields and the QR side by side: stacked, this block was the tallest thing on
+   the page and pushed the rest below the fold. */
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.inputs,
+.pay {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.pay {
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border);
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+}
+
+@media (max-width: 520px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .field {
@@ -36,7 +77,7 @@
 
 .hint {
   font-size: 12px;
-  line-height: 1.5;
+  line-height: 1.45;
   color: var(--gg-warm-grey);
 }
 
@@ -80,22 +121,11 @@
   font-weight: 700;
 }
 
-.payment {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: center;
-  padding: 14px;
-  border-radius: 12px;
-  background: var(--gg-surface);
-  border: 1px solid var(--gg-border);
-}
-
 /* Large enough that a phone camera reads it off the screen comfortably. */
 .qr {
   flex-shrink: 0;
-  width: 168px;
-  height: 168px;
+  width: 124px;
+  height: 124px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,24 +140,9 @@
   object-fit: contain;
 }
 
-.payText {
-  flex: 1;
-  min-width: 180px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.payTitle {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--gg-ink);
-}
-
 .idram {
   margin: 0;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--gg-body);
 }
 
@@ -138,8 +153,7 @@
 }
 
 .telegram {
-  align-self: flex-start;
-  margin-top: 4px;
+  margin-top: 2px;
   padding: 8px 14px;
   border-radius: 8px;
   background: var(--gg-tint);
@@ -154,7 +168,7 @@
 
 .primary {
   align-self: flex-start;
-  padding: 12px 22px;
+  padding: 11px 20px;
   border: none;
   border-radius: 10px;
   background: var(--gg-teal);
