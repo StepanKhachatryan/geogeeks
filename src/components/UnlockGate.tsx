@@ -36,6 +36,7 @@ export function UnlockGate({ config, onUnlocked }: Props) {
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
   const [checking, setChecking] = useState(false);
+  const [qrMissing, setQrMissing] = useState(false);
   const [message, setMessage] = useState<MessageKey | null>(null);
 
   const phoneReady = isPhoneComplete(phone);
@@ -77,18 +78,24 @@ export function UnlockGate({ config, onUnlocked }: Props) {
 
       {phoneReady && (
         <div className={styles.payment}>
-          <div className={styles.qr}>
-            <Image
-              src={IDRAM_QR_IMAGE}
-              alt="Idram QR"
-              width={200}
-              height={200}
-              className={styles.qrImage}
-              unoptimized
-            />
-          </div>
+          {!qrMissing && (
+            <div className={styles.qr}>
+              <Image
+                src={IDRAM_QR_IMAGE}
+                alt="Idram QR"
+                width={200}
+                height={200}
+                className={styles.qrImage}
+                onError={() => setQrMissing(true)}
+                unoptimized
+              />
+            </div>
+          )}
           <div className={styles.payText}>
             <p className={styles.payTitle}>{t('unlock.payTitle')}</p>
+            <p className={styles.idram}>
+              {t('unlock.idramId')}: <strong>{config.idramId}</strong>
+            </p>
             <p className={styles.hint}>{t('unlock.payHint')}</p>
             {config.telegram && (
               <a

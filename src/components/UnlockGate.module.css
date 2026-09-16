@@ -124,6 +124,18 @@
   color: var(--gg-ink);
 }
 
+.idram {
+  margin: 0;
+  font-size: 14px;
+  color: var(--gg-body);
+}
+
+.idram strong {
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  color: var(--gg-ink);
+}
+
 .telegram {
   align-self: flex-start;
   margin-top: 4px;

@@ -21,11 +21,19 @@ export const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
 export const IDRAM_QR_IMAGE = '/assets/img/payments/idram-qr.png';
 
+/**
+ * The account the QR points at. Shown as text as well, so a customer can pay by
+ * ID from inside the Idram app when scanning is inconvenient, and so the step
+ * still works if the QR image has not been added to the build.
+ */
+export const IDRAM_ID = process.env.NEXT_PUBLIC_IDRAM_ID ?? '750794530';
+
 export type UnlockConfig = {
   required: boolean;
   endpoint?: string;
   telegram?: string;
   price?: string;
+  idramId: string;
 };
 
 /**
@@ -38,6 +46,7 @@ export function unlockConfig(): UnlockConfig {
     endpoint: process.env.NEXT_PUBLIC_UNLOCK_ENDPOINT,
     telegram: process.env.NEXT_PUBLIC_TELEGRAM_BOT,
     price: process.env.NEXT_PUBLIC_UNLOCK_PRICE,
+    idramId: IDRAM_ID,
   };
 }
 
