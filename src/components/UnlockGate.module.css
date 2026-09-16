@@ -91,10 +91,11 @@
   border: 1px solid var(--gg-border);
 }
 
+/* Large enough that a phone camera reads it off the screen comfortably. */
 .qr {
   flex-shrink: 0;
-  width: 132px;
-  height: 132px;
+  width: 168px;
+  height: 168px;
   display: flex;
   align-items: center;
   justify-content: center;
