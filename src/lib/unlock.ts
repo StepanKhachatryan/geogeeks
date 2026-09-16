@@ -28,6 +28,16 @@ export const IDRAM_QR_IMAGE = '/assets/img/payments/idram-qr.png';
  */
 export const IDRAM_ID = process.env.NEXT_PUBLIC_IDRAM_ID ?? '750794530';
 
+/**
+ * The deployed verifier. Committed rather than left to host configuration, so
+ * the live site is paid on the next deploy without touching dashboard settings.
+ * It is a public URL; the secrets stay inside the Edge Function.
+ */
+const DEFAULT_ENDPOINT =
+  'https://mejjprejtcyoyfoiocrq.supabase.co/functions/v1/geogeeks-verify-unlock';
+
+export const SUPPORT_EMAIL = 'geogeeksllc@gmail.com';
+
 export type UnlockConfig = {
   required: boolean;
   endpoint?: string;
@@ -36,14 +46,13 @@ export type UnlockConfig = {
   idramId: string;
 };
 
-/**
- * Read at build time. With `NEXT_PUBLIC_PAYMENT_REQUIRED` unset the tool is
- * free and no gate is rendered.
- */
+/** Read at build time; every field can be overridden by the host. */
 export function unlockConfig(): UnlockConfig {
+  const flag = process.env.NEXT_PUBLIC_PAYMENT_REQUIRED;
   return {
-    required: process.env.NEXT_PUBLIC_PAYMENT_REQUIRED === 'true',
-    endpoint: process.env.NEXT_PUBLIC_UNLOCK_ENDPOINT,
+    // `NEXT_PUBLIC_PAYMENT_REQUIRED=false` turns the tool free again.
+    required: flag ? flag === 'true' : true,
+    endpoint: process.env.NEXT_PUBLIC_UNLOCK_ENDPOINT ?? DEFAULT_ENDPOINT,
     telegram: process.env.NEXT_PUBLIC_TELEGRAM_BOT,
     price: process.env.NEXT_PUBLIC_UNLOCK_PRICE,
     idramId: IDRAM_ID,

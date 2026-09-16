@@ -3,29 +3,23 @@
  *
  * The owner sends "/code +37498098006" after seeing an Idram payment; the bot
  * generates a six-character code, stores its hash and replies with the code to
- * pass on to the customer. Any message from anyone else is relayed to the owner,
+ * pass on to the customer. Messages from anyone else are relayed to the owner,
  * so a customer can send their payment confirmation in the same chat.
  *
- * Environment: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, UNLOCK_PEPPER,
- * TELEGRAM_BOT_TOKEN, TELEGRAM_OWNER_ID, TELEGRAM_WEBHOOK_SECRET.
+ * Environment: TELEGRAM_BOT_TOKEN, TELEGRAM_OWNER_ID, TELEGRAM_WEBHOOK_SECRET.
+ * SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided by the platform.
  */
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
-const TOKEN = Deno.env.get('TELEGRAM_BOT_TOKEN')!;
+const TOKEN = Deno.env.get('TELEGRAM_BOT_TOKEN') ?? '';
 const OWNER_ID = Deno.env.get('TELEGRAM_OWNER_ID') ?? '';
 const SECRET = Deno.env.get('TELEGRAM_WEBHOOK_SECRET') ?? '';
-const PEPPER = Deno.env.get('UNLOCK_PEPPER') ?? '';
 
-/** No I, O, 0 or 1: a code is read aloud and typed by hand. */
+/** No I, O, 0 or 1: a code gets read aloud and typed by hand. */
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const CODE_LENGTH = 6;
 const VALID_DAYS = 14;
-
-async function sha256(value: string): Promise<string> {
-  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
-  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
-}
 
 function newCode(): string {
   const bytes = crypto.getRandomValues(new Uint8Array(CODE_LENGTH));
@@ -44,6 +38,7 @@ Deno.serve(async (request) => {
   if (SECRET && request.headers.get('x-telegram-bot-api-secret-token') !== SECRET) {
     return new Response('forbidden', { status: 403 });
   }
+  if (!TOKEN) return new Response('not configured', { status: 503 });
 
   const update = await request.json().catch(() => null);
   const message = update?.message;
@@ -52,7 +47,7 @@ Deno.serve(async (request) => {
   if (!chatId) return new Response('ok');
 
   if (chatId !== OWNER_ID) {
-    // A customer writing in. Pass it to the owner, who decides and issues.
+    // A customer writing in. Pass it to the owner, who confirms and issues.
     const who = [message.from?.first_name, message.from?.last_name].filter(Boolean).join(' ');
     const handle = message.from?.username ? `@${message.from.username}` : chatId;
     if (OWNER_ID) await send(OWNER_ID, `Հաղորդագրություն ${who} (${handle}):\n\n${text}`);
@@ -77,17 +72,19 @@ Deno.serve(async (request) => {
     { auth: { persistSession: false } },
   );
 
-  const { error } = await supabase.from('unlock_codes').insert({
-    code_hash: await sha256(`${PEPPER}:${phone}:${code}`),
-    phone,
-    issued_by: chatId,
-    note: note ?? null,
-    expires_at: new Date(Date.now() + VALID_DAYS * 86_400_000).toISOString(),
+  const { data, error } = await supabase.rpc('geogeeks_issue_unlock_code', {
+    p_phone: phone,
+    p_code: code,
+    p_issued_by: chatId,
+    p_note: note ?? null,
+    p_days: VALID_DAYS,
   });
 
   await send(
     chatId,
-    error ? `Չհաջողվեց պահպանել կոդը: ${error.message}` : `${phone} → ${code}\nԺամկետը՝ ${VALID_DAYS} օր:`,
+    error
+      ? `Չհաջողվեց պահպանել կոդը: ${error.message}`
+      : `${phone} → ${code}\nԺամկետը՝ ${new Date(String(data)).toLocaleDateString('hy-AM')}`,
   );
   return new Response('ok');
 });

@@ -1,72 +1,74 @@
 # Payment backend
 
 The converter runs in the browser, so this backend does one job: it decides
-whether a six-character code is real, unused and issued to the phone number
-being used. Nothing about the customer's files passes through it.
+whether a six-character code is real, unused and issued to the number using it.
+Nothing about a customer's files passes through it.
 
-## What is here
+## What is deployed
 
-- `migrations/20260916000000_unlock_codes.sql` — two tables. `unlock_codes`
-  keeps only a SHA-256 of `"<pepper>:<phone>:<code>"`, never the code itself, so
-  a leaked database still cannot unlock the site. `unlock_attempts` backs the
-  rate limit. Row level security is on with no policies, so only the service
-  role inside the functions can read either table.
-- `functions/verify-unlock` — called by the page. Answers `{ok:true}` once, then
-  marks the code used. Ten attempts per number per ten minutes.
-- `functions/telegram-bot` — the owner sends `/code +374XXXXXXXX` and gets a
-  fresh code back to pass to the customer. Messages from anyone else are
-  relayed to the owner, so a customer can send their payment confirmation in
-  the same chat.
+It lives inside the **fip-armenia** project (`mejjprejtcyoyfoiocrq`), because a
+free Supabase plan allows two active projects and both slots were taken. The
+tables sit in their own `geogeeks` schema, which the API does not expose, so
+they cannot collide with or be reached through that project's own data.
 
-## Deploying
+| Piece | Name |
+| --- | --- |
+| Schema | `geogeeks` — `unlock_codes`, `unlock_attempts` |
+| Issue a code | `public.geogeeks_issue_unlock_code(phone, code, issued_by, note, days)` |
+| Spend a code | `public.geogeeks_redeem_unlock_code(phone, code)` |
+| Called by the page | Edge Function `geogeeks-verify-unlock` |
+| Called by Telegram | Edge Function `geogeeks-telegram-bot` |
 
-```bash
-supabase link --project-ref <project-ref>
-supabase db push
-supabase secrets set UNLOCK_PEPPER="<a long random string>"
-supabase secrets set TELEGRAM_BOT_TOKEN="<from @BotFather>"
-supabase secrets set TELEGRAM_OWNER_ID="<your Telegram numeric id>"
-supabase secrets set TELEGRAM_WEBHOOK_SECRET="<another random string>"
-supabase secrets set ALLOWED_ORIGIN="https://geogeeks.am"
-supabase functions deploy verify-unlock --no-verify-jwt
-supabase functions deploy telegram-bot --no-verify-jwt
+Codes are stored as bcrypt hashes and compared inside the database, so neither
+the Edge Function nor a copy of the table reveals a code. Both SQL functions are
+`security definer` and executable only by the service role: `anon` and
+`authenticated` cannot call them, and the schema is not in their search path.
+
+A code is single use, expires after fourteen days, and belongs to one number.
+Ten attempts per number in ten minutes stop further tries.
+
+## Still to do
+
+The Telegram bot is deployed but idle until its secrets exist. In the Supabase
+dashboard, under Edge Functions → Secrets, add:
+
+```
+TELEGRAM_BOT_TOKEN      from @BotFather
+TELEGRAM_OWNER_ID       your own Telegram numeric id, from @userinfobot
+TELEGRAM_WEBHOOK_SECRET any long random string
 ```
 
-Point Telegram at the bot function once:
+Then point Telegram at the function once:
 
 ```bash
 curl "https://api.telegram.org/bot<TOKEN>/setWebhook" \
-  -d "url=https://<project>.supabase.co/functions/v1/telegram-bot" \
+  -d "url=https://mejjprejtcyoyfoiocrq.supabase.co/functions/v1/geogeeks-telegram-bot" \
   -d "secret_token=<TELEGRAM_WEBHOOK_SECRET>"
 ```
 
-`--no-verify-jwt` is needed because both endpoints are called without a Supabase
-session: one by an anonymous visitor, one by Telegram.
+Until that is done, codes are issued by hand from the SQL editor:
 
-## Switching the gate on
-
-Add the Idram QR image at `public/assets/img/payments/idram-qr.png`, then set
-these build-time variables on the host (see `.env.example`) and redeploy:
-
-```
-NEXT_PUBLIC_PAYMENT_REQUIRED=true
-NEXT_PUBLIC_UNLOCK_ENDPOINT=https://<project>.supabase.co/functions/v1/verify-unlock
-NEXT_PUBLIC_TELEGRAM_BOT=<bot username without @>
-NEXT_PUBLIC_UNLOCK_PRICE=2000 AMD
+```sql
+select public.geogeeks_issue_unlock_code('+374XXXXXXXX', 'ABC123', 'manual', null, 14);
 ```
 
-With `NEXT_PUBLIC_PAYMENT_REQUIRED` unset the converter is free and no payment
-step is rendered.
+Set `NEXT_PUBLIC_TELEGRAM_BOT` to the bot username once it exists, and the page
+swaps its email line for a Telegram button.
+
+## Turning the gate off
+
+The page is paid by default. `NEXT_PUBLIC_PAYMENT_REQUIRED=false` at build time
+makes the converter free again; `NEXT_PUBLIC_UNLOCK_ENDPOINT` overrides the
+verifier URL baked into `src/lib/unlock.ts`.
 
 ## What this does not do
 
 It does not take the payment. Idram is paid by scanning the QR, and the site
-never learns that a transfer happened, so a person has to confirm it and issue
-the code. An Idram merchant account with a callback URL would close that loop;
-until then the Telegram step is the human in the middle.
+never learns that a transfer happened, so a person confirms it and issues the
+code. An Idram merchant account with a callback URL would close that loop.
 
 It is also not a security boundary. The conversion happens in the visitor's
-browser, so anyone who reads the page source can run it without paying. The
-gate makes paying the obvious path; it cannot make it the only one. Moving the
+browser, so anyone who reads the page source can run it without paying. The gate
+makes paying the obvious path; it cannot make it the only one. Moving the
 conversion into an Edge Function is the only way to enforce payment, at the cost
 of uploading customers' files to a server.

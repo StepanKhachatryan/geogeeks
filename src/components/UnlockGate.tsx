@@ -13,6 +13,7 @@ import {
   normalizePhone,
   PHONE_DIGITS,
   PHONE_PREFIX,
+  SUPPORT_EMAIL,
   verifyCode,
   type UnlockConfig,
 } from '@/lib/unlock';
@@ -97,7 +98,12 @@ export function UnlockGate({ config, onUnlocked }: Props) {
               {t('unlock.idramId')}: <strong>{config.idramId}</strong>
             </p>
             <p className={styles.hint}>{t('unlock.payHint')}</p>
-            {config.telegram && (
+            {/* The code comes back over Telegram once a bot is configured, and
+                by email until then. */}
+            <p className={styles.hint}>
+              {config.telegram ? t('unlock.codeViaTelegram') : t('unlock.codeViaEmail')}
+            </p>
+            {config.telegram ? (
               <a
                 className={styles.telegram}
                 href={`https://t.me/${config.telegram}?text=${encodeURIComponent(`${PHONE_PREFIX}${phone}`)}`}
@@ -105,6 +111,13 @@ export function UnlockGate({ config, onUnlocked }: Props) {
                 rel="noreferrer"
               >
                 {t('unlock.telegram')}
+              </a>
+            ) : (
+              <a
+                className={styles.telegram}
+                href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Shapefile → DXF')}&body=${encodeURIComponent(`${PHONE_PREFIX}${phone}`)}`}
+              >
+                {SUPPORT_EMAIL}
               </a>
             )}
           </div>

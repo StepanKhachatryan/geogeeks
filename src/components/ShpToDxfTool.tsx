@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useLanguage } from '@/i18n/LanguageProvider';
 import type { MessageKey } from '@/i18n/messages';
 import {
@@ -52,7 +52,7 @@ const LATIN_NAME = /^[\w\s().,+-]+$/;
 const unlock = unlockConfig();
 const GATED = unlock.required && Boolean(unlock.endpoint);
 
-export function ShpToDxfTool() {
+export function ShpToDxfTool({ guide }: { guide?: ReactNode }) {
   const { t, lang } = useLanguage();
   const [paid, setPaid] = useState(!GATED);
   const [loaded, setLoaded] = useState<Loaded | null>(null);
@@ -97,12 +97,12 @@ export function ShpToDxfTool() {
   const hasZ = loaded?.layers.some(({ data }) => data.hasZ) ?? false;
   const projection = loaded?.layers.map(({ data }) => data.projection).find(Boolean);
   const notices: MessageKey[] = [];
-  if (loaded) {
+  if (loaded && result) {
     if (!LATIN_NAME.test(loaded.fileName.replace(/\.zip$/i, ''))) notices.push('tool.noticeLatin');
-    if (!result?.layers.some((layer) => layer.layer === 'building')) {
+    if (!result.layers.some((layer) => layer.layer === 'building')) {
       notices.push('tool.noticeNoBuilding');
     }
-    if (!result?.layers.some((layer) => layer.layer === 'parcel')) {
+    if (!result.layers.some((layer) => layer.layer === 'parcel')) {
       notices.push('tool.noticeNoParcel');
     }
   }
@@ -128,173 +128,200 @@ export function ShpToDxfTool() {
   const number = (value: number) => value.toLocaleString(lang === 'en' ? 'en-US' : 'hy-AM');
 
   return (
-    <div className={styles.tool}>
-      {!loaded && (
-        <div
-          className={`${styles.drop} ${dragging ? styles.dropActive : ''}`}
-          onDragOver={(event) => {
-            event.preventDefault();
-            setDragging(true);
-          }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={(event) => {
-            event.preventDefault();
-            setDragging(false);
-            const file = event.dataTransfer.files[0];
-            if (file) void accept(file);
-          }}
-        >
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0c8495" strokeWidth="1.6">
-            <path d="M12 16V4" />
-            <path d="M7 9l5-5 5 5" />
-            <path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
-          </svg>
-          <p className={styles.dropText}>{busy ? t('tool.reading') : t('tool.drop')}</p>
-          <button type="button" className={styles.primary} onClick={() => input.current?.click()}>
-            {t('tool.browse')}
-          </button>
-          <input
-            ref={input}
-            type="file"
-            accept=".zip,application/zip"
-            className={styles.input}
-            onChange={(event) => {
-              const file = event.target.files?.[0];
-              if (file) void accept(file);
-              event.target.value = '';
+    <div className={styles.layout}>
+      <div className={styles.main}>
+        {!loaded && (
+          <div
+            className={`${styles.drop} ${dragging ? styles.dropActive : ''}`}
+            onDragOver={(event) => {
+              event.preventDefault();
+              setDragging(true);
             }}
-          />
-          <p className={styles.limit}>{t('tool.limit')}</p>
-          <p className={styles.privacy}>{t('tool.privacy')}</p>
-        </div>
-      )}
+            onDragLeave={() => setDragging(false)}
+            onDrop={(event) => {
+              event.preventDefault();
+              setDragging(false);
+              const file = event.dataTransfer.files[0];
+              if (file) void accept(file);
+            }}
+          >
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#0c8495"
+              strokeWidth="1.6"
+            >
+              <path d="M12 16V4" />
+              <path d="M7 9l5-5 5 5" />
+              <path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
+            </svg>
+            <p className={styles.dropText}>{busy ? t('tool.reading') : t('tool.drop')}</p>
+            <button type="button" className={styles.primary} onClick={() => input.current?.click()}>
+              {t('tool.browse')}
+            </button>
+            <input
+              ref={input}
+              type="file"
+              accept=".zip,application/zip"
+              className={styles.input}
+              onChange={(event) => {
+                const file = event.target.files?.[0];
+                if (file) void accept(file);
+                event.target.value = '';
+              }}
+            />
+            <p className={styles.limit}>{t('tool.limit')}</p>
+            <p className={styles.privacy}>{t('tool.privacy')}</p>
+          </div>
+        )}
 
-      {error && <p className={styles.error}>{t(error)}</p>}
+        {error && <p className={styles.error}>{t(error)}</p>}
 
-      {loaded && result && (
-        <div className={styles.panel}>
-          <div className={styles.head}>
-            <div>
-              <span className={styles.label}>{t('tool.file')}</span>
-              <p className={styles.fileName}>{loaded.fileName}</p>
+        {loaded && result && (
+          <div className={styles.panel}>
+            <div className={styles.head}>
+              <div>
+                <span className={styles.label}>{t('tool.file')}</span>
+                <p className={styles.fileName}>{loaded.fileName}</p>
+              </div>
+              <button
+                type="button"
+                className={styles.secondary}
+                onClick={() => {
+                  setLoaded(null);
+                  setError(null);
+                }}
+              >
+                {t('tool.reset')}
+              </button>
             </div>
+
+            <div className={styles.columns}>
+              <div className={styles.options}>
+                <h2 className={styles.sectionTitle}>{t('tool.options')}</h2>
+
+                <fieldset className={styles.group}>
+                  <legend className={styles.legend}>{t('tool.mode')}</legend>
+                  {(['polyline', 'line'] as const).map((mode) => (
+                    <label key={mode} className={styles.choice}>
+                      <input
+                        type="radio"
+                        name="mode"
+                        checked={options.mode === mode}
+                        onChange={() => setOptions((current) => ({ ...current, mode }))}
+                      />
+                      <span>
+                        {mode === 'polyline' ? t('tool.modePolyline') : t('tool.modeLine')}
+                      </span>
+                    </label>
+                  ))}
+                </fieldset>
+
+                <label className={`${styles.choice} ${hasZ ? '' : styles.disabled}`}>
+                  <input
+                    type="checkbox"
+                    disabled={!hasZ}
+                    checked={options.useZ && hasZ}
+                    onChange={(event) =>
+                      setOptions((current) => ({ ...current, useZ: event.target.checked }))
+                    }
+                  />
+                  <span>{hasZ ? t('tool.z') : t('tool.noZ')}</span>
+                </label>
+              </div>
+
+              <div className={styles.summary}>
+                <h2 className={styles.sectionTitle}>{t('tool.result')}</h2>
+
+                <table className={styles.table}>
+                  <thead>
+                    <tr>
+                      <th scope="col">{t('tool.files')}</th>
+                      <th scope="col">{t('tool.features')}</th>
+                      <th scope="col">{t('tool.rings')}</th>
+                      <th scope="col">{t('tool.vertices')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {result.layers.map((layer) => (
+                      <tr key={layer.layer}>
+                        <th scope="row">
+                          {layer.layer === 'parcel'
+                            ? t('tool.layerParcel')
+                            : t('tool.layerBuilding')}
+                        </th>
+                        <td>{number(layer.features)}</td>
+                        <td>{number(layer.rings)}</td>
+                        <td>{number(layer.vertices)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+                <dl className={styles.stats}>
+                  <div>
+                    <dt>{t('tool.entities')}</dt>
+                    <dd>{number(result.entities)}</dd>
+                  </div>
+                  <div>
+                    <dt>{t('tool.crs')}</dt>
+                    <dd>{crsName(projection) ?? t('tool.crsUnknown')}</dd>
+                  </div>
+                </dl>
+
+                <p className={styles.note}>{t('tool.crsNote')}</p>
+                {notices.map((notice) => (
+                  <p key={notice} className={styles.notice}>
+                    {t(notice)}
+                  </p>
+                ))}
+                {result.layers.some((layer) => layer.skipped > 0) && (
+                  <p className={styles.note}>
+                    {t('tool.skipped')}:{' '}
+                    {number(result.layers.reduce((total, layer) => total + layer.skipped, 0))}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <aside className={styles.side}>
+        {paid ? (
+          <div className={styles.deliver}>
+            <h2 className={styles.sectionTitle}>{t('tool.files')}</h2>
             <button
               type="button"
-              className={styles.secondary}
-              onClick={() => {
-                setLoaded(null);
-                setError(null);
-              }}
+              className={styles.primary}
+              disabled={!result}
+              onClick={() => void download()}
             >
-              {t('tool.reset')}
+              {t('tool.download')}
             </button>
-          </div>
-
-          <div className={styles.columns}>
-            <div className={styles.options}>
-              <h2 className={styles.sectionTitle}>{t('tool.options')}</h2>
-
-              <fieldset className={styles.group}>
-                <legend className={styles.legend}>{t('tool.mode')}</legend>
-                {(['polyline', 'line'] as const).map((mode) => (
-                  <label key={mode} className={styles.choice}>
-                    <input
-                      type="radio"
-                      name="mode"
-                      checked={options.mode === mode}
-                      onChange={() => setOptions((current) => ({ ...current, mode }))}
-                    />
-                    <span>{mode === 'polyline' ? t('tool.modePolyline') : t('tool.modeLine')}</span>
-                  </label>
-                ))}
-              </fieldset>
-
-              <label className={`${styles.choice} ${hasZ ? '' : styles.disabled}`}>
-                <input
-                  type="checkbox"
-                  disabled={!hasZ}
-                  checked={options.useZ && hasZ}
-                  onChange={(event) =>
-                    setOptions((current) => ({ ...current, useZ: event.target.checked }))
-                  }
-                />
-                <span>{hasZ ? t('tool.z') : t('tool.noZ')}</span>
-              </label>
-
-              {paid ? (
-                <button type="button" className={styles.primary} onClick={() => void download()}>
-                  {t('tool.download')}
-                </button>
-              ) : (
-                <UnlockGate
-                  config={unlock}
-                  onUnlocked={() => {
-                    setPaid(true);
-                    void download();
-                  }}
-                />
-              )}
-
+            {result ? (
               <ul className={styles.outputs}>
                 {result.files.map((file) => (
                   <li key={file.name}>{file.name}</li>
                 ))}
               </ul>
-            </div>
-
-            <div className={styles.summary}>
-              <h2 className={styles.sectionTitle}>{t('tool.result')}</h2>
-
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th scope="col">{t('tool.files')}</th>
-                    <th scope="col">{t('tool.features')}</th>
-                    <th scope="col">{t('tool.rings')}</th>
-                    <th scope="col">{t('tool.vertices')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {result.layers.map((layer) => (
-                    <tr key={layer.layer}>
-                      <th scope="row">
-                        {layer.layer === 'parcel' ? t('tool.layerParcel') : t('tool.layerBuilding')}
-                      </th>
-                      <td>{number(layer.features)}</td>
-                      <td>{number(layer.rings)}</td>
-                      <td>{number(layer.vertices)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-
-              <dl className={styles.stats}>
-                <div>
-                  <dt>{t('tool.entities')}</dt>
-                  <dd>{number(result.entities)}</dd>
-                </div>
-                <div>
-                  <dt>{t('tool.crs')}</dt>
-                  <dd>{crsName(projection) ?? t('tool.crsUnknown')}</dd>
-                </div>
-              </dl>
-
-              <p className={styles.note}>{t('tool.crsNote')}</p>
-              {notices.map((notice) => (
-                <p key={notice} className={styles.notice}>
-                  {t(notice)}
-                </p>
-              ))}
-              {result.layers.some((layer) => layer.skipped > 0) && (
-                <p className={styles.note}>
-                  {t('tool.skipped')}:{' '}
-                  {number(result.layers.reduce((total, layer) => total + layer.skipped, 0))}
-                </p>
-              )}
-            </div>
+            ) : (
+              <p className={styles.note}>{t('tool.downloadHint')}</p>
+            )}
           </div>
-        </div>
-      )}
+        ) : (
+          <UnlockGate
+            config={unlock}
+            onUnlocked={() => {
+              setPaid(true);
+              void download();
+            }}
+          />
+        )}
+        {guide}
+      </aside>
     </div>
   );
 }

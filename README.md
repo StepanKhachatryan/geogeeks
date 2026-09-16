@@ -73,11 +73,11 @@ validated with ezdxf.
 
 ### Paying for a conversion
 
-The tool is free until a verification endpoint is configured. `supabase/` holds
-the backend that turns it into a paid tool: a visitor enters the number they pay
-from, scans the Idram QR, receives a six-character code over Telegram, and types
-it in. `supabase/README.md` covers deployment and says plainly what the gate can
-and cannot enforce.
+The tool is paid. A visitor enters the number they pay from, scans the Idram QR
+or transfers to the ID beside it, receives a six-character code, and types it in;
+the download starts on its own. The code is checked by an Edge Function deployed
+in Supabase, which `supabase/README.md` documents along with what is still
+manual and what the gate can and cannot enforce.
 
 ## Language
 

@@ -1,5 +1,5 @@
 .inner {
-  max-width: min(100%, 1100px);
+  max-width: var(--gg-content-max);
 }
 
 .title {
@@ -18,10 +18,12 @@
   color: var(--gg-body);
 }
 
+/* Sits in the tool's right-hand column, under the payment block. */
 .how {
-  margin-top: 34px;
-  padding-top: 26px;
-  border-top: 1px solid var(--gg-divider);
+  padding: clamp(18px, 2.2vw, 26px);
+  border: 1px solid var(--gg-border);
+  border-radius: 16px;
+  background: var(--gg-surface);
 }
 
 .howTitle {
@@ -33,7 +35,7 @@
 
 .steps {
   margin: 0 0 16px;
-  padding-left: 20px;
+  padding-left: 18px;
   display: flex;
   flex-direction: column;
   gap: 8px;
