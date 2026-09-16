@@ -15,6 +15,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/`, priority: 1, changeFrequency: 'monthly', lastModified },
     { url: `${BASE}/projects/`, priority: 0.9, changeFrequency: 'monthly', lastModified },
     { url: `${BASE}/services/`, priority: 0.8, changeFrequency: 'yearly', lastModified },
+    { url: `${BASE}/tools/`, priority: 0.7, changeFrequency: 'monthly', lastModified },
+    { url: `${BASE}/tools/shp-to-dxf/`, priority: 0.8, changeFrequency: 'monthly', lastModified },
     { url: `${BASE}/about/`, priority: 0.8, changeFrequency: 'yearly', lastModified },
     { url: `${BASE}/contact/`, priority: 0.5, changeFrequency: 'yearly', lastModified },
   ];

@@ -46,6 +46,25 @@ all that is needed to add or change content:
 Images live under `public/assets/img/`. A project's `slug` is its URL segment, so
 changing one changes a public URL.
 
+## Tools
+
+`/tools/shp-to-dxf` converts a zipped ESRI shapefile into a DXF drawing. It runs
+entirely in the visitor's browser: the archive is unzipped with JSZip, read by
+`src/lib/shapefile.ts`, and written out by `src/lib/dxf.ts` as AutoCAD R12 ASCII
+DXF. Nothing is uploaded, so the feature works on static hosting with no server.
+
+- Polygon, PolygonZ, PolyLine and PolyLineZ geometry; every ring, holes
+  included, becomes a closed entity.
+- Output as one POLYLINE per ring, or exploded into LINE segments.
+- Layers named after the source file or after a chosen attribute.
+- Coordinates are never reprojected. The `.prj` is read only to name the
+  coordinate system on screen, because a CAD drawing has to keep the survey
+  coordinates it came with.
+
+The parser and writer are plain functions with no browser dependency, so they
+can be exercised directly from Node against fixtures generated with pyshp and
+validated with ezdxf.
+
 ## Language
 
 Armenian is the default and the language the static HTML is prerendered in. The nav

@@ -166,9 +166,9 @@
   transform: rotate(-45deg);
 }
 
-/* The five labels no longer fit on one line below this width, so they move into
+/* The six labels no longer fit on one line below this width, so they move into
    a panel under the bar instead of a strip the visitor has to swipe. */
-@media (max-width: 920px) {
+@media (max-width: 1040px) {
   .items {
     display: none;
     position: absolute;

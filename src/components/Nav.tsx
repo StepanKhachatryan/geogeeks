@@ -12,6 +12,7 @@ const items: { href: string; key: MessageKey }[] = [
   { href: '/', key: 'nav.home' },
   { href: '/services', key: 'nav.services' },
   { href: '/projects', key: 'nav.projects' },
+  { href: '/tools', key: 'nav.tools' },
   { href: '/about', key: 'nav.about' },
   { href: '/contact', key: 'nav.contact' },
 ];
@@ -21,8 +22,8 @@ function isActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-/** Matches the `max-width: 920px` rule in Nav.module.css. */
-const MENU_BREAKPOINT = 920;
+/** Matches the `max-width: 1040px` rule in Nav.module.css. */
+const MENU_BREAKPOINT = 1040;
 
 export function Nav() {
   const pathname = usePathname();
