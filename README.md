@@ -48,15 +48,21 @@ changing one changes a public URL.
 
 ## Tools
 
-`/tools/shp-to-dxf` converts a zipped ESRI shapefile into a DXF drawing. It runs
+`/tools/shp-to-dxf` converts a zipped cadastre extract into DXF drawings. It runs
 entirely in the visitor's browser: the archive is unzipped with JSZip, read by
 `src/lib/shapefile.ts`, and written out by `src/lib/dxf.ts` as AutoCAD R12 ASCII
 DXF. Nothing is uploaded, so the feature works on static hosting with no server.
 
-- Polygon, PolygonZ, PolyLine and PolyLineZ geometry; every ring, holes
-  included, becomes a closed entity.
-- Output as one POLYLINE per ring, or exploded into LINE segments.
-- Layers named after the source file or after a chosen attribute.
+- The archive must hold a `parcel` and/or a `building` layer, matched by file
+  name. Either one alone is accepted: a plot may have no buildings on it.
+- Each layer produces two files, so a full extract yields four:
+  `<layer>_lines.dxf` with the boundaries and `<layer>_points.dxf` with the
+  vertices as POINT entities, each corner written once. They are delivered as
+  one zip.
+- Uploads are capped at 7 MB (`MAX_ZIP_BYTES`); past that the page points to
+  geogeeksllc@gmail.com. A non-Latin archive name raises a warning, not an error.
+- Output as one POLYLINE per ring, or exploded into LINE segments; Z elevations
+  are kept when the source carries them.
 - Coordinates are never reprojected. The `.prj` is read only to name the
   coordinate system on screen, because a CAD drawing has to keep the survey
   coordinates it came with.

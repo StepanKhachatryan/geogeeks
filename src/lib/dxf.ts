@@ -15,8 +15,15 @@ export type DxfEntity = {
   closed: boolean;
 };
 
+export type DxfPoint = {
+  layer: string;
+  at: Point;
+};
+
 export type DxfOptions = {
-  entities: DxfEntity[];
+  entities?: DxfEntity[];
+  /** Vertex markers, written as POINT entities. */
+  points?: DxfPoint[];
   /** `polyline` keeps each ring as one object; `line` explodes it to segments. */
   mode: 'polyline' | 'line';
   /** Writes Z ordinates and marks polylines as 3D. */
@@ -29,14 +36,19 @@ const VERTEX_3D = 32;
 /** AutoCAD colour indices cycled over the layers, skipping white on white. */
 const LAYER_COLORS = [5, 3, 1, 2, 6, 4, 30, 40, 50, 140];
 
-export function writeDxf({ entities, mode, useZ }: DxfOptions): string {
+export function writeDxf({ entities = [], points = [], mode, useZ }: DxfOptions): string {
   const out: string[] = [];
   const pair = (code: number, value: string | number) => {
     out.push(String(code), String(value));
   };
 
-  const layers = [...new Set(entities.map((entity) => entity.layer))];
-  const bounds = extent(entities);
+  const layers = [
+    ...new Set([...entities.map((entity) => entity.layer), ...points.map((point) => point.layer)]),
+  ];
+  const bounds = extent([
+    ...entities,
+    ...points.map((point) => ({ layer: point.layer, points: [point.at], closed: false })),
+  ]);
 
   pair(0, 'SECTION');
   pair(2, 'HEADER');
@@ -48,6 +60,14 @@ export function writeDxf({ entities, mode, useZ }: DxfOptions): string {
   point(pair, [bounds.min[0], bounds.min[1], useZ ? bounds.min[2] : 0], 10);
   pair(9, '$EXTMAX');
   point(pair, [bounds.max[0], bounds.max[1], useZ ? bounds.max[2] : 0], 10);
+  if (points.length > 0) {
+    // Draw points as a circle with a centre dot; without this CAD shows a
+    // single pixel that is easy to miss.
+    pair(9, '$PDMODE');
+    pair(70, 34);
+    pair(9, '$PDSIZE');
+    pair(40, '0.0');
+  }
   pair(0, 'ENDSEC');
 
   pair(0, 'SECTION');
@@ -84,6 +104,11 @@ export function writeDxf({ entities, mode, useZ }: DxfOptions): string {
   entities.forEach((entity) => {
     if (mode === 'line') writeLines(pair, entity, useZ);
     else writePolyline(pair, entity, useZ);
+  });
+  points.forEach((vertex) => {
+    pair(0, 'POINT');
+    pair(8, vertex.layer);
+    point(pair, vertex.at, 10, useZ);
   });
   pair(0, 'ENDSEC');
 

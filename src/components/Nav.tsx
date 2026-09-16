@@ -9,8 +9,8 @@ import { TransitionLink } from './TransitionLink';
 import styles from './Nav.module.css';
 
 const items: { href: string; key: MessageKey }[] = [
-  { href: '/tools', key: 'nav.tools' },
   { href: '/', key: 'nav.home' },
+  { href: '/tools/shp-to-dxf', key: 'nav.tools' },
   { href: '/services', key: 'nav.services' },
   { href: '/projects', key: 'nav.projects' },
   { href: '/about', key: 'nav.about' },

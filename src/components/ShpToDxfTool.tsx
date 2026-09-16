@@ -3,22 +3,28 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useLanguage } from '@/i18n/LanguageProvider';
 import type { MessageKey } from '@/i18n/messages';
-import type { Shapefile } from '@/lib/shapefile';
 import {
   convert,
   DEFAULT_OPTIONS,
   errorKey,
+  MAX_ZIP_BYTES,
   readShapefiles,
   type ConvertOptions,
   type ConvertResult,
+  type LoadedLayer,
 } from '@/lib/shpToDxf';
 import styles from './ShpToDxfTool.module.css';
 
-type Loaded = { fileName: string; files: { name: string; data: Shapefile }[] };
+type Loaded = { fileName: string; layers: LoadedLayer[] };
 
 /** JSZip is only fetched once someone actually converts something. */
-async function unzip(file: File) {
+async function jsZip() {
   const { default: JSZip } = await import('jszip');
+  return JSZip;
+}
+
+async function unzip(file: File) {
+  const JSZip = await jsZip();
   const zip = await JSZip.loadAsync(file);
   const entries: Record<string, Uint8Array> = {};
   await Promise.all(
@@ -38,6 +44,8 @@ function crsName(wkt?: string): string | undefined {
   return match ? match[1].replace(/_/g, ' ') : undefined;
 }
 
+const LATIN_NAME = /^[\w\s().,+-]+$/;
+
 export function ShpToDxfTool() {
   const { t, lang } = useLanguage();
   const [loaded, setLoaded] = useState<Loaded | null>(null);
@@ -53,11 +61,15 @@ export function ShpToDxfTool() {
       setError('tool.error.notZip');
       return;
     }
+    if (file.size > MAX_ZIP_BYTES) {
+      setError('tool.error.tooBig');
+      return;
+    }
     setBusy(true);
     try {
-      const files = readShapefiles(await unzip(file));
-      setLoaded({ fileName: file.name, files });
-      setOptions({ ...DEFAULT_OPTIONS, useZ: files.some(({ data }) => data.hasZ) });
+      const layers = readShapefiles(await unzip(file));
+      setLoaded({ fileName: file.name, layers });
+      setOptions({ ...DEFAULT_OPTIONS, useZ: layers.some(({ data }) => data.hasZ) });
     } catch (cause) {
       setLoaded(null);
       setError(errorKey(cause) as MessageKey);
@@ -69,33 +81,37 @@ export function ShpToDxfTool() {
   const result = useMemo<ConvertResult | null>(() => {
     if (!loaded) return null;
     try {
-      return convert(loaded.files, options);
+      return convert(loaded.layers, options);
     } catch {
       return null;
     }
   }, [loaded, options]);
 
-  const fields = useMemo(() => {
-    if (!loaded) return [];
-    const names = new Set<string>();
-    loaded.files.forEach(({ data }) =>
-      data.fields.forEach((field) => {
-        if (field.type === 'C' || field.type === 'N') names.add(field.name);
-      }),
-    );
-    return [...names];
-  }, [loaded]);
+  const hasZ = loaded?.layers.some(({ data }) => data.hasZ) ?? false;
+  const projection = loaded?.layers.map(({ data }) => data.projection).find(Boolean);
+  const notices: MessageKey[] = [];
+  if (loaded) {
+    if (!LATIN_NAME.test(loaded.fileName.replace(/\.zip$/i, ''))) notices.push('tool.noticeLatin');
+    if (!result?.layers.some((layer) => layer.layer === 'building')) {
+      notices.push('tool.noticeNoBuilding');
+    }
+    if (!result?.layers.some((layer) => layer.layer === 'parcel')) {
+      notices.push('tool.noticeNoParcel');
+    }
+  }
 
-  const hasZ = loaded?.files.some(({ data }) => data.hasZ) ?? false;
-  const projection = loaded?.files.map(({ data }) => data.projection).find(Boolean);
-
-  const download = () => {
+  const download = async () => {
     if (!result || !loaded) return;
-    const blob = new Blob([result.dxf], { type: 'application/dxf' });
+    const base = loaded.fileName.replace(/\.zip$/i, '') || 'cadastre';
+    const JSZip = await jsZip();
+    const zip = new JSZip();
+    result.files.forEach((file) => zip.file(file.name, file.content));
+    const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+
     const href = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = href;
-    link.download = `${loaded.fileName.replace(/\.zip$/i, '')}.dxf`;
+    link.download = `${base}_dxf.zip`;
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -141,6 +157,7 @@ export function ShpToDxfTool() {
               event.target.value = '';
             }}
           />
+          <p className={styles.limit}>{t('tool.limit')}</p>
           <p className={styles.privacy}>{t('tool.privacy')}</p>
         </div>
       )}
@@ -168,7 +185,7 @@ export function ShpToDxfTool() {
 
           <div className={styles.columns}>
             <div className={styles.options}>
-              <h3 className={styles.sectionTitle}>{t('tool.options')}</h3>
+              <h2 className={styles.sectionTitle}>{t('tool.options')}</h2>
 
               <fieldset className={styles.group}>
                 <legend className={styles.legend}>{t('tool.mode')}</legend>
@@ -185,50 +202,6 @@ export function ShpToDxfTool() {
                 ))}
               </fieldset>
 
-              <fieldset className={styles.group}>
-                <legend className={styles.legend}>{t('tool.layer')}</legend>
-                <label className={styles.choice}>
-                  <input
-                    type="radio"
-                    name="layer"
-                    checked={options.layerBy === 'file'}
-                    onChange={() => setOptions((current) => ({ ...current, layerBy: 'file' }))}
-                  />
-                  <span>{t('tool.layerFile')}</span>
-                </label>
-                <label className={`${styles.choice} ${fields.length === 0 ? styles.disabled : ''}`}>
-                  <input
-                    type="radio"
-                    name="layer"
-                    disabled={fields.length === 0}
-                    checked={options.layerBy === 'field'}
-                    onChange={() =>
-                      setOptions((current) => ({
-                        ...current,
-                        layerBy: 'field',
-                        layerField: current.layerField ?? fields[0],
-                      }))
-                    }
-                  />
-                  <span>{t('tool.layerField')}</span>
-                </label>
-                {options.layerBy === 'field' && fields.length > 0 && (
-                  <select
-                    className={styles.select}
-                    value={options.layerField ?? fields[0]}
-                    onChange={(event) =>
-                      setOptions((current) => ({ ...current, layerField: event.target.value }))
-                    }
-                  >
-                    {fields.map((field) => (
-                      <option key={field} value={field}>
-                        {field}
-                      </option>
-                    ))}
-                  </select>
-                )}
-              </fieldset>
-
               <label className={`${styles.choice} ${hasZ ? '' : styles.disabled}`}>
                 <input
                   type="checkbox"
@@ -241,55 +214,66 @@ export function ShpToDxfTool() {
                 <span>{hasZ ? t('tool.z') : t('tool.noZ')}</span>
               </label>
 
-              <button type="button" className={styles.primary} onClick={download}>
+              <button type="button" className={styles.primary} onClick={() => void download()}>
                 {t('tool.download')}
               </button>
+
+              <ul className={styles.outputs}>
+                {result.files.map((file) => (
+                  <li key={file.name}>{file.name}</li>
+                ))}
+              </ul>
             </div>
 
             <div className={styles.summary}>
-              <h3 className={styles.sectionTitle}>{t('tool.result')}</h3>
+              <h2 className={styles.sectionTitle}>{t('tool.result')}</h2>
+
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th scope="col">{t('tool.files')}</th>
+                    <th scope="col">{t('tool.features')}</th>
+                    <th scope="col">{t('tool.rings')}</th>
+                    <th scope="col">{t('tool.vertices')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {result.layers.map((layer) => (
+                    <tr key={layer.layer}>
+                      <th scope="row">
+                        {layer.layer === 'parcel' ? t('tool.layerParcel') : t('tool.layerBuilding')}
+                      </th>
+                      <td>{number(layer.features)}</td>
+                      <td>{number(layer.rings)}</td>
+                      <td>{number(layer.vertices)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
               <dl className={styles.stats}>
-                <div>
-                  <dt>{t('tool.geometry')}</dt>
-                  <dd>
-                    {loaded.files[0].data.kind === 'polygon' ? t('tool.polygon') : t('tool.polyline')}
-                  </dd>
-                </div>
-                <div>
-                  <dt>{t('tool.features')}</dt>
-                  <dd>{number(result.sources.reduce((total, source) => total + source.features, 0))}</dd>
-                </div>
-                <div>
-                  <dt>{t('tool.rings')}</dt>
-                  <dd>{number(result.sources.reduce((total, source) => total + source.rings, 0))}</dd>
-                </div>
                 <div>
                   <dt>{t('tool.entities')}</dt>
                   <dd>{number(result.entities)}</dd>
-                </div>
-                <div>
-                  <dt>{t('tool.layers')}</dt>
-                  <dd>{number(result.layers.length)}</dd>
                 </div>
                 <div>
                   <dt>{t('tool.crs')}</dt>
                   <dd>{crsName(projection) ?? t('tool.crsUnknown')}</dd>
                 </div>
               </dl>
+
               <p className={styles.note}>{t('tool.crsNote')}</p>
-              {result.sources.some((source) => source.skipped > 0) && (
+              {notices.map((notice) => (
+                <p key={notice} className={styles.notice}>
+                  {t(notice)}
+                </p>
+              ))}
+              {result.layers.some((layer) => layer.skipped > 0) && (
                 <p className={styles.note}>
                   {t('tool.skipped')}:{' '}
-                  {number(result.sources.reduce((total, source) => total + source.skipped, 0))}
+                  {number(result.layers.reduce((total, layer) => total + layer.skipped, 0))}
                 </p>
               )}
-              <ul className={styles.files}>
-                {result.sources.map((source) => (
-                  <li key={source.name}>
-                    <strong>{source.name}</strong> — {number(source.features)} / {number(source.rings)}
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
         </div>

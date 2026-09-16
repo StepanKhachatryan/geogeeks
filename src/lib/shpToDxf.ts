@@ -1,54 +1,71 @@
 /**
- * Turns the shapefiles inside a `.zip` into one DXF drawing.
+ * Turns the shapefiles inside a cadastre `.zip` into DXF drawings.
  *
- * Polygon rings become closed entities, so a polygon arrives in CAD as its
- * boundary lines. Holes are kept: they are boundaries too. Coordinates pass
- * through untouched, in whatever system the shapefile was surveyed in.
+ * A cadastre extract carries a parcel layer and, where there are buildings, a
+ * building layer. Each recognised layer produces two drawings: one with the
+ * boundaries as lines, one with the boundary vertices as points.
+ *
+ * Polygon rings become closed entities, holes included: in CAD they are
+ * boundaries too. Coordinates pass through untouched, in whatever system the
+ * shapefile was surveyed in.
  */
 
-import { layerName, writeDxf, type DxfEntity, type Point } from './dxf';
+import { layerName, writeDxf, type DxfPoint, type Point } from './dxf';
 import { parseShapefile, ShapefileError, type Shapefile } from './shapefile';
 
 export type ZipEntries = Record<string, Uint8Array>;
 
+/** The layers an Armenian cadastre extract is expected to contain. */
+export const EXPECTED_LAYERS = ['parcel', 'building'] as const;
+export type ExpectedLayer = (typeof EXPECTED_LAYERS)[number];
+
+/** Uploads above this size are refused and pointed at the contact address. */
+export const MAX_ZIP_BYTES = 7 * 1024 * 1024;
+
 export type ConvertOptions = {
   /** One object per ring, or one object per segment. */
   mode: 'polyline' | 'line';
-  /** Layer per source file, or per value of `layerField`. */
-  layerBy: 'file' | 'field';
-  layerField?: string;
   useZ: boolean;
 };
 
-export type SourceSummary = {
-  name: string;
+export type LayerSummary = {
+  layer: ExpectedLayer;
+  /** File name inside the archive, for the report. */
+  source: string;
   kind: 'polygon' | 'polyline';
   features: number;
   rings: number;
-  points: number;
+  vertices: number;
   hasZ: boolean;
-  fields: { name: string; type: string }[];
   projection?: string;
   skipped: number;
 };
 
+export type OutputFile = { name: string; content: string };
+
 export type ConvertResult = {
-  dxf: string;
+  files: OutputFile[];
+  layers: LayerSummary[];
   entities: number;
-  layers: string[];
-  sources: SourceSummary[];
-  bbox: { xmin: number; ymin: number; xmax: number; ymax: number };
+  vertices: number;
 };
 
-export const DEFAULT_OPTIONS: ConvertOptions = {
-  mode: 'polyline',
-  layerBy: 'file',
-  useZ: false,
-};
+export const DEFAULT_OPTIONS: ConvertOptions = { mode: 'polyline', useZ: false };
+
+export type LoadedLayer = { layer: ExpectedLayer; source: string; data: Shapefile };
+
+/** Matches a member of the archive against the expected cadastre layer names. */
+function classify(base: string): ExpectedLayer | null {
+  const name = base.split('/').pop()?.toLowerCase() ?? '';
+  return EXPECTED_LAYERS.find((layer) => name.includes(layer)) ?? null;
+}
 
 /** Groups the archive's members into one entry per shapefile base name. */
 export function collectShapefiles(entries: ZipEntries) {
-  const groups = new Map<string, { shp?: Uint8Array; dbf?: Uint8Array; prj?: Uint8Array; cpg?: Uint8Array }>();
+  const groups = new Map<
+    string,
+    { shp?: Uint8Array; dbf?: Uint8Array; prj?: Uint8Array; cpg?: Uint8Array }
+  >();
 
   Object.entries(entries).forEach(([path, bytes]) => {
     // Skip the metadata folder macOS adds when compressing from Finder.
@@ -63,89 +80,108 @@ export function collectShapefiles(entries: ZipEntries) {
 
   return [...groups.entries()]
     .filter(([, group]) => group.shp)
-    .map(([base, group]) => ({ name: base.split('/').pop() || base, group }));
+    .map(([base, group]) => ({ name: base.split('/').pop() || base, base, group }));
 }
 
-/** Reads the shapefiles without converting, so the UI can offer real choices. */
-export function readShapefiles(entries: ZipEntries): { name: string; data: Shapefile }[] {
+/**
+ * Reads the parcel and building layers out of the archive. Either one may be
+ * missing on its own — a plot with no buildings is normal — but an archive with
+ * neither is not a cadastre extract.
+ */
+export function readShapefiles(entries: ZipEntries): LoadedLayer[] {
   const found = collectShapefiles(entries);
   if (found.length === 0) throw new ShapefileError('NO_SHP_IN_ZIP');
 
   const text = new TextDecoder();
-  return found.map(({ name, group }) => ({
-    name,
-    data: parseShapefile({
-      shp: group.shp as Uint8Array,
-      dbf: group.dbf,
-      prj: group.prj ? text.decode(group.prj) : undefined,
-      cpg: group.cpg ? text.decode(group.cpg) : undefined,
-    }),
-  }));
+  const loaded: LoadedLayer[] = [];
+
+  found.forEach(({ name, base, group }) => {
+    const layer = classify(base);
+    if (!layer || loaded.some((entry) => entry.layer === layer)) return;
+    loaded.push({
+      layer,
+      source: name,
+      data: parseShapefile({
+        shp: group.shp as Uint8Array,
+        dbf: group.dbf,
+        prj: group.prj ? text.decode(group.prj) : undefined,
+        cpg: group.cpg ? text.decode(group.cpg) : undefined,
+      }),
+    });
+  });
+
+  if (loaded.length === 0) throw new ShapefileError('NO_EXPECTED_LAYERS');
+
+  // parcel first, so the report and the file list read in a stable order.
+  return loaded.sort(
+    (a, b) => EXPECTED_LAYERS.indexOf(a.layer) - EXPECTED_LAYERS.indexOf(b.layer),
+  );
 }
 
-export function convert(
-  files: { name: string; data: Shapefile }[],
-  options: ConvertOptions,
-): ConvertResult {
-  const entities: DxfEntity[] = [];
-  const sources: SourceSummary[] = [];
-  const bbox = { xmin: Infinity, ymin: Infinity, xmax: -Infinity, ymax: -Infinity };
+export function convert(loaded: LoadedLayer[], options: ConvertOptions): ConvertResult {
+  const files: OutputFile[] = [];
+  const layers: LayerSummary[] = [];
+  let entities = 0;
+  let vertexTotal = 0;
 
-  files.forEach(({ name, data }) => {
-    const fallbackLayer = layerName(name);
-    let rings = 0;
-    let points = 0;
+  loaded.forEach(({ layer, source, data }) => {
+    const useZ = options.useZ && data.hasZ;
+    const lineLayer = layerName(layer);
+    const pointLayer = layerName(`${layer}_points`);
+
+    const rings: { layer: string; points: Point[]; closed: boolean }[] = [];
+    const seen = new Set<string>();
+    const points: DxfPoint[] = [];
 
     data.features.forEach((feature) => {
-      const layer =
-        options.layerBy === 'field' && options.layerField
-          ? layerName(String(feature.attributes[options.layerField] ?? ''), fallbackLayer)
-          : fallbackLayer;
-
       feature.parts.forEach((part) => {
-        const cleaned = dropRepeats(part, data.kind === 'polygon');
-        if (cleaned.length < 2) return;
-        rings += 1;
-        points += cleaned.length;
-        cleaned.forEach(([x, y]) => {
-          if (x < bbox.xmin) bbox.xmin = x;
-          if (y < bbox.ymin) bbox.ymin = y;
-          if (x > bbox.xmax) bbox.xmax = x;
-          if (y > bbox.ymax) bbox.ymax = y;
+        const ring = dropRepeats(part, data.kind === 'polygon');
+        if (ring.length < 2) return;
+        rings.push({ layer: lineLayer, points: ring, closed: data.kind === 'polygon' });
+        ring.forEach((vertex) => {
+          // One marker per distinct corner: neighbouring parcels share vertices.
+          const key = `${vertex[0].toFixed(6)}|${vertex[1].toFixed(6)}|${useZ ? vertex[2].toFixed(6) : 0}`;
+          if (seen.has(key)) return;
+          seen.add(key);
+          points.push({ layer: pointLayer, at: vertex });
         });
-        entities.push({ layer, points: cleaned, closed: data.kind === 'polygon' });
       });
     });
 
-    sources.push({
-      name,
+    if (rings.length === 0) return;
+
+    const drawn =
+      options.mode === 'line'
+        ? rings.reduce((total, ring) => total + ring.points.length - (ring.closed ? 0 : 1), 0)
+        : rings.length;
+    entities += drawn;
+    vertexTotal += points.length;
+
+    files.push({
+      name: `${layer}_lines.dxf`,
+      content: writeDxf({ entities: rings, mode: options.mode, useZ }),
+    });
+    files.push({
+      name: `${layer}_points.dxf`,
+      content: writeDxf({ points, mode: options.mode, useZ }),
+    });
+
+    layers.push({
+      layer,
+      source,
       kind: data.kind,
       features: data.features.length,
-      rings,
-      points,
+      rings: rings.length,
+      vertices: points.length,
       hasZ: data.hasZ,
-      fields: data.fields,
       projection: data.projection,
       skipped: data.skipped,
     });
   });
 
-  if (entities.length === 0) throw new ShapefileError('NO_GEOMETRY');
+  if (files.length === 0) throw new ShapefileError('NO_GEOMETRY');
 
-  const useZ = options.useZ && files.some(({ data }) => data.hasZ);
-  const dxf = writeDxf({ entities, mode: options.mode, useZ });
-  const drawn =
-    options.mode === 'line'
-      ? entities.reduce((total, entity) => total + entity.points.length - (entity.closed ? 0 : 1), 0)
-      : entities.length;
-
-  return {
-    dxf,
-    entities: drawn,
-    layers: [...new Set(entities.map((entity) => entity.layer))],
-    sources,
-    bbox,
-  };
+  return { files, layers, entities, vertices: vertexTotal };
 }
 
 /**
@@ -175,6 +211,8 @@ export function errorKey(error: unknown): string {
   switch (code) {
     case 'NO_SHP_IN_ZIP':
       return 'tool.error.noShp';
+    case 'NO_EXPECTED_LAYERS':
+      return 'tool.error.layers';
     case 'NO_GEOMETRY':
       return 'tool.error.noGeometry';
     case 'UNSUPPORTED_TYPE':
