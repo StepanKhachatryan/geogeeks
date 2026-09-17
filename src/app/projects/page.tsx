@@ -1,7 +1,7 @@
 import { ProjectsView } from '@/components/ProjectsView';
 import { JsonLd } from '@/components/JsonLd';
 import { sectors } from '@/data/projects';
-import { breadcrumbs, jsonLd, pageMetadata, url } from '@/lib/seo';
+import { breadcrumbs, jsonLd, navTitle, pageMetadata, url } from '@/lib/seo';
 
 const title = 'Նախագծեր ըստ ոլորտների';
 const description =
@@ -11,6 +11,7 @@ export const metadata = pageMetadata({
   path: '/projects/',
   title,
   description,
+  tabTitle: navTitle('nav.projects'),
   image: '/assets/img/projects_img/hydro_projects.jpg',
 });
 

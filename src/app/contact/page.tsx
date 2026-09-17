@@ -1,12 +1,17 @@
 import { ContactView } from '@/components/ContactView';
 import { JsonLd } from '@/components/JsonLd';
-import { breadcrumbs, jsonLd, organizationId, pageMetadata, SITE_URL } from '@/lib/seo';
+import { breadcrumbs, jsonLd, navTitle, organizationId, pageMetadata, SITE_URL } from '@/lib/seo';
 
 const title = 'Կապ';
 const description =
   'Կապ GeoGeeks-ի հետ՝ Ադոնց 4/3, Երևան, Հայաստան։ Հեռախոս +374 (98) 09-80-06, էլ. փոստ geogeeksllc@gmail.com';
 
-export const metadata = pageMetadata({ path: '/contact/', title, description });
+export const metadata = pageMetadata({
+  path: '/contact/',
+  title,
+  description,
+  tabTitle: navTitle('nav.contact'),
+});
 
 const schema = jsonLd(
   breadcrumbs([

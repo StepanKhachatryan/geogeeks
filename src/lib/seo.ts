@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { messages, type MessageKey } from '@/i18n/messages';
 
 export const SITE_URL = 'https://geogeeks.am';
 export const SITE_NAME = 'GeoGeeks';
@@ -25,6 +26,14 @@ type PageSeo = {
 };
 
 const DEFAULT_IMAGE = '/assets/img/GeoGeeks_logo.png';
+
+/**
+ * The tab says what the menu says, so a row of open tabs reads like the nav
+ * instead of a row of truncated sentences. Armenian, like the prerendered HTML.
+ */
+export function navTitle(key: MessageKey): string {
+  return messages.hy[key];
+}
 
 /** Search results cut a description around 160 characters; cut it on a word. */
 export function trim(text: string, limit = 160): string {

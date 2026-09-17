@@ -1,12 +1,17 @@
 import { ShpToDxfView } from '@/components/ShpToDxfView';
 import { JsonLd } from '@/components/JsonLd';
-import { breadcrumbs, jsonLd, organizationId, pageMetadata, SITE_URL } from '@/lib/seo';
+import { breadcrumbs, jsonLd, navTitle, organizationId, pageMetadata, SITE_URL } from '@/lib/seo';
 
-const title = 'Shapefile → DXF փոխարկիչ (առցանց, անվճար)';
+const title = 'Shapefile → DXF փոխարկիչ (առցանց)';
 const description =
   'Վերբեռնեք shapefile-ի zip արխիվը և ստացեք DXF գծագիր՝ պոլիգոնների եզրագծերը որպես փակ գծեր։ Փոխարկումը կատարվում է ձեր դիտարկիչում, կոորդինատները չեն վերահաշվարկվում:';
 
-export const metadata = pageMetadata({ path: '/tools/shp-to-dxf/', title, description });
+export const metadata = pageMetadata({
+  path: '/tools/shp-to-dxf/',
+  title,
+  description,
+  tabTitle: navTitle('nav.tools'),
+});
 
 const schema = jsonLd(
   breadcrumbs([

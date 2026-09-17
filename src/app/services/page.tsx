@@ -1,7 +1,7 @@
 import { ServicesView } from '@/components/ServicesView';
 import { JsonLd } from '@/components/JsonLd';
 import { serviceGroups } from '@/data/services';
-import { breadcrumbs, jsonLd, organizationId, pageMetadata, url } from '@/lib/seo';
+import { breadcrumbs, jsonLd, navTitle, organizationId, pageMetadata, url } from '@/lib/seo';
 
 const title = 'ԱՏՀ (GIS) և հիդրոլոգիական ծառայություններ';
 const description =
@@ -11,6 +11,7 @@ export const metadata = pageMetadata({
   path: '/services/',
   title,
   description,
+  tabTitle: navTitle('nav.services'),
   image: '/assets/img/serv_img/serv_gis.jpg',
 });
 

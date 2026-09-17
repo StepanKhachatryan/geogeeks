@@ -1,7 +1,7 @@
 import { AboutView } from '@/components/AboutView';
 import { JsonLd } from '@/components/JsonLd';
 import { team } from '@/data/team';
-import { breadcrumbs, jsonLd, organizationId, pageMetadata, SITE_URL, url } from '@/lib/seo';
+import { breadcrumbs, jsonLd, navTitle, organizationId, pageMetadata, SITE_URL, url } from '@/lib/seo';
 
 const title = 'Մեր մասին';
 const description =
@@ -11,6 +11,7 @@ export const metadata = pageMetadata({
   path: '/about/',
   title,
   description,
+  tabTitle: navTitle('nav.about'),
   image: '/assets/img/team/team_01.jpg',
 });
 
