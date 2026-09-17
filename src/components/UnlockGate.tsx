@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useLanguage } from '@/i18n/LanguageProvider';
 import type { MessageKey } from '@/i18n/messages';
 import {
@@ -35,24 +35,91 @@ const OUTCOME_MESSAGE: Record<string, MessageKey> = {
   network: 'unlock.network',
 };
 
-/** How the request is polled while the owner checks the payment. */
-const POLL_INTERVAL = 4000;
-const POLL_LIMIT = 75; // about five minutes
+/**
+ * How the request is polled while the owner checks the payment. The owner
+ * confirms by hand and may not see the message at once, so the page promises
+ * half an hour and keeps watching for a little longer than that -- quickly at
+ * first, when they may be right there, and calmly after the first minute.
+ */
+const POLL_FAST = 4000;
+const POLL_SLOW = 15000;
+const POLL_FAST_FOR = 60_000;
+const POLL_WINDOW = 35 * 60 * 1000;
+
+/**
+ * Half an hour is long enough to close the tab, and the code is only reachable
+ * with the request's token, so the token outlives the page.
+ */
+const STORAGE_KEY = 'gg-unlock-request';
+const STORAGE_MAX_AGE = 24 * 60 * 60 * 1000;
+
+type StoredRequest = { token: string; phone: string; at: number; botUrl: string | null };
+
+function readStored(): StoredRequest | null {
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const value: StoredRequest = JSON.parse(raw);
+    if (!value?.token || !value?.phone) return null;
+    if (Date.now() - value.at > STORAGE_MAX_AGE) return null;
+    return value;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Read through a store rather than in an effect: the page is prerendered, and
+ * this keeps the server's "no request" and the browser's restored one from
+ * disagreeing during hydration.
+ */
+let snapshot: StoredRequest | null | undefined;
+const listeners = new Set<() => void>();
+
+function storedRequest(): StoredRequest | null {
+  if (snapshot === undefined) snapshot = readStored();
+  return snapshot;
+}
+
+function subscribeStored(listener: () => void) {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+function writeStored(value: StoredRequest | null) {
+  snapshot = value;
+  listeners.forEach((listener) => listener());
+  try {
+    if (value) window.localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+    else window.localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // A browser with storage switched off still works, it just cannot resume.
+  }
+}
 
 export function UnlockGate({ config, onUnlocked }: Props) {
   const { t } = useLanguage();
-  const [phone, setPhone] = useState('');
+  const restored = useSyncExternalStore(subscribeStored, storedRequest, () => null);
+  const [typedPhone, setPhone] = useState<string | null>(null);
   const [code, setCode] = useState('');
   const [checking, setChecking] = useState(false);
   const [sending, setSending] = useState(false);
   const [qrMissing, setQrMissing] = useState(false);
-  const [token, setToken] = useState<string | null>(null);
-  const [botUrl, setBotUrl] = useState<string | null>(null);
-  const [status, setStatus] = useState<RequestStatus | null>(null);
+  const [sentToken, setToken] = useState<string | null>(null);
+  const [sentBotUrl, setBotUrl] = useState<string | null>(null);
+  const [reachedStatus, setStatus] = useState<RequestStatus | null>(null);
   const [message, setMessage] = useState<MessageKey | null>(null);
+
+  // A request left open in a closed tab stands in until this visit opens one.
+  const phone = typedPhone ?? restored?.phone ?? '';
+  const token = sentToken ?? restored?.token ?? null;
+  const botUrl = sentBotUrl ?? restored?.botUrl ?? null;
+  const status = reachedStatus ?? (restored ? 'pending' : null);
   const codeField = useRef<HTMLInputElement>(null);
   /** Stops the arriving code from being spent twice. */
   const submitted = useRef(false);
+  /** When the request was opened, which may have been in an earlier visit. */
+  const openedAt = useRef<number | null>(null);
 
   const phoneReady = isPhoneComplete(phone);
   const endpoint = config.requestEndpoint;
@@ -66,6 +133,7 @@ export function UnlockGate({ config, onUnlocked }: Props) {
       const outcome = await verifyCode(config.endpoint, phone, value);
       setChecking(false);
       if (outcome === 'ok') {
+        writeStored(null);
         setMessage('unlock.unlocked');
         onUnlocked();
         return;
@@ -82,24 +150,43 @@ export function UnlockGate({ config, onUnlocked }: Props) {
     if (!token || !endpoint) return;
     if (status === 'approved' || status === 'rejected') return;
 
-    let polls = 0;
-    const timer = window.setInterval(async () => {
-      polls += 1;
-      const next = await requestStatus(endpoint, token);
-      if (next.status !== 'unknown') setStatus(next.status);
-      if (next.status === 'approved' && next.code) {
-        setCode(next.code);
-        void submit(next.code);
-      } else if (next.status === 'approved') {
-        codeField.current?.focus();
-      }
-      if (polls >= POLL_LIMIT || next.status === 'approved' || next.status === 'rejected') {
-        window.clearInterval(timer);
-      }
-    }, POLL_INTERVAL);
+    let stopped = false;
+    let timer = 0;
+    const opened = openedAt.current ?? restored?.at ?? Date.now();
+    const since = () => Date.now() - opened;
 
-    return () => window.clearInterval(timer);
-  }, [token, status, endpoint, submit]);
+    const check = async () => {
+      const next = await requestStatus(endpoint, token);
+      if (stopped) return;
+
+      if (next.status !== 'unknown') setStatus(next.status);
+      if (next.status === 'approved') {
+        writeStored(null);
+        if (next.code) {
+          setCode(next.code);
+          void submit(next.code);
+        } else {
+          codeField.current?.focus();
+        }
+        return;
+      }
+      if (next.status === 'rejected') {
+        writeStored(null);
+        return;
+      }
+      if (since() > POLL_WINDOW) {
+        setMessage('unlock.slow');
+        return;
+      }
+      timer = window.setTimeout(check, since() < POLL_FAST_FOR ? POLL_FAST : POLL_SLOW);
+    };
+
+    timer = window.setTimeout(check, POLL_FAST);
+    return () => {
+      stopped = true;
+      window.clearTimeout(timer);
+    };
+  }, [token, status, endpoint, submit, restored]);
 
   const sendRequest = async () => {
     if (!endpoint || !phoneReady || sending) return;
@@ -113,9 +200,11 @@ export function UnlockGate({ config, onUnlocked }: Props) {
       return;
     }
 
+    openedAt.current = Date.now();
     setToken(created.token);
     setBotUrl(created.botUrl);
     setStatus('pending');
+    writeStored({ token: created.token, phone, at: openedAt.current, botUrl: created.botUrl });
     // With no bot reachable there is nobody to confirm the payment, so say what
     // to do instead rather than leaving the customer watching a spinner.
     if (!created.notified) setMessage('unlock.noBot');

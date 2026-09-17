@@ -41,6 +41,11 @@ Ten attempts per number in ten minutes stop further tries.
 5. The page, which has been polling since step 2, collects the code, fills it in
    and starts the download.
 
+Step 4 is a person looking at a phone, so the page promises an answer within 30
+minutes rather than within a few, polls for 35, and keeps the request's token in
+`localStorage`: half an hour is long enough to close the tab, and the code cannot
+be reached without that token. Reopening the page resumes the same request.
+
 Nothing is asked of the customer's device: cadastre work is done at a desk and
 Telegram usually lives on a phone, so requiring it there would have meant a
 device switch in the middle of paying. A customer who would rather have the code
