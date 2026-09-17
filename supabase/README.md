@@ -31,8 +31,12 @@ Ten attempts per number in ten minutes stop further tries.
 
 ## The flow
 
+0. They load their archive. The payment step stays closed until then: a code is
+   single use, and one issued with nothing to convert would be spent on nothing.
 1. The customer pays 300 AMD with Idram, by QR or by ID, writing their phone
-   number in the payment note so the transfer can be recognised.
+   number in the payment note so the transfer can be recognised. The page says
+   so in a callout of its own, since a transfer with no number on it cannot be
+   matched to a request afterwards.
 2. They type that number on the page and press send.
 3. `geogeeks-request-code` stores the request and puts it in front of the owner
    in Telegram, with Confirm and Reject under it.
@@ -44,7 +48,12 @@ Ten attempts per number in ten minutes stop further tries.
 Step 4 is a person looking at a phone, so the page promises an answer within 30
 minutes rather than within a few, polls for 35, and keeps the request's token in
 `localStorage`: half an hour is long enough to close the tab, and the code cannot
-be reached without that token. Reopening the page resumes the same request.
+be reached without that token. Reopening the page resumes the same request, and
+the stored copy is dropped only once the code is spent or refused.
+
+Files are not kept across a reload, so a resumed page has a code and no archive.
+It holds the code rather than redeeming it, and says what is missing; loading the
+archive is what spends it.
 
 Nothing is asked of the customer's device: cadastre work is done at a desk and
 Telegram usually lives on a phone, so requiring it there would have meant a

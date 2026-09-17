@@ -1,7 +1,7 @@
 .gate {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   padding: 14px 16px;
   border: 1px solid var(--gg-border);
   border-radius: 16px;
@@ -43,7 +43,7 @@
 .pay {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   min-width: 0;
 }
 
@@ -55,6 +55,26 @@
   align-items: center;
   text-align: center;
   gap: 5px;
+}
+
+.bodyCompact {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Kept in the tree so the browser does not reflow the whole block when the
+   archive lands; it simply has no size until then. */
+.hidden {
+  display: none;
+}
+
+/* With the fields away, the QR and the account sit side by side rather than
+   stacking into a tall column. */
+.bodyCompact .pay {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: left;
 }
 
 @media (max-width: 520px) {
@@ -182,7 +202,7 @@
 
 .primary {
   align-self: flex-start;
-  padding: 11px 20px;
+  padding: 10px 18px;
   border: none;
   border-radius: 10px;
   background: var(--gg-teal);
@@ -225,15 +245,34 @@
 
 /* The number written on the transfer is what ties a payment to a request, so it
    reads as an instruction rather than a footnote. */
-.note {
+.callout {
   margin: 0;
-  padding: 6px 8px;
-  border-radius: 8px;
+  padding: 8px 12px;
+  border-left: 3px solid var(--gg-teal);
+  border-radius: 0 8px 8px 0;
   background: var(--gg-tint);
-  font-size: 12px;
-  line-height: 1.4;
-  font-weight: 600;
+  font-size: 13px;
+  line-height: 1.45;
   color: var(--gg-ink);
+}
+
+.callout strong {
+  font-weight: 800;
+  color: var(--gg-teal);
+}
+
+/* Nothing to convert yet: a warning, not an error, since it is simply the next
+   thing to do. */
+.warn {
+  margin: 0;
+  padding: 8px 12px;
+  border-left: 3px solid #d8a800;
+  border-radius: 0 8px 8px 0;
+  background: #fdf6dd;
+  font-size: 12.5px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: #6b4e00;
 }
 
 .link {

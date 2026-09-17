@@ -24,6 +24,11 @@ import styles from './UnlockGate.module.css';
 
 type Props = {
   config: UnlockConfig;
+  /**
+   * Whether an archive is loaded and converted. A code is single use, so it is
+   * never asked for, and never spent, before there is something to spend it on.
+   */
+  ready: boolean;
   /** Runs once the code has been accepted. */
   onUnlocked: () => void;
 };
@@ -97,7 +102,7 @@ function writeStored(value: StoredRequest | null) {
   }
 }
 
-export function UnlockGate({ config, onUnlocked }: Props) {
+export function UnlockGate({ config, ready, onUnlocked }: Props) {
   const { t } = useLanguage();
   const restored = useSyncExternalStore(subscribeStored, storedRequest, () => null);
   const [typedPhone, setPhone] = useState<string | null>(null);
@@ -120,6 +125,8 @@ export function UnlockGate({ config, onUnlocked }: Props) {
   const submitted = useRef(false);
   /** When the request was opened, which may have been in an earlier visit. */
   const openedAt = useRef<number | null>(null);
+  /** The code the backend handed over, as opposed to one typed by hand. */
+  const issued = useRef<string | null>(null);
 
   const phoneReady = isPhoneComplete(phone);
   const endpoint = config.requestEndpoint;
@@ -161,10 +168,12 @@ export function UnlockGate({ config, onUnlocked }: Props) {
 
       if (next.status !== 'unknown') setStatus(next.status);
       if (next.status === 'approved') {
-        writeStored(null);
+        // The request is kept until the code is actually spent: it is what the
+        // phone number and token are read from on a reopened page, and a code
+        // that has been issued but not redeemed still needs both.
         if (next.code) {
+          issued.current = next.code;
           setCode(next.code);
-          void submit(next.code);
         } else {
           codeField.current?.focus();
         }
@@ -188,8 +197,19 @@ export function UnlockGate({ config, onUnlocked }: Props) {
     };
   }, [token, status, endpoint, submit, restored]);
 
+  // The code may arrive before the archive does -- after a reopened tab, say,
+  // since files are not kept. Spending it then would burn it on nothing, so it
+  // waits here until there is a conversion for it to unlock.
+  useEffect(() => {
+    if (!ready || status !== 'approved') return;
+    if (!issued.current || code !== issued.current) return;
+    void submit(code);
+  }, [ready, status, code, submit]);
+
+  const waiting = status === 'pending' || status === 'linked';
+
   const sendRequest = async () => {
-    if (!endpoint || !phoneReady || sending) return;
+    if (!endpoint || !phoneReady || sending || !ready) return;
     setSending(true);
     setMessage(null);
     const created = await createRequest(endpoint, phone);
@@ -210,8 +230,6 @@ export function UnlockGate({ config, onUnlocked }: Props) {
     if (!created.notified) setMessage('unlock.noBot');
   };
 
-  const waiting = status === 'pending' || status === 'linked';
-
   return (
     <div className={styles.gate}>
       <div className={styles.header}>
@@ -219,8 +237,31 @@ export function UnlockGate({ config, onUnlocked }: Props) {
         <p className={styles.price}>{config.price ?? t('unlock.price')}</p>
       </div>
 
-      <div className={styles.body}>
-        <div className={styles.inputs}>
+      {/* Full width rather than squeezed beside the QR: this is the one thing a
+          customer must do inside the Idram app, and it is unrecoverable if
+          missed -- a transfer with no number cannot be matched to a request. */}
+      <p className={styles.callout}>
+        <strong>{t('unlock.noteTitle')}</strong> {t('unlock.note')}
+      </p>
+
+      {/* Outside the hidden fields, because with no archive loaded this is the
+          only place left to say what is going on with the request. */}
+      {!ready && (
+        <p className={styles.warn}>
+          {t(
+            status === 'approved'
+              ? 'unlock.codeWaiting'
+              : waiting
+                ? 'unlock.needFileWaiting'
+                : 'unlock.needFile',
+          )}
+        </p>
+      )}
+
+      {/* Before an archive is loaded the form has nothing to act on, so the
+          block shrinks to the QR and what to write on the transfer. */}
+      <div className={`${styles.body} ${ready ? '' : styles.bodyCompact}`}>
+        <div className={`${styles.inputs} ${ready ? '' : styles.hidden}`}>
           <label className={styles.field}>
             <span className={styles.label}>
               <span className={styles.step}>1</span>
@@ -237,13 +278,12 @@ export function UnlockGate({ config, onUnlocked }: Props) {
                 onChange={(event) => setPhone(normalizePhone(event.target.value))}
               />
             </span>
-            <span className={styles.hint}>{t('unlock.phoneHint')}</span>
           </label>
 
           <button
             type="button"
             className={styles.primary}
-            disabled={!phoneReady || sending}
+            disabled={!ready || !phoneReady || sending}
             onClick={() => void sendRequest()}
           >
             {sending ? t('unlock.sending') : t('unlock.sendRequest')}
@@ -279,7 +319,7 @@ export function UnlockGate({ config, onUnlocked }: Props) {
               maxLength={CODE_LENGTH}
               autoComplete="one-time-code"
               placeholder={'X'.repeat(CODE_LENGTH)}
-              disabled={!phoneReady}
+              disabled={!ready || !phoneReady}
               onChange={(event) => setCode(normalizeCode(event.target.value))}
             />
           </label>
@@ -287,7 +327,7 @@ export function UnlockGate({ config, onUnlocked }: Props) {
           <button
             type="button"
             className={styles.primary}
-            disabled={!phoneReady || !isCodeComplete(code) || checking}
+            disabled={!ready || !phoneReady || !isCodeComplete(code) || checking}
             onClick={() => void submit(code)}
           >
             {checking ? t('unlock.checking') : t('unlock.verify')}
@@ -315,15 +355,16 @@ export function UnlockGate({ config, onUnlocked }: Props) {
           <p className={styles.idram}>
             {t('unlock.idramId')}: <strong>{config.idramId}</strong>
           </p>
-          {/* Idram shows the note beside the transfer, which is how a payment is
-              matched to the number asking for a code. */}
-          <p className={styles.note}>{t('unlock.note')}</p>
-          <p className={styles.hint}>
-            {t('unlock.flow')}{' '}
-            <a className={styles.mail} href={`mailto:${SUPPORT_EMAIL}`}>
-              {SUPPORT_EMAIL}
-            </a>
-          </p>
+          {/* Until there is a file, the warning above is the only thing worth
+              reading here. */}
+          {ready && (
+            <p className={styles.hint}>
+              {t('unlock.flow')}{' '}
+              <a className={styles.mail} href={`mailto:${SUPPORT_EMAIL}`}>
+                {SUPPORT_EMAIL}
+              </a>
+            </p>
+          )}
         </div>
       </div>
     </div>

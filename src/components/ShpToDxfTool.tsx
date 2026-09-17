@@ -326,6 +326,7 @@ export function ShpToDxfTool({ guide, notice }: ToolProps) {
         ) : (
           <UnlockGate
             config={unlock}
+            ready={Boolean(result)}
             onUnlocked={() => {
               setPaid(true);
               void download();
