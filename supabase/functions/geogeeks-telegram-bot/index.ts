@@ -119,6 +119,13 @@ Deno.serve(async (request) => {
   const who = [message.from?.first_name, message.from?.last_name].filter(Boolean).join(' ');
   const handle = message.from?.username ? `@${message.from.username}` : chatId;
 
+  // Setup aid: TELEGRAM_OWNER_ID is a numeric chat id, and this is where to read
+  // it from without installing another bot to find it.
+  if (text.trim() === '/id') {
+    await send(chatId, `Chat id: ${chatId}`);
+    return new Response('ok');
+  }
+
   // The customer arrived from the site: /start <token> carries their request.
   const start = /^\/start\s+([a-z0-9_-]{8,64})$/i.exec(text.trim());
   if (start) {

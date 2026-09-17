@@ -54,7 +54,6 @@ under Edge Functions → Secrets, add:
 ```
 TELEGRAM_BOT_TOKEN      from @BotFather
 TELEGRAM_BOT_USERNAME   the bot's @name without the @, used to build the deep link
-TELEGRAM_OWNER_ID       your own Telegram numeric id, from @userinfobot
 TELEGRAM_WEBHOOK_SECRET any long random string
 ```
 
@@ -65,6 +64,17 @@ curl "https://api.telegram.org/bot<TOKEN>/setWebhook" \
   -d "url=https://mejjprejtcyoyfoiocrq.supabase.co/functions/v1/geogeeks-telegram-bot" \
   -d "secret_token=<TELEGRAM_WEBHOOK_SECRET>"
 ```
+
+The fourth secret needs the bot to be answering first. Send it `/id`; it replies
+with the numeric chat id, which is what `TELEGRAM_OWNER_ID` wants:
+
+```
+TELEGRAM_OWNER_ID       your own Telegram numeric id, from /id in the bot
+```
+
+A bot created in BotFather and left untouched is enough: it has no logic of its
+own, and everything it does lives in this Edge Function. Without the secrets it
+simply answers nothing.
 
 Until that is done the page tells customers to send their confirmation by email,
 and codes are issued from the SQL editor or with `/code` in the bot:
