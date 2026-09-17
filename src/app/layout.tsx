@@ -21,8 +21,11 @@ const GA_ID = 'G-84V1L77P4S';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  // The brand alone in the tab. What the site is about is carried by the
+  // description, the Open Graph title and the JSON-LD below, which is what
+  // search results and shared links read anyway.
   title: {
-    default: 'GeoGeeks — ԱՏՀ (GIS), հիդրոլոգիա և ջրհեղեղների մոդելավորում Հայաստանում',
+    default: 'GeoGeeks',
     template: '%s | GeoGeeks',
   },
   description:

@@ -17,6 +17,11 @@ type PageSeo = {
   image?: string;
   /** Skips the "%s | GeoGeeks" template, for a title that already names the site. */
   absoluteTitle?: boolean;
+  /**
+   * What the browser tab says, when that should be shorter than the title the
+   * page presents to search engines and shared links.
+   */
+  tabTitle?: string;
 };
 
 const DEFAULT_IMAGE = '/assets/img/GeoGeeks_logo.png';
@@ -39,12 +44,14 @@ export function pageMetadata({
   description,
   image,
   absoluteTitle,
+  tabTitle,
 }: PageSeo): Metadata {
   const canonical = url(path);
   const social = url(image ?? DEFAULT_IMAGE);
   const summary = trim(description);
+  const tab = tabTitle ?? title;
   return {
-    title: absoluteTitle ? { absolute: title } : title,
+    title: absoluteTitle || tabTitle ? { absolute: tab } : tab,
     description: summary,
     alternates: { canonical },
     openGraph: {

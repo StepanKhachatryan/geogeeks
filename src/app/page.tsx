@@ -1,13 +1,21 @@
 import { HomeView } from '@/components/HomeView';
 import { JsonLd } from '@/components/JsonLd';
 import { latestProjects } from '@/data/projects';
-import { jsonLd, organizationId, pageMetadata, SITE_URL, url } from '@/lib/seo';
+import { jsonLd, organizationId, pageMetadata, SITE_NAME, SITE_URL, url } from '@/lib/seo';
 
 const title = 'GeoGeeks — ԱՏՀ (GIS), հիդրոլոգիա և ջրհեղեղների մոդելավորում Հայաստանում';
 const description =
   'GeoGeeks-ը տրամադրում է ԱՏՀ (GIS) ծառայություններ, հեռահար զոնդավորում, հիդրոլոգիական հետազոտություններ, ջրհեղեղների մոդելավորում և GIS դասընթացներ Հայաստանում:';
 
-export const metadata = pageMetadata({ path: '/', title, description, absoluteTitle: true });
+// The tab shows the brand alone; the longer line still goes to search results,
+// shared links and the JSON-LD below.
+export const metadata = pageMetadata({
+  path: '/',
+  title,
+  description,
+  absoluteTitle: true,
+  tabTitle: SITE_NAME,
+});
 
 const schema = jsonLd({
   '@type': 'WebPage',
