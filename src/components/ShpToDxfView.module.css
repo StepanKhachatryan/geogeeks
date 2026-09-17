@@ -18,7 +18,7 @@
 
 /* Runs to about the width of the panel below it, rather than breaking early. */
 .intro {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   max-width: min(100%, 96ch);
   font-size: clamp(14px, 1vw, 16px);
   line-height: 1.55;

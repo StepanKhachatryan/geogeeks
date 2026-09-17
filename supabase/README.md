@@ -31,8 +31,9 @@ Ten attempts per number in ten minutes stop further tries.
 
 ## The flow
 
-0. They load their archive. The payment step stays closed until then: a code is
-   single use, and one issued with nothing to convert would be spent on nothing.
+0. They load their archive. Send stays disabled until it is there, and says so
+   -- a code is single use, and one issued with nothing to convert would be
+   spent on nothing. Each disabled button names what it is still waiting for.
 1. The customer pays 300 AMD with Idram, by QR or by ID, writing their phone
    number in the payment note so the transfer can be recognised. The page says
    so in a callout of its own, since a transfer with no number on it cannot be

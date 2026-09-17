@@ -208,6 +208,19 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
 
   const waiting = status === 'pending' || status === 'linked';
 
+  /**
+   * What a disabled button is still waiting for. Shown beside it and as its
+   * tooltip, because a button that greys out without saying why reads as broken.
+   */
+  const missing = (needsCode: boolean): string | null => {
+    const parts: MessageKey[] = [];
+    if (!ready) parts.push('unlock.missingFile');
+    if (!phoneReady) parts.push('unlock.missingPhone');
+    if (needsCode && !isCodeComplete(code)) parts.push('unlock.missingCode');
+    if (parts.length === 0) return null;
+    return `${t('unlock.missing')} ${parts.map((part) => t(part)).join(', ')}`;
+  };
+
   const sendRequest = async () => {
     if (!endpoint || !phoneReady || sending || !ready) return;
     setSending(true);
@@ -244,24 +257,8 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
         <strong>{t('unlock.noteTitle')}</strong> {t('unlock.note')}
       </p>
 
-      {/* Outside the hidden fields, because with no archive loaded this is the
-          only place left to say what is going on with the request. */}
-      {!ready && (
-        <p className={styles.warn}>
-          {t(
-            status === 'approved'
-              ? 'unlock.codeWaiting'
-              : waiting
-                ? 'unlock.needFileWaiting'
-                : 'unlock.needFile',
-          )}
-        </p>
-      )}
-
-      {/* Before an archive is loaded the form has nothing to act on, so the
-          block shrinks to the QR and what to write on the transfer. */}
-      <div className={`${styles.body} ${ready ? '' : styles.bodyCompact}`}>
-        <div className={`${styles.inputs} ${ready ? '' : styles.hidden}`}>
+      <div className={styles.body}>
+        <div className={styles.inputs}>
           <label className={styles.field}>
             <span className={styles.label}>
               <span className={styles.step}>1</span>
@@ -280,14 +277,19 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
             </span>
           </label>
 
-          <button
-            type="button"
-            className={styles.primary}
-            disabled={!ready || !phoneReady || sending}
-            onClick={() => void sendRequest()}
-          >
-            {sending ? t('unlock.sending') : t('unlock.sendRequest')}
-          </button>
+          {/* The wrapper carries the tooltip: a disabled button receives no hover
+              of its own, so the title would never be read off it. */}
+          <span className={styles.action} title={missing(false) ?? undefined}>
+            <button
+              type="button"
+              className={styles.primary}
+              disabled={!ready || !phoneReady || sending}
+              onClick={() => void sendRequest()}
+            >
+              {sending ? t('unlock.sending') : t('unlock.sendRequest')}
+            </button>
+            {missing(false) && <span className={styles.reason}>{missing(false)}</span>}
+          </span>
 
           {waiting && (
             <>
@@ -304,7 +306,11 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
               )}
             </>
           )}
-          {status === 'approved' && <p className={styles.ok}>{t('unlock.approved')}</p>}
+          {status === 'approved' && (
+            <p className={ready ? styles.ok : styles.warn}>
+              {ready ? t('unlock.approved') : t('unlock.codeWaiting')}
+            </p>
+          )}
           {status === 'rejected' && <p className={styles.error}>{t('unlock.rejected')}</p>}
 
           <label className={styles.field}>
@@ -324,14 +330,16 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
             />
           </label>
 
-          <button
-            type="button"
-            className={styles.primary}
-            disabled={!ready || !phoneReady || !isCodeComplete(code) || checking}
-            onClick={() => void submit(code)}
-          >
-            {checking ? t('unlock.checking') : t('unlock.verify')}
-          </button>
+          <span className={styles.action} title={missing(true) ?? undefined}>
+            <button
+              type="button"
+              className={styles.primary}
+              disabled={!ready || !phoneReady || !isCodeComplete(code) || checking}
+              onClick={() => void submit(code)}
+            >
+              {checking ? t('unlock.checking') : t('unlock.verify')}
+            </button>
+          </span>
 
           {message && (
             <p className={message === 'unlock.unlocked' ? styles.ok : styles.error}>{t(message)}</p>
@@ -355,16 +363,12 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
           <p className={styles.idram}>
             {t('unlock.idramId')}: <strong>{config.idramId}</strong>
           </p>
-          {/* Until there is a file, the warning above is the only thing worth
-              reading here. */}
-          {ready && (
-            <p className={styles.hint}>
-              {t('unlock.flow')}{' '}
-              <a className={styles.mail} href={`mailto:${SUPPORT_EMAIL}`}>
-                {SUPPORT_EMAIL}
-              </a>
-            </p>
-          )}
+          <p className={styles.hint}>
+            {t('unlock.flow')}{' '}
+            <a className={styles.mail} href={`mailto:${SUPPORT_EMAIL}`}>
+              {SUPPORT_EMAIL}
+            </a>
+          </p>
         </div>
       </div>
     </div>
