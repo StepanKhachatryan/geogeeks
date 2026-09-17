@@ -6,10 +6,13 @@
  * the converter without paying. It exists to make paying the obvious path, and
  * it stays off until an endpoint is configured.
  *
- * The flow: the visitor enters the phone number they will pay from, pays the
- * Idram QR, asks for a code over Telegram, and types it here. The code is
- * checked by a Supabase Edge Function, which is the only party that can see
- * whether a code exists, is unused and belongs to that number.
+ * The flow: the visitor pays the Idram QR, writing their number in the payment
+ * note, then enters that number here and sends the request. It reaches the
+ * owner's Telegram immediately; nothing is asked of the visitor's own device,
+ * because this work is done at a desk and Telegram usually lives on a phone.
+ * Once the owner confirms, the page collects the code by polling and fills it
+ * in. The code is checked by a Supabase Edge Function, which is the only party
+ * that can see whether a code exists, is unused and belongs to that number.
  */
 
 export const PHONE_PREFIX = '+374';
@@ -109,13 +112,14 @@ export async function verifyCode(
 export type RequestStatus = 'pending' | 'linked' | 'approved' | 'rejected' | 'unknown';
 
 export type CreatedRequest =
-  | { ok: true; token: string; botUrl: string | null }
+  | { ok: true; token: string; botUrl: string | null; notified: boolean }
   | { ok: false; reason: 'rate' | 'invalid' | 'network' };
 
 /**
- * Tells the owner that this number has paid. The reply carries the Telegram
- * deep link when a bot is configured: opening it is what gives the bot somewhere
- * to send the code, since a phone number cannot be messaged on Telegram.
+ * Tells the owner that this number has paid. `notified` says whether that
+ * message could actually be delivered; when it could not, the page falls back to
+ * asking for an email. The deep link is offered as a second route for the code,
+ * for a customer who would rather receive it in Telegram.
  */
 export async function createRequest(endpoint: string, phoneDigits: string): Promise<CreatedRequest> {
   try {
@@ -126,26 +130,40 @@ export async function createRequest(endpoint: string, phoneDigits: string): Prom
     });
     if (response.status === 429) return { ok: false, reason: 'rate' };
     if (!response.ok) return { ok: false, reason: 'network' };
-    const body: { ok?: boolean; token?: string; botUrl?: string | null } = await response.json();
+    const body: { ok?: boolean; token?: string; botUrl?: string | null; notified?: boolean } =
+      await response.json();
     if (!body.ok || !body.token) return { ok: false, reason: 'invalid' };
-    return { ok: true, token: body.token, botUrl: body.botUrl ?? null };
+    return {
+      ok: true,
+      token: body.token,
+      botUrl: body.botUrl ?? null,
+      notified: body.notified ?? false,
+    };
   } catch {
     return { ok: false, reason: 'network' };
   }
 }
 
-/** Where the request stands while the owner checks the payment. */
-export async function requestStatus(endpoint: string, token: string): Promise<RequestStatus> {
+/**
+ * Where the request stands while the owner checks the payment. An approved one
+ * carries the code, which is how the page unlocks without Telegram.
+ */
+export async function requestStatus(
+  endpoint: string,
+  token: string,
+): Promise<{ status: RequestStatus; code: string | null }> {
   try {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ action: 'status', token }),
     });
-    if (!response.ok) return 'unknown';
-    const body: { ok?: boolean; status?: RequestStatus } = await response.json();
-    return body.ok && body.status ? body.status : 'unknown';
+    if (!response.ok) return { status: 'unknown', code: null };
+    const body: { ok?: boolean; status?: RequestStatus; code?: string | null } =
+      await response.json();
+    if (!body.ok || !body.status) return { status: 'unknown', code: null };
+    return { status: body.status, code: body.code ?? null };
   } catch {
-    return 'unknown';
+    return { status: 'unknown', code: null };
   }
 }

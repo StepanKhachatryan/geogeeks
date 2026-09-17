@@ -2,9 +2,11 @@
  * Telegram bot for the converter's payment step.
  *
  * A customer pays with Idram, types the number they paid from on the site and
- * presses send. The site opens this bot with that request's token; pressing
- * Start binds their chat, and the owner receives the request with two buttons.
- * Approving mints a code and sends it to the customer; rejecting says no.
+ * presses send. `geogeeks-request-code` puts that request in front of the owner
+ * with two buttons; approving mints a code, which the page collects on its own.
+ *
+ * Telegram is the second way to receive that code, for a customer who followed
+ * the deep link: pressing Start binds their chat, and the code is sent there too.
  *
  * `/code +374XXXXXXXX` still issues a code by hand, for a customer who cannot
  * use Telegram.
@@ -141,8 +143,19 @@ Deno.serve(async (request) => {
       return new Response('ok');
     }
 
+    // Decided before the chat was bound, which is the usual case now that the
+    // owner is told as soon as the request is opened.
     if (row.status === 'approved') {
-      await send(chatId, 'Այս հարցումն արդեն հաստատված է։ Կոդն ուղարկված է ավելի վաղ:');
+      await send(
+        chatId,
+        row.code
+          ? `Վճարումը հաստատված է։\n\nՁեր կոդը՝ ${row.code}\n\nՄուտքագրեք այն կայքում:`
+          : 'Այս հարցումն արդեն հաստատված է։ Կոդն ուղարկված է ավելի վաղ:',
+      );
+      return new Response('ok');
+    }
+    if (row.status === 'rejected') {
+      await send(chatId, 'Այս հարցումը մերժվել է։ Գրեք մեզ՝ geogeeksllc@gmail.com');
       return new Response('ok');
     }
 
@@ -151,16 +164,7 @@ Deno.serve(async (request) => {
       `Ստացանք ձեր հարցումը՝ ${row.phone}։\nՍպասեք՝ վճարումը ստուգվում է, կոդը կուղարկվի այստեղ:`,
     );
     if (OWNER_ID) {
-      await send(OWNER_ID, `Նոր հարցում\nՀամար՝ ${row.phone}\nTelegram՝ ${who} (${handle})`, {
-        reply_markup: {
-          inline_keyboard: [
-            [
-              { text: '✅ Հաստատել', callback_data: `ok:${row.id}` },
-              { text: '❌ Մերժել', callback_data: `no:${row.id}` },
-            ],
-          ],
-        },
-      });
+      await send(OWNER_ID, `Հարցում ${row.phone} — Telegram՝ ${who} (${handle})`);
     }
     return new Response('ok');
   }

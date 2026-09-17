@@ -73,11 +73,18 @@ validated with ezdxf.
 
 ### Paying for a conversion
 
-The tool is paid. A visitor enters the number they pay from, scans the Idram QR
-or transfers to the ID beside it, receives a six-character code, and types it in;
-the download starts on its own. The code is checked by an Edge Function deployed
-in Supabase, which `supabase/README.md` documents along with what is still
-manual and what the gate can and cannot enforce.
+The tool is paid. A visitor pays the Idram QR beside the form, writing their
+number in the payment note, then types that number and presses send. The request
+reaches the owner's Telegram immediately, with Confirm and Reject on it; nothing
+is asked of the visitor's own device, because cadastre work happens at a desk and
+Telegram usually lives on a phone. Confirming mints a six-character code, and the
+page, which has been polling, fills it in and starts the download.
+
+The code is checked by an Edge Function deployed in Supabase, which
+`supabase/README.md` documents along with what is still manual and what the gate
+can and cannot enforce. Because the conversion runs in the visitor's browser on
+files the site never sees, the page also carries a plain limitation-of-liability
+note beside the converter.
 
 ## Language
 

@@ -17,6 +17,7 @@ they cannot collide with or be reached through that project's own data.
 | Issue a code | `public.geogeeks_issue_unlock_code(phone, code, issued_by, note, days)` |
 | Spend a code | `public.geogeeks_redeem_unlock_code(phone, code)` |
 | Request a code | `public.geogeeks_create_unlock_request`, `_link_`, `_decide_`, `_status_` |
+| Tables' extra column | `unlock_requests.code`, the approved code the page collects |
 | Called by the page | Edge Functions `geogeeks-request-code`, `geogeeks-verify-unlock` |
 | Called by Telegram | Edge Function `geogeeks-telegram-bot` |
 
@@ -30,26 +31,32 @@ Ten attempts per number in ten minutes stop further tries.
 
 ## The flow
 
-1. The customer pays 300 AMD with Idram, by QR or by ID.
-2. They type the number they paid from and press send. The page opens a request
-   and sends them to the bot.
-3. Pressing Start in the bot binds their Telegram chat to that request, and the
-   owner receives it with Confirm and Reject buttons.
-4. The owner checks Idram and taps one. Confirming mints a code, binds it to the
-   number and sends it to the customer's chat.
-5. The customer types the code; the page verifies it and the download starts.
+1. The customer pays 300 AMD with Idram, by QR or by ID, writing their phone
+   number in the payment note so the transfer can be recognised.
+2. They type that number on the page and press send.
+3. `geogeeks-request-code` stores the request and puts it in front of the owner
+   in Telegram, with Confirm and Reject under it.
+4. The owner checks the Idram transfer and taps one. Confirming mints a code,
+   binds it to the number and parks it on the request row.
+5. The page, which has been polling since step 2, collects the code, fills it in
+   and starts the download.
 
-The page polls the request while the owner decides, so it shows "waiting" and
-then "confirmed" on its own.
+Nothing is asked of the customer's device: cadastre work is done at a desk and
+Telegram usually lives on a phone, so requiring it there would have meant a
+device switch in the middle of paying. A customer who would rather have the code
+in Telegram as well can follow the deep link offered while they wait; pressing
+Start binds their chat and the bot sends it there too.
 
-Telegram is required on the customer's side, because a bot can only message a
-chat that has been opened with it: a phone number is not addressable. Anyone
-without Telegram writes to geogeeksllc@gmail.com and gets a code issued by hand.
+The code on the request row is the one thing stored in the clear -- `unlock_codes`
+only ever holds a bcrypt hash. It is readable solely by presenting the request's
+20-character token, which only that browser has, and it is wiped the moment the
+code is spent.
 
-## Still to do
+## Setting the Telegram side up
 
-The bot is deployed but idle until its secrets exist. In the Supabase dashboard,
-under Edge Functions → Secrets, add:
+Without `TELEGRAM_BOT_TOKEN` and `TELEGRAM_OWNER_ID` a request is stored but
+nobody is told about it, and the page says to send the confirmation by email
+instead. In the Supabase dashboard, under Edge Functions → Secrets, add:
 
 ```
 TELEGRAM_BOT_TOKEN      from @BotFather

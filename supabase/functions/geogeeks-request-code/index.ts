@@ -2,19 +2,24 @@
  * Opens and tracks a request for an unlock code.
  *
  * The page calls `create` once a customer has paid and typed the number they
- * paid from. It answers with a token and, when a bot is configured, the deep
- * link that hands that token to Telegram. Opening the bot is what tells us where
- * to send the code; a phone number alone cannot be messaged on Telegram.
+ * paid from. The owner's Telegram gets the request there and then, with Confirm
+ * and Reject under it, so nothing is asked of the customer's own device: this
+ * work happens on a desktop and Telegram usually lives on a phone.
  *
- * `status` is what the page polls while the owner checks the payment.
+ * `status` is what the page polls while the owner decides. Once approved it
+ * carries the code, so the customer never has to leave the page.
  *
- * Environment: TELEGRAM_BOT_USERNAME (optional; without it the page falls back
- * to email), ALLOWED_ORIGINS (optional).
+ * Environment: TELEGRAM_BOT_TOKEN and TELEGRAM_OWNER_ID (without them a request
+ * is stored but nobody is told about it), TELEGRAM_BOT_USERNAME (optional; the
+ * page offers the deep link as a second way to receive the code),
+ * ALLOWED_ORIGINS (optional).
  */
 
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const BOT = Deno.env.get('TELEGRAM_BOT_USERNAME') ?? '';
+const TOKEN = Deno.env.get('TELEGRAM_BOT_TOKEN') ?? '';
+const OWNER_ID = Deno.env.get('TELEGRAM_OWNER_ID') ?? '';
 const DEFAULT_ORIGINS = ['https://geogeeks.am', 'https://www.geogeeks.am', 'http://localhost:3000'];
 const ORIGINS = (Deno.env.get('ALLOWED_ORIGINS') ?? '')
   .split(',')
@@ -38,6 +43,28 @@ function corsFor(request: Request) {
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     Vary: 'Origin',
   };
+}
+
+/** Puts the request in front of the owner with the two buttons on it. */
+async function announce(id: string, phone: string) {
+  if (!TOKEN || !OWNER_ID) return;
+  const response = await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: OWNER_ID,
+      text: `Նոր հարցում՝ 300 ֏\nՀամար՝ ${phone}\n\nՍտուգեք Idram-ի մուտքը այս համարից և պատասխանեք:`,
+      reply_markup: {
+        inline_keyboard: [
+          [
+            { text: '✅ Հաստատել', callback_data: `ok:${id}` },
+            { text: '❌ Մերժել', callback_data: `no:${id}` },
+          ],
+        ],
+      },
+    }),
+  });
+  if (!response.ok) console.error('announce failed', await response.text());
 }
 
 Deno.serve(async (request) => {
@@ -74,7 +101,8 @@ Deno.serve(async (request) => {
       console.error('status failed', error.message);
       return json({ ok: false, reason: 'server' }, 500);
     }
-    return json({ ok: true, status: data ?? 'unknown' });
+    const row = Array.isArray(data) ? data[0] : data;
+    return json({ ok: true, status: row?.status ?? 'unknown', code: row?.code ?? null });
   }
 
   const phone = String(body.phone ?? '').replace(/[^\d+]/g, '');
@@ -90,11 +118,18 @@ Deno.serve(async (request) => {
     console.error('create failed', error.message);
     return json({ ok: false, reason: 'server' }, 500);
   }
-  if (data === 'rate') return json({ ok: false, reason: 'rate' }, 429);
+
+  const row = Array.isArray(data) ? data[0] : data;
+  if (!row || row.status === 'rate') return json({ ok: false, reason: 'rate' }, 429);
+
+  await announce(row.id, phone);
 
   return json({
     ok: true,
     token,
+    // Only worth offering when the owner can actually be reached; otherwise the
+    // page says to send the confirmation by email instead.
+    notified: Boolean(TOKEN && OWNER_ID),
     botUrl: BOT ? `https://t.me/${BOT}?start=${token}` : null,
   });
 });

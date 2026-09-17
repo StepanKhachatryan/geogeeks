@@ -52,7 +52,14 @@ const LATIN_NAME = /^[\w\s().,+-]+$/;
 const unlock = unlockConfig();
 const GATED = unlock.required && Boolean(unlock.endpoint);
 
-export function ShpToDxfTool({ guide }: { guide?: ReactNode }) {
+type ToolProps = {
+  /** Sits in the right-hand column, under the payment block. */
+  guide?: ReactNode;
+  /** Sits at the foot of the left column, under the converter itself. */
+  notice?: ReactNode;
+};
+
+export function ShpToDxfTool({ guide, notice }: ToolProps) {
   const { t, lang } = useLanguage();
   const [paid, setPaid] = useState(!GATED);
   const [loaded, setLoaded] = useState<Loaded | null>(null);
@@ -290,6 +297,8 @@ export function ShpToDxfTool({ guide }: { guide?: ReactNode }) {
             </div>
           </div>
         )}
+
+        {notice}
       </div>
 
       <aside className={styles.side}>
