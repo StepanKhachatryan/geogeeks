@@ -75,10 +75,18 @@ The lines drawing also carries each feature's cadastre code as TEXT --
 `RGN_CC-CMM_CC-BLK_CC-PRC_CC`, plus `BLD_CC` for a building, so
 `01-011-0564-0019-002` -- on its own `PARCEL_CODES` or `BUILDING_CODES` layer,
 so it can be restyled or switched off without touching the geometry. Numeric
-attribute columns are padded back to the register's widths, a code missing any
-of its parts is not written at all, and the label goes where a horizontal line
-through the centroid is widest inside the parcel and outside its holes, so a
-courtyard never gets the code of the parcel around it.
+attribute columns are padded back to the register's widths, and a code missing
+any of its parts is not written at all.
+
+Placing a label takes some care. It goes where a horizontal line through the
+centroid is widest inside the parcel and outside its holes, so a courtyard never
+gets the code of the parcel around it, and it is sized to the room it has there,
+with one size across the drawing taken from what the typical feature can hold.
+A shape too small to hold a readable code -- a sliver, or a shed a few metres
+across -- is labelled just above itself instead. The centroid is computed
+relative to the ring's own first vertex: at Armenian 1942 magnitudes the
+shoelace sums cancel eight digits away, and a ring a millimetre wide came out
+with a centroid tens of kilometres from the parcel.
 
 Each layer produces two drawings, named after the uploaded archive:
 `<archive>_parcel_lines.dxf`, `<archive>_parcel_points.dxf` and the same pair

@@ -204,6 +204,7 @@ export function convert(
     const seen = new Set<string>();
     const points: DxfPoint[] = [];
     const texts: DxfText[] = [];
+    const pending: { code: string; ring: Point[]; at: Point; fits: number }[] = [];
 
     data.features.forEach((feature) => {
       const own: Point[][] = [];
@@ -229,15 +230,32 @@ export function convert(
       const ring = own.reduce((widest, candidate) =>
         span(candidate) > span(widest) ? candidate : widest,
       );
-      texts.push({
-        layer: codeLayer,
-        at:
-          data.kind === 'polygon'
-            ? labelPoint(own, ring, useZ)
-            : ring[Math.floor(ring.length / 2)],
-        text: code,
-        height: textHeight(ring, code.length),
-      });
+      const spot =
+        data.kind === 'polygon'
+          ? labelPoint(own, ring, useZ)
+          : { at: ring[Math.floor(ring.length / 2)], room: span(ring) };
+      pending.push({ code, ring, at: spot.at, fits: fittingHeight(ring, spot.room, code.length) });
+    });
+
+    // One size for the drawing, taken from what the typical feature can hold:
+    // sized feature by feature, the code on a 300 m plot would dwarf the one on
+    // the house standing in it.
+    const nominal = median(pending.map((label) => label.fits));
+    pending.forEach(({ code, ring, at, fits }) => {
+      // Too small to read at the scale of the rest: it goes above the shape
+      // instead, close enough to be read as its label.
+      if (fits < nominal * TOO_SMALL) {
+        const box = bounds(ring);
+        const height = nominal * OUTSIDE_SCALE;
+        texts.push({
+          layer: codeLayer,
+          at: [(box.minX + box.maxX) / 2, box.maxY + height * 0.8, at[2]],
+          text: code,
+          height,
+        });
+        return;
+      }
+      texts.push({ layer: codeLayer, at, text: code, height: Math.min(fits, nominal) });
     });
 
     if (rings.length === 0) return;
@@ -302,13 +320,23 @@ function bounds(ring: Point[]) {
  * -- a line, or a shape folded onto itself -- falls back to that middle.
  */
 function centroid(ring: Point[], useZ: boolean): Point {
+  // Relative to the first vertex. Cadastre coordinates run to eight digits, and
+  // the shoelace sums cancel nearly all of that away: at full magnitude a ring
+  // a millimetre wide computes an area of rounding error and a centroid tens of
+  // kilometres from the parcel.
+  const [ox, oy] = ring[0];
+  const box = bounds(ring);
   let twiceArea = 0;
   let x = 0;
   let y = 0;
 
   for (let i = 0; i < ring.length; i += 1) {
-    const [x1, y1] = ring[i];
-    const [x2, y2] = ring[(i + 1) % ring.length];
+    const [px, py] = ring[i];
+    const [qx, qy] = ring[(i + 1) % ring.length];
+    const x1 = px - ox;
+    const y1 = py - oy;
+    const x2 = qx - ox;
+    const y2 = qy - oy;
     const cross = x1 * y2 - x2 * y1;
     twiceArea += cross;
     x += (x1 + x2) * cross;
@@ -316,11 +344,13 @@ function centroid(ring: Point[], useZ: boolean): Point {
   }
 
   const z = useZ ? ring.reduce((total, point) => total + point[2], 0) / ring.length : 0;
-  if (Math.abs(twiceArea) < 1e-9) {
-    const box = bounds(ring);
+  // Measured against the ring's own size: a metre of area is nothing to a city
+  // block and everything to a doorstep.
+  const floor = Math.max(box.width * box.height, 1) * 1e-9;
+  if (Math.abs(twiceArea) < floor) {
     return [(box.minX + box.maxX) / 2, (box.minY + box.maxY) / 2, z];
   }
-  return [x / (3 * twiceArea), y / (3 * twiceArea), z];
+  return [ox + x / (3 * twiceArea), oy + y / (3 * twiceArea), z];
 }
 
 /**
@@ -331,7 +361,11 @@ function centroid(ring: Point[], useZ: boolean): Point {
  * middle of the widest stretch that is inside the parcel and outside its holes
  * -- the same idea as PostGIS's point on surface.
  */
-function labelPoint(rings: Point[][], outer: Point[], useZ: boolean): Point {
+function labelPoint(
+  rings: Point[][],
+  outer: Point[],
+  useZ: boolean,
+): { at: Point; room: number } {
   const base = centroid(outer, useZ);
   const y = base[1];
   const crossings: number[] = [];
@@ -357,21 +391,40 @@ function labelPoint(rings: Point[][], outer: Point[], useZ: boolean): Point {
     }
   }
 
-  return widest > 0 ? [at, y, base[2]] : base;
+  // `room` is how much of the parcel the label has to itself on that line.
+  return widest > 0
+    ? { at: [at, y, base[2]], room: widest }
+    : { at: base, room: Math.min(bounds(outer).width, bounds(outer).height) };
 }
 
+/** `txt` glyphs run about this fraction of their height wide, spacing included. */
+const CHAR_WIDTH = 0.6;
+/** How much of the room a label is allowed to take, so it does not touch the edges. */
+const FILL = 0.9;
+/** Below this share of the drawing's size, a label goes above its shape. */
+const TOO_SMALL = 0.5;
+const OUTSIDE_SCALE = 0.8;
+
 /**
- * A height that lets the code sit inside the shape it names. A drawing holds
- * one parcel and several much smaller buildings, so a single height for the
- * whole file would either overflow the buildings or be unreadable on the
- * parcel. `txt` glyphs run about 0.6 of their height wide, and the code is
- * fitted to roughly three quarters of the shape's shorter side.
+ * The tallest the code can be and still sit inside the shape: short enough to
+ * fit the room it has across, and low enough not to fill the shape top to
+ * bottom.
  */
-function textHeight(ring: Point[], characters: number): number {
+function fittingHeight(ring: Point[], room: number, characters: number): number {
   const box = bounds(ring);
-  const shorter = Math.min(box.width, box.height) || Math.max(box.width, box.height);
-  const height = (shorter * 0.75) / Math.max(characters * 0.6, 1);
-  return Math.min(Math.max(height, 0.05), 10);
+  const across = (room * FILL) / Math.max(characters * CHAR_WIDTH, 1);
+  const down = Math.min(box.width, box.height) * 0.6;
+  return Math.max(Math.min(across, down), 0);
+}
+
+function median(values: number[]): number {
+  if (values.length === 0) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  const middle = Math.floor(sorted.length / 2);
+  const value =
+    sorted.length % 2 === 1 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+  // A drawing of nothing but slivers still needs a size to work from.
+  return value > 0 ? value : Math.max(...sorted, 0.1);
 }
 
 /**
