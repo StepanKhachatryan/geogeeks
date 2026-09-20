@@ -39,8 +39,6 @@ export type LayerSummary = {
   hasZ: boolean;
   projection?: string;
   skipped: number;
-  /** Features that carried a full cadastre code and were labelled. */
-  codes: number;
 };
 
 export type OutputFile = { name: string; content: string };
@@ -270,7 +268,6 @@ export function convert(
       hasZ: data.hasZ,
       projection: data.projection,
       skipped: data.skipped,
-      codes: texts.length,
     });
   });
 

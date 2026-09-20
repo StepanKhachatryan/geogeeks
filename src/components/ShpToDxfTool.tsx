@@ -113,9 +113,6 @@ export function ShpToDxfTool({ guide, notice }: ToolProps) {
     if (!result.layers.some((layer) => layer.layer === 'parcel')) {
       notices.push('tool.noticeNoParcel');
     }
-    // Silent otherwise: a drawing with no codes looks the same as one whose
-    // source never carried them.
-    if (result.layers.some((layer) => layer.codes === 0)) notices.push('tool.noticeNoCodes');
   }
 
   const download = async () => {
