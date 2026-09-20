@@ -69,6 +69,7 @@ export const messages = {
     'tool.noticeLatin': 'Zip ֆայլի անունը գրեք լատինատառ՝ հնարավոր խնդիրներից խուսափելու համար:',
     'tool.noticeNoBuilding': 'building շերտը չի գտնվել։ Հավանաբար տարածքում շենքեր չկան:',
     'tool.noticeNoParcel': 'parcel շերտը չի գտնվել. արխիվում կա միայն building շերտը:',
+    'tool.noticeNoCodes': 'Կադաստրային կոդերը չեն ավելացվել՝ ատրիբուտների աղյուսակում RGN_CC, CMM_CC, BLK_CC և PRC_CC սյունակները չեն գտնվել:',
     'tool.error.notZip': 'Ընտրեք .zip արխիվ:',
     'tool.error.tooBig': 'Ֆայլի ծավալը գերազանցում է 7 ՄԲ-ը։ Այդպիսի ֆայլերի համար գրեք geogeeksllc@gmail.com հասցեին:',
     'tool.error.noShp': 'Արխիվում .shp ֆայլ չի գտնվել:',
@@ -81,7 +82,7 @@ export const messages = {
     'tool.how1': 'parcel և building շերտերը (.shp, .shx, .dbf, .prj) դրեք մեկ zip-ում՝ լատինատառ անունով:',
     'tool.how2': 'Վերբեռնեք արխիվը՝ մինչև 7 ՄԲ, ընտրեք օբյեկտների տեսակը և վճարեք:',
     'tool.how3': 'Ստացեք երկու DXF ֆայլ յուրաքանչյուր շերտի համար՝ գծեր և կետեր:',
-    'tool.notes': 'Ներքին անցքերը ևս դառնում են փակ գծեր, իսկ յուրաքանչյուր գագաթ գրվում է մեկ անգամ:',
+    'tool.notes': 'Ներքին անցքերը ևս դառնում են փակ գծեր, իսկ յուրաքանչյուր գագաթ գրվում է մեկ անգամ։ Կադաստրային կոդերը գրվում են գծերի ֆայլում՝ առանձին PARCEL_CODES և BUILDING_CODES շերտերում:',
     'tool.disclaimerTitle': 'Պատասխանատվության սահմանափակում',
     'tool.disclaimer':
       'Փոխարկումը կատարվում է ձեր դիտարկիչում՝ ձեր վերբեռնած ֆայլերով։ GeoGeeks ՍՊԸ-ն դրանք չի ստանում, չի պահում և չի տիրապետում դրանց, ուստի պատասխանատվություն չի կրում արդյունքի ճշտության և օգտագործման համար։ Կոորդինատները չեն վերահաշվարկվում:',
@@ -185,6 +186,7 @@ export const messages = {
     'tool.noticeLatin': 'Use a Latin-letter name for the zip file to avoid problems.',
     'tool.noticeNoBuilding': 'No building layer was found. There are probably no buildings on the plot.',
     'tool.noticeNoParcel': 'No parcel layer was found: the archive carries only the building layer.',
+    'tool.noticeNoCodes': 'No cadastre codes were written: the attribute table has no RGN_CC, CMM_CC, BLK_CC and PRC_CC columns.',
     'tool.error.notZip': 'Choose a .zip archive.',
     'tool.error.tooBig': 'The file is larger than 7 MB. For files this size write to geogeeksllc@gmail.com.',
     'tool.error.noShp': 'No .shp file was found in the archive.',
@@ -197,7 +199,7 @@ export const messages = {
     'tool.how1': 'Put the parcel and building layers (.shp, .shx, .dbf, .prj) in one zip with a Latin name.',
     'tool.how2': 'Upload the archive, up to 7 MB, choose the entity type and pay.',
     'tool.how3': 'Get two DXF files per layer: one with lines, one with the vertices.',
-    'tool.notes': 'Inner holes become closed lines too, and each vertex is written once.',
+    'tool.notes': 'Inner holes become closed lines too, and each vertex is written once. Cadastre codes go into the lines file, on their own PARCEL_CODES and BUILDING_CODES layers.',
     'tool.disclaimerTitle': 'Limitation of liability',
     'tool.disclaimer':
       'The conversion runs in your browser, on the files you upload. GeoGeeks LLC does not receive, store or control them, and accepts no responsibility for the accuracy of the result or for how it is used. Coordinates are not reprojected.',

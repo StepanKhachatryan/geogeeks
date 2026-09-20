@@ -71,6 +71,15 @@ The parser and writer are plain functions with no browser dependency, so they
 can be exercised directly from Node against fixtures generated with pyshp and
 validated with ezdxf.
 
+The lines drawing also carries each feature's cadastre code as TEXT --
+`RGN_CC-CMM_CC-BLK_CC-PRC_CC`, plus `BLD_CC` for a building, so
+`01-011-0564-0019-002` -- on its own `PARCEL_CODES` or `BUILDING_CODES` layer,
+so it can be restyled or switched off without touching the geometry. Numeric
+attribute columns are padded back to the register's widths, a code missing any
+of its parts is not written at all, and the label goes where a horizontal line
+through the centroid is widest inside the parcel and outside its holes, so a
+courtyard never gets the code of the parcel around it.
+
 Each layer produces two drawings, named after the uploaded archive:
 `<archive>_parcel_lines.dxf`, `<archive>_parcel_points.dxf` and the same pair
 for buildings. Four files called `parcel_lines.dxf` and `building_points.dxf`

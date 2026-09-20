@@ -20,10 +20,20 @@ export type DxfPoint = {
   at: Point;
 };
 
+export type DxfText = {
+  layer: string;
+  /** Centre of the label, horizontally and vertically. */
+  at: Point;
+  text: string;
+  height: number;
+};
+
 export type DxfOptions = {
   entities?: DxfEntity[];
   /** Vertex markers, written as POINT entities. */
   points?: DxfPoint[];
+  /** Labels, written as TEXT entities centred on their point. */
+  texts?: DxfText[];
   /** `polyline` keeps each ring as one object; `line` explodes it to segments. */
   mode: 'polyline' | 'line';
   /** Writes Z ordinates and marks polylines as 3D. */
@@ -36,18 +46,29 @@ const VERTEX_3D = 32;
 /** AutoCAD colour indices cycled over the layers, skipping white on white. */
 const LAYER_COLORS = [5, 3, 1, 2, 6, 4, 30, 40, 50, 140];
 
-export function writeDxf({ entities = [], points = [], mode, useZ }: DxfOptions): string {
+export function writeDxf({
+  entities = [],
+  points = [],
+  texts = [],
+  mode,
+  useZ,
+}: DxfOptions): string {
   const out: string[] = [];
   const pair = (code: number, value: string | number) => {
     out.push(String(code), String(value));
   };
 
   const layers = [
-    ...new Set([...entities.map((entity) => entity.layer), ...points.map((point) => point.layer)]),
+    ...new Set([
+      ...entities.map((entity) => entity.layer),
+      ...points.map((point) => point.layer),
+      ...texts.map((text) => text.layer),
+    ]),
   ];
   const bounds = extent([
     ...entities,
     ...points.map((point) => ({ layer: point.layer, points: [point.at], closed: false })),
+    ...texts.map((text) => ({ layer: text.layer, points: [text.at], closed: false })),
   ]);
 
   pair(0, 'SECTION');
@@ -85,6 +106,23 @@ export function writeDxf({ entities = [], points = [], mode, useZ }: DxfOptions)
   pair(40, '0.0');
   pair(0, 'ENDTAB');
 
+  if (texts.length > 0) {
+    pair(0, 'TABLE');
+    pair(2, 'STYLE');
+    pair(70, 1);
+    pair(0, 'STYLE');
+    pair(2, 'STANDARD');
+    pair(70, 0);
+    pair(40, '0.0');
+    pair(41, '1.0');
+    pair(50, '0.0');
+    pair(71, 0);
+    pair(42, '1.0');
+    pair(3, 'txt');
+    pair(4, '');
+    pair(0, 'ENDTAB');
+  }
+
   pair(0, 'TABLE');
   pair(2, 'LAYER');
   pair(70, layers.length);
@@ -110,6 +148,7 @@ export function writeDxf({ entities = [], points = [], mode, useZ }: DxfOptions)
     pair(8, vertex.layer);
     point(pair, vertex.at, 10, useZ);
   });
+  texts.forEach((label) => writeText(pair, label, useZ));
   pair(0, 'ENDSEC');
 
   pair(0, 'EOF');
@@ -118,6 +157,23 @@ export function writeDxf({ entities = [], points = [], mode, useZ }: DxfOptions)
 }
 
 type Pair = (code: number, value: string | number) => void;
+
+/**
+ * A label centred on its point. R12 reads the alignment point (11, 21, 31)
+ * rather than the insertion point whenever 72 or 73 is set, so both are
+ * written; readers that ignore justification still land on the same place.
+ */
+function writeText(pair: Pair, label: DxfText, useZ: boolean) {
+  pair(0, 'TEXT');
+  pair(8, label.layer);
+  point(pair, label.at, 10, useZ);
+  pair(40, format(label.height));
+  pair(1, label.text);
+  pair(7, 'STANDARD');
+  pair(72, 1); // centred horizontally
+  pair(73, 2); // centred vertically
+  point(pair, label.at, 11, useZ);
+}
 
 function writePolyline(pair: Pair, entity: DxfEntity, useZ: boolean) {
   if (entity.points.length < 2) return;
