@@ -292,6 +292,8 @@
   font-size: 13px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   color: var(--gg-warm-grey);
+  /* Names now carry the archive's own, which can be long. */
+  overflow-wrap: anywhere;
 }
 
 .tableWrap {

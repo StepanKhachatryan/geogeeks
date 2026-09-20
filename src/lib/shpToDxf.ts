@@ -54,6 +54,22 @@ export const DEFAULT_OPTIONS: ConvertOptions = { mode: 'polyline', useZ: false }
 
 export type LoadedLayer = { layer: ExpectedLayer; source: string; data: Shapefile };
 
+/**
+ * The archive's own name, made safe to write to disk. The drawings are named
+ * after it because `parcel_lines.dxf` says nothing once it has been unzipped
+ * next to another plot's `parcel_lines.dxf`.
+ */
+export function outputBase(zipName: string): string {
+  const stem = (zipName.split(/[\\/]/).pop() ?? '').replace(/\.zip$/i, '');
+  const safe = stem
+    // Reserved on Windows, awkward everywhere; spaces break command lines.
+    .replace(/[<>:"/\\|?*\u0000-\u001f]/g, '_')
+    .replace(/\s+/g, '_')
+    .replace(/_+/g, '_')
+    .replace(/^[._]+|[._]+$/g, '');
+  return safe.slice(0, 60) || 'cadastre';
+}
+
 /** Matches a member of the archive against the expected cadastre layer names. */
 function classify(base: string): ExpectedLayer | null {
   const name = base.split('/').pop()?.toLowerCase() ?? '';
@@ -118,7 +134,15 @@ export function readShapefiles(entries: ZipEntries): LoadedLayer[] {
   );
 }
 
-export function convert(loaded: LoadedLayer[], options: ConvertOptions): ConvertResult {
+/**
+ * `prefix` is the uploaded archive's name, which every drawing is named after.
+ */
+export function convert(
+  loaded: LoadedLayer[],
+  options: ConvertOptions,
+  prefix = '',
+): ConvertResult {
+  const stem = prefix ? `${prefix}_` : '';
   const files: OutputFile[] = [];
   const layers: LayerSummary[] = [];
   let entities = 0;
@@ -158,11 +182,11 @@ export function convert(loaded: LoadedLayer[], options: ConvertOptions): Convert
     vertexTotal += points.length;
 
     files.push({
-      name: `${layer}_lines.dxf`,
+      name: `${stem}${layer}_lines.dxf`,
       content: writeDxf({ entities: rings, mode: options.mode, useZ }),
     });
     files.push({
-      name: `${layer}_points.dxf`,
+      name: `${stem}${layer}_points.dxf`,
       content: writeDxf({ points, mode: options.mode, useZ }),
     });
 

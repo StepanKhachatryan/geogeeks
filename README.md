@@ -71,6 +71,11 @@ The parser and writer are plain functions with no browser dependency, so they
 can be exercised directly from Node against fixtures generated with pyshp and
 validated with ezdxf.
 
+Each layer produces two drawings, named after the uploaded archive:
+`<archive>_parcel_lines.dxf`, `<archive>_parcel_points.dxf` and the same pair
+for buildings. Four files called `parcel_lines.dxf` and `building_points.dxf`
+collide the moment two plots are unzipped into one folder.
+
 ### Paying for a conversion
 
 The tool is paid. A visitor pays the Idram QR beside the form, writing their

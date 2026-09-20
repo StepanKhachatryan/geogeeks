@@ -8,6 +8,7 @@ import {
   DEFAULT_OPTIONS,
   errorKey,
   MAX_ZIP_BYTES,
+  outputBase,
   readShapefiles,
   type ConvertOptions,
   type ConvertResult,
@@ -95,7 +96,7 @@ export function ShpToDxfTool({ guide, notice }: ToolProps) {
   const result = useMemo<ConvertResult | null>(() => {
     if (!loaded) return null;
     try {
-      return convert(loaded.layers, options);
+      return convert(loaded.layers, options, outputBase(loaded.fileName));
     } catch {
       return null;
     }
@@ -116,7 +117,7 @@ export function ShpToDxfTool({ guide, notice }: ToolProps) {
 
   const download = async () => {
     if (!result || !loaded) return;
-    const base = loaded.fileName.replace(/\.zip$/i, '') || 'cadastre';
+    const base = outputBase(loaded.fileName);
     const JSZip = await jsZip();
     const zip = new JSZip();
     result.files.forEach((file) => zip.file(file.name, file.content));
