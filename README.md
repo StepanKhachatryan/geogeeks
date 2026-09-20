@@ -71,10 +71,11 @@ The parser and writer are plain functions with no browser dependency, so they
 can be exercised directly from Node against fixtures generated with pyshp and
 validated with ezdxf.
 
-The lines drawing also carries each feature's cadastre code as TEXT --
+The combined drawing also carries each feature's cadastre code as TEXT --
 `RGN_CC-CMM_CC-BLK_CC-PRC_CC`, plus `BLD_CC` for a building, so
 `01-011-0564-0019-002` -- on its own `PARCEL_CODES` or `BUILDING_CODES` layer,
-so it can be restyled or switched off without touching the geometry. Numeric
+so it can be restyled or switched off without touching the geometry. The
+per-layer files stay pure geometry. Numeric
 attribute columns are padded back to the register's widths, and a code missing
 any of its parts is not written at all.
 

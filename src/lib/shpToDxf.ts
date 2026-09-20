@@ -209,8 +209,8 @@ export function convert(
     const useZ = options.useZ && data.hasZ;
     const lineLayer = layerName(layer);
     const pointLayer = layerName(`${layer}_points`);
-    // Its own layer, so the codes can be turned off, restyled or resized in CAD
-    // without touching the geometry.
+    // Its own layer in the combined sheet, so the codes can be turned off,
+    // restyled or resized in CAD without touching the geometry.
     const codeLayer = layerName(`${layer}_codes`);
 
     const rings: { layer: string; points: Point[]; closed: boolean }[] = [];
@@ -253,8 +253,6 @@ export function convert(
 
     if (rings.length === 0) return;
 
-    const texts = placeLabels(labels, useZ);
-
     const drawn =
       options.mode === 'line'
         ? rings.reduce((total, ring) => total + ring.points.length - (ring.closed ? 0 : 1), 0)
@@ -262,13 +260,14 @@ export function convert(
     entities += drawn;
     vertexTotal += points.length;
 
+    // The codes live in the combined sheet only; these files are geometry.
     planEntities.push(...rings);
     planLabels.push(...labels);
     if (layer === 'building') buildings.push(...rings.map((entity) => entity.points));
 
     files.push({
       name: `${stem}${layer}_lines.dxf`,
-      content: writeDxf({ entities: rings, texts, mode: options.mode, useZ }),
+      content: writeDxf({ entities: rings, mode: options.mode, useZ }),
     });
     files.push({
       name: `${stem}${layer}_points.dxf`,
