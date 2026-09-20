@@ -10,7 +10,14 @@
  * shapefile was surveyed in.
  */
 
-import { layerName, writeDxf, type DxfPoint, type DxfText, type Point } from './dxf';
+import {
+  layerName,
+  writeDxf,
+  type DxfEntity,
+  type DxfPoint,
+  type DxfText,
+  type Point,
+} from './dxf';
 import { parseShapefile, ShapefileError, type Feature, type Shapefile } from './shapefile';
 
 export type ZipEntries = Record<string, Uint8Array>;
@@ -189,6 +196,12 @@ export function convert(
   const stem = prefix ? `${prefix}_` : '';
   const files: OutputFile[] = [];
   const layers: LayerSummary[] = [];
+  // The plan: every boundary and every code in one drawing, which is what a
+  // surveyor opens first. The per-layer files stay for anyone who wants them
+  // apart.
+  const planEntities: DxfEntity[] = [];
+  const planLabels: LabelInput[] = [];
+  const buildings: Point[][] = [];
   let entities = 0;
   let vertexTotal = 0;
 
@@ -203,8 +216,7 @@ export function convert(
     const rings: { layer: string; points: Point[]; closed: boolean }[] = [];
     const seen = new Set<string>();
     const points: DxfPoint[] = [];
-    const texts: DxfText[] = [];
-    const pending: { code: string; ring: Point[]; at: Point; fits: number }[] = [];
+    const labels: LabelInput[] = [];
 
     data.features.forEach((feature) => {
       const own: Point[][] = [];
@@ -230,35 +242,18 @@ export function convert(
       const ring = own.reduce((widest, candidate) =>
         span(candidate) > span(widest) ? candidate : widest,
       );
-      const spot =
-        data.kind === 'polygon'
-          ? labelPoint(own, ring, useZ)
-          : { at: ring[Math.floor(ring.length / 2)], room: span(ring) };
-      pending.push({ code, ring, at: spot.at, fits: fittingHeight(ring, spot.room, code.length) });
-    });
-
-    // One size for the drawing, taken from what the typical feature can hold:
-    // sized feature by feature, the code on a 300 m plot would dwarf the one on
-    // the house standing in it.
-    const nominal = median(pending.map((label) => label.fits));
-    pending.forEach(({ code, ring, at, fits }) => {
-      // Too small to read at the scale of the rest: it goes above the shape
-      // instead, close enough to be read as its label.
-      if (fits < nominal * TOO_SMALL) {
-        const box = bounds(ring);
-        const height = nominal * OUTSIDE_SCALE;
-        texts.push({
-          layer: codeLayer,
-          at: [(box.minX + box.maxX) / 2, box.maxY + height * 0.8, at[2]],
-          text: code,
-          height,
-        });
-        return;
-      }
-      texts.push({ layer: codeLayer, at, text: code, height: Math.min(fits, nominal) });
+      labels.push({
+        layer: codeLayer,
+        code,
+        ring,
+        obstacles: own,
+        polygon: data.kind === 'polygon',
+      });
     });
 
     if (rings.length === 0) return;
+
+    const texts = placeLabels(labels, useZ);
 
     const drawn =
       options.mode === 'line'
@@ -266,6 +261,10 @@ export function convert(
         : rings.length;
     entities += drawn;
     vertexTotal += points.length;
+
+    planEntities.push(...rings);
+    planLabels.push(...labels);
+    if (layer === 'building') buildings.push(...rings.map((entity) => entity.points));
 
     files.push({
       name: `${stem}${layer}_lines.dxf`,
@@ -290,6 +289,25 @@ export function convert(
   });
 
   if (files.length === 0) throw new ShapefileError('NO_GEOMETRY');
+
+  // In the plan the buildings stand on the parcels, so a parcel's code would be
+  // written across them. They count as obstacles here, the way a courtyard does.
+  const planUseZ = options.useZ && loaded.some(({ data }) => data.hasZ);
+  const plan = planLabels.map((label) =>
+    label.layer === layerName('parcel_codes')
+      ? { ...label, obstacles: [...label.obstacles, ...buildings.filter((ring) => overlaps(ring, label.ring))] }
+      : label,
+  );
+
+  files.push({
+    name: `${stem}cad_code.dxf`,
+    content: writeDxf({
+      entities: planEntities,
+      texts: placeLabels(plan, planUseZ),
+      mode: options.mode,
+      useZ: planUseZ,
+    }),
+  });
 
   return { files, layers, entities, vertices: vertexTotal };
 }
@@ -395,6 +413,56 @@ function labelPoint(
   return widest > 0
     ? { at: [at, y, base[2]], room: widest }
     : { at: base, room: Math.min(bounds(outer).width, bounds(outer).height) };
+}
+
+type LabelInput = {
+  layer: string;
+  code: string;
+  /** The ring the label belongs to and is sized against. */
+  ring: Point[];
+  /** Rings the label must stay out of: the feature's own holes, and in the plan
+   *  the buildings standing on it. */
+  obstacles: Point[][];
+  polygon: boolean;
+};
+
+/**
+ * Sizes and places a drawing's labels together. The size is shared, taken from
+ * what the typical feature can hold: chosen feature by feature, the code on a
+ * 300 m plot would dwarf the one on the house standing in it.
+ */
+function placeLabels(items: LabelInput[], useZ: boolean): DxfText[] {
+  const placed = items.map((item) => {
+    const spot = item.polygon
+      ? labelPoint(item.obstacles, item.ring, useZ)
+      : { at: item.ring[Math.floor(item.ring.length / 2)], room: span(item.ring) };
+    return { item, at: spot.at, fits: fittingHeight(item.ring, spot.room, item.code.length) };
+  });
+
+  const nominal = median(placed.map((label) => label.fits));
+
+  return placed.map(({ item, at, fits }) => {
+    // Too small to read at the scale of the rest: it goes above the shape
+    // instead, close enough to be read as its label.
+    if (fits < nominal * TOO_SMALL) {
+      const box = bounds(item.ring);
+      const height = nominal * OUTSIDE_SCALE;
+      return {
+        layer: item.layer,
+        at: [(box.minX + box.maxX) / 2, box.maxY + height * 0.8, at[2]] as Point,
+        text: item.code,
+        height,
+      };
+    }
+    return { layer: item.layer, at, text: item.code, height: Math.min(fits, nominal) };
+  });
+}
+
+/** Whether two rings' bounding boxes meet at all. */
+function overlaps(ring: Point[], other: Point[]): boolean {
+  const a = bounds(ring);
+  const b = bounds(other);
+  return a.minX <= b.maxX && a.maxX >= b.minX && a.minY <= b.maxY && a.maxY >= b.minY;
 }
 
 /** `txt` glyphs run about this fraction of their height wide, spacing included. */

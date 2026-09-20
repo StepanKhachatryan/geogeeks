@@ -80,8 +80,8 @@ export const messages = {
     'tool.how': 'Ինչպես օգտվել',
     'tool.how1': 'parcel և building շերտերը (.shp, .shx, .dbf, .prj) դրեք մեկ zip-ում՝ լատինատառ անունով:',
     'tool.how2': 'Վերբեռնեք արխիվը՝ մինչև 7 ՄԲ, ընտրեք օբյեկտների տեսակը և վճարեք:',
-    'tool.how3': 'Ստացեք երկու DXF ֆայլ յուրաքանչյուր շերտի համար՝ գծեր և կետեր:',
-    'tool.notes': 'Ներքին անցքերը ևս դառնում են փակ գծեր, իսկ յուրաքանչյուր գագաթ գրվում է մեկ անգամ։ Կադաստրային կոդերը գրվում են գծերի ֆայլում՝ առանձին PARCEL_CODES և BUILDING_CODES շերտերում:',
+    'tool.how3': 'Ստացեք հինգ DXF՝ գծեր ու կետեր ըստ շերտերի և ընդհանուր _cad_code:',
+    'tool.notes': 'Ներքին անցքերը ևս դառնում են փակ գծեր, իսկ յուրաքանչյուր գագաթ՝ մեկ անգամ։ Կադաստրային կոդերն առանձին շերտերում են, իսկ _cad_code-ում՝ ամեն ինչ միասին:',
     'tool.disclaimerTitle': 'Պատասխանատվության սահմանափակում',
     'tool.disclaimer':
       'Փոխարկումը կատարվում է ձեր դիտարկիչում՝ ձեր վերբեռնած ֆայլերով։ GeoGeeks ՍՊԸ-ն դրանք չի ստանում, չի պահում և չի տիրապետում դրանց, ուստի պատասխանատվություն չի կրում արդյունքի ճշտության և օգտագործման համար։ Կոորդինատները չեն վերահաշվարկվում:',
@@ -196,8 +196,8 @@ export const messages = {
     'tool.how': 'How to use it',
     'tool.how1': 'Put the parcel and building layers (.shp, .shx, .dbf, .prj) in one zip with a Latin name.',
     'tool.how2': 'Upload the archive, up to 7 MB, choose the entity type and pay.',
-    'tool.how3': 'Get two DXF files per layer: one with lines, one with the vertices.',
-    'tool.notes': 'Inner holes become closed lines too, and each vertex is written once. Cadastre codes go into the lines file, on their own PARCEL_CODES and BUILDING_CODES layers.',
+    'tool.how3': 'Get five DXF files: lines and vertices per layer, plus the combined _cad_code.',
+    'tool.notes': 'Inner holes become closed lines too, and each vertex is written once. Cadastre codes sit on their own layers, and _cad_code carries everything together.',
     'tool.disclaimerTitle': 'Limitation of liability',
     'tool.disclaimer':
       'The conversion runs in your browser, on the files you upload. GeoGeeks LLC does not receive, store or control them, and accepts no responsibility for the accuracy of the result or for how it is used. Coordinates are not reprojected.',

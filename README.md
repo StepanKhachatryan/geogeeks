@@ -90,7 +90,10 @@ with a centroid tens of kilometres from the parcel.
 
 Each layer produces two drawings, named after the uploaded archive:
 `<archive>_parcel_lines.dxf`, `<archive>_parcel_points.dxf` and the same pair
-for buildings. Four files called `parcel_lines.dxf` and `building_points.dxf`
+for buildings, and a fifth, `<archive>_cad_code.dxf`, holds the parcels and the
+buildings together with their codes -- the sheet to open first. There the
+buildings count as obstacles when a parcel's code is placed, so it is never
+written across the house standing on the plot. Four files called `parcel_lines.dxf` and `building_points.dxf`
 collide the moment two plots are unzipped into one folder.
 
 ### Paying for a conversion
