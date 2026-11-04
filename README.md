@@ -112,6 +112,30 @@ can and cannot enforce. Because the conversion runs in the visitor's browser on
 files the site never sees, the page also carries a plain limitation-of-liability
 note beside the converter.
 
+## Water layers (Neon)
+
+A second tool is taking shape at `/water`: the rivers, lakes and canals layers,
+served as vector tiles rather than as files.
+
+| Piece | Where |
+| --- | --- |
+| Services declared | `neon.ts` -- Postgres, the `water` Function, Realtime |
+| Schema and tiles | `neon/water/schema.sql` -- PostGIS tables and `water_tile(z, x, y)` |
+| Backend | `neon/water/index.ts` -- Hono on Neon Functions, `pg` pool at module scope |
+| Browser client | `src/lib/water.ts`, `src/components/WaterView.tsx` |
+
+The site is a static export, so there is no Next.js server to query the database
+from: the browser calls the Function directly. The Function's URL and the
+Realtime endpoint are written into `.env.local` by `neon deploy` under their own
+names, and `next.config.ts` inlines them into the bundle rather than asking
+anyone to keep `NEXT_PUBLIC_` copies in step.
+
+Geometry never leaves the database as a file. `water_tile` cuts each request to
+its z/x/y, reprojects to 3857 and drops everything the map does not draw, so
+there is no endpoint that returns a whole layer. That is a commercial boundary,
+not a cryptographic one -- tiles a browser can draw are tiles a determined
+visitor can collect -- but it rules out downloading the source in one request.
+
 ## Language
 
 Armenian is the default and the language the static HTML is prerendered in. The nav
