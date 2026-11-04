@@ -17,14 +17,6 @@ export const color = {
 } as const;
 
 export const motion = {
-  /** Shared page/curtain easing. */
   ease: 'cubic-bezier(.2,.7,.2,1)',
-  curtainEase: 'cubic-bezier(.76,0,.24,1)',
-  /** The content swap happens while the curtain covers the viewport. */
-  swapDelay: 470,
-  /** Nav clicks are ignored until the curtain has fully left. */
-  lockDuration: 1100,
   heroInterval: 7000,
 } as const;
-
-export const curtainColors = ['#0c8495', '#00a97a', '#f7db5d', '#0c8495', '#00a97a', '#605c5c'];

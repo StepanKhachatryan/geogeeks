@@ -1,8 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import type { Project, Sector } from '@/data/projects';
 import { useLanguage } from '@/i18n/LanguageProvider';
-import { TransitionLink } from './TransitionLink';
 import styles from './ProjectView.module.css';
 
 export function ProjectView({ sector, project }: { sector: Sector; project: Project }) {
@@ -13,9 +13,9 @@ export function ProjectView({ sector, project }: { sector: Sector; project: Proj
       <div className="gg-inner">
         <div className="gg-page-header">
           <div className="gg-kicker">{pick(sector.title, sector.titleEn)}</div>
-          <TransitionLink href={`/projects/${sector.key}`} className="gg-back">
+          <Link href={`/projects/${sector.key}`} className="gg-back">
             {t('common.back')}
-          </TransitionLink>
+          </Link>
         </div>
 
         <div className={styles.layout}>

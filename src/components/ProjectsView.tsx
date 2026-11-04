@@ -1,11 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { useRef } from 'react';
 import { sectors } from '@/data/projects';
 import { useLanguage } from '@/i18n/LanguageProvider';
 import { useAvailableSpace } from '@/hooks/useAvailableSpace';
-import { TransitionLink } from './TransitionLink';
-import { useTransition } from './TransitionProvider';
 import styles from './ProjectsView.module.css';
 
 const GAP = 20;
@@ -35,9 +34,8 @@ function grid(width: number, height: number, tiles: number) {
 
 export function ProjectsView() {
   const { t, pick } = useLanguage();
-  const { transitioning } = useTransition();
   const section = useRef<HTMLElement>(null);
-  const space = useAvailableSpace(section, transitioning);
+  const space = useAvailableSpace(section);
 
   return (
     <section ref={section} className={styles.section}>
@@ -45,7 +43,7 @@ export function ProjectsView() {
         <h1 className="gg-sr-only">{t('h1.projects')}</h1>
         <div className={styles.grid} style={grid(space.width || 1280, space.height, sectors.length)}>
           {sectors.map((sector) => (
-            <TransitionLink
+            <Link
               key={sector.key}
               href={`/projects/${sector.key}`}
               className={styles.tile}
@@ -61,7 +59,7 @@ export function ProjectsView() {
                 <span className={styles.tileTitle}>{pick(sector.title, sector.titleEn)}</span>
                 <span className={styles.tileCta}>{t('projects.view')}</span>
               </span>
-            </TransitionLink>
+            </Link>
           ))}
         </div>
       </div>

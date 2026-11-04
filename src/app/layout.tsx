@@ -4,7 +4,6 @@ import { Noto_Sans_Armenian } from 'next/font/google';
 import { Footer } from '@/components/Footer';
 import { Nav } from '@/components/Nav';
 import { PageFrame } from '@/components/PageFrame';
-import { TransitionProvider } from '@/components/TransitionProvider';
 import { LanguageProvider } from '@/i18n/LanguageProvider';
 import { JsonLd } from '@/components/JsonLd';
 import { jsonLd, organizationId, organizationSchema, SITE_NAME, SITE_URL } from '@/lib/seo';
@@ -99,11 +98,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="hy" className={notoSansArmenian.variable}>
       <body>
         <LanguageProvider>
-          <TransitionProvider>
-            <Nav />
-            <PageFrame>{children}</PageFrame>
-            <Footer />
-          </TransitionProvider>
+          <Nav />
+          <PageFrame>{children}</PageFrame>
+          <Footer />
         </LanguageProvider>
         <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
         <JsonLd data={siteSchema} />

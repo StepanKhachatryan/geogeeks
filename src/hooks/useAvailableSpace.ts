@@ -11,18 +11,12 @@ export type AvailableSpace = {
 /**
  * Measures the room a full-height section has, so Services (expanded) and the
  * Projects grid can size themselves to fit without scrolling. Returns zeros
- * until the first measurement, and skips measuring while `paused` is true —
- * a re-render during a page transition restarts the curtain animation.
+ * until the first measurement.
  */
-export function useAvailableSpace(
-  ref: RefObject<HTMLElement | null>,
-  paused: boolean,
-): AvailableSpace {
+export function useAvailableSpace(ref: RefObject<HTMLElement | null>): AvailableSpace {
   const [space, setSpace] = useState<AvailableSpace>({ height: 0, width: 0 });
 
   useEffect(() => {
-    if (paused) return;
-
     const measure = () => {
       const section = ref.current;
       if (!section) return;
@@ -48,7 +42,7 @@ export function useAvailableSpace(
       window.cancelAnimationFrame(raf);
       window.removeEventListener('resize', measure);
     };
-  }, [ref, paused]);
+  }, [ref]);
 
   return space;
 }

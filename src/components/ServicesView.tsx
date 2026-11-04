@@ -4,7 +4,6 @@ import { useRef, useState } from 'react';
 import { serviceGroups } from '@/data/services';
 import { useLanguage } from '@/i18n/LanguageProvider';
 import { useAvailableSpace } from '@/hooks/useAvailableSpace';
-import { useTransition } from './TransitionProvider';
 import styles from './ServicesView.module.css';
 
 /** Below this much free height the expanded panel scrolls with the page instead. */
@@ -15,9 +14,8 @@ const FIT_MIN_WIDTH = 900;
 
 export function ServicesView() {
   const { t, pick } = useLanguage();
-  const { transitioning } = useTransition();
   const section = useRef<HTMLElement>(null);
-  const space = useAvailableSpace(section, transitioning);
+  const space = useAvailableSpace(section);
   const [openKey, setOpenKey] = useState<string | null>(null);
   const [subKey, setSubKey] = useState<string | null>(null);
 

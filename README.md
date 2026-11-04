@@ -122,17 +122,16 @@ moving the routes under a `[locale]` segment.
 
 ## Motion
 
-- **Page transition** — six coloured bars rise over the viewport, the route swaps at
-  470 ms while covered, and clicks are ignored until 1100 ms
-  (`src/components/TransitionProvider.tsx`). The curtain is created imperatively
-  outside the React tree, because a re-render mid-flight restarts the CSS animation.
+- **Page change** — routes swap straight away, through `next/link`. The coloured
+  curtain the handoff specified was removed: it put a second of animation in front
+  of every page, and a tool people come to use should open when they click it.
 - **Reveal and parallax** — `[data-reveal]` and `[data-parallax]` elements are driven
   by hooks in `src/hooks/`, re-armed on every route change.
 - **Viewport fitting** — the expanded Services panel and the Projects tile grid
   measure the space left by the nav, footer and section padding so they fit without
   scrolling (`src/hooks/useAvailableSpace.ts`).
 
-All three respect `prefers-reduced-motion: reduce`.
+Both respect `prefers-reduced-motion: reduce`.
 
 ## Search engines
 

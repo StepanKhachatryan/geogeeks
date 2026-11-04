@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLanguage } from '@/i18n/LanguageProvider';
 import type { MessageKey } from '@/i18n/messages';
-import { TransitionLink } from './TransitionLink';
 import styles from './Nav.module.css';
 
 const items: { href: string; key: MessageKey }[] = [
@@ -58,7 +58,7 @@ export function Nav() {
   return (
     <nav ref={nav} data-nav className={styles.nav}>
       <div className={styles.inner}>
-        <TransitionLink href="/" className={styles.brand} onClick={close}>
+        <Link href="/" className={styles.brand} onClick={close}>
           <Image
             src="/assets/img/GeoGeeks_logo.png"
             alt="GeoGeeks"
@@ -68,14 +68,14 @@ export function Nav() {
             priority
           />
           <span className={styles.wordmark}>GeoGeeks</span>
-        </TransitionLink>
+        </Link>
 
         <div className={styles.actions}>
           <div id="gg-menu" className={`${styles.items} ${menuOpen ? styles.itemsOpen : ''}`}>
             {items.map((item) => {
               const active = isActive(pathname, item.href);
               return (
-                <TransitionLink
+                <Link
                   key={item.href}
                   href={item.href}
                   onClick={close}
@@ -85,7 +85,7 @@ export function Nav() {
                   aria-current={active ? 'page' : undefined}
                 >
                   {t(item.key)}
-                </TransitionLink>
+                </Link>
               );
             })}
           </div>

@@ -1,32 +1,30 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { products } from '@/data/products';
 import { latestProjects } from '@/data/projects';
 import { useLanguage } from '@/i18n/LanguageProvider';
 import { motion } from '@/lib/tokens';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { TransitionLink } from './TransitionLink';
-import { useTransition } from './TransitionProvider';
 import styles from './HomeView.module.css';
 
 const latest = latestProjects();
 
 export function HomeView() {
   const { t, pick } = useLanguage();
-  const { transitioning } = useTransition();
   const reducedMotion = useReducedMotion();
   const [slide, setSlide] = useState(0);
   const fadeTargets = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
-    if (reducedMotion || transitioning || products.length < 2) return;
+    if (reducedMotion || products.length < 2) return;
     const timer = window.setInterval(
       () => setSlide((current) => (current + 1) % products.length),
       motion.heroInterval,
     );
     return () => window.clearInterval(timer);
-  }, [reducedMotion, transitioning]);
+  }, [reducedMotion]);
 
   // Cross-fade: drop the image, title and description, then bring them back.
   useEffect(() => {
@@ -111,7 +109,7 @@ export function HomeView() {
           </h2>
           <div className={styles.latestGrid}>
             {latest.map(({ sector, project }) => (
-              <TransitionLink
+              <Link
                 key={`${sector.key}/${project.slug}`}
                 href={`/projects/${sector.key}/${project.slug}`}
                 className={styles.card}
@@ -131,7 +129,7 @@ export function HomeView() {
                   <p className={styles.cardClient}>{project.client}</p>
                   <span className={styles.cardCta}>{t('home.openProject')}</span>
                 </div>
-              </TransitionLink>
+              </Link>
             ))}
           </div>
         </div>
