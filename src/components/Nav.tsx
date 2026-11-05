@@ -21,6 +21,7 @@ const items: NavEntry[] = [
     children: [
       { href: '/tools/shp-to-dxf', key: 'nav.toolConverter' },
       { href: 'https://wmpa.geogeeks.am', key: 'nav.toolMap', external: true },
+      { href: 'https://floods.geogeeks.am', key: 'nav.toolFloods', external: true },
     ],
   },
   { href: '/services', key: 'nav.services' },

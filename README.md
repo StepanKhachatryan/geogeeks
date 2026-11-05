@@ -114,10 +114,11 @@ note beside the converter.
 
 ## Tools menu
 
-The nav's Tools entry opens a list rather than a page: the converter lives here
-at `/tools/shp-to-dxf`, and the water map is its own site at
-`wmpa.geogeeks.am` ([stepankhachatryan/wmpa](https://github.com/StepanKhachatryan/wmpa)),
-so it opens in a new tab with an outward marker beside it. The list floats under
+The nav's Tools entry opens a list rather than a page. The converter lives here
+at `/tools/shp-to-dxf`; the other two are platforms of their own and open in a
+new tab with an outward marker beside them -- the water map at `wmpa.geogeeks.am`
+([stepankhachatryan/wmpa](https://github.com/StepanKhachatryan/wmpa)) and the
+floods platform at `floods.geogeeks.am`. The list floats under
 the button on a wide screen and flows inline, indented, inside the stacked menu
 on a narrow one -- floating over a vertical list would cover the entries beneath
 it.
