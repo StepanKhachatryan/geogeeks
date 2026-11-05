@@ -78,6 +78,79 @@
   background: var(--gg-surface);
 }
 
+/* The tools entry: a button in the row, with its list hanging under it. */
+.group {
+  position: relative;
+}
+
+.groupButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: inherit;
+}
+
+.caret {
+  width: 7px;
+  height: 7px;
+  border-right: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.25s var(--gg-ease);
+}
+
+.caretOpen {
+  transform: translateY(1px) rotate(-135deg);
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 232px;
+  padding: 6px;
+  border: 1px solid var(--gg-border);
+  border-radius: 12px;
+  background: var(--gg-surface);
+  box-shadow: 0 18px 40px rgba(22, 48, 44, 0.12);
+}
+
+.submenuOpen {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: gg-menu-in 0.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.subitem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--gg-ink);
+  font-size: 14.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.3s ease;
+}
+
+.subitem:hover {
+  background: var(--gg-hover-grey);
+}
+
+.subitemActive {
+  background: var(--gg-tint);
+}
+
+/* Says the link leaves the site, without spelling it out in every language. */
+.outward {
+  font-size: 12px;
+  color: var(--gg-teal);
+}
+
 .active {
   background: var(--gg-surface);
   border-color: var(--gg-ink);
@@ -199,6 +272,28 @@
     padding: 13px 14px;
   }
 
+  .groupButton {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* Floating over a vertical list would cover the entries under it, so here the
+     panel is part of the list. */
+  .submenu {
+    position: static;
+    min-width: 0;
+    margin: 2px 0 2px 12px;
+    padding: 4px;
+    box-shadow: none;
+    background: var(--gg-off-white);
+  }
+
+  .subitem {
+    padding: 12px 12px;
+    font-size: 15px;
+    white-space: normal;
+  }
+
   .burger {
     display: inline-flex;
   }
@@ -231,7 +326,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .itemsOpen {
+  .itemsOpen,
+  .submenuOpen {
     animation: none;
+  }
+
+  .caret {
+    transition: none;
   }
 }

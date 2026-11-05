@@ -8,14 +8,29 @@ import { useLanguage } from '@/i18n/LanguageProvider';
 import type { MessageKey } from '@/i18n/messages';
 import styles from './Nav.module.css';
 
-const items: { href: string; key: MessageKey }[] = [
+type NavLink = { href: string; key: MessageKey; external?: boolean };
+type NavEntry = NavLink | { key: MessageKey; match: string; children: NavLink[] };
+
+const items: NavEntry[] = [
   { href: '/', key: 'nav.home' },
-  { href: '/tools/shp-to-dxf', key: 'nav.tools' },
+  // Two tools now, and one of them is a site of its own, so the entry opens a
+  // list rather than going straight to the converter.
+  {
+    key: 'nav.tools',
+    match: '/tools',
+    children: [
+      { href: '/tools/shp-to-dxf', key: 'nav.toolConverter' },
+      { href: 'https://wmpa.geogeeks.am', key: 'nav.toolMap', external: true },
+    ],
+  },
   { href: '/services', key: 'nav.services' },
   { href: '/projects', key: 'nav.projects' },
   { href: '/about', key: 'nav.about' },
   { href: '/contact', key: 'nav.contact' },
 ];
+
+const hasChildren = (entry: NavEntry): entry is Extract<NavEntry, { children: NavLink[] }> =>
+  'children' in entry;
 
 function isActive(pathname: string, href: string): boolean {
   if (href === '/') return pathname === '/';
@@ -29,13 +44,17 @@ export function Nav() {
   const pathname = usePathname();
   const { t, toggle } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
   const nav = useRef<HTMLElement>(null);
 
-  const close = useCallback(() => setMenuOpen(false), []);
+  const close = useCallback(() => {
+    setMenuOpen(false);
+    setOpenGroup(null);
+  }, []);
 
   // The menu closes on its own links, so only outside input needs listeners.
   useEffect(() => {
-    if (!menuOpen) return;
+    if (!menuOpen && !openGroup) return;
     const onPointerDown = (event: PointerEvent) => {
       if (!nav.current?.contains(event.target as Node)) close();
     };
@@ -53,7 +72,7 @@ export function Nav() {
       document.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('resize', onResize);
     };
-  }, [menuOpen, close]);
+  }, [menuOpen, openGroup, close]);
 
   return (
     <nav ref={nav} data-nav className={styles.nav}>
@@ -72,19 +91,75 @@ export function Nav() {
 
         <div className={styles.actions}>
           <div id="gg-menu" className={`${styles.items} ${menuOpen ? styles.itemsOpen : ''}`}>
-            {items.map((item) => {
-              const active = isActive(pathname, item.href);
+            {items.map((entry) => {
+              if (hasChildren(entry)) {
+                const active = isActive(pathname, entry.match);
+                const open = openGroup === entry.key;
+                return (
+                  <div key={entry.key} className={styles.group}>
+                    <button
+                      type="button"
+                      className={`${styles.item} ${styles.groupButton} ${
+                        active ? styles.active : ''
+                      }`}
+                      aria-expanded={open}
+                      aria-controls={`gg-group-${entry.key}`}
+                      onClick={() => setOpenGroup(open ? null : entry.key)}
+                    >
+                      {t(entry.key)}
+                      <span className={`${styles.caret} ${open ? styles.caretOpen : ''}`} />
+                    </button>
+
+                    <div
+                      id={`gg-group-${entry.key}`}
+                      className={`${styles.submenu} ${open ? styles.submenuOpen : ''}`}
+                    >
+                      {entry.children.map((child) =>
+                        child.external ? (
+                          <a
+                            key={child.href}
+                            href={child.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={close}
+                            className={styles.subitem}
+                          >
+                            {t(child.key)}
+                            <span className={styles.outward} aria-hidden="true">
+                              ↗
+                            </span>
+                          </a>
+                        ) : (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            onClick={close}
+                            className={`${styles.subitem} ${
+                              isActive(pathname, child.href) ? styles.subitemActive : ''
+                            }`}
+                            aria-current={isActive(pathname, child.href) ? 'page' : undefined}
+                          >
+                            {t(child.key)}
+                          </Link>
+                        ),
+                      )}
+                    </div>
+                  </div>
+                );
+              }
+
+              const active = isActive(pathname, entry.href);
               return (
                 <Link
-                  key={item.href}
-                  href={item.href}
+                  key={entry.href}
+                  href={entry.href}
                   onClick={close}
-                  className={`${styles.item} ${item.key === 'nav.contact' ? styles.contact : ''} ${
+                  className={`${styles.item} ${entry.key === 'nav.contact' ? styles.contact : ''} ${
                     active ? styles.active : ''
                   }`}
                   aria-current={active ? 'page' : undefined}
                 >
-                  {t(item.key)}
+                  {t(entry.key)}
                 </Link>
               );
             })}

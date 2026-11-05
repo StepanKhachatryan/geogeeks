@@ -112,6 +112,19 @@ can and cannot enforce. Because the conversion runs in the visitor's browser on
 files the site never sees, the page also carries a plain limitation-of-liability
 note beside the converter.
 
+## Tools menu
+
+The nav's Tools entry opens a list rather than a page: the converter lives here
+at `/tools/shp-to-dxf`, and the water map is its own site at
+`wmpa.geogeeks.am` ([stepankhachatryan/wmpa](https://github.com/StepanKhachatryan/wmpa)),
+so it opens in a new tab with an outward marker beside it. The list floats under
+the button on a wide screen and flows inline, indented, inside the stacked menu
+on a narrow one -- floating over a vertical list would cover the entries beneath
+it.
+
+Adding a third tool is a line in `items` in `src/components/Nav.tsx`; an entry
+with `children` renders as a group, one without stays a plain link.
+
 ## Language
 
 Armenian is the default and the language the static HTML is prerendered in. The nav
