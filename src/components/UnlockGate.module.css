@@ -1,0 +1,279 @@
+.gate {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--gg-border);
+  border-radius: 16px;
+  background: var(--gg-off-white);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gg-ink);
+}
+
+.price {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gg-teal);
+}
+
+/* Fields and the QR side by side: stacked, this block was the tallest thing on
+   the page and pushed the rest below the fold. */
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.inputs,
+.pay {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.pay {
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--gg-surface);
+  border: 1px solid var(--gg-border);
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+}
+
+@media (max-width: 520px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gg-ink);
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gg-teal);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.hint {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--gg-warm-grey);
+}
+
+.phoneRow {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.prefix {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: var(--gg-tint);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gg-ink);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--gg-border);
+  border-radius: 8px;
+  background: var(--gg-surface);
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--gg-ink);
+}
+
+.input:focus {
+  outline: 2px solid var(--gg-teal);
+  outline-offset: 1px;
+}
+
+.code {
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* Large enough that a phone camera reads it off the screen comfortably. */
+.qr {
+  flex-shrink: 0;
+  width: 116px;
+  height: 116px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.qrImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.idram {
+  margin: 0;
+  font-size: 13px;
+  color: var(--gg-body);
+}
+
+.idram strong {
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  color: var(--gg-ink);
+}
+
+/* Inline rather than a button: support is a fallback, not a step, and the
+   column has no room to spare. */
+.mail {
+  color: var(--gg-teal);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.mail:hover {
+  text-decoration: underline;
+}
+
+.action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+/* Under the button and across the column: beside it, the text ran into the QR. */
+.reason {
+  font-size: 11.5px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: #8a6a00;
+}
+
+.primary {
+  align-self: flex-start;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  background: var(--gg-teal);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.primary:hover:enabled {
+  background: var(--gg-green);
+}
+
+.primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #8a2b2b;
+}
+
+.waiting {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gg-warm-grey);
+}
+
+.ok {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gg-green);
+}
+
+/* The number written on the transfer is what ties a payment to a request, so it
+   reads as an instruction rather than a footnote. */
+.callout {
+  margin: 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--gg-teal);
+  border-radius: 0 8px 8px 0;
+  background: var(--gg-tint);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--gg-ink);
+}
+
+.callout strong {
+  font-weight: 800;
+  color: var(--gg-teal);
+}
+
+/* Nothing to convert yet: a warning, not an error, since it is simply the next
+   thing to do. */
+.warn {
+  margin: 0;
+  padding: 8px 12px;
+  border-left: 3px solid #d8a800;
+  border-radius: 0 8px 8px 0;
+  background: #fdf6dd;
+  font-size: 12.5px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: #6b4e00;
+}
+
+.link {
+  align-self: flex-start;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--gg-teal);
+  text-decoration: underline;
+}
