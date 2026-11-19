@@ -9,9 +9,15 @@
  * `status` is what the page polls while the owner decides. Once approved it
  * carries the code, so the customer never has to leave the page.
  *
- * Environment: TELEGRAM_BOT_TOKEN and TELEGRAM_OWNER_ID (without them a request
- * is stored but nobody is told about it), TELEGRAM_BOT_USERNAME (optional; the
- * page offers the deep link as a second way to receive the code),
+ * With Idram's merchant keys set (IDRAM_REC_ACCOUNT, IDRAM_SECRET_KEY) the
+ * owner is not involved at all: `create` hands back a bill and the form that
+ * pays it, Idram reports the payment to `geogeeks-idram`, and that mints the
+ * code. `config` tells the page which of the two flows is live.
+ *
+ * Environment: TELEGRAM_BOT_TOKEN and TELEGRAM_OWNER_ID (without them a manual
+ * request is stored but nobody is told about it), TELEGRAM_BOT_USERNAME
+ * (optional; the page offers the deep link as a second way to receive the
+ * code), IDRAM_REC_ACCOUNT and IDRAM_SECRET_KEY (optional, see above),
  * ALLOWED_ORIGINS (optional).
  */
 
@@ -20,6 +26,14 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 const BOT = Deno.env.get('TELEGRAM_BOT_USERNAME') ?? '';
 const TOKEN = Deno.env.get('TELEGRAM_BOT_TOKEN') ?? '';
 const OWNER_ID = Deno.env.get('TELEGRAM_OWNER_ID') ?? '';
+const IDRAM_ACCOUNT = Deno.env.get('IDRAM_REC_ACCOUNT') ?? '';
+/**
+ * Both are needed: an account without the key would take payments whose
+ * confirmations could never be checked, so no code would ever be issued.
+ */
+const IDRAM = Boolean(IDRAM_ACCOUNT && Deno.env.get('IDRAM_SECRET_KEY'));
+const IDRAM_ACTION = 'https://banking.idram.am/Payment/GetPayment';
+const IDRAM_LANGUAGE: Record<string, string> = { hy: 'AM', en: 'EN' };
 const DEFAULT_ORIGINS = ['https://geogeeks.am', 'https://www.geogeeks.am', 'http://localhost:3000'];
 const ORIGINS = (Deno.env.get('ALLOWED_ORIGINS') ?? '')
   .split(',')
@@ -78,12 +92,14 @@ Deno.serve(async (request) => {
   if (request.method === 'OPTIONS') return new Response('ok', { headers: cors });
   if (request.method !== 'POST') return json({ ok: false, reason: 'method' }, 405);
 
-  let body: { action?: string; phone?: string; token?: string };
+  let body: { action?: string; phone?: string; token?: string; lang?: string };
   try {
     body = await request.json();
   } catch {
     return json({ ok: false, reason: 'body' }, 400);
   }
+
+  if (body.action === 'config') return json({ ok: true, idram: IDRAM });
 
   const supabase = createClient(
     Deno.env.get('SUPABASE_URL')!,
@@ -121,6 +137,28 @@ Deno.serve(async (request) => {
 
   const row = Array.isArray(data) ? data[0] : data;
   if (!row || row.status === 'rate') return json({ ok: false, reason: 'rate' }, 429);
+
+  if (IDRAM) {
+    // Idram settles this one; the owner hears about it once it is paid.
+    const amount = Number(row.amount);
+    return json({
+      ok: true,
+      token,
+      notified: true,
+      botUrl: null,
+      billNo: String(row.bill_no),
+      payment: {
+        action: IDRAM_ACTION,
+        fields: {
+          EDP_LANGUAGE: IDRAM_LANGUAGE[String(body.lang ?? '')] ?? 'AM',
+          EDP_REC_ACCOUNT: IDRAM_ACCOUNT,
+          EDP_DESCRIPTION: `GeoGeeks: Shapefile → DXF, #${row.bill_no}`,
+          EDP_AMOUNT: Number.isInteger(amount) ? String(amount) : amount.toFixed(2),
+          EDP_BILL_NO: String(row.bill_no),
+        },
+      },
+    });
+  }
 
   await announce(row.id, phone);
 

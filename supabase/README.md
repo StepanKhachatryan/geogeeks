@@ -13,13 +13,15 @@ they cannot collide with or be reached through that project's own data.
 
 | Piece | Name |
 | --- | --- |
-| Schema | `geogeeks` — `unlock_codes`, `unlock_attempts`, `unlock_requests` |
+| Schema | `geogeeks` — `unlock_codes`, `unlock_attempts`, `unlock_requests`, `idram_payments` |
 | Issue a code | `public.geogeeks_issue_unlock_code(phone, code, issued_by, note, days)` |
 | Spend a code | `public.geogeeks_redeem_unlock_code(phone, code)` |
 | Request a code | `public.geogeeks_create_unlock_request`, `_link_`, `_decide_`, `_status_` |
 | Tables' extra column | `unlock_requests.code`, the approved code the page collects |
 | Called by the page | Edge Functions `geogeeks-request-code`, `geogeeks-verify-unlock` |
 | Called by Telegram | Edge Function `geogeeks-telegram-bot` |
+| Called by Idram | Edge Function `geogeeks-idram` (via `geogeeks.am/api/idram/*`) |
+| Idram's checks | `public.geogeeks_idram_precheck`, `public.geogeeks_idram_confirm` |
 
 Codes are stored as bcrypt hashes and compared inside the database, so neither
 the Edge Function nor a copy of the table reveals a code. Both SQL functions are
@@ -111,13 +113,68 @@ The page is paid by default. `NEXT_PUBLIC_PAYMENT_REQUIRED=false` at build time
 makes the converter free again; `NEXT_PUBLIC_UNLOCK_ENDPOINT` overrides the
 verifier URL baked into `src/lib/unlock.ts`.
 
+## Idram merchant payments
+
+With Idram's merchant keys set, nobody confirms anything by hand:
+
+1. The customer loads the archive, types their number and presses
+   "Get a payment bill". `geogeeks-request-code` opens the request, which now
+   carries a bill number (`unlock_requests.bill_no`, from 10001) and its price
+   (`amount`, 300.00 — set in the database, never taken from the page).
+2. The page shows Idram's button: a plain form posting to
+   `https://banking.idram.am/Payment/GetPayment` in a new tab, so the archive
+   stays loaded in this one.
+3. Before any money moves, Idram asks `RESULT_URL` whether the bill is ours,
+   still open and for this amount (`EDP_PRECHECK=YES`). Anything but `OK` stops
+   the payment.
+4. After the transfer, Idram posts the confirmation with `EDP_CHECKSUM`, the MD5
+   of `REC_ACCOUNT:AMOUNT:SECRET_KEY:BILL_NO:PAYER_ACCOUNT:TRANS_ID:TRANS_DATE`.
+   A matching one mints a code and parks it on the request; the page, polling
+   since step 1, fills it in and starts the download. The owner gets a Telegram
+   note about each payment.
+5. Idram sends the customer to `SUCCESS_URL` or `FAIL_URL`, which return them to
+   the converter with a banner saying how it went.
+
+The bill number is what identifies a payment, not the payer: whoever pays it,
+from whichever wallet or card, settles that request. Each confirmation is kept
+whole in `idram_payments` (without the checksum). Its transaction id is the
+primary key and is claimed before anything else, so a retried or concurrent
+confirmation cannot issue a second code. A payment that cannot be settled — an
+unknown bill, a different amount, a second payment of a paid bill — issues no
+code, is recorded, and is put in front of the owner in Telegram.
+
+### The addresses Idram is given
+
+```
+SUCCESS_URL  https://geogeeks.am/api/idram/success
+FAIL_URL     https://geogeeks.am/api/idram/fail
+RESULT_URL   https://geogeeks.am/api/idram/result
+EMAIL        geogeeksllc@gmail.com
+```
+
+They live on the site's domain and `public/_redirects` proxies them to the Edge
+Function, so the backend can move without Idram changing anything.
+
+### Switching it on
+
+Idram returns the merchant's IdramID and secret key. Add both as Edge Function
+secrets (Supabase dashboard → Edge Functions → Secrets):
+
+```
+IDRAM_REC_ACCOUNT   EDP_REC_ACCOUNT, the merchant IdramID
+IDRAM_SECRET_KEY    SECRET_KEY, never committed anywhere
+```
+
+That is the switch: `geogeeks-request-code` answers `config` with
+`idram: true` once both are set, and the page changes flow on its next load,
+with no rebuild. Until then `geogeeks-idram` refuses every call and the manual
+flow above stays live. Telegram is no longer needed to approve anything; it
+stays as the owner's payment feed, for `/code` by hand, and as the fallback if
+the keys are ever removed.
+
 ## What this does not do
 
-It does not take the payment. Idram is paid by scanning the QR, and the site
-never learns that a transfer happened, so a person confirms it and issues the
-code. An Idram merchant account with a callback URL would close that loop.
-
-It is also not a security boundary. The conversion happens in the visitor's
+It is not a security boundary. The conversion happens in the visitor's
 browser, so anyone who reads the page source can run it without paying. The gate
 makes paying the obvious path; it cannot make it the only one. Moving the
 conversion into an Edge Function is the only way to enforce payment, at the cost

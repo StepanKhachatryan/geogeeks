@@ -13,6 +13,11 @@
  * Once the owner confirms, the page collects the code by polling and fills it
  * in. The code is checked by a Supabase Edge Function, which is the only party
  * that can see whether a code exists, is unused and belongs to that number.
+ *
+ * Once Idram's merchant keys are set on the backend, the owner drops out of it:
+ * sending the request returns a bill, the customer pays that bill on Idram's own
+ * page, Idram tells the backend, and the code arrives by the same polling. The
+ * page asks which flow is live (`paymentMode`) rather than being rebuilt.
  */
 
 export const PHONE_PREFIX = '+374';
@@ -23,6 +28,7 @@ export const CODE_LENGTH = 6;
 export const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
 export const IDRAM_QR_IMAGE = '/assets/img/payments/idram-qr.png';
+export const IDRAM_LOGO_IMAGE = '/assets/img/payments/idram-logo.jpg';
 
 /**
  * The account the QR points at. Shown as text as well, so a customer can pay by
@@ -111,9 +117,52 @@ export async function verifyCode(
 
 export type RequestStatus = 'pending' | 'linked' | 'approved' | 'rejected' | 'unknown';
 
+/** The form that pays a bill on Idram's page, as the backend built it. */
+export type IdramPayment = { action: string; fields: Record<string, string> };
+
 export type CreatedRequest =
-  | { ok: true; token: string; botUrl: string | null; notified: boolean }
+  | {
+      ok: true;
+      token: string;
+      botUrl: string | null;
+      notified: boolean;
+      billNo: string | null;
+      payment: IdramPayment | null;
+    }
   | { ok: false; reason: 'rate' | 'invalid' | 'network' };
+
+export type PaymentMode = 'idram' | 'manual';
+
+/**
+ * Whether Idram settles payments on its own or the owner confirms them. Any
+ * doubt means manual: that flow works with no keys set at all.
+ */
+export async function paymentMode(endpoint: string): Promise<PaymentMode> {
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ action: 'config' }),
+    });
+    if (!response.ok) return 'manual';
+    const body: { ok?: boolean; idram?: boolean } = await response.json();
+    return body.ok && body.idram ? 'idram' : 'manual';
+  } catch {
+    return 'manual';
+  }
+}
+
+/** Only Idram's own payment page is accepted as the place a form posts to. */
+function isIdramPayment(value: unknown): value is IdramPayment {
+  if (!value || typeof value !== 'object') return false;
+  const { action, fields } = value as Partial<IdramPayment>;
+  if (typeof action !== 'string' || !action.startsWith('https://banking.idram.am/')) return false;
+  return (
+    !!fields &&
+    typeof fields === 'object' &&
+    Object.values(fields).every((field) => typeof field === 'string')
+  );
+}
 
 /**
  * Tells the owner that this number has paid. `notified` says whether that
@@ -121,23 +170,35 @@ export type CreatedRequest =
  * asking for an email. The deep link is offered as a second route for the code,
  * for a customer who would rather receive it in Telegram.
  */
-export async function createRequest(endpoint: string, phoneDigits: string): Promise<CreatedRequest> {
+export async function createRequest(
+  endpoint: string,
+  phoneDigits: string,
+  lang: string,
+): Promise<CreatedRequest> {
   try {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ action: 'create', phone: `${PHONE_PREFIX}${phoneDigits}` }),
+      body: JSON.stringify({ action: 'create', phone: `${PHONE_PREFIX}${phoneDigits}`, lang }),
     });
     if (response.status === 429) return { ok: false, reason: 'rate' };
     if (!response.ok) return { ok: false, reason: 'network' };
-    const body: { ok?: boolean; token?: string; botUrl?: string | null; notified?: boolean } =
-      await response.json();
+    const body: {
+      ok?: boolean;
+      token?: string;
+      botUrl?: string | null;
+      notified?: boolean;
+      billNo?: string;
+      payment?: unknown;
+    } = await response.json();
     if (!body.ok || !body.token) return { ok: false, reason: 'invalid' };
     return {
       ok: true,
       token: body.token,
       botUrl: body.botUrl ?? null,
       notified: body.notified ?? false,
+      billNo: body.billNo ?? null,
+      payment: isIdramPayment(body.payment) ? body.payment : null,
     };
   } catch {
     return { ok: false, reason: 'network' };

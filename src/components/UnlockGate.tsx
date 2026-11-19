@@ -7,16 +7,20 @@ import type { MessageKey } from '@/i18n/messages';
 import {
   CODE_LENGTH,
   createRequest,
+  IDRAM_LOGO_IMAGE,
   IDRAM_QR_IMAGE,
   isCodeComplete,
   isPhoneComplete,
   normalizeCode,
   normalizePhone,
+  paymentMode,
   PHONE_DIGITS,
   PHONE_PREFIX,
   requestStatus,
   SUPPORT_EMAIL,
   verifyCode,
+  type IdramPayment,
+  type PaymentMode,
   type RequestStatus,
   type UnlockConfig,
 } from '@/lib/unlock';
@@ -58,7 +62,15 @@ const POLL_WINDOW = 35 * 60 * 1000;
 const STORAGE_KEY = 'gg-unlock-request';
 const STORAGE_MAX_AGE = 24 * 60 * 60 * 1000;
 
-type StoredRequest = { token: string; phone: string; at: number; botUrl: string | null };
+type StoredRequest = {
+  token: string;
+  phone: string;
+  at: number;
+  botUrl: string | null;
+  /** Idram's bill for this request, so a reopened page can still pay it. */
+  billNo?: string | null;
+  payment?: IdramPayment | null;
+};
 
 function readStored(): StoredRequest | null {
   try {
@@ -102,8 +114,24 @@ function writeStored(value: StoredRequest | null) {
   }
 }
 
+/**
+ * Where Idram sent the customer back from: `?idram=success` or `?idram=fail`.
+ * Read through a store for the same reason as the request: the page is
+ * prerendered without it.
+ */
+const noSubscription = () => () => {};
+function returnedFromIdram(): 'success' | 'fail' | null {
+  const value = new URLSearchParams(window.location.search).get('idram');
+  return value === 'success' || value === 'fail' ? value : null;
+}
+
 export function UnlockGate({ config, ready, onUnlocked }: Props) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const idramReturn = useSyncExternalStore(noSubscription, returnedFromIdram, () => null);
+  const [mode, setMode] = useState<PaymentMode | null>(null);
+  const [sentBill, setBill] = useState<{ billNo: string | null; payment: IdramPayment } | null>(
+    null,
+  );
   const restored = useSyncExternalStore(subscribeStored, storedRequest, () => null);
   const [typedPhone, setPhone] = useState<string | null>(null);
   const [code, setCode] = useState('');
@@ -120,6 +148,11 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
   const token = sentToken ?? restored?.token ?? null;
   const botUrl = sentBotUrl ?? restored?.botUrl ?? null;
   const status = reachedStatus ?? (restored ? 'pending' : null);
+  const bill =
+    sentBill ??
+    (restored?.payment ? { billNo: restored.billNo ?? null, payment: restored.payment } : null);
+  // A bill already in hand settles the question, whatever the backend says now.
+  const idram = bill !== null || mode === 'idram';
   const codeField = useRef<HTMLInputElement>(null);
   /** Stops the arriving code from being spent twice. */
   const submitted = useRef(false);
@@ -130,6 +163,19 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
 
   const phoneReady = isPhoneComplete(phone);
   const endpoint = config.requestEndpoint;
+
+  // Which flow is live is the backend's to say: it turns to Idram the moment
+  // the merchant keys are set, with no rebuild of the site.
+  useEffect(() => {
+    if (!endpoint) return;
+    let current = true;
+    void paymentMode(endpoint).then((next) => {
+      if (current) setMode(next);
+    });
+    return () => {
+      current = false;
+    };
+  }, [endpoint]);
 
   const submit = useCallback(
     async (value: string) => {
@@ -184,7 +230,7 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
         return;
       }
       if (since() > POLL_WINDOW) {
-        setMessage('unlock.slow');
+        setMessage(idram ? 'unlock.idramSlow' : 'unlock.slow');
         return;
       }
       timer = window.setTimeout(check, since() < POLL_FAST_FOR ? POLL_FAST : POLL_SLOW);
@@ -195,7 +241,7 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
       stopped = true;
       window.clearTimeout(timer);
     };
-  }, [token, status, endpoint, submit, restored]);
+  }, [token, status, endpoint, submit, restored, idram]);
 
   // The code may arrive before the archive does -- after a reopened tab, say,
   // since files are not kept. Spending it then would burn it on nothing, so it
@@ -225,7 +271,7 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
     if (!endpoint || !phoneReady || sending || !ready) return;
     setSending(true);
     setMessage(null);
-    const created = await createRequest(endpoint, phone);
+    const created = await createRequest(endpoint, phone, lang);
     setSending(false);
 
     if (!created.ok) {
@@ -237,7 +283,15 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
     setToken(created.token);
     setBotUrl(created.botUrl);
     setStatus('pending');
-    writeStored({ token: created.token, phone, at: openedAt.current, botUrl: created.botUrl });
+    setBill(created.payment ? { billNo: created.billNo, payment: created.payment } : null);
+    writeStored({
+      token: created.token,
+      phone,
+      at: openedAt.current,
+      botUrl: created.botUrl,
+      billNo: created.billNo,
+      payment: created.payment,
+    });
     // With no bot reachable there is nobody to confirm the payment, so say what
     // to do instead rather than leaving the customer watching a spinner.
     if (!created.notified) setMessage('unlock.noBot');
@@ -253,9 +307,14 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
       {/* Full width rather than squeezed beside the QR: this is the one thing a
           customer must do inside the Idram app, and it is unrecoverable if
           missed -- a transfer with no number cannot be matched to a request. */}
-      <p className={styles.callout}>
-        <strong>{t('unlock.noteTitle')}</strong> {t('unlock.note')}
-      </p>
+      {mode === 'manual' && !idram && (
+        <p className={styles.callout}>
+          <strong>{t('unlock.noteTitle')}</strong> {t('unlock.note')}
+        </p>
+      )}
+      {idram && <p className={styles.callout}>{t('unlock.idramIntro')}</p>}
+      {idramReturn === 'success' && <p className={styles.okBanner}>{t('unlock.idramReturned')}</p>}
+      {idramReturn === 'fail' && <p className={styles.warn}>{t('unlock.idramFailed')}</p>}
 
       <div className={styles.body}>
         <div className={styles.inputs}>
@@ -286,14 +345,18 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
               disabled={!ready || !phoneReady || sending}
               onClick={() => void sendRequest()}
             >
-              {sending ? t('unlock.sending') : t('unlock.sendRequest')}
+              {sending
+                ? t('unlock.sending')
+                : t(idram ? 'unlock.createBill' : 'unlock.sendRequest')}
             </button>
             {missing(false) && <span className={styles.reason}>{missing(false)}</span>}
           </span>
 
           {waiting && (
             <>
-              <p className={styles.waiting}>{t('unlock.waiting')}</p>
+              <p className={styles.waiting}>
+                {t(bill ? 'unlock.idramWaiting' : 'unlock.waiting')}
+              </p>
               {botUrl && (
                 <a
                   className={styles.link}
@@ -346,6 +409,55 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
           )}
         </div>
 
+        {idram ? (
+          <div className={styles.pay}>
+            <Image
+              src={IDRAM_LOGO_IMAGE}
+              alt="Idram"
+              width={512}
+              height={300}
+              className={styles.logo}
+              unoptimized
+            />
+            {bill && waiting ? (
+              // A real form, posted by the customer's own click: Idram's page
+              // takes a POST, and a script-opened tab would meet popup blockers.
+              // It opens beside this one so the loaded archive stays here.
+              <form
+                method="POST"
+                action={bill.payment.action}
+                target="_blank"
+                rel="noopener noreferrer"
+                acceptCharset="utf-8"
+                className={styles.payForm}
+              >
+                {Object.entries(bill.payment.fields).map(([name, value]) => (
+                  <input key={name} type="hidden" name={name} value={value} />
+                ))}
+                {bill.billNo && (
+                  <p className={styles.idram}>
+                    {t('unlock.billNo')} <strong>{bill.billNo}</strong>
+                  </p>
+                )}
+                <button type="submit" className={styles.idramButton}>
+                  {t('unlock.payIdram')}
+                </button>
+              </form>
+            ) : (
+              <p className={styles.hint}>{t('unlock.idramSteps')}</p>
+            )}
+            <p className={styles.hint}>
+              {t('unlock.idramFlow')}{' '}
+              <a className={styles.mail} href={`mailto:${SUPPORT_EMAIL}`}>
+                {SUPPORT_EMAIL}
+              </a>
+            </p>
+          </div>
+        ) : mode === null ? (
+          // Nothing until the backend says which flow is live, rather than a QR
+          // that would vanish a moment later.
+          <div className={styles.pay} aria-busy="true" />
+        ) : (
         <div className={styles.pay}>
           {!qrMissing && (
             <div className={styles.qr}>
@@ -370,6 +482,7 @@ export function UnlockGate({ config, ready, onUnlocked }: Props) {
             </a>
           </p>
         </div>
+        )}
       </div>
     </div>
   );

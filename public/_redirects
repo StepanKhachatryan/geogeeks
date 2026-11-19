@@ -1,0 +1,4 @@
+# Idram's three addresses (SUCCESS_URL, FAIL_URL, RESULT_URL) are registered on
+# this domain and proxied to the Edge Function, so the backend can move without
+# asking Idram to change anything. A 200 rewrite keeps the address unchanged.
+/api/idram/*  https://mejjprejtcyoyfoiocrq.supabase.co/functions/v1/geogeeks-idram/:splat  200

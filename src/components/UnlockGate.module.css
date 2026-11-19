@@ -277,3 +277,49 @@
   color: var(--gg-teal);
   text-decoration: underline;
 }
+
+/* Idram's own mark, as supplied with the merchant agreement. */
+.logo {
+  width: 132px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.payForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+/* Idram's orange, so the button reads as theirs: it leaves this site. */
+.idramButton {
+  width: 100%;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #f37021;
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.idramButton:hover {
+  filter: brightness(0.92);
+}
+
+.okBanner {
+  margin: 0;
+  padding: 8px 12px;
+  border-left: 3px solid var(--gg-green);
+  border-radius: 0 8px 8px 0;
+  background: var(--gg-tint);
+  font-size: 12.5px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: var(--gg-ink);
+}
