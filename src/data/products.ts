@@ -25,6 +25,6 @@ export const products: Product[] = [
     descEn:
       'Our own initiative: it collects flood reports published by users across social platforms and maps them into a single national record.',
     img: '/assets/img/products/fiparmenia.jpg',
-    url: 'https://fiparmenia.netlify.app/',
+    url: 'https://floods.geogeeks.am/',
   },
 ];

@@ -28,6 +28,15 @@
   margin-bottom: 22px;
 }
 
+.site {
+  color: var(--gg-teal);
+  font-weight: 700;
+}
+
+.site:hover {
+  text-decoration: underline;
+}
+
 .meta {
   display: flex;
   gap: 36px;

@@ -31,6 +31,19 @@ export function ProjectView({ sector, project }: { sector: Sector; project: Proj
             <div className={styles.client}>
               {t('project.client')}
               {project.client}
+              {project.site && (
+                <>
+                  {' · '}
+                  <a
+                    className={styles.site}
+                    href={project.site}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {new URL(project.site).hostname}
+                  </a>
+                </>
+              )}
             </div>
             <div className={styles.meta}>
               <div>

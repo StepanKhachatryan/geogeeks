@@ -22,6 +22,8 @@ export type Project = {
   card: string;
   /** Larger image used on the project page. */
   img: string;
+  /** A live site the project runs at, linked beside the client on its page. */
+  site?: string;
 };
 
 export type Sector = {
@@ -297,7 +299,8 @@ export const sectors: Sector[] = [
         card: P + 'our_proj_01.jpg',
         img: P + 'our_proj_01_1.jpg',
         title: 'ՀՀ-ում ջրհեղեղների տեղեկատվական հարթակ',
-        client: 'Սեփական նախաձեռնություն · fiparmenia.netlify.app',
+        client: 'Սեփական նախաձեռնություն',
+        site: 'https://floods.geogeeks.am/',
         year: '2026',
         duration: 'Շարունակական',
         tech: ['HTML', 'CSS', 'JavaScript', 'GitHub'],
@@ -308,7 +311,8 @@ export const sectors: Sector[] = [
         card: P + 'our_proj_02.jpg',
         img: P + 'our_proj_02_1.jpg',
         title: 'ԲերքաՏեղ - գյուղմթերքի քարտեզային հարթակ',
-        client: 'Սեփական նախաձեռնություն · berqategh.am',
+        client: 'Սեփական նախաձեռնություն',
+        site: 'https://berqategh.am/',
         year: '2026',
         duration: 'Շարունակական',
         tech: ['React', 'TypeScript', 'MapLibre', 'Supabase'],
