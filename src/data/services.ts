@@ -130,7 +130,7 @@ export const serviceGroups: ServiceGroup[] = [
     cardDesc:
       'Դասընթացներ սկսնակից մինչև փորձառու մասնագետ՝ իրական նախագծերի տվյալների վրա. քարտեզագրում, տարածական վերլուծություն, հիդրավլիկ մոդելավորում:',
     cardDescEn:
-      'Courses from beginner to practitioner level, built on real project data — mapping, spatial analysis, hydraulic modelling.',
+      'Courses from beginner to practitioner level, built on real project data - mapping, spatial analysis, hydraulic modelling.',
     scrim: 'linear-gradient(to top, rgba(247,219,93,0.65), rgba(247,219,93,0) 60%)',
     chips: [
       { label: 'Գործնական', color: '#8a7414', background: '#fdf6d9' },

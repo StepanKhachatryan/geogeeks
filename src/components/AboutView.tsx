@@ -51,7 +51,7 @@ export function AboutView() {
                       target="_blank"
                       rel="noreferrer"
                       className={styles.linkedin}
-                      aria-label={`LinkedIn — ${name}`}
+                      aria-label={`LinkedIn - ${name}`}
                     >
                       <Image
                         src="/assets/img/icons/LinkedIn_icon.png"

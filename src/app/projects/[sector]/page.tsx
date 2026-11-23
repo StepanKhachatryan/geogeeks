@@ -14,9 +14,9 @@ export function generateStaticParams(): Params[] {
 /** Built from the sector's own projects, so every sector page reads differently. */
 function describe(sector: Sector): string {
   if (sector.items.length === 0) {
-    return `${sector.title} — GeoGeeks-ի ոլորտային էջ։ Այս ոլորտում դեռ հրապարակված նախագիծ չկա:`;
+    return `${sector.title} - GeoGeeks-ի ոլորտային էջ։ Այս ոլորտում դեռ հրապարակված նախագիծ չկա:`;
   }
-  return `${sector.title} — GeoGeeks-ի նախագծերը. ${sector.items.map((p) => p.title).join('; ')}։`;
+  return `${sector.title} - GeoGeeks-ի նախագծերը. ${sector.items.map((p) => p.title).join('; ')}։`;
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {

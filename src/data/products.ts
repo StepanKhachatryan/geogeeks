@@ -11,7 +11,7 @@ export type Product = {
 export const products: Product[] = [
   {
     title: 'Բերքատեղ',
-    titleEn: "Berqategh — Armenia's fertile land platform",
+    titleEn: "Berqategh - Armenia's fertile land platform",
     desc: 'Քարտեզի վրա հիմնված հարթակ հայկական բերքի համար․ արտադրողները տեղադրում են իրենց ապրանքը՝ մեծածախ և մանրածախ գներով, քանակով և տեղանքով, իսկ գնորդները գտնում են դրանք քարտեզի վրա։',
     descEn:
       'A map-based marketplace for Armenian produce: growers list what they sell with wholesale and retail prices, quantities and location, and buyers find them on the map.',
