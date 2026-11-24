@@ -128,9 +128,15 @@
 
 .cutout {
   position: absolute;
-  inset: 12% 0 0;
-  background-size: cover;
-  background-position: center bottom;
+  /* The same headroom for everyone; the image hangs from here and runs on past
+     the capsule floor, so only the capsule's curve ever trims it. */
+  top: 7%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-50%);
+  background-size: 100% auto;
+  background-position: center top;
   background-repeat: no-repeat;
 }
 

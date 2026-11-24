@@ -6,6 +6,12 @@ export type TeamMember = {
   img: string;
   /** The same portrait with its background removed, set on a coloured capsule. */
   cutout: string;
+  /**
+   * The cutout's width as a share of the capsule's, in percent. Every head is
+   * hung at the same height, so a squat photo is enlarged until it still
+   * reaches the capsule floor.
+   */
+  fit?: number;
   linkedin: string;
 };
 
@@ -17,6 +23,7 @@ export const team: TeamMember[] = [
     roleEn: 'Founder · Hydrologist & GIS analyst',
     img: '/assets/img/team/team_01.jpg',
     cutout: '/assets/img/team/team_01_cut.webp',
+    fit: 110,
     linkedin: 'https://www.linkedin.com/in/stepan-khachatryan-657b506a/',
   },
   {
@@ -26,6 +33,7 @@ export const team: TeamMember[] = [
     roleEn: 'GIS specialist',
     img: '/assets/img/team/team_02.jpg',
     cutout: '/assets/img/team/team_02_cut.webp',
+    fit: 132,
     linkedin: 'https://www.linkedin.com/in/hayk-khachatryan-83a19429b/',
   },
   {

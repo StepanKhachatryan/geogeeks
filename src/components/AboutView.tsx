@@ -108,7 +108,10 @@ export function AboutView() {
                   >
                     <div
                       className={styles.cutout}
-                      style={{ backgroundImage: `url('${member.cutout}')` }}
+                      style={{
+                        backgroundImage: `url('${member.cutout}')`,
+                        width: `${member.fit ?? 100}%`,
+                      }}
                       role="img"
                       aria-label={name}
                     />
