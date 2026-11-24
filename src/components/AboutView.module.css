@@ -1,6 +1,65 @@
+.hero {
+  position: relative;
+  padding: clamp(48px, 7vw, 120px) var(--gg-gutter);
+  background:
+    linear-gradient(90deg, rgba(8, 28, 24, 0.62), rgba(8, 28, 24, 0.4)),
+    url('/assets/img/about/aerial.jpg') center / cover no-repeat;
+  color: #fff;
+}
+
+.heroInner {
+  max-width: var(--gg-content-max);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(32px, 4.5vw, 80px);
+  align-items: end;
+}
+
+.founded {
+  margin: 0;
+  min-width: 0;
+  font-weight: 700;
+}
+
+/* Inline blocks so their width can be measured; the script then sizes each to
+   the column. The sizes here are only what shows before it runs. */
+.foundedLabel,
+.foundedYear {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.foundedLabel {
+  font-size: clamp(22px, 3.2vw, 52px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.foundedYear {
+  font-size: clamp(110px, 20vw, 320px);
+  line-height: 0.76;
+  letter-spacing: -0.045em;
+  margin-top: 0.12em;
+}
+
+.vision {
+  margin: 0;
+  font-size: clamp(16px, 1.5vw, 24px);
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+@media (max-width: 899px) {
+  .heroInner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .about {
   position: relative;
-  padding: clamp(20px, 2.6vw, 44px) var(--gg-gutter) clamp(56px, 7vw, 110px);
+  padding: clamp(48px, 6vw, 96px) var(--gg-gutter) clamp(56px, 7vw, 110px);
   background: var(--gg-surface);
   color: var(--gg-ink);
 }
@@ -9,91 +68,6 @@
   max-width: var(--gg-content-max);
   margin: 0 auto;
   position: relative;
-}
-
-/* The landscape card: vision on top, frosted band with the year below. */
-.hero {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: clamp(40px, 6vw, 96px);
-  min-height: clamp(520px, 62vw, 820px);
-  border-radius: 24px;
-  overflow: hidden;
-  background:
-    linear-gradient(180deg, rgba(10, 30, 26, 0.5) 0%, rgba(10, 30, 26, 0.12) 46%, transparent 70%),
-    url('/assets/img/projects_img/hydro_projects.jpg') center 40% / cover no-repeat;
-  box-shadow: 0 24px 60px rgba(22, 48, 44, 0.16);
-  margin-bottom: clamp(56px, 7vw, 104px);
-}
-
-.heroTop {
-  padding: clamp(32px, 5vw, 80px) clamp(20px, 5vw, 72px) 0;
-  text-align: center;
-  color: #fff;
-}
-
-.heroTitle {
-  margin: 0 auto 18px;
-  max-width: 22ch;
-  font-size: clamp(28px, 4vw, 56px);
-  font-weight: 600;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.28);
-}
-
-.heroText {
-  margin: 0 auto;
-  max-width: 64ch;
-  font-size: clamp(15px, 1.15vw, 18px);
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.94);
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
-}
-
-.glass {
-  position: relative;
-  margin: 0 clamp(10px, 1.6vw, 22px) 0;
-  padding: clamp(14px, 1.6vw, 22px) clamp(16px, 2.4vw, 34px) 0;
-  border-radius: 20px 20px 0 0;
-  background: rgba(140, 162, 112, 0.5);
-  backdrop-filter: blur(26px) saturate(115%);
-  -webkit-backdrop-filter: blur(26px) saturate(115%);
-  overflow: hidden;
-  color: #fff;
-}
-
-.glassRow {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  font-size: clamp(12px, 1vw, 14px);
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.glassLine {
-  flex: 1;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.55);
-}
-
-/* Set larger than the band and pulled down, so its foot is cut by the card. */
-.year {
-  font-size: clamp(120px, 27vw, 420px);
-  font-weight: 700;
-  line-height: 0.78;
-  letter-spacing: -0.05em;
-  text-align: center;
-  margin-top: clamp(10px, 1.6vw, 24px);
-  margin-bottom: -0.08em;
-  background: linear-gradient(90deg, #fff 0%, #fff 55%, rgba(255, 255, 255, 0.55) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  user-select: none;
 }
 
 .teamTitle {
