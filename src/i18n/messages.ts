@@ -27,6 +27,8 @@ export const messages = {
     'about.intro':
       'Մեր տեսլականն է մասնավոր և հանրային հատվածին մատուցել նոր որակի տեխնոլոգիական և գիտահեն հետազոտական ծառայություններ քաղաքաշինության, գյուղատնտեսության, աղետների ռիսկի, շրջակա միջավայրի և կրթության ոլորտներում։ Նոր տեխնոլոգիաներով մենք թեթևացնում ենք այս ոլորտների խնդիրները և ահռելի թվացող բեռը՝ լուծումները վերցնելով մեր վրա։',
     'about.team': 'Մեր թիմը',
+    'about.visionLabel': 'Մեր տեսլականը',
+    'about.place': 'Երևան, Հայաստան',
     'about.partners': 'Մեզ վստահել են',
     'contact.address': 'Հասցե',
     'contact.addressValue': 'Ադոնց 4/3, Երևան, Հայաստան',
@@ -157,6 +159,8 @@ export const messages = {
     'about.intro':
       'Our vision is to deliver technologically advanced, science-based research services to the private and public sectors in urban planning, agriculture, disaster risk, environment and education. With new technology we lighten the load in these fields - the problems that look overwhelming become ours to solve.',
     'about.team': 'The team',
+    'about.visionLabel': 'Our vision',
+    'about.place': 'Yerevan, Armenia',
     'about.partners': 'Trusted by',
     'contact.address': 'Address',
     'contact.addressValue': 'Adonts 4/3, Yerevan, Armenia',

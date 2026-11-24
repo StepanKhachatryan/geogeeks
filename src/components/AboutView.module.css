@@ -1,20 +1,8 @@
 .about {
   position: relative;
-  padding: clamp(28px, 3.4vw, 56px) var(--gg-gutter) clamp(56px, 7vw, 110px);
-  background: var(--gg-teal);
-  color: #fff;
-  overflow: hidden;
-}
-
-.blob {
-  position: absolute;
-  top: -80px;
-  left: -60px;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 68%);
-  pointer-events: none;
+  padding: clamp(20px, 2.6vw, 44px) var(--gg-gutter) clamp(56px, 7vw, 110px);
+  background: var(--gg-surface);
+  color: var(--gg-ink);
 }
 
 .inner {
@@ -23,101 +11,174 @@
   position: relative;
 }
 
-.intro {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: clamp(24px, 3vw, 56px);
-  margin-bottom: clamp(40px, 5vw, 72px);
-  padding: clamp(24px, 3vw, 44px);
-  border-radius: 20px;
-  background: var(--gg-surface);
-  box-shadow: 0 18px 50px rgba(10, 38, 36, 0.18);
-}
-
-.introTitle {
-  font-size: clamp(26px, 3.2vw, 44px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin: 0;
-  line-height: 1.14;
-  color: var(--gg-ink);
-}
-
-.introBody {
+/* The landscape card: vision on top, frosted band with the year below. */
+.hero {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-between;
+  gap: clamp(40px, 6vw, 96px);
+  min-height: clamp(520px, 62vw, 820px);
+  border-radius: 24px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(10, 30, 26, 0.5) 0%, rgba(10, 30, 26, 0.12) 46%, transparent 70%),
+    url('/assets/img/projects_img/hydro_projects.jpg') center 40% / cover no-repeat;
+  box-shadow: 0 24px 60px rgba(22, 48, 44, 0.16);
+  margin-bottom: clamp(56px, 7vw, 104px);
 }
 
-.introText {
-  font-size: clamp(16px, 1.2vw, 19px);
-  color: var(--gg-body);
-  margin: 0;
-  /* Keeps the line length readable once the panel spans a wide monitor. */
-  max-width: 62ch;
+.heroTop {
+  padding: clamp(32px, 5vw, 80px) clamp(20px, 5vw, 72px) 0;
+  text-align: center;
+  color: #fff;
+}
+
+.heroTitle {
+  margin: 0 auto 18px;
+  max-width: 22ch;
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.28);
+}
+
+.heroText {
+  margin: 0 auto;
+  max-width: 64ch;
+  font-size: clamp(15px, 1.15vw, 18px);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.94);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+}
+
+.glass {
+  position: relative;
+  margin: 0 clamp(10px, 1.6vw, 22px) 0;
+  padding: clamp(14px, 1.6vw, 22px) clamp(16px, 2.4vw, 34px) 0;
+  border-radius: 20px 20px 0 0;
+  background: rgba(140, 162, 112, 0.5);
+  backdrop-filter: blur(26px) saturate(115%);
+  -webkit-backdrop-filter: blur(26px) saturate(115%);
+  overflow: hidden;
+  color: #fff;
+}
+
+.glassRow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: clamp(12px, 1vw, 14px);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.glassLine {
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* Set larger than the band and pulled down, so its foot is cut by the card. */
+.year {
+  font-size: clamp(120px, 27vw, 420px);
+  font-weight: 700;
+  line-height: 0.78;
+  letter-spacing: -0.05em;
+  text-align: center;
+  margin-top: clamp(10px, 1.6vw, 24px);
+  margin-bottom: -0.08em;
+  background: linear-gradient(90deg, #fff 0%, #fff 55%, rgba(255, 255, 255, 0.55) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  user-select: none;
 }
 
 .teamTitle {
-  font-size: clamp(20px, 2.2vw, 30px);
+  font-size: clamp(22px, 2.4vw, 34px);
   font-weight: 700;
-  margin: 0 0 28px;
+  letter-spacing: -0.02em;
+  margin: 0 0 clamp(24px, 3vw, 40px);
+  color: var(--gg-ink);
 }
 
 .teamGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 40px);
+  align-items: start;
 }
 
-/* Team cards are borderless on the teal ground: only the lift on hover. */
+/* Alternate cards sit lower, as in the staggered capsule wall. */
+@media (min-width: 900px) {
+  .member:nth-child(even) {
+    margin-top: clamp(40px, 6vw, 96px);
+  }
+}
+
+@media (max-width: 899px) {
+  .teamGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 420px) {
+  .memberRole {
+    font-size: 12.5px;
+  }
+}
+
 .member {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 26px 18px;
-  transition: transform 0.4s var(--gg-ease);
 }
 
-.member:hover {
+/* A stadium: fully rounded ends, the portrait standing on its floor. */
+.capsule {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4.2;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 18px;
+  transition: transform 0.45s var(--gg-ease);
+}
+
+.member:hover .capsule {
   transform: translateY(-6px);
 }
 
-.avatar {
-  width: 132px;
-  height: 132px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid rgba(255, 255, 255, 0.55);
-  background: #fff;
-  margin-bottom: 16px;
-}
-
-.avatarImage {
-  width: 100%;
-  height: 100%;
+.cutout {
+  position: absolute;
+  inset: 12% 0 0;
   background-size: cover;
-  background-position: center;
+  background-position: center bottom;
+  background-repeat: no-repeat;
 }
 
 .memberName {
   margin: 0 0 6px;
-  font-size: 17px;
+  font-size: clamp(16px, 1.2vw, 19px);
   font-weight: 700;
+  color: var(--gg-ink);
 }
 
 .memberRole {
   margin: 0 0 12px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.45;
+  color: var(--gg-body);
 }
 
 .linkedin {
   display: inline-flex;
   padding: 7px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.16);
+  background: var(--gg-tint);
   transition: background 0.3s ease;
 }
 
@@ -134,6 +195,7 @@
 
 .partners {
   padding: clamp(56px, 7vw, 110px) var(--gg-gutter);
+  background: var(--gg-surface);
 }
 
 .partnersInner {

@@ -6,24 +6,36 @@ import { team } from '@/data/team';
 import { useLanguage } from '@/i18n/LanguageProvider';
 import styles from './AboutView.module.css';
 
+/** Behind each portrait, in turn: the site's own colours. */
+const CAPSULE_COLORS = ['var(--gg-teal)', 'var(--gg-yellow)', 'var(--gg-green)', 'var(--gg-ink)'];
+
 export function AboutView() {
   const { t, pick } = useLanguage();
 
   return (
     <>
       <section className={styles.about}>
-        <div data-parallax="0.08" className={styles.blob} aria-hidden />
         <div className={styles.inner}>
-          <div className={styles.intro}>
-            <div>
-              <h1 data-reveal className={styles.introTitle}>
+          {/* The vision over a landscape, with the founding year set huge in a
+              frosted band at the foot and cut off by the card's edge. */}
+          <div className={styles.hero}>
+            <div className={styles.heroTop}>
+              <h1 data-reveal className={styles.heroTitle}>
                 {t('about.heading')}
               </h1>
-            </div>
-            <div className={styles.introBody}>
-              <p data-reveal className={styles.introText}>
+              <p data-reveal className={styles.heroText}>
                 {t('about.intro')}
               </p>
+            </div>
+            <div className={styles.glass}>
+              <div className={styles.glassRow}>
+                <span>{t('about.visionLabel')}</span>
+                <span className={styles.glassLine} aria-hidden />
+                <span>{t('about.place')}</span>
+              </div>
+              <div className={styles.year} aria-hidden>
+                2021
+              </div>
             </div>
           </div>
 
@@ -31,14 +43,17 @@ export function AboutView() {
             {t('about.team')}
           </h2>
           <div className={styles.teamGrid}>
-            {team.map((member) => {
+            {team.map((member, index) => {
               const name = pick(member.name, member.nameEn);
               return (
                 <div key={member.name} data-reveal className={styles.member}>
-                  <div className={styles.avatar}>
+                  <div
+                    className={styles.capsule}
+                    style={{ background: CAPSULE_COLORS[index % CAPSULE_COLORS.length] }}
+                  >
                     <div
-                      className={styles.avatarImage}
-                      style={{ backgroundImage: `url('${member.img}')` }}
+                      className={styles.cutout}
+                      style={{ backgroundImage: `url('${member.cutout}')` }}
                       role="img"
                       aria-label={name}
                     />
@@ -49,7 +64,7 @@ export function AboutView() {
                     <a
                       href={member.linkedin}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className={styles.linkedin}
                       aria-label={`LinkedIn - ${name}`}
                     >
